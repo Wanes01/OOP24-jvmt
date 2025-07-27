@@ -1,3 +1,3 @@
 package api;
 
-public enum TypeCard { TREASURE, TRAP, FIND, SPECIAL }
+public enum TypeCard { TREASURE, TRAP, RELIC, SPECIAL }

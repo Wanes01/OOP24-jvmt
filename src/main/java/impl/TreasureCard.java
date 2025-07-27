@@ -1,5 +1,7 @@
 package impl;
 
+import java.util.Random;
+
 import api.CardWithGem;
 import api.TypeCard;
 
