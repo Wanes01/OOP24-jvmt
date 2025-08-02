@@ -12,8 +12,19 @@ public class RoundPlayersManagerImpl implements RoundPlayersManager {
     private final List<PlayerInRound> players; // all players partecipating in the round
     private int current = 0;
 
-    public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
+    /**
+     * 
+     * @param players a list containing all the players that are going to play in
+     *                the round
+     * @throws IllegalStateException if the list of players contains a player that
+     *                               is not active
+     */
+    public RoundPlayersManagerImpl(final List<PlayerInRound> players) throws IllegalStateException {
         this.players = new ArrayList<>(players);
+
+        if (!this.getExitedPlayers().isEmpty()) {
+            throw new IllegalStateException("All players must be in active state at the beginning of a round.");
+        }
     }
 
     @Override
@@ -23,10 +34,13 @@ public class RoundPlayersManagerImpl implements RoundPlayersManager {
 
     @Override
     public PlayerInRound next() throws NoSuchElementException {
-        // tries to find a player that has not exited yet
-        for (int i = 0; i < players.size(); i++) {
-            this.current = (this.current + 1) % players.size();
-            final PlayerInRound candidate = players.get(this.current);
+        // tries to find the first active player from this.current
+        int checked = 0;
+        while (checked < players.size()) {
+            PlayerInRound candidate = players.get(current);
+            current = (current + 1) % players.size();
+            checked++;
+
             if (!candidate.hasLeft()) {
                 return candidate;
             }

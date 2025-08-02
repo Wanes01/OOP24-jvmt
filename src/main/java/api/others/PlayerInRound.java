@@ -16,4 +16,6 @@ public interface PlayerInRound {
     boolean hasLeft();
 
     void resetSack();
+
+    void leave();
 }
