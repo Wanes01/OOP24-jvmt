@@ -2,24 +2,59 @@ package api.round;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import api.others.PlayerInRound;
 
+/**
+ * Manages the players partecipating in a round, keeping track of their state
+ * (active/left). Iterates over the active players in a round, skipping the
+ * players that have left.
+ * 
+ * This interface extends {@link Iterator}, providing the ability to iterate
+ * over the {@link PlayerInRound} instances that are still active during
+ * the current round. The {@code next()} method returns the next player who
+ * has not exited the round yet.
+ * 
+ * When no active players remain, {@code next()} throws a
+ * {@link java.util.NoSuchElementException}
+ */
 public interface RoundPlayersManager extends Iterator<PlayerInRound> {
 
     /**
      * 
      * @return a list of players who are still active in the current round (players
-     *         who, at the time this method is called, have always chosen to
-     *         continue exploring during the various turns of the round) sorted by
-     *         turn sequence
+     *         who have not chosen to exit). The list respects the original turn
+     *         order.
      */
     List<PlayerInRound> getActivePlayers();
 
     /**
      * 
-     * @return a list containing the players who, at the time this method was
-     *         called, decided to abandon exploration, sorted by turn sequence
+     * @return a list of players who have exited the current round (players
+     *         who chose to stop exploring). The list respects the original turn
+     *         order.
      */
     List<PlayerInRound> getExitedPlayers();
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Returns true if there is at least one active player remaining in the current
+     * round.
+     */
+    @Override
+    boolean hasNext();
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Returns the enxt active player in the round, skipping all the exited players.
+     * If no active players remain, throws {@link java.util.NoSuchElementException}
+     * 
+     * @return the next active player
+     * @throws java.util.NoSuchElementException if there are no active players left
+     */
+    @Override
+    PlayerInRound next() throws NoSuchElementException;
 }
