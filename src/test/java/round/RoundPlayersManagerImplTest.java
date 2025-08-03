@@ -33,7 +33,7 @@ class RoundPlayersManagerImplTest {
 
     @Test
     void testInitializedWithExitedPlayer() {
-        this.players.get(0).leave();
+        this.players.getFirst().leave();
         assertThrows(IllegalStateException.class, () -> new RoundPlayersManagerImpl(players));
     }
 
@@ -46,7 +46,7 @@ class RoundPlayersManagerImplTest {
         }
         // no player has exited so it restarts from the first one
         assertTrue(manager.hasNext());
-        assertEquals(players.get(0), manager.next());
+        assertEquals(players.getFirst(), manager.next());
     }
 
     @Test
