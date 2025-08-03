@@ -20,6 +20,7 @@ import api.others.TrapCard;
  * @see Round
  * @see RoundPlayersManager
  * @see Card
+ * 
  * @author Emir Wanes Aouioua
  */
 public interface RoundState {

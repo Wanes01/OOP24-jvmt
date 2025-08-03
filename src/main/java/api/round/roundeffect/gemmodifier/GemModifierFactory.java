@@ -1,5 +1,8 @@
 package api.round.roundeffect.gemmodifier;
 
+// import for javadoc
+import api.round.roundeffect.RoundEffect;
+
 /**
  * A factory interface for creating {@link GemModifier} instances used during a
  * round.

@@ -5,6 +5,9 @@ import java.util.List;
 
 import api.others.PlayerInRound;
 
+// imports for javadoc
+import java.util.NoSuchElementException;
+
 /**
  * Manages the players partecipating in a round, keeping track of their state
  * (active/left). Iterates over the active players in a round, skipping the
@@ -16,7 +19,7 @@ import api.others.PlayerInRound;
  * has not exited the round yet.
  * 
  * When no active players remain, {@code next()} throws a
- * {@link java.util.NoSuchElementException}
+ * {@link NoSuchElementException}
  * 
  * @author Emir Wanes Aouioua
  */
@@ -51,10 +54,10 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
      * {@inheritDoc}
      * 
      * Returns the enxt active player in the round, skipping all the exited players.
-     * If no active players remain, throws {@link java.util.NoSuchElementException}
+     * If no active players remain, throws {@link NoSuchElementException}
      * 
      * @return the next active player
-     * @throws java.util.NoSuchElementException if there are no active players left
+     * @throws NoSuchElementException if there are no active players left
      */
     @Override
     PlayerInRound next();

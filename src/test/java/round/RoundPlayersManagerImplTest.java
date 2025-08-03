@@ -61,7 +61,7 @@ class RoundPlayersManagerImplTest {
     }
 
     /**
-     * makes all even indexed players leave
+     * makes all even indexed players leave.
      */
     private void makeEvenPlayersLeave() {
         for (int p = 0; p < this.players.size(); p += 2) {
