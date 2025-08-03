@@ -3,9 +3,9 @@ package api.round;
 import java.util.List;
 import api.others.Card;
 import api.others.Deck;
-import api.others.PlayerInRound;
 import api.others.RelicCard;
 import api.others.TrapCard;
+import api.round.roundeffect.RoundEffect;
 
 /**
  * Rapresents the current state of a round in the game.
@@ -19,6 +19,7 @@ import api.others.TrapCard;
  * 
  * @see Round
  * @see RoundPlayersManager
+ * @see RoundEffect
  * @see Card
  * 
  * @author Emir Wanes Aouioua
@@ -45,22 +46,6 @@ public interface RoundState {
      *         in their order of appearance.
      */
     List<TrapCard> getDrawnTraps();
-
-    /**
-     * 
-     * @return a list of players who are still active in the current round (players
-     *         who, at the time this method is called, have always chosen to
-     *         continue exploring during the various turns of the round) sorted by
-     *         turn sequence.
-     */
-    List<PlayerInRound> getActivePlayers();
-
-    /**
-     * 
-     * @return a list containing the players who, at the time this method was
-     *         called, decided to abandon exploration, sorted by turn sequence.
-     */
-    List<PlayerInRound> getExitedPlayers();
 
     /**
      * 
@@ -95,8 +80,4 @@ public interface RoundState {
      * @param gems the total number of gems to set.
      */
     void setPathGems(int gems);
-
-    // RoundEndCondition getRoundEndCondition();
-
-    // RoundGemModifier getRoundGemModifier();
 }

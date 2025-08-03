@@ -27,14 +27,14 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      * 
      * @param players a list containing all the players that are going to play in
      *                the round.
-     * @throws IllegalStateException if the list of players contains a player that
-     *                               is not active.
+     * @throws IllegalArgumentException if the list of players contains a player
+     *                                  that is not active.
      */
     public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
         this.players = new ArrayList<>(players);
 
         if (!this.getExitedPlayers().isEmpty()) {
-            throw new IllegalStateException("All players must be in active state at the beginning of a round.");
+            throw new IllegalArgumentException("All players must be in active state at the beginning of a round.");
         }
     }
 
