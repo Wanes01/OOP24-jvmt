@@ -17,7 +17,7 @@ import api.round.RoundPlayersManager;
 import impl.others.PlayerInRoundImpl;
 import impl.round.RoundPlayersManagerImpl;
 
-public class RoundPlayersManagerImplTest {
+class RoundPlayersManagerImplTest {
 
     private RoundPlayersManager manager;
     private List<PlayerInRound> players;
@@ -40,9 +40,9 @@ public class RoundPlayersManagerImplTest {
     @Test
     void testPlayersRotation() {
         // no player is exiting
-        for (int p = 0; p < this.players.size(); p++) {
-            final PlayerInRound player = manager.next();
-            assertEquals(this.players.get(p), player);
+        for (final PlayerInRound expected : this.players) {
+            final PlayerInRound actual = manager.next();
+            assertEquals(expected, actual);
         }
         // no player has exited so it restarts from the first one
         assertTrue(manager.hasNext());
@@ -57,10 +57,12 @@ public class RoundPlayersManagerImplTest {
                 .filter(p -> !p.hasLeft())
                 .toList();
 
-        assertTrue(oddPlayers.equals(manager.getActivePlayers()));
+        assertEquals(oddPlayers, manager.getActivePlayers());
     }
 
-    // makes all even indexed players leave
+    /**
+     * makes all even indexed players leave
+     */
     private void makeEvenPlayersLeave() {
         for (int p = 0; p < this.players.size(); p += 2) {
             this.players.get(p).leave();
@@ -72,10 +74,10 @@ public class RoundPlayersManagerImplTest {
         makeEvenPlayersLeave();
 
         final List<PlayerInRound> evenPlayers = this.players.stream()
-                .filter(p -> p.hasLeft())
+                .filter(PlayerInRound::hasLeft)
                 .toList();
 
-        assertTrue(evenPlayers.equals(manager.getExitedPlayers()));
+        assertEquals(evenPlayers, manager.getExitedPlayers());
     }
 
     @Test
@@ -98,6 +100,6 @@ public class RoundPlayersManagerImplTest {
         }
 
         assertFalse(manager.hasNext());
-        assertThrows(NoSuchElementException.class, () -> manager.next());
+        assertThrows(NoSuchElementException.class, manager::next);
     }
 }

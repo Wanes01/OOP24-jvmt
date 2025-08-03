@@ -7,19 +7,30 @@ import java.util.NoSuchElementException;
 import api.others.PlayerInRound;
 import api.round.RoundPlayersManager;
 
-public class RoundPlayersManagerImpl implements RoundPlayersManager {
+/**
+ * Concrete implementation of {@link RoundPlayersManager}
+ * <p>
+ * Keeps track of the players that are still exploring the path.
+ * This implementation treats the list of players as a circular list in which
+ * those found to be exited are skipped.
+ * </p>
+ * 
+ * @see PlayerInRound
+ * @author Emir Wanes Aouioua
+ */
+public final class RoundPlayersManagerImpl implements RoundPlayersManager {
 
     private final List<PlayerInRound> players; // all players partecipating in the round
-    private int current = 0;
+    private int current;
 
     /**
      * 
      * @param players a list containing all the players that are going to play in
-     *                the round
+     *                the round.
      * @throws IllegalStateException if the list of players contains a player that
-     *                               is not active
+     *                               is not active.
      */
-    public RoundPlayersManagerImpl(final List<PlayerInRound> players) throws IllegalStateException {
+    public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
         this.players = new ArrayList<>(players);
 
         if (!this.getExitedPlayers().isEmpty()) {
@@ -27,18 +38,24 @@ public class RoundPlayersManagerImpl implements RoundPlayersManager {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean hasNext() {
         return !this.getActivePlayers().isEmpty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public PlayerInRound next() throws NoSuchElementException {
+    public PlayerInRound next() {
         // tries to find the first active player from this.current
         int checked = 0;
         while (checked < players.size()) {
-            PlayerInRound candidate = players.get(current);
-            current = (current + 1) % players.size();
+            final PlayerInRound candidate = players.get(this.current);
+            this.current = (this.current + 1) % players.size();
             checked++;
 
             if (!candidate.hasLeft()) {
@@ -49,6 +66,9 @@ public class RoundPlayersManagerImpl implements RoundPlayersManager {
         throw new NoSuchElementException("No active players left.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PlayerInRound> getActivePlayers() {
         return this.players.stream()
@@ -56,6 +76,9 @@ public class RoundPlayersManagerImpl implements RoundPlayersManager {
                 .toList();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PlayerInRound> getExitedPlayers() {
         final List<PlayerInRound> exiting = new ArrayList<>(this.players);

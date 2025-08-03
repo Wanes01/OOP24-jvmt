@@ -59,12 +59,17 @@ dependencies {
     // Define the main class for the application.
 } */
 
+tasks.withType<Checkstyle> {
+    exclude("api/others/**")
+    exclude("impl/others/**")
+}
+
+tasks.withType<Pmd> {
+    exclude("api/others/**")
+    exclude("impl/others/**")
+}
+
+
 tasks.test {
     useJUnitPlatform()
-    /* 
-    testLogging {
-        events(*org.gradle.api.tasks.testing.logging.TestLogEvent.values())
-        showStandardStreams = true
-    }
-    */
 }

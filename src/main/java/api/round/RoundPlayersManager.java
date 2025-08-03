@@ -2,7 +2,6 @@ package api.round;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import api.others.PlayerInRound;
 
@@ -18,6 +17,8 @@ import api.others.PlayerInRound;
  * 
  * When no active players remain, {@code next()} throws a
  * {@link java.util.NoSuchElementException}
+ * 
+ * @author Emir Wanes Aouioua
  */
 public interface RoundPlayersManager extends Iterator<PlayerInRound> {
 
@@ -56,5 +57,5 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
      * @throws java.util.NoSuchElementException if there are no active players left
      */
     @Override
-    PlayerInRound next() throws NoSuchElementException;
+    PlayerInRound next();
 }
