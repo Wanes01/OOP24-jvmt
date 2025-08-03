@@ -8,7 +8,7 @@ package api.common;
  * in a user interface.
  * It exists to separate user-facing descriptions from
  * {@link Object#toString()},
- * which is typically reserved for debugging.
+ * which is typically reserved for debugging and/or logging.
  * </p>
  * 
  * @author Emir Wanes Aouioua
