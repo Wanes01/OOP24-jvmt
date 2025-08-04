@@ -34,7 +34,7 @@ class RoundPlayersManagerImplTest {
     @Test
     void testInitializedWithExitedPlayer() {
         this.players.getFirst().leave();
-        assertThrows(IllegalStateException.class, () -> new RoundPlayersManagerImpl(players));
+        assertThrows(IllegalArgumentException.class, () -> new RoundPlayersManagerImpl(players));
     }
 
     @Test

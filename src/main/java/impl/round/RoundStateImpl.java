@@ -112,7 +112,7 @@ public class RoundStateImpl implements RoundState {
      * {@inheritDoc}
      */
     @Override
-    public void addCardToPath(Card card) {
+    public void addCardToPath(final Card card) {
         this.drawnCards.add(card);
     }
 
@@ -122,7 +122,7 @@ public class RoundStateImpl implements RoundState {
      * @throws IllegalArgumentException if a negative amount of gems is specified.
      */
     @Override
-    public void setPathGems(int gems) {
+    public void setPathGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException("Path's gem amount can't be negative.");
         }
