@@ -53,7 +53,7 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
     /**
      * {@inheritDoc}
      * 
-     * Returns the enxt active player in the round, skipping all the exited players.
+     * Returns the next active player in the round, skipping all the exited players.
      * If no active players remain, throws {@link NoSuchElementException}
      * 
      * @return the next active player
