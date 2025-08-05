@@ -2,6 +2,7 @@ package api.round.roundeffect.gemmodifier;
 
 // import for javadoc
 import api.round.roundeffect.RoundEffect;
+import api.round.Round;
 
 /**
  * A factory interface for creating {@link GemModifier} instances used during a

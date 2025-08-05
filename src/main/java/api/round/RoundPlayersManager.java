@@ -21,6 +21,8 @@ import java.util.NoSuchElementException;
  * When no active players remain, {@code next()} throws a
  * {@link NoSuchElementException}
  * 
+ * @see PlayerInRound
+ * @see Iterator
  * @author Emir Wanes Aouioua
  */
 public interface RoundPlayersManager extends Iterator<PlayerInRound> {

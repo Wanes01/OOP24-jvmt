@@ -2,6 +2,7 @@ package api.round.roundeffect.endcondition;
 
 // imports for javadoc
 import api.round.roundeffect.RoundEffect;
+import api.round.Round;
 
 /**
  * A factory interface for creating {@link EndCondition} instances used during a

@@ -6,6 +6,9 @@ import java.util.Set;
 import api.others.Card;
 import api.others.PlayerInRound;
 
+// import for javadocs
+import api.round.Round;
+
 /**
  * Represents a single turn in a round of the game. Each turn
  * is associated with a specific player who must draw a card, and may
