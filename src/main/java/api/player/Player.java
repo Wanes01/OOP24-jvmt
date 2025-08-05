@@ -1,10 +1,25 @@
 package api.player;
 
+/**
+ * Rapresents the player.
+ * <p>
+ * This interface provides the name of a player
+ * and the gems inside their chest.
+ * </p>
+ * 
+ * @see PlayerInRound
+ * 
+ * @author Filippo Gaggi
+ */
 public interface Player {
 
-    /*Method that returns a player's name*/
-    public String getName();
-    
-    /**Method that returns the amount of gems in a player's chest*/
-    public int getChestGems();
+    /**
+     * @return the name of a player.
+     */
+    String getName();
+
+    /**
+     * @return the gems inside a player's chest.
+     */
+    int getChestGems();
 }

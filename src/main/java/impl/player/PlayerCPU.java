@@ -1,19 +1,27 @@
 package impl.player;
 
-import java.util.Random;
-
 import api.player.PlayerInRound;
 
-public class PlayerCPU extends PlayerInRound {
+/**
+ * Represents a CPU player during a round.
+ * <p>
+ * This class extends {@link PlayerInRound},
+ * it provides a method that .
+ * </p>
+ * 
+ * @see PlayerInRound
+ * 
+ * @author Filippo Gaggi
+ */
+public class PlayerCpu extends PlayerInRound {
 
-    /*Constructor*/
-    public PlayerCPU(final String name) {
+    /**
+     * Initializes the CPU player's informations.
+     * 
+     * @param name a string representing the CPU player's
+     *             name
+     */
+    public PlayerCpu(final String name) {
         super(name);
-    }
-
-    /* To be modified */
-    public void choose() {
-        Random rand = new Random();
-        this.choice = rand.nextBoolean();
     }
 }
