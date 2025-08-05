@@ -19,6 +19,13 @@ import api.round.roundeffect.endcondition.EndConditionFactory;
 public class EndConditionFactoryImpl implements EndConditionFactory {
 
     /**
+     * Default constructor for EndConditionFactoryImpl.
+     */
+    public EndConditionFactoryImpl() {
+        // This constructor is intentionally empty.
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -30,6 +30,7 @@ public interface Round extends Iterator<Turn>, Describable {
      * @throws NoSuchElementException if no more turns can be created for this
      *                                round.
      */
+    @Override
     Turn next();
 
     /**
@@ -38,12 +39,13 @@ public interface Round extends Iterator<Turn>, Describable {
      * 
      * @return true if a new turn can be played, false otherwise.
      */
+    @Override
     boolean hasNext();
 
     /**
      * {@inheritDoc}
      * 
-     * Returns a description about the current round rules. For example:
+     * Returns a description about the current round rules. To be more specific:
      * <ul>
      * <li>When the round ends.</li>
      * <li>How the gems gained are modified</li>
@@ -51,6 +53,7 @@ public interface Round extends Iterator<Turn>, Describable {
      * 
      * @return the description of this round rules.
      */
+    @Override
     String getDescription();
 
     /**

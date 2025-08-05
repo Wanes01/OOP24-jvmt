@@ -11,6 +11,9 @@ import api.others.TrapCard;
 import api.round.RoundPlayersManager;
 import api.round.RoundState;
 
+// import for javadoc
+import api.round.Round;
+
 /**
  * Concrete implementation of {@link RoundState}, responsible
  * for managing the dynamic state of a round during the game.

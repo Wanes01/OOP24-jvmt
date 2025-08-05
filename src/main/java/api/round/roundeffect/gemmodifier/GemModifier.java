@@ -5,6 +5,9 @@ import java.util.function.BiFunction;
 import api.common.Describable;
 import api.round.RoundState;
 
+// import for javadoc
+import api.round.roundeffect.RoundEffect;
+
 /**
  * Represents modifier applied to gems used by {@link RoundEffect}.
  * The modifier is modeled through a ${BiFunction} that takes the current

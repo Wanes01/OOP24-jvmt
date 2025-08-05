@@ -13,6 +13,13 @@ import api.round.roundeffect.gemmodifier.GemModifierFactory;
 public class GemModifierFactoryImpl implements GemModifierFactory {
 
     /**
+     * Default constructor for GemModifierFactoryImpl.
+     */
+    public GemModifierFactoryImpl() {
+        // This constructor is intentionally empty.
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

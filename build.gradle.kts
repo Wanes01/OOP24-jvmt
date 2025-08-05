@@ -53,3 +53,8 @@ tasks.withType<Pmd> {
     exclude("api/others/**")
     exclude("impl/others/**")
 }
+
+tasks.javadoc {
+    exclude("api/others/**")
+    exclude("impl/others/**")
+}

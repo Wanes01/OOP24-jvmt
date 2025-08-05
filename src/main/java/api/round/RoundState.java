@@ -27,43 +27,49 @@ import api.round.roundeffect.RoundEffect;
 public interface RoundState {
 
     /**
+     * Returns all cards drawn from the deck used during this round, in their order
+     * of appearance.
      * 
-     * @return all cards drawn from the deck used during this round, in their order
-     *         of appearance.
+     * @return the list of drawn cards in order of appearance.
      */
     List<Card> getDrawCards();
 
     /**
+     * Returns the list of all relic cards drawn from the deck used during this
+     * round, in their order of appearance.
      * 
-     * @return a list of all relic cards drawn from the deck used during this round,
-     *         in their order of appearance.
+     * @return the list of drawn relics in order of appearance.
      */
     List<RelicCard> getDrawnRelics();
 
     /**
+     * Returns the list of all trap cards drawn from the deck used during this
+     * round, in their order of appearance.
      * 
-     * @return a list of all trap cards drawn from the deck used during this round,
-     *         in their order of appearance.
+     * @return the list of drawn traps in order of appearance.
      */
     List<TrapCard> getDrawnTraps();
 
     /**
+     * Returns the total number of gems left on the path to be divided among the
+     * players who decide to leave during a turn.
      * 
-     * @return the total number of gems left on the path to be divided among the
-     *         players who decide to leave during a turn.
+     * @return the total number of gems left on the path.
      */
     int getPathGems();
 
     /**
+     * Returns the deck from which the cards are drawn during this round.
      * 
-     * @return the deck from which the cards are drawn during this round.
+     * @return the deck used in this round.
      */
     Deck getDeck();
 
     /**
+     * Returns the player manager used during this round to determine the next
+     * player.
      * 
-     * @return the player manager used during this round to determine the next
-     *         player.
+     * @return the player manager used to determine the next player.
      */
     RoundPlayersManager getRoundPlayersManager();
 

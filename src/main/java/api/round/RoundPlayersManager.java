@@ -28,18 +28,20 @@ import java.util.NoSuchElementException;
 public interface RoundPlayersManager extends Iterator<PlayerInRound> {
 
     /**
+     * Returns a list of players who are still active in the current round (players
+     * who have not chosen to exit). The list respects the original turn
+     * order.
      * 
-     * @return a list of players who are still active in the current round (players
-     *         who have not chosen to exit). The list respects the original turn
-     *         order.
+     * @return the list of active players in their turn order.
      */
     List<PlayerInRound> getActivePlayers();
 
     /**
+     * Returns a list of players who have exited the current round (players
+     * who chose to stop exploring). The list respects the original turn
+     * order.
      * 
-     * @return a list of players who have exited the current round (players
-     *         who chose to stop exploring). The list respects the original turn
-     *         order.
+     * @return the list of exited players in their turn order.
      */
     List<PlayerInRound> getExitedPlayers();
 

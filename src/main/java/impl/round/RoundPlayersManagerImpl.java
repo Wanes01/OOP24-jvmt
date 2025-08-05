@@ -24,6 +24,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
     private int current;
 
     /**
+     * Constuct a RoundPlayersManagerImpl object based of a list of active players.
      * 
      * @param players a list containing all the players that are going to play in
      *                the round.
