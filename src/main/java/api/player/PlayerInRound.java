@@ -4,7 +4,7 @@ import impl.player.PlayerCpu;
 import impl.player.RealPlayer;
 
 /**
- * Represents a player during a round.
+ * Represents a generic player during a round.
  * <p>
  * This class implements {@link Player},
  * it provides various informations regarding a player during
@@ -59,8 +59,8 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * @return the player's the player's informations
-     * in a String.
+     * @return the player's informations
+     * in a text string.
      */
     @Override
     public String toString() {
@@ -209,5 +209,50 @@ public class PlayerInRound implements Player {
     public void resetRoundPlayer() {
         resetSack();
         resetStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        final int val1 = 1231;
+        final int val2 = 1237;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + chestGems;
+        result = prime * result + sackGems;
+        result = prime * result + ((choice == null) ? 0 : choice.hashCode());
+        result = prime * result + (inGame ? val1 : val2);
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PlayerInRound other = (PlayerInRound) obj;
+        if (name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+        return this.chestGems != other.chestGems
+               && this.sackGems != other.sackGems
+               && this.choice != other.choice
+               && this.inGame != other.inGame;
     }
 }

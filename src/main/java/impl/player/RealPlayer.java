@@ -5,8 +5,7 @@ import api.player.PlayerInRound;
 /**
  * Represents a real player during a round.
  * <p>
- * This class extends {@link PlayerInRound},
- * it provides a method that .
+ * This class extends {@link PlayerInRound}.
  * </p>
  * 
  * @see PlayerInRound

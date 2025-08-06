@@ -1,7 +1,7 @@
 package api.player;
 
 /**
- * Rapresents the player.
+ * Rapresents a generic player.
  * <p>
  * This interface provides the name of a player
  * and the gems inside their chest.
