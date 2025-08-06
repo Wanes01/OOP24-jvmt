@@ -118,8 +118,9 @@ public class PlayerInRound implements Player {
         }
         if (this.sackGems < gems) {
             this.sackGems = 0;
+        } else {
+            this.sackGems -= gems;
         }
-        this.sackGems -= gems;
     }
 
     /**
@@ -142,8 +143,8 @@ public class PlayerInRound implements Player {
      * Substracts a certain amount of gems from the player's chest.
      * The chest's amount of gems can't be negative.
      * 
-     * @throws IllegalArgumentException if the chest contains a negative
-     * amount of gems.
+     * @throws IllegalArgumentException if the amount of gems
+     * to substract from the chest is negative.
      * 
      * @param gems the number of gems to substract from the player's
      *             chest.
@@ -151,12 +152,13 @@ public class PlayerInRound implements Player {
     public void subChestGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                "The sack's amount of gems can't be negative.");
+                "The amount of gems can't be negative.");
         }
         if (this.chestGems < gems) {
             this.chestGems = 0;
+        } else {
+            this.chestGems -= gems;
         }
-        this.chestGems -= gems;
     }
 
     /**
@@ -232,8 +234,8 @@ public class PlayerInRound implements Player {
         } else if (!name.equals(other.name)) {
             return false;
         }
-        return this.chestGems != other.chestGems
-               && this.sackGems != other.sackGems
-               && this.choice != other.choice;
+        return this.chestGems == other.chestGems
+               && this.sackGems == other.sackGems
+               && this.choice == other.choice;
     }
 }
