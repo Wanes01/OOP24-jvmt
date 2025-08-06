@@ -1,6 +1,5 @@
 package impl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -9,12 +8,11 @@ import api.TypeCard;
 
 public class RelicCard extends CardWithGem{
 
-    private final List<Integer> POSSIBLE_RELIC_GEM = Arrays.asList(5, 7, 8, 10, 12);
+    private static final List<Integer> POSSIBLE_RELIC_GEM = List.of(5, 7, 8, 10, 12);
     private List<Integer> actualRelicGem;
 
     public RelicCard(String name, TypeCard type, String imagePath) {
         super(name, type, imagePath);
-        resetArtefactPlayedInRound();
         this.gemValue = generateGemValue();
         removeGeneratedGemValue();
     }
@@ -30,7 +28,7 @@ public class RelicCard extends CardWithGem{
     }
 
     public void resetArtefactPlayedInRound() {
-        this.actualRelicGem = List.copyOf(this.POSSIBLE_RELIC_GEM);
+        this.actualRelicGem = List.copyOf(RelicCard.POSSIBLE_RELIC_GEM);
     }
 
 }

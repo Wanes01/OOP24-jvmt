@@ -7,12 +7,12 @@ import javax.imageio.ImageIO;
 
 public abstract class Card {
 
-    private String name;
-    private TypeCard type;
-    private String imagePath;
-    private BufferedImage imageCard;
+    private final String name;
+    private final TypeCard type;
+    private final String imagePath;
+    private final BufferedImage imageCard;
 
-    public Card(String name, TypeCard type, String imagePath) {
+    public Card(final String name, final TypeCard type, final String imagePath) {
         this.name = name;
         this.type = type;
         this.imagePath = imagePath;
