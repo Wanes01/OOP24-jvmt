@@ -8,8 +8,8 @@ import impl.player.RealPlayer;
  * <p>
  * This class implements {@link Player},
  * it provides various informations regarding a player during
- * a round, such as their game status, the number of gems
- * inside their sack and their choice at the end of the turn.
+ * a round, the number of gems inside their sack and their choice
+ * at the end of the turn.
  * This class also provides methods for modifying and reset
  * a player's informations.
  * </p>
@@ -23,11 +23,11 @@ import impl.player.RealPlayer;
  */
 public class PlayerInRound implements Player {
 
+    private static final int HASHCODE_BASE = 19;
     private final String name;
     private int chestGems;
     private int sackGems;
     private PlayerChoice choice;
-    private boolean inGame;
 
     /**
      * Initializes the player's informations.
@@ -39,7 +39,6 @@ public class PlayerInRound implements Player {
         this.chestGems = 0;
         this.sackGems = 0;
         this.choice = PlayerChoice.STAY;
-        this.inGame = true;
     }
 
     /**
@@ -69,15 +68,7 @@ public class PlayerInRound implements Player {
             + ", chestGems =" + getChestGems()
             + ", sackGems =" + getSackGems()
             + ", choice =" + getChoice()
-            + ", inGame =" + hasLeft()
             + '}';
-    }
-
-    /**
-     * @return the player's game status.
-     */
-    public boolean hasLeft() {
-        return !this.inGame;
     }
 
     /**
@@ -179,36 +170,33 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Updates the player's game status, it'll be set
-     * as false if the player's choice is EXIT.
+     * Updates the player's choice as EXIT.
      * 
      * @throws IllegalStateException if the player's
-     * game status is false.
+     * choice is already EXIT.
      */
     public void exit() {
-        if (!this.inGame) {
+        if (this.choice == PlayerChoice.EXIT) {
             throw new IllegalStateException(
                 "The player is already out of the cave.");
         }
-        if (this.choice == PlayerChoice.EXIT) {
-            this.inGame = false;
-        }
+        this.choice = PlayerChoice.EXIT;
     }
 
     /**
-     * Resets to true the player's game status.
+     * Resets to true the player's choice.
      */
-    public void resetStatus() {
-        this.inGame = true;
+    public void resetChoice() {
+        this.choice = PlayerChoice.STAY;
     }
 
     /**
      * Resets the player's sack gems to zero and
-     * their game status to true.
+     * their choice.
      */
     public void resetRoundPlayer() {
         resetSack();
-        resetStatus();
+        resetChoice();
     }
 
     /**
@@ -217,14 +205,11 @@ public class PlayerInRound implements Player {
     @Override
     public int hashCode() {
         final int prime = 31;
-        final int val1 = 1231;
-        final int val2 = 1237;
-        int result = 1;
+        int result = HASHCODE_BASE;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + chestGems;
         result = prime * result + sackGems;
         result = prime * result + ((choice == null) ? 0 : choice.hashCode());
-        result = prime * result + (inGame ? val1 : val2);
         return result;
     }
 
@@ -236,10 +221,7 @@ public class PlayerInRound implements Player {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final PlayerInRound other = (PlayerInRound) obj;
@@ -252,7 +234,6 @@ public class PlayerInRound implements Player {
         }
         return this.chestGems != other.chestGems
                && this.sackGems != other.sackGems
-               && this.choice != other.choice
-               && this.inGame != other.inGame;
+               && this.choice != other.choice;
     }
 }
