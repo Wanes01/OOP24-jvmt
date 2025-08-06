@@ -1,7 +1,6 @@
 package api.round;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import api.common.Describable;
 import api.round.turn.Turn;
@@ -10,37 +9,41 @@ import api.round.turn.Turn;
  * Represents a single round within a game.
  * <p>
  * A round is composed of a sequence of {@link Turn} objects and
- * defines how players porgress, gain gems and when the round ends.
+ * defines how players progress, gain gems and when the rould ends.
+ * </p>
+ * <p>
+ * A round is an {@link Iterable}, and provides and iterator over
+ * the turns to be played. The iteration is intended to be performed
+ * only once: multiple iterations are not supported and will result
+ * in an {@link IllegalStateException}
  * </p>
  * 
  * @see Turn
  * @see RoundState
- * @see Iterator
+ * @see Iterable
+ * @see Describable
  * 
  * @author Emir Wanes Aouioua
  */
-public interface Round extends Iterator<Turn>, Describable {
+public interface Round extends Iterable<Turn>, Describable {
 
     /**
+     * Returns an iterator of {@link Turn}s to be played in this round.
+     * <p>
+     * This iterator allows consuming the turns in order. The round is
+     * designed to be iterated only once. Calling this method more than
+     * once will result in an {@link IllegalStateException}
+     * </p>
      * 
-     * Returns the next {@link Turn} to be played during this round.
+     * @return an iterator over the turns to played in this round.
      * 
-     * @return the next turn to be played in this round.
-     * 
-     * @throws NoSuchElementException if no more turns can be created for this
-     *                                round.
+     * @throws IllegalStateException if this method is called after an iterator has
+     *                               already been created or after the iteration has
+     *                               been completed (i.e., no more turns can be
+     *                               played in this round).
      */
     @Override
-    Turn next();
-
-    /**
-     * 
-     * Tells if there is any turn to be played left.
-     * 
-     * @return true if a new turn can be played, false otherwise.
-     */
-    @Override
-    boolean hasNext();
+    Iterator<Turn> iterator();
 
     /**
      * {@inheritDoc}
@@ -48,7 +51,7 @@ public interface Round extends Iterator<Turn>, Describable {
      * Returns a description about the current round rules. To be more specific:
      * <ul>
      * <li>When the round ends.</li>
-     * <li>How the gems gained are modified</li>
+     * <li>How the gems gained are modified.</li>
      * </ul>
      * 
      * @return the description of this round rules.
@@ -70,7 +73,7 @@ public interface Round extends Iterator<Turn>, Describable {
      * 
      * <p>
      * Note: this method must be called when the round has ended,
-     * namely when {@link #hasNext()} returns false.
+     * namely after all turns have been consumed.
      * </p>
      * 
      * @throws IllegalStateException if the round has not ended yet.
