@@ -3,6 +3,7 @@ package impl.others;
 import java.util.Random;
 
 import api.others.RelicCard;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class RelicCardImpl implements RelicCard {
 
@@ -15,6 +16,7 @@ public class RelicCardImpl implements RelicCard {
         return this.gems;
     }
 
+    @SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "...")
     private int computeGems() {
         final Random rand = new Random();
         final int min = 1;

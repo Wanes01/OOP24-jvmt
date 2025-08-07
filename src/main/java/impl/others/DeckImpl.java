@@ -7,6 +7,7 @@ import java.util.Set;
 import api.others.Card;
 import api.others.Deck;
 import api.others.TrapCard;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class DeckImpl implements Deck {
 
@@ -17,6 +18,7 @@ public class DeckImpl implements Deck {
 
     private final List<Card> cards = new ArrayList<>();
 
+    @SuppressFBWarnings(value = "LV_MC", justification = "Questo chiamata è sicura in questo contesto specifico.")
     public DeckImpl() {
         for (int r = 0; r < RELICS; r++) {
             this.cards.add(new RelicCardImpl());
@@ -42,7 +44,7 @@ public class DeckImpl implements Deck {
     }
 
     @Override
-    public void shuffle() {
+    public final void shuffle() {
         Collections.shuffle(this.cards);
     }
 

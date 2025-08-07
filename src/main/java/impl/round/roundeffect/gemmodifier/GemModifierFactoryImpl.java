@@ -33,7 +33,7 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
      * {@inheritDoc}
      */
     @Override
-    public GemModifier riskyReward(int bonus) {
+    public GemModifier riskyReward(final int bonus) {
         return new GemModifierImpl(
                 (state, gems) -> gems + (state.getDrawnTraps().size() * bonus),
                 "+" + bonus + " gemme per ogni carta trappola già pescata.");
@@ -53,9 +53,9 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
      * {@inheritDoc}
      */
     @Override
-    public GemModifier leftReward(int leftBonus) {
+    public GemModifier leftReward(final int leftBonus) {
         return new GemModifierImpl(
-                (state, gems) -> gems * (leftBonus * state.getRoundPlayersManager().getExitedPlayers().size()),
+                (state, gems) -> gems + (leftBonus * state.getRoundPlayersManager().getExitedPlayers().size()),
                 "+" + leftBonus + " gemme per ogni giocatore uscito dal round.");
     }
 

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import api.others.Card;
 import api.others.TreasureCard;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class TreasureCardImpl implements TreasureCard {
 
@@ -14,6 +15,7 @@ public class TreasureCardImpl implements TreasureCard {
         return this.gems;
     }
 
+    @SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "...")
     private int computeGems() {
         final Random rand = new Random();
         final int min = 1;

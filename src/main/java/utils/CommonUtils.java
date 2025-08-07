@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Random;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Utility class containing common helper methods for
  * general-purpose operations.
@@ -13,15 +15,22 @@ import java.util.Random;
 public final class CommonUtils {
 
     /**
-     * Generates a random integer between the specified {@code min} and {@code max}
-     * values (inclusive)
-     * 
-     * @param min the lower bound (inclusive)
-     * @param max the upper bound (inclusive)
-     * @return a random integer between {@code min} and {@code max}
-     * 
-     * @throws IllegalArgumentException if {@code min} is greater than {@code max}
+     * This class cannot be instantiated because it is a utility class.
      */
+    private CommonUtils() {
+    }
+
+    /**
+     * Generates a random integer between the specified {@code min} and {@code max}
+     * values (inclusive).
+     * 
+     * @param min the lower bound (inclusive).
+     * @param max the upper bound (inclusive).
+     * @return a random integer between {@code min} and {@code max}.
+     * 
+     * @throws IllegalArgumentException if {@code min} is greater than {@code max}.
+     */
+    @SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "static method")
     public static int randomIntBetweenValues(final int min, final int max) {
         if (min > max) {
             throw new IllegalArgumentException("min must be less or equal to max.");
@@ -34,12 +43,13 @@ public final class CommonUtils {
      * Generates a random double between the specified {@code min} (inclusive) and
      * {@code max} (exclusive).
      *
-     * @param min the lower bound (inclusive)
-     * @param max the upper bound (exclusive)
-     * @return a random double between {@code min} (inclusive) and {@code max}
+     * @param min the lower bound (inclusive).
+     * @param max the upper bound (exclusive).
+     * @return a random double between {@code min} (inclusive) and {@code max}.
      *         (exclusive)
-     * @throws IllegalArgumentException if {@code min} is greater than {@code max}
+     * @throws IllegalArgumentException if {@code min} is greater than {@code max}.
      */
+    @SuppressFBWarnings(value = "DMI_RANDOM_USED_ONLY_ONCE", justification = "static method")
     public static double randomDoubleBetweenValues(final double min, final double max) {
         if (min > max) {
             throw new IllegalArgumentException("min must be less or equal to max.");

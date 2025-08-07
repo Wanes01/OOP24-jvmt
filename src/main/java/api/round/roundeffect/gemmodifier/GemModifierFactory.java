@@ -42,7 +42,9 @@ public interface GemModifierFactory {
      * returns: 5 + (3 * 3) = 14 gems.
      * </p>
      *
-     * @return a {@link GemModifier} that rewards more gems for each trap card drawn
+     * @param trapBonus the bonus gems that each drawn trap card adds.
+     * @return a {@link GemModifier} that rewards more gems for each trap card
+     *         drawn.
      */
     GemModifier riskyReward(int trapBonus);
 
@@ -57,6 +59,7 @@ public interface GemModifierFactory {
      * gems.
      * </p>
      *
+     * @param multiplier the multiplier applied to the base gems.
      * @return a {@link GemModifier} that applies a multiplier to the base
      *         gems based on the number of drawn traps
      */
@@ -73,9 +76,9 @@ public interface GemModifierFactory {
      * 5 + (2 * 3) = 11 gems.
      * </p>
      * 
-     * @param leftBonus
+     * @param leftBonus the bonus gems that each left player adds.
      * @return a {@link GemModifier} that applies a bonus to the base
-     *         gems based on the number of exited players
+     *         gems based on the number of exited players.
      */
     GemModifier leftReward(int leftBonus);
 }
