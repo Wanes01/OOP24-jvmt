@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import api.others.PlayerInRound;
-import api.round.RoundPlayersManager;
-import impl.others.PlayerInRoundImpl;
-import impl.round.RoundPlayersManagerImpl;
+import model.api.others.PlayerInRound;
+import model.api.round.RoundPlayersManager;
+import model.impl.others.PlayerInRoundImpl;
+import model.impl.round.RoundPlayersManagerImpl;
 
 class RoundPlayersManagerImplTest {
 
