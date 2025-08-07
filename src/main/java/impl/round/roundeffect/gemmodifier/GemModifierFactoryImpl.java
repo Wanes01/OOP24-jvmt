@@ -33,25 +33,30 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
      * {@inheritDoc}
      */
     @Override
-    public GemModifier riskyReward() {
-        final int extraReward = 3;
+    public GemModifier riskyReward(int bonus) {
         return new GemModifierImpl(
-                (state, gems) -> gems + (state.getDrawnTraps().size() * extraReward),
-                "+" + extraReward + " gemme per ogni carta trappola già pescata");
+                (state, gems) -> gems + (state.getDrawnTraps().size() * bonus),
+                "+" + bonus + " gemme per ogni carta trappola già pescata.");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GemModifier chaosModifier() {
-        final double minFactor = 0.5;
-        final double maxFactor = 2.5;
-
-        final double factor = minFactor + Math.random() * (maxFactor - minFactor);
+    public GemModifier gemMultiplier(final double multiplier) {
         return new GemModifierImpl(
-                (state, gems) -> (int) (gems * factor),
-                "Moltiplicatore applicato alle gemme [x" + factor + "]");
+                (state, gems) -> (int) (gems * multiplier),
+                "Moltiplicatore applicato alle gemme [x" + multiplier + "]");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GemModifier leftReward(int leftBonus) {
+        return new GemModifierImpl(
+                (state, gems) -> gems * (leftBonus * state.getRoundPlayersManager().getExitedPlayers().size()),
+                "+" + leftBonus + " gemme per ogni giocatore uscito dal round.");
     }
 
 }

@@ -1,8 +1,9 @@
 package api.round.roundeffect.gemmodifier;
 
-// import for javadoc
+// imports for javadoc
 import api.round.roundeffect.RoundEffect;
 import api.round.Round;
+import api.round.RoundState;
 
 /**
  * A factory interface for creating {@link GemModifier} instances used during a
@@ -35,27 +36,46 @@ public interface GemModifierFactory {
      * 
      * <p>
      * Example:
-     * Given 5 base gems and a {@link api.round.RoundState} in which 3 trap cards
-     * have been drawn, and assuming a fixed bonus of 3 gems per trap, the modifier
+     * Given 5 base gems and a {@link RoundState} in which 3 trap cards
+     * have been drawn, and assuming a {@code trapBonus} of 3 gems per trap, the
+     * modifier
      * returns: 5 + (3 * 3) = 14 gems.
      * </p>
      *
      * @return a {@link GemModifier} that rewards more gems for each trap card drawn
      */
-    GemModifier riskyReward();
+    GemModifier riskyReward(int trapBonus);
 
     /**
-     * Returns a gem modifier that multiplies the base gems by a randomly chosen
+     * Returns a gem modifier that multiplies the base gems by a specified
      * fixed factor.
      * 
      * <p>
      * Example:
-     * Given 5 base gems and a {@link api.round.RoundState}, if a random multiplier
-     * of x1.5 is chosen, the modifier returns: 5 * 1.5 = 7 gems.
+     * Given 5 base gems and a {@link RoundState}, if the
+     * {@code multiplier} is set to x1.5 then the modifier returns: 5 * 1.5 = 7
+     * gems.
      * </p>
      *
-     * @return a {@link GemModifier} that applies a random multiplier to the base
-     *         gems
+     * @return a {@link GemModifier} that applies a multiplier to the base
+     *         gems based on the number of drawn traps
      */
-    GemModifier chaosModifier();
+    GemModifier gemMultiplier(double multiplier);
+
+    /**
+     * Returns a gem modifier that adds a bonus to the base gems based on the
+     * number players that have left so far.
+     * 
+     * <p>
+     * Example:
+     * Given 5 base gems and a {@link RoundState}, if 2 players
+     * have left and a {@code leftBonus} of 3 gems is set, then the modifier returns
+     * 5 + (2 * 3) = 11 gems.
+     * </p>
+     * 
+     * @param leftBonus
+     * @return a {@link GemModifier} that applies a bonus to the base
+     *         gems based on the number of exited players
+     */
+    GemModifier leftReward(int leftBonus);
 }
