@@ -10,4 +10,10 @@ public interface Deck {
     Card peekCard(); // restituisce la carta senza estrarla
 
     boolean hasNext();
+
+    int totRelicCardsInDeck();
+
+    int totTreasureCardsInDeck();
+
+    int totTrapCardsInDeck();
 }

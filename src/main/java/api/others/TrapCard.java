@@ -1,5 +1,5 @@
 package api.others;
 
-public class TrapCard {
+public interface TrapCard extends Card {
 
 }
