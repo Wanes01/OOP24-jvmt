@@ -9,12 +9,12 @@ import api.others.Card;
 import api.others.Deck;
 import api.others.PlayerInRound;
 import api.others.RelicCard;
-import api.others.SpecialCard;
 import api.others.TreasureCard;
 import api.round.RoundPlayersManager;
 import api.round.RoundState;
 import api.round.roundeffect.RoundEffect;
 import api.round.turn.Turn;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Concrete implementation of a {@link Turn} in a round of the game.
@@ -47,6 +47,9 @@ import api.round.turn.Turn;
  * 
  * @author Emir Wanes Aouioua
  */
+
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+        "EI_EXPOSE_REP2" }, justification = "Internal mutable objects are part of the game logic and shared by design")
 public class TurnImpl implements Turn {
 
     private final PlayerInRound player;
@@ -101,9 +104,11 @@ public class TurnImpl implements Turn {
         this.roundState.addCardToPath(card);
         this.drawnCard = Optional.of(card);
 
-        if (card instanceof SpecialCard) {
-            // TODO: add behavior
-        } else if (card instanceof TreasureCard) {
+        /*
+         * Note: future usage of special cards must be put here
+         */
+
+        if (card instanceof TreasureCard) {
             final TreasureCard treasure = (TreasureCard) card;
             final RoundPlayersManager pm = this.roundState.getRoundPlayersManager();
             this.divideGemsAmongPlayers(treasure.getGems(), pm.getActivePlayers());
@@ -126,7 +131,7 @@ public class TurnImpl implements Turn {
      *                will be placed in the path
      * @param players the players to whom to divide the gems
      */
-    private void divideGemsAmongPlayers(int gems, List<PlayerInRound> players) {
+    private void divideGemsAmongPlayers(final int gems, final List<PlayerInRound> players) {
         final int reward = this.roundEffect.applyGemModifier(
                 roundState, gems / players.size());
         final int pathGems = gems % players.size();
@@ -139,7 +144,7 @@ public class TurnImpl implements Turn {
      * {@inheritDoc}
      */
     @Override
-    public void endTurn(Set<PlayerInRound> playersExitingThisTurn) {
+    public void endTurn(final Set<PlayerInRound> playersExitingThisTurn) {
         if (isAnyActive(playersExitingThisTurn)) {
             throw new IllegalArgumentException("Players passed to endTurn function must all have left the round.");
         } else if (this.drawnCard.isEmpty()) {
@@ -182,7 +187,7 @@ public class TurnImpl implements Turn {
      * @param players the players whose status will be checked.
      * @return true if any player is still active in the round, false otherwise.
      */
-    private boolean isAnyActive(Set<PlayerInRound> players) {
+    private boolean isAnyActive(final Set<PlayerInRound> players) {
         for (final PlayerInRound player : players) {
             if (!player.hasLeft()) {
                 return true;

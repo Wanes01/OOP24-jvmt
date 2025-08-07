@@ -9,6 +9,7 @@ import api.round.Round;
 import api.round.RoundState;
 import api.round.roundeffect.RoundEffect;
 import api.round.turn.Turn;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import impl.round.turn.TurnImpl;
 
 /**
@@ -40,11 +41,14 @@ import impl.round.turn.TurnImpl;
  * 
  * @author Emir Wanes Aouioua
  */
+
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+        "EI_EXPOSE_REP2" }, justification = "Internal mutable objects are part of the game logic and shared by design")
 public class RoundImpl implements Round {
 
     private final RoundState state;
     private final RoundEffect effect;
-    private boolean iteratorUsed = false;
+    private boolean iteratorUsed;
 
     /**
      * Creates a RoundImpl object, starting a new round.
@@ -66,7 +70,7 @@ public class RoundImpl implements Round {
             final Deck deck,
             final RoundEffect effect) {
 
-        players.forEach(p -> p.resetRoundPlayer());
+        players.forEach(PlayerInRound::resetRoundPlayer);
         this.state = new RoundStateImpl(players, deck);
         this.effect = effect;
     }
@@ -101,11 +105,17 @@ public class RoundImpl implements Round {
          * chest
          */
         final List<PlayerInRound> players = this.state.getRoundPlayersManager().getExitedPlayers();
-        players.forEach(e -> e.addSackToChest());
+        players.forEach(PlayerInRound::addSackToChest);
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IllegalStateException if this method gets called more than once, i.e.
+     *                               if this object it's used to iterate over a
+     *                               {@code Round} multiple times. (To play a new
+     *                               round a new instance of {@code RoundImpl} must
+     *                               be created)
      */
     @Override
     public Iterator<Turn> iterator() {
@@ -114,7 +124,7 @@ public class RoundImpl implements Round {
         }
         this.iteratorUsed = true;
 
-        return new Iterator<Turn>() {
+        return new Iterator<>() {
 
             @Override
             public boolean hasNext() {
