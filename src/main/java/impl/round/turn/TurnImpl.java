@@ -38,6 +38,14 @@ import api.round.turn.Turn;
  * {@link #endTurn()} have not left the round.
  * </ul>
  * </p>
+ * 
+ * @see Turn
+ * @see RoundState
+ * @see RoundEffect
+ * @see PlayerInRound
+ * @see Round
+ * 
+ * @author Emir Wanes Aouioua
  */
 public class TurnImpl implements Turn {
 

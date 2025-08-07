@@ -69,7 +69,7 @@ public interface Round extends Iterable<Turn>, Describable {
 
     /**
      * Ends the current round. Transfers the gems gained by the players
-     * during this round from their sack to their chest.
+     * whose left during this round from their sack to their chest.
      * 
      * <p>
      * Note: this method must be called when the round has ended,

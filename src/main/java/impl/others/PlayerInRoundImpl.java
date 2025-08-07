@@ -81,4 +81,10 @@ public class PlayerInRoundImpl implements PlayerInRound {
     public void resetSack() {
     }
 
+    @Override
+    public void resetRoundPlayer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resetRoundPlayer'");
+    }
+
 }

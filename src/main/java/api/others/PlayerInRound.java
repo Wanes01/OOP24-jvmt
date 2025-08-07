@@ -18,4 +18,6 @@ public interface PlayerInRound {
     void resetSack();
 
     void leave();
+
+    void resetRoundPlayer();
 }
