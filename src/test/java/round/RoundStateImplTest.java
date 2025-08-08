@@ -23,6 +23,11 @@ import model.impl.others.DeckImpl;
 import model.impl.others.PlayerInRoundImpl;
 import model.impl.round.RoundStateImpl;
 
+/**
+ * Tests for {@link RoundStateImpl} ({@link RoundState} implementation).
+ * 
+ * @author Emir Wanes Aouioua
+ */
 class RoundStateImplTest {
 
     private RoundState state;

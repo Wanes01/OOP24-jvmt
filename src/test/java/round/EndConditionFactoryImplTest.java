@@ -24,6 +24,12 @@ import model.impl.others.PlayerInRoundImpl;
 import model.impl.round.RoundStateImpl;
 import model.impl.round.roundeffect.endcondition.EndConditionFactoryImpl;
 
+/**
+ * Tests for {@link EndConditionFactoryImpl} ({@link EndConditionFactory}
+ * implementation).
+ * 
+ * @author Emir Wanes Aouioua
+ */
 class EndConditionFactoryImplTest {
 
     private final EndConditionFactory factory = new EndConditionFactoryImpl();

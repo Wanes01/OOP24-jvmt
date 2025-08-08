@@ -24,6 +24,12 @@ import model.impl.others.PlayerInRoundImpl;
 import model.impl.round.RoundStateImpl;
 import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
 
+/**
+ * Tests for {@link GemModifierFactoryImpl} ({@link GemModifierFactory}
+ * implementation).
+ * 
+ * @author Emir Wanes Aouioua
+ */
 class GemModifierFactoryImplTest {
 
     private static final Set<Integer> BONUS_VALUES = Set.of(-10, -1, 0, 1, 10);

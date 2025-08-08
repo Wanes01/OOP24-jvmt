@@ -17,6 +17,12 @@ import model.api.round.RoundPlayersManager;
 import model.impl.others.PlayerInRoundImpl;
 import model.impl.round.RoundPlayersManagerImpl;
 
+/**
+ * Tests for {@link RoundPlayersManagerImpl} ({@link RoundPlayersManager}
+ * implementation).
+ * 
+ * @author Emir Wanes Aouioua
+ */
 class RoundPlayersManagerImplTest {
 
     private RoundPlayersManager manager;
