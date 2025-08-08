@@ -45,17 +45,17 @@ tasks.test {
 }
 
 tasks.withType<Checkstyle> {
-    exclude("api/others/**")
-    exclude("impl/others/**")
+    exclude("model/api/others/**")
+    exclude("model/impl/others/**")
 }
 
 tasks.withType<Pmd> {
-    exclude("api/others/**")
-    exclude("impl/others/**")
+    exclude("model/api/others/**")
+    exclude("model/impl/others/**")
 }
 
 tasks.javadoc {
-    exclude("api/others/**")
-    exclude("impl/others/**")
+    exclude("model/api/others/**")
+    exclude("model/impl/others/**")
 }
 

@@ -22,7 +22,6 @@ import model.impl.others.DeckImpl;
 import model.impl.others.PlayerInRoundImpl;
 import model.impl.round.RoundStateImpl;
 import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
-import utils.CommonUtils;
 
 class GemModifierFactoryImplTest {
 
@@ -45,7 +44,7 @@ class GemModifierFactoryImplTest {
      * to compute the expected gem value returned by the modifier. Possible
      * operations to be performed on cards without gems can be specified in the
      * consumer {@code action}.
-     * 
+     *
      * @param expected a function that maps an integer to an integer
      *                 ({@link UnaryOperator}), namely the
      *                 function to compute the expected gems returned by the
@@ -81,7 +80,7 @@ class GemModifierFactoryImplTest {
 
     @Test
     void testRisckyRewardGemModifier() {
-        final int bonusPerTrap = CommonUtils.randomIntBetweenValues(3, 10);
+        final int bonusPerTrap = 3;
         final GemModifier riskyReward = factory.riskyReward(bonusPerTrap);
 
         this.forEachGemCardCheckExpected(
@@ -92,7 +91,7 @@ class GemModifierFactoryImplTest {
 
     @Test
     void testGemMultiplierModifier() {
-        final double multiplier = CommonUtils.randomDoubleBetweenValues(3, 10);
+        final double multiplier = Math.PI;
         final GemModifier gemMultiplier = this.factory.gemMultiplier(multiplier);
 
         this.forEachGemCardCheckExpected(
@@ -104,7 +103,7 @@ class GemModifierFactoryImplTest {
 
     @Test
     void testLeftRewardGemModifier() {
-        final int bonus = CommonUtils.randomIntBetweenValues(3, 10);
+        final int bonus = 5;
         final GemModifier leftReward = this.factory.leftReward(bonus);
 
         final RoundPlayersManager pm = this.state.getRoundPlayersManager();
