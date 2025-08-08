@@ -31,16 +31,26 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
 
     /**
      * {@inheritDoc}
+     * 
+     * <p>
+     * <strong>Note:</strong> in this implementation {@code bonus} can also be
+     * a negative value so that this modifier becomes a penalty.
+     * </p>
      */
     @Override
     public GemModifier riskyReward(final int bonus) {
         return new GemModifierImpl(
                 (state, gems) -> gems + (state.getDrawnTraps().size() * bonus),
-                "+" + bonus + " gemme per ogni carta trappola già pescata.");
+                (bonus >= 0 ? "+" : "") + bonus + " gemme per ogni carta trappola già pescata.");
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * <p>
+     * <strong>Note:</strong> in this implementation {@code multiplier} can also be
+     * a negative value so that this modifier becomes a penalty.
+     * </p>
      */
     @Override
     public GemModifier gemMultiplier(final double multiplier) {
@@ -51,12 +61,17 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
 
     /**
      * {@inheritDoc}
+     * 
+     * <p>
+     * <strong>Note:</strong> in this implementation {@code leftBonus} can also be
+     * a negative value so that this modifier becomes a penalty.
+     * </p>
      */
     @Override
     public GemModifier leftReward(final int leftBonus) {
         return new GemModifierImpl(
                 (state, gems) -> gems + (leftBonus * state.getRoundPlayersManager().getExitedPlayers().size()),
-                "+" + leftBonus + " gemme per ogni giocatore uscito dal round.");
+                (leftBonus >= 0 ? "+" : "") + leftBonus + " gemme per ogni giocatore uscito dal round.");
     }
 
 }

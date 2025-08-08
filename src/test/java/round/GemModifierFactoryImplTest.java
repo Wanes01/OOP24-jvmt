@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
@@ -25,6 +26,7 @@ import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
 
 class GemModifierFactoryImplTest {
 
+    private static final Set<Integer> BONUS_VALUES = Set.of(-10, -1, 0, 1, 10);
     private final GemModifierFactory factory = new GemModifierFactoryImpl();
     private RoundState state;
 
@@ -80,43 +82,48 @@ class GemModifierFactoryImplTest {
 
     @Test
     void testRisckyRewardGemModifier() {
-        final int bonusPerTrap = 3;
-        final GemModifier riskyReward = factory.riskyReward(bonusPerTrap);
+        for (final int bonusPerTrap : BONUS_VALUES) {
+            this.setUp();
+            final GemModifier riskyReward = factory.riskyReward(bonusPerTrap);
 
-        this.forEachGemCardCheckExpected(
-                gems -> gems + (bonusPerTrap * this.state.getDrawnTraps().size()),
-                this.state::addCardToPath,
-                riskyReward);
+            this.forEachGemCardCheckExpected(
+                    gems -> gems + (bonusPerTrap * this.state.getDrawnTraps().size()),
+                    this.state::addCardToPath,
+                    riskyReward);
+        }
     }
 
     @Test
     void testGemMultiplierModifier() {
-        final double multiplier = Math.PI;
-        final GemModifier gemMultiplier = this.factory.gemMultiplier(multiplier);
+        for (final int base : BONUS_VALUES) {
+            final double multiplier = base + Math.random();
+            final GemModifier gemMultiplier = this.factory.gemMultiplier(multiplier);
 
-        this.forEachGemCardCheckExpected(
-                gems -> (int) (gems * multiplier),
-                card -> {
-                },
-                gemMultiplier);
+            this.forEachGemCardCheckExpected(
+                    gems -> (int) (gems * multiplier),
+                    card -> {
+                    },
+                    gemMultiplier);
+        }
     }
 
     @Test
     void testLeftRewardGemModifier() {
-        final int bonus = 5;
-        final GemModifier leftReward = this.factory.leftReward(bonus);
+        for (final int bonus : BONUS_VALUES) {
+            this.setUp();
+            final RoundPlayersManager pm = this.state.getRoundPlayersManager();
+            final GemModifier leftReward = this.factory.leftReward(bonus);
 
-        final RoundPlayersManager pm = this.state.getRoundPlayersManager();
+            // makes all players leave the round
+            while (pm.hasNext()) {
+                final PlayerInRound player = pm.next();
+                player.leave();
+            }
 
-        // makes all players leave the round
-        while (pm.hasNext()) {
-            final PlayerInRound player = pm.next();
-            player.leave();
+            this.forEachGemCardCheckExpected(
+                    gems -> gems + (pm.getExitedPlayers().size() * bonus),
+                    card -> {
+                    }, leftReward);
         }
-
-        this.forEachGemCardCheckExpected(
-                gems -> gems + (pm.getExitedPlayers().size() * bonus),
-                card -> {
-                }, leftReward);
     }
 }
