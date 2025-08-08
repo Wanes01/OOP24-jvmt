@@ -108,10 +108,11 @@ public class TurnImpl implements Turn {
          * Note: future usage of special cards must be put here
          */
 
-        if (card instanceof TreasureCard) {
+        final RoundPlayersManager pm = this.roundState.getRoundPlayersManager();
+        final List<PlayerInRound> actives = pm.getActivePlayers();
+        if (card instanceof TreasureCard && !actives.isEmpty()) {
             final TreasureCard treasure = (TreasureCard) card;
-            final RoundPlayersManager pm = this.roundState.getRoundPlayersManager();
-            this.divideGemsAmongPlayers(treasure.getGems(), pm.getActivePlayers());
+            this.divideGemsAmongPlayers(treasure.getGems(), actives);
         }
     }
 
@@ -149,6 +150,10 @@ public class TurnImpl implements Turn {
             throw new IllegalArgumentException("Players passed to endTurn function must all have left the round.");
         } else if (this.drawnCard.isEmpty()) {
             throw new IllegalStateException("A card must be drawn before a turn can end.");
+        }
+
+        if (playersExitingThisTurn.isEmpty()) {
+            return;
         }
 
         // Only one player exited. He is given all the available relics.

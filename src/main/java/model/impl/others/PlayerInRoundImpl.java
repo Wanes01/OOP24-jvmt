@@ -6,6 +6,8 @@ public class PlayerInRoundImpl implements PlayerInRound {
 
     private final String name;
     private boolean left = false;
+    private int sack;
+    private int chest;
 
     public PlayerInRoundImpl(final String name) {
         this.name = name;
@@ -14,23 +16,6 @@ public class PlayerInRoundImpl implements PlayerInRound {
     @Override
     public void leave() {
         this.left = true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof PlayerInRound)) {
-            return false;
-        }
-        final var other = (PlayerInRound) o;
-        return this.name.equals(other.getName()) && this.hasLeft() == other.hasLeft();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + Boolean.hashCode(left);
-        return result;
     }
 
     @Override
@@ -61,30 +46,59 @@ public class PlayerInRoundImpl implements PlayerInRound {
 
     @Override
     public int getChestGems() {
-        return 0;
+        return this.chest;
     }
 
     @Override
     public int getSackGems() {
-        return 0;
+        return this.sack;
     }
 
     @Override
     public void addSackGems(int gems) {
+        this.sack += gems;
     }
 
     @Override
     public void addSackToChest() {
+        this.chest += this.sack;
+        this.resetSack();
     }
 
     @Override
     public void resetSack() {
+        this.sack = 0;
     }
 
     @Override
     public void resetRoundPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resetRoundPlayer'");
+        resetSack();
+        this.left = false;
     }
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final PlayerInRound other = (PlayerInRound) obj;
+        return this.name.equals(other.getName())
+                && this.chest == other.getChestGems()
+                && this.sack == other.getSackGems()
+                && this.left == other.hasLeft();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 17;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + chest;
+        result = prime * result + sack;
+        result = prime * result + (left ? 0 : 1);
+        return result;
+    }
 }

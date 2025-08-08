@@ -50,12 +50,8 @@ public class RoundEffectImpl implements RoundEffect {
      */
     @Override
     public String getDescription() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("* Regole di fine round: ");
-        sb.append(this.endCondition.getDescription());
-        sb.append("* Modificatori di gemme: ");
-        sb.append(this.gemModifier.getDescription());
-        return sb.toString();
+        return "* Regole di fine round: " + this.endCondition.getDescription()
+                + "\n" + "* Modificatori di gemme: " + this.gemModifier.getDescription();
     }
 
     /**
@@ -67,7 +63,7 @@ public class RoundEffectImpl implements RoundEffect {
      * </p>
      */
     @Override
-    public boolean isRoundOver(RoundState state) {
+    public boolean isRoundOver(final RoundState state) {
         return this.endCondition.getEndCondition()
                 .test(state);
     }
@@ -81,7 +77,7 @@ public class RoundEffectImpl implements RoundEffect {
      * </p>
      */
     @Override
-    public int applyGemModifier(RoundState state, int gems) {
+    public int applyGemModifier(final RoundState state, final int gems) {
         return this.gemModifier.getGemModifier()
                 .apply(state, gems);
     }

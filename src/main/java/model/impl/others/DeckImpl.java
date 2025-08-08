@@ -56,7 +56,7 @@ public class DeckImpl implements Deck {
 
     @Override
     public Card peekCard() {
-        return null;
+        return this.cards.getLast();
     }
 
     @Override
