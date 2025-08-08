@@ -83,14 +83,14 @@ public class RoundStateImpl implements RoundState {
      * @param <T>    the target type of cards to be returned (must be {@code Card}
      *               or an extension of it).
      * @param filter a predicate used to select which cards are included.
-     * @param mapper a function that transforms each card to a {@code Card} on an
+     * @param mapper a function that transforms each card to a {@code Card} or an
      *               extension of it.
      * @return a list of cards that satisfy the filter and are mapped to type
      *         {@code T}
      */
     private <T extends Card> List<T> getDrawnFiltered(
-            Predicate<Card> filter,
-            Function<Card, T> mapper) {
+            final Predicate<Card> filter,
+            final Function<Card, T> mapper) {
         return this.drawnCards.stream()
                 .filter(filter)
                 .map(mapper)
