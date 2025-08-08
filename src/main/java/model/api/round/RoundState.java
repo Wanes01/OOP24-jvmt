@@ -6,6 +6,7 @@ import model.api.others.Card;
 import model.api.others.Deck;
 import model.api.others.RelicCard;
 import model.api.others.TrapCard;
+import model.api.others.TreasureCard;
 import model.api.round.roundeffect.RoundEffect;
 
 /**
@@ -50,6 +51,14 @@ public interface RoundState {
      * @return the list of drawn traps in order of appearance.
      */
     List<TrapCard> getDrawnTraps();
+
+    /**
+     * Returns the list of all treasure cards drawn from the deck used during this
+     * round, in their order of appearance.
+     * 
+     * @return the list of drawn treasures in order of appearance.
+     */
+    List<TreasureCard> getDrawnTreasures();
 
     /**
      * Returns the total number of gems left on the path to be divided among the

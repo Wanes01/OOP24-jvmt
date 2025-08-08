@@ -2,12 +2,15 @@ package model.impl.round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import model.api.others.Card;
 import model.api.others.Deck;
 import model.api.others.PlayerInRound;
 import model.api.others.RelicCard;
 import model.api.others.TrapCard;
+import model.api.others.TreasureCard;
 import model.api.round.Round;
 import model.api.round.RoundPlayersManager;
 import model.api.round.RoundState;
@@ -68,9 +71,29 @@ public class RoundStateImpl implements RoundState {
      */
     @Override
     public List<RelicCard> getDrawnRelics() {
+        return this.getDrawnFiltered(
+                c -> c instanceof RelicCard,
+                c -> (RelicCard) c);
+    }
+
+    /**
+     * Returns a list of cards from {@code drawnCards} that match a given
+     * filter and are transformed using the provided mapping function.
+     * 
+     * @param <T>    the target type of cards to be returned (must be {@code Card}
+     *               or an extension of it).
+     * @param filter a predicate used to select which cards are included.
+     * @param mapper a function that transforms each card to a {@code Card} on an
+     *               extension of it.
+     * @return a list of cards that satisfy the filter and are mapped to type
+     *         {@code T}
+     */
+    private <T extends Card> List<T> getDrawnFiltered(
+            Predicate<Card> filter,
+            Function<Card, T> mapper) {
         return this.drawnCards.stream()
-                .filter(c -> c instanceof RelicCard)
-                .map(c -> (RelicCard) c)
+                .filter(filter)
+                .map(mapper)
                 .toList();
     }
 
@@ -79,10 +102,19 @@ public class RoundStateImpl implements RoundState {
      */
     @Override
     public List<TrapCard> getDrawnTraps() {
-        return this.drawnCards.stream()
-                .filter(c -> c instanceof TrapCard)
-                .map(c -> (TrapCard) c)
-                .toList();
+        return this.getDrawnFiltered(
+                c -> c instanceof TrapCard,
+                c -> (TrapCard) c);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<TreasureCard> getDrawnTreasures() {
+        return this.getDrawnFiltered(
+                c -> c instanceof TreasureCard,
+                c -> (TreasureCard) c);
     }
 
     /**
