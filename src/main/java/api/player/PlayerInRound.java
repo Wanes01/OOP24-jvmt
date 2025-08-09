@@ -209,9 +209,6 @@ public class PlayerInRound implements Player {
         final int prime = 31;
         int result = HASHCODE_BASE;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + chestGems;
-        result = prime * result + sackGems;
-        result = prime * result + ((choice == null) ? 0 : choice.hashCode());
         return result;
     }
 
@@ -228,14 +225,9 @@ public class PlayerInRound implements Player {
         }
         final PlayerInRound other = (PlayerInRound) obj;
         if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
+            return other.name == null;
+        } else {
+            return name.equals(other.name);
         }
-        return this.chestGems == other.chestGems
-               && this.sackGems == other.sackGems
-               && this.choice == other.choice;
     }
 }

@@ -1,21 +1,19 @@
 package player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import api.player.PlayerChoice;
 import impl.player.RealPlayer;
 
-public class RealPlayerTest {
+class RealPlayerTest {
 
-    RealPlayer test;
     private static final String PLAYER_NAME = "TestReal";
     private static final String PLAYER_DIFF_NAME = "TestDiffReal";
+    private RealPlayer test;
 
     @BeforeEach
     void setUp() {
@@ -44,7 +42,7 @@ public class RealPlayerTest {
         final int gemsToAdd = -5;
         assertThrows(IllegalArgumentException.class, () -> test.addSackGems(gemsToAdd));
     }
-    
+
     @Test
     void subSackGemsPositiveTest() {
         final int initialGems = 10;
@@ -89,7 +87,7 @@ public class RealPlayerTest {
         test.subChestGems(gemsToSubtract);
         assertEquals(initialGems - gemsToSubtract, test.getChestGems());
     }
-    
+
     @Test
     void subChestGemsExceedingTest() {
         final int initialGems = 5;
@@ -116,7 +114,7 @@ public class RealPlayerTest {
         assertEquals(PlayerChoice.EXIT, test.getChoice());
     }
     @Test
-    void ExitTest() {
+    void exitTest() {
         test.exit();
         assertEquals(PlayerChoice.EXIT, test.getChoice());
     }
@@ -159,7 +157,7 @@ public class RealPlayerTest {
         final RealPlayer other = new RealPlayer(PLAYER_NAME);
         assertEquals(test.hashCode(), other.hashCode());
     }
-    
+
     @Test
     void hashCodeDiffNameTest() {
         final RealPlayer other = new RealPlayer(PLAYER_DIFF_NAME);
@@ -167,86 +165,26 @@ public class RealPlayerTest {
     }
 
     @Test
-    void hashCodeDiffChestTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        test.addSackToChest();
-        other.addSackGems(gemsToAddToOther);
-        other.addSackToChest();
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
-    void hashCodeDiffSackTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        other.addSackGems(gemsToAddToOther);
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
-    void hashCodeDiffChoiceTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.choose(PlayerChoice.STAY);
-        other.choose(PlayerChoice.EXIT);
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
     void equalsTest() {
         final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        assertTrue(test.equals(other));
+        assertEquals(test, other);
     }
-    
+
     @Test
     void equalsDiffNameTest() {
         final RealPlayer other = new RealPlayer(PLAYER_DIFF_NAME);
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffChestTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        test.addSackToChest();
-        other.addSackGems(gemsToAddToOther);
-        other.addSackToChest();
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffSackTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        other.addSackGems(gemsToAddToOther);
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffChoiceTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
-        test.choose(PlayerChoice.STAY);
-        other.choose(PlayerChoice.EXIT);
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 
     @Test
     void equalsNullTest() {
         final RealPlayer other = null;
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 
     @Test
     void equalsDiffClassTest() {
         final Object other = new Object();
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 }

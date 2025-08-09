@@ -1,10 +1,8 @@
 package player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +13,7 @@ class PlayerCpuTest {
 
     private static final String PLAYER_NAME = "TestCpu";
     private static final String PLAYER_DIFF_NAME = "TestDiffCpu";
-    PlayerCpu test;
+    private PlayerCpu test;
 
     @BeforeEach
     void setUp() {
@@ -44,7 +42,7 @@ class PlayerCpuTest {
         final int gemsToAdd = -5;
         assertThrows(IllegalArgumentException.class, () -> test.addSackGems(gemsToAdd));
     }
-    
+
     @Test
     void subSackGemsPositiveTest() {
         final int initialGems = 10;
@@ -89,7 +87,7 @@ class PlayerCpuTest {
         test.subChestGems(gemsToSubtract);
         assertEquals(initialGems - gemsToSubtract, test.getChestGems());
     }
-    
+
     @Test
     void subChestGemsExceedingTest() {
         final int initialGems = 5;
@@ -116,7 +114,7 @@ class PlayerCpuTest {
         assertEquals(PlayerChoice.EXIT, test.getChoice());
     }
     @Test
-    void ExitTest() {
+    void exitTest() {
         test.exit();
         assertEquals(PlayerChoice.EXIT, test.getChoice());
     }
@@ -159,7 +157,7 @@ class PlayerCpuTest {
         final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
         assertEquals(test.hashCode(), other.hashCode());
     }
-    
+
     @Test
     void hashCodeDiffNameTest() {
         final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME);
@@ -167,86 +165,26 @@ class PlayerCpuTest {
     }
 
     @Test
-    void hashCodeDiffChestTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        test.addSackToChest();
-        other.addSackGems(gemsToAddToOther);
-        other.addSackToChest();
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
-    void hashCodeDiffSackTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        other.addSackGems(gemsToAddToOther);
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
-    void hashCodeDiffChoiceTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.choose(PlayerChoice.STAY);
-        other.choose(PlayerChoice.EXIT);
-        assertNotEquals(test.hashCode(), other.hashCode());
-    }
-
-    @Test
     void equalsTest() {
         final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        assertTrue(test.equals(other));
+        assertEquals(test, other);
     }
-    
+
     @Test
     void equalsDiffNameTest() {
         final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME);
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffChestTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        test.addSackToChest();
-        other.addSackGems(gemsToAddToOther);
-        other.addSackToChest();
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffSackTest() {
-        final int gemsToAddToTest = 5;
-        final int gemsToAddToOther = 10;
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.addSackGems(gemsToAddToTest);
-        other.addSackGems(gemsToAddToOther);
-        assertFalse(test.equals(other));
-    }
-
-    @Test
-    void equalsDiffChoiceTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
-        test.choose(PlayerChoice.STAY);
-        other.choose(PlayerChoice.EXIT);
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 
     @Test
     void equalsNullTest() {
         final PlayerCpu other = null;
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 
     @Test
     void equalsDiffClassTest() {
         final Object other = new Object();
-        assertFalse(test.equals(other));
+        assertNotEquals(test, other);
     }
 }
