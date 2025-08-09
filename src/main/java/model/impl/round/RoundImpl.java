@@ -2,6 +2,7 @@ package model.impl.round;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.api.others.Deck;
@@ -93,6 +94,9 @@ public class RoundImpl implements Round {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IllegalStateException if this method is called but the round has not
+     *                               ended yet.
      */
     @Override
     public void endRound() {
@@ -134,6 +138,9 @@ public class RoundImpl implements Round {
 
             @Override
             public Turn next() {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException("The round has ended. No more turns can be played.");
+                }
                 final PlayerInRound player = state.getRoundPlayersManager().next();
                 return new TurnImpl(player, state, effect);
             }

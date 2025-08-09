@@ -33,10 +33,16 @@ import model.impl.round.roundeffect.RoundEffectImpl;
 import model.impl.round.roundeffect.endcondition.EndConditionFactoryImpl;
 import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
 import model.impl.round.turn.TurnImpl;
+import utils.CommonUtils;
 
 /**
  * Tests for {@link TurnImpl} ({@link Turn}
  * implementation).
+ * <p>
+ * This class tests a single turn.
+ * See {@link RoundImplTest} for the tests on a round
+ * (tests on multiple turns).
+ * </p>
  * 
  * @author Emir Wanes Aouioua
  */
@@ -51,10 +57,7 @@ class TurnImpTest {
     @BeforeEach
     void setUp() {
         final List<PlayerInRound> players = new ArrayList<>(List.of(this.turnPlayer));
-
-        for (int p = 0; players.size() < PLAYER_COUNT; p++) {
-            players.add(new PlayerInRoundImpl("P-" + p));
-        }
+        players.addAll(CommonUtils.generatePlayerInRoundList(PLAYER_COUNT - 1));
 
         // the standard deck ensures the precence of trasure and relic cards.
         final Deck deck = new DeckImpl();

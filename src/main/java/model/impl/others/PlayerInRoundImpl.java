@@ -85,10 +85,7 @@ public class PlayerInRoundImpl implements PlayerInRound {
             return false;
         }
         final PlayerInRound other = (PlayerInRound) obj;
-        return this.name.equals(other.getName())
-                && this.chest == other.getChestGems()
-                && this.sack == other.getSackGems()
-                && this.left == other.hasLeft();
+        return this.name.equals(other.getName());
     }
 
     @Override
@@ -96,9 +93,6 @@ public class PlayerInRoundImpl implements PlayerInRound {
         final int prime = 31;
         int result = 17;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + chest;
-        result = prime * result + sack;
-        result = prime * result + (left ? 0 : 1);
         return result;
     }
 }

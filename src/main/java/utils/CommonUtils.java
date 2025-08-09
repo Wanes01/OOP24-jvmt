@@ -1,8 +1,12 @@
 package utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import model.api.others.PlayerInRound;
+import model.impl.others.PlayerInRoundImpl;
 
 /**
  * Utility class containing common helper methods for
@@ -56,5 +60,19 @@ public final class CommonUtils {
         }
         final Random r = new Random();
         return min + (max - min) * r.nextDouble();
+    }
+
+    /**
+     * Generates a list containing {@code count} {@link PlayerInRound}s.
+     * 
+     * @param count the number of players to be generated.
+     * @return a list of {@code count} {@code PlayerInRound}s.
+     */
+    public static List<PlayerInRound> generatePlayerInRoundList(final int count) {
+        final List<PlayerInRound> players = new ArrayList<>();
+        for (int p = 0; players.size() < count; p++) {
+            players.add(new PlayerInRoundImpl("P-" + p));
+        }
+        return players;
     }
 }
