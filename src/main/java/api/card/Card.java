@@ -35,7 +35,7 @@ public class Card {
         this.type = type;
         this.imagePath = "/imageCard/" + imagePath;
 
-        final URL imageUrl = getClass().getResource(imagePath);
+        final URL imageUrl = getClass().getResource(this.imagePath);
         try {
             this.imageCard = ImageIO.read(imageUrl);
         } catch (final IOException e) {
