@@ -13,6 +13,8 @@ plugins {
      */
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.danilopianini.gradle-java-qa") version "1.96.0"
+
+    id("io.gitlab.plunts.plantuml") version "2.3.0"
 }
 
 java {
@@ -57,5 +59,13 @@ tasks.withType<Pmd> {
 tasks.javadoc {
     exclude("model/api/others/**")
     exclude("model/impl/others/**")
+}
+
+classDiagrams {
+  diagram {
+    name("Visualise Package")
+    include(packages().withName("model.api.round"))
+    writeTo(file("build/plantUML/model_api.puml"))
+  }
 }
 

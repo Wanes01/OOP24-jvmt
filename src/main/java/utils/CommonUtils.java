@@ -75,4 +75,20 @@ public final class CommonUtils {
         }
         return players;
     }
+
+    /**
+     * Returns {@code true} with a probability of 1 out of {@code chances}.
+     * 
+     * @param chances the denominator to compute the probability for this function
+     *                to return true ({@code 1/chances}}).
+     * @return true with probability {@code 1/chances}, false otherwise.
+     * @throws IllegalArgumentException if {@code chances} is less or equal to 0.
+     */
+    public static boolean chanceOneIn(int chances) {
+        final Random r = new Random();
+        if (chances <= 0) {
+            throw new IllegalArgumentException("The changes must be > 0");
+        }
+        return r.nextInt(chances) == 0;
+    }
 }

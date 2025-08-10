@@ -25,7 +25,11 @@ public class PlayerInRoundImpl implements PlayerInRound {
         b.append(this.name);
         b.append(" | left: ");
         b.append(this.left);
-        b.append("]");
+        b.append(" | sack: ");
+        b.append(this.sack);
+        b.append(" | chest: ");
+        b.append(this.chest);
+        b.append("]\n");
         return b.toString();
     }
 

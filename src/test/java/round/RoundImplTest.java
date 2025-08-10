@@ -34,6 +34,11 @@ import utils.CommonUtils;
 /**
  * Tests for {@link RoundImpl} ({@link Round}
  * implementation).
+ * <p>
+ * This class tests a single round.
+ * See {@link FullGameTest} for a full game simulation
+ * (tests on multiple rounds).
+ * </p>
  * 
  * @author Emir Wanes Aouioua
  */
