@@ -27,8 +27,8 @@ public final class TreasureCard extends CardWithGem {
     private static final int HASHCODE_BASE = 23;
 
     static {
-        Map<Integer, String> tempMap = new HashMap<>();
-        for(final int gemValue : POSSIBLE_GEM_VALUES) {
+        final Map<Integer, String> tempMap = new HashMap<>();
+        for (final int gemValue : POSSIBLE_GEM_VALUES) {
             tempMap.put(gemValue, 
                 TREASURE_PATH_IMAGE + Integer.toString(gemValue) + "_Gem.png");
         }
@@ -66,7 +66,7 @@ public final class TreasureCard extends CardWithGem {
      * 
      * @return the path of the image of the card
      */
-    private static String validateGemValueAndGetPath(int gemValue) {
+    private static String validateGemValueAndGetPath(final int gemValue) {
         if (!POSSIBLE_GEM_VALUES.contains(gemValue)) {
             throw new IllegalArgumentException("Invalid gem value for treasure card: " + gemValue);
         }
