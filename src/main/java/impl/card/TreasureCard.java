@@ -1,6 +1,8 @@
 package impl.card;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import api.card.CardWithGem;
 import api.card.TypeCard;
@@ -17,20 +19,23 @@ public final class TreasureCard extends CardWithGem {
     // represents the folder containing images of the various treasures
     private static final String TREASURE_PATH_IMAGE = "treasure/";
     // map that associates each type of treasures with the corresponding image
-    private static final Map<Integer, String> PATH_IMAGE = Map.ofEntries(
-        Map.entry(1, TREASURE_PATH_IMAGE + "1_Gem.png"),
-        Map.entry(2, TREASURE_PATH_IMAGE + "2_Gem.png"),
-        Map.entry(3, TREASURE_PATH_IMAGE + "3_Gem.png"),
-        Map.entry(4, TREASURE_PATH_IMAGE + "4_Gem.png"),
-        Map.entry(5, TREASURE_PATH_IMAGE + "5_Gem.png"),
-        Map.entry(7, TREASURE_PATH_IMAGE + "7_Gem.png"),
-        Map.entry(9, TREASURE_PATH_IMAGE + "9_Gem.png"),
-        Map.entry(11, TREASURE_PATH_IMAGE + "11_Gem.png"),
-        Map.entry(13, TREASURE_PATH_IMAGE + "13_Gem.png"),
-        Map.entry(14, TREASURE_PATH_IMAGE + "14_Gem.png"),
-        Map.entry(15, TREASURE_PATH_IMAGE + "15_Gem.png"),
-        Map.entry(17, TREASURE_PATH_IMAGE + "17_Gem.png")
-    );
+    private static final Map<Integer, String> PATH_IMAGE;
+    // a set containing all possible gem values for the treasure card.
+    private static final Set<Integer> POSSIBLE_GEM_VALUES =
+        Set.of(1, 2, 3, 4, 5, 7, 9, 11, 13, 14, 15, 17);
+
+    private static final int HASHCODE_BASE = 23;
+
+    static {
+        Map<Integer, String> tempMap = new HashMap<>();
+        for(final int gemValue : POSSIBLE_GEM_VALUES) {
+            tempMap.put(gemValue, 
+                TREASURE_PATH_IMAGE + Integer.toString(gemValue) + "_Gem.png");
+        }
+        // makes the list immutable by blocking both the modification of the reference 
+        // and the possibility of adding elements
+        PATH_IMAGE = Map.copyOf(tempMap);
+    }
 
     /*
     public TreasureCard(final String name, final TypeCard type, final String imagePath, final int gemValue) {
@@ -46,8 +51,59 @@ public final class TreasureCard extends CardWithGem {
      * @param gemValue the gem value of the card
      */
     public TreasureCard(final String name, final int gemValue) {
-        super(name, TypeCard.TREASURE, PATH_IMAGE.get(gemValue));
+        super(name, TypeCard.TREASURE, validateGemValueAndGetPath(gemValue));
         setGemValue(gemValue);
+    }
+
+    /**
+     * Checks that the number of gems to be associated with the card is present in the set and, if so,
+     * returns the path for the image relating to the card; otherwise, it throws an exception.
+     * 
+     * @param gemValue the value of the gems to be associated with the card
+     * 
+     * @throws IllegalArgumentException if the value of the gems is not present 
+     * in the set of acceptable gem values.
+     * 
+     * @return the path of the image of the card
+     */
+    private static String validateGemValueAndGetPath(int gemValue) {
+        if (!POSSIBLE_GEM_VALUES.contains(gemValue)) {
+            throw new IllegalArgumentException("Invalid gem value for treasure card: " + gemValue);
+        }
+        return PATH_IMAGE.get(gemValue);
+    }
+
+    /**
+     * Compare this item with the specified item to verify that they are the same.
+     * Two TreasureCards are considered the same if they have the same gem value and type.
+     * 
+     * @param obj the object to compare with this one
+     * 
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final TreasureCard other = (TreasureCard) obj;
+        return getGemValue() == other.getGemValue() 
+            && getType() == other.getType();
+    }
+
+    /**
+     * @return the hash code for the treasure card uses getGemValue() and getType().
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int result = HASHCODE_BASE;
+        result = prime * result + getGemValue();
+        result = prime * result + (getType() == null ? 0 : getType().hashCode());
+        return result;
     }
 
     /**

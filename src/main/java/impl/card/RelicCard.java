@@ -18,6 +18,11 @@ public final class RelicCard extends CardWithGem {
     private static final List<Integer> POSSIBLE_RELIC_GEM = List.of(5, 7, 8, 10, 12);
     // Is the path for the image of the relic cards.
     private static final String IMAGE_RELIC_PATH = "relic/Relic.png";
+
+    private static final Random RND = new Random();
+
+    private static final int HASHCODE_BASE = 17;
+
     /* This variable indicates the state of the card.
      * if redeemed == true, it signifies that the card has already been redeemed by one player.
      * if redeemed == false, it signifies that no player has redeemed it yet.*/
@@ -48,19 +53,8 @@ public final class RelicCard extends CardWithGem {
      * @see Random
      */
     private int generateGemValue() {
-        final Random rnd = new Random();
-        final int indexEl = rnd.nextInt(POSSIBLE_RELIC_GEM.size());
+        final int indexEl = RND.nextInt(POSSIBLE_RELIC_GEM.size());
         return POSSIBLE_RELIC_GEM.get(indexEl);
-    }
-
-    /**
-     * 
-     * @return Returns a string representation of the relic card including:
-     * the name, type, gem value of the card and the path to the card image.
-     */
-    @Override
-    public String toString() {
-        return "Relic " + super.toString();
     }
 
     /**
@@ -76,6 +70,47 @@ public final class RelicCard extends CardWithGem {
      */
     public void redeemCard() {
         this.redeemed = true;
+    }
+
+    /**
+     * Compare this item with the specified item to verify that they are the same.
+     * Two RelicCards are considered the same if they have the same gem value and type.
+     * 
+     * @param obj the object to compare with this one
+     * 
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final TreasureCard other = (TreasureCard) obj;
+        return getType() == other.getType();
+    }
+
+    /**
+     * @return the hash code for the treasure card uses getType().
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 19;
+        int result = HASHCODE_BASE;
+        result = prime * result + (getType() == null ? 0 : getType().hashCode());
+        return result;
+    }
+
+    /**
+     * 
+     * @return Returns a string representation of the relic card including:
+     * the name, type, gem value of the card and the path to the card image.
+     */
+    @Override
+    public String toString() {
+        return "Relic " + super.toString();
     }
 
 }

@@ -26,6 +26,9 @@ public final class TrapCard extends Card {
         TypeTrapCard.BATTERING_RAM, TRAP_PATH_IMAGE + "Battering_Ram.png",
         TypeTrapCard.BOULDER, TRAP_PATH_IMAGE + "Boulder.png"
     );
+
+    private static final int HASHCODE_BASE = 29;
+
     private final TypeTrapCard typeTrap;
 
     /*
@@ -52,6 +55,39 @@ public final class TrapCard extends Card {
      */
     public TypeTrapCard getTypeTrap() {
         return this.typeTrap;
+    }
+
+    /**
+     * Compare this item with the specified item to verify that they are the same.
+     * Two TrapeCards are considered the same if they have the type value and type trap card.
+     * 
+     * @param obj the object to compare with this one
+     * 
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final TrapCard other = (TrapCard) obj;
+        return getType() == other.getType() 
+            && getTypeTrap() == other.getTypeTrap();
+    }
+
+    /**
+    * @return the hash code for the trap card uses getType() and getTypeTrap().
+    */
+    @Override
+    public int hashCode() {
+        final int prime = 37;
+        int result = HASHCODE_BASE;
+        result = prime * result + (getType() == null ? 0 : getType().hashCode());
+        result = prime * result + (getTypeTrap() == null ? 0 : getTypeTrap().hashCode());
+        return result;
     }
 
     /**
