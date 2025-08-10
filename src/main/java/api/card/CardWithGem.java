@@ -33,9 +33,16 @@ public class CardWithGem extends Card {
      * Set the value of the gem on the card.
      * 
      * @param val the gem value assigned to the card
+     * 
+     * @throws if a change to the value of the gems is requested
+     * after it has already been set previously
      */
     protected final void setGemValue(final int val) {
-        this.gemValue = val;
+        if(this.gemValue == 0) {
+            this.gemValue = val;
+        } else {
+            throw new IllegalStateException("Cannot modify gemValue once it has been set.");
+        }
     }
 
     /**
