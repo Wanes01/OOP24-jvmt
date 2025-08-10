@@ -2,7 +2,6 @@ package round;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -16,13 +15,13 @@ import model.round.api.roundeffect.gemmodifier.GemModifierFactory;
 import model.others.api.Card;
 import model.others.api.CardWithGems;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 import model.others.impl.DeckImpl;
-import model.others.impl.PlayerInRoundImpl;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
 import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
+import utils.CommonUtils;
 
 /**
  * Tests for {@link GemModifierFactoryImpl} ({@link GemModifierFactory}
@@ -38,11 +37,9 @@ class GemModifierFactoryImplTest {
 
     @BeforeEach
     void setUp() {
+        final int numberOfPlayers = 3;
         final Deck deck = new DeckImpl();
-        final List<PlayerInRound> players = new ArrayList<>();
-        List.of("P1", "P2", "P3").stream()
-                .map(pn -> new PlayerInRoundImpl(pn))
-                .forEach(players::add);
+        final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
 
@@ -123,7 +120,7 @@ class GemModifierFactoryImplTest {
             // makes all players leave the round
             while (pm.hasNext()) {
                 final PlayerInRound player = pm.next();
-                player.leave();
+                player.exit();
             }
 
             this.forEachGemCardCheckExpected(

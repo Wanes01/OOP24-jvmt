@@ -4,8 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 // imports for javadoc
 import java.util.NoSuchElementException;
-
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 
 /**
  * Manages the players partecipating in a round, keeping track of their state

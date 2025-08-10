@@ -1,6 +1,6 @@
 package round;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 import model.others.impl.DeckImpl;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
@@ -56,7 +57,7 @@ class FullGameTest {
 
         for (final PlayerInRound player : this.players) {
             if (player.getSackGems() > 0) {
-                assertFalse(player.hasLeft());
+                assertEquals(PlayerChoice.STAY, player.getChoice());
             }
         }
     }
@@ -66,7 +67,7 @@ class FullGameTest {
         final List<PlayerInRound> actives = pm.getActivePlayers();
         for (final PlayerInRound player : actives) {
             if (CommonUtils.chanceOneIn(EXIT_CHANCES)) {
-                player.leave();
+                player.exit();
                 leaving.add(player);
             }
         }

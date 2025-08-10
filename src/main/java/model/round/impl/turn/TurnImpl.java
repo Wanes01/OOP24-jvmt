@@ -10,7 +10,8 @@ import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
 import model.others.api.Card;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 import model.others.api.RelicCard;
 import model.others.api.TreasureCard;
 import model.round.api.RoundPlayersManager;
@@ -194,7 +195,7 @@ public class TurnImpl implements Turn {
      */
     private boolean isAnyActive(final Set<PlayerInRound> players) {
         for (final PlayerInRound player : players) {
-            if (!player.hasLeft()) {
+            if (player.getChoice() == PlayerChoice.STAY) {
                 return true;
             }
         }

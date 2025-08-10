@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import model.others.api.PlayerInRound;
-import model.others.impl.PlayerInRoundImpl;
+import model.player.impl.PlayerInRound;
+import model.player.impl.RealPlayer;
 
 /**
  * Utility class containing common helper methods for
@@ -71,7 +71,7 @@ public final class CommonUtils {
     public static List<PlayerInRound> generatePlayerInRoundList(final int count) {
         final List<PlayerInRound> players = new ArrayList<>();
         for (int p = 0; players.size() < count; p++) {
-            players.add(new PlayerInRoundImpl("P-" + p));
+            players.add(new RealPlayer("P-" + p));
         }
         return players;
     }

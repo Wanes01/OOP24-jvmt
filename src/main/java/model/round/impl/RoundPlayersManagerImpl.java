@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import model.others.api.PlayerInRound;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 import model.round.api.RoundPlayersManager;
 
 /**
@@ -59,7 +60,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
             this.current = (this.current + 1) % players.size();
             checked++;
 
-            if (!candidate.hasLeft()) {
+            if (candidate.getChoice() == PlayerChoice.STAY) {
                 return candidate;
             }
         }
@@ -73,7 +74,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
     @Override
     public List<PlayerInRound> getActivePlayers() {
         return this.players.stream()
-                .filter(p -> !p.hasLeft())
+                .filter(p -> p.getChoice() == PlayerChoice.STAY)
                 .toList();
     }
 

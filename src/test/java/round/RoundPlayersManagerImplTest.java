@@ -5,17 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.others.api.PlayerInRound;
-import model.others.impl.PlayerInRoundImpl;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 import model.round.api.RoundPlayersManager;
 import model.round.impl.RoundPlayersManagerImpl;
+import utils.CommonUtils;
 
 /**
  * Tests for {@link RoundPlayersManagerImpl} ({@link RoundPlayersManager}
@@ -30,16 +30,15 @@ class RoundPlayersManagerImplTest {
 
     @BeforeEach
     void setUp() {
-        this.players = new ArrayList<>();
-        List.of("Emir", "Andrea", "Filippo", "Rebecca", "Luca", "Flavio")
-                .forEach(p -> players.add(new PlayerInRoundImpl(p)));
+        final int numberOfPlayers = 6;
+        this.players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
 
         manager = new RoundPlayersManagerImpl(players);
     }
 
     @Test
     void testInitializedWithExitedPlayer() {
-        this.players.getFirst().leave();
+        this.players.getFirst().exit();
         assertThrows(IllegalArgumentException.class, () -> new RoundPlayersManagerImpl(players));
     }
 
@@ -60,7 +59,7 @@ class RoundPlayersManagerImplTest {
         makeEvenPlayersLeave();
 
         final List<PlayerInRound> oddPlayers = this.players.stream()
-                .filter(p -> !p.hasLeft())
+                .filter(p -> p.getChoice() == PlayerChoice.STAY)
                 .toList();
 
         assertEquals(oddPlayers, manager.getActivePlayers());
@@ -71,7 +70,7 @@ class RoundPlayersManagerImplTest {
      */
     private void makeEvenPlayersLeave() {
         for (int p = 0; p < this.players.size(); p += 2) {
-            this.players.get(p).leave();
+            this.players.get(p).exit();
         }
     }
 
@@ -80,7 +79,7 @@ class RoundPlayersManagerImplTest {
         makeEvenPlayersLeave();
 
         final List<PlayerInRound> evenPlayers = this.players.stream()
-                .filter(PlayerInRound::hasLeft)
+                .filter(p -> p.getChoice() == PlayerChoice.EXIT)
                 .toList();
 
         assertEquals(evenPlayers, manager.getExitedPlayers());
@@ -102,7 +101,7 @@ class RoundPlayersManagerImplTest {
     void testNoMorePlayersException() {
         while (manager.hasNext()) {
             final PlayerInRound player = manager.next();
-            player.leave();
+            player.exit();
         }
 
         assertFalse(manager.hasNext());

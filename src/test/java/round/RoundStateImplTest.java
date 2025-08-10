@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 
 import model.others.api.Card;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 import model.others.api.RelicCard;
 import model.others.api.TrapCard;
 import model.others.api.TreasureCard;
 import model.others.impl.DeckImpl;
-import model.others.impl.PlayerInRoundImpl;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
+import utils.CommonUtils;
 
 /**
  * Tests for {@link RoundStateImpl} ({@link RoundState} implementation).
@@ -33,11 +33,9 @@ class RoundStateImplTest {
 
     @BeforeEach
     void setUp() {
+        final int numberOfPlayers = 6;
         final Deck deck = new DeckImpl();
-        final List<PlayerInRound> players = new ArrayList<>();
-
-        List.of("Emir", "Andrea", "Filippo", "Rebecca", "Luca", "Flavio")
-                .forEach(p -> players.add(new PlayerInRoundImpl(p)));
+        final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
 

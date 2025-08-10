@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import model.others.api.Card;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 import model.others.api.RelicCard;
 import model.others.api.TrapCard;
 import model.others.api.TreasureCard;

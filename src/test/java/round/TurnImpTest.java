@@ -20,11 +20,11 @@ import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
 import model.others.api.Card;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
+import model.player.impl.RealPlayer;
 import model.others.api.RelicCard;
 import model.others.api.TreasureCard;
 import model.others.impl.DeckImpl;
-import model.others.impl.PlayerInRoundImpl;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
@@ -48,7 +48,7 @@ import utils.CommonUtils;
 class TurnImpTest {
 
     private static final int PLAYER_COUNT = 5;
-    private final PlayerInRound turnPlayer = new PlayerInRoundImpl("TURN_PLAYER");
+    private final PlayerInRound turnPlayer = new RealPlayer("TURN_PLAYER");
     private RoundEffect effect;
     private RoundState state;
     private Turn turn;
@@ -150,7 +150,7 @@ class TurnImpTest {
     private void makePlayersExit(final int count) {
         final RoundPlayersManager pm = state.getRoundPlayersManager();
         for (int i = 0; i < count && pm.hasNext(); i++) {
-            pm.next().leave();
+            pm.next().exit();
         }
     }
 
@@ -233,7 +233,7 @@ class TurnImpTest {
         relic.setAsTaken();
         assertTrue(relic.isAlreadyTaken());
 
-        this.turnPlayer.leave();
+        this.turnPlayer.exit();
         this.turn.endTurn(Set.of(this.turnPlayer));
 
         assertEquals(0, this.turnPlayer.getSackGems());

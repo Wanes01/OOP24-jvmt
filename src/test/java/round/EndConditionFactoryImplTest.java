@@ -3,7 +3,6 @@ package round;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +14,14 @@ import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.endcondition.EndConditionFactory;
 import model.others.api.Card;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 import model.others.api.TrapCard;
 import model.others.impl.DeckImpl;
-import model.others.impl.PlayerInRoundImpl;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
 import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
+import utils.CommonUtils;
 
 /**
  * Tests for {@link EndConditionFactoryImpl} ({@link EndConditionFactory}
@@ -37,11 +36,9 @@ class EndConditionFactoryImplTest {
 
     @BeforeEach
     void setUp() {
+        final int numberOfPlayers = 3;
         final Deck deck = new DeckImpl();
-        final List<PlayerInRound> players = new ArrayList<>();
-        List.of("P1", "P2", "P3").stream()
-                .map(pn -> new PlayerInRoundImpl(pn))
-                .forEach(players::add);
+        final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
 
@@ -80,7 +77,7 @@ class EndConditionFactoryImplTest {
 
         while (pm.hasNext()) {
             final PlayerInRound player = pm.next();
-            player.leave();
+            player.exit();
             if (pm.hasNext()) {
                 assertFalse(condition.getEndCondition().test(this.state));
             }

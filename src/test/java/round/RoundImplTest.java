@@ -20,7 +20,8 @@ import org.junit.jupiter.api.Test;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
 import model.others.api.Deck;
-import model.others.api.PlayerInRound;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 import model.others.impl.DeckImpl;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
@@ -68,13 +69,13 @@ class RoundImplTest {
         final int gems = 10;
         this.players.forEach(p -> {
             p.addSackGems(gems);
-            p.leave();
+            p.exit();
         });
         // creates a new RoundImpl. All players should be reset.
         this.setUp();
         this.players.forEach(p -> {
             assertEquals(0, p.getSackGems());
-            assertFalse(p.hasLeft());
+            assertEquals(PlayerChoice.STAY, p.getChoice());
         });
     }
 
@@ -103,7 +104,7 @@ class RoundImplTest {
     private void playTurnAndMakePlayerExit(final Turn turn) {
         final PlayerInRound turnPlayer = turn.getCurrentPlayer();
         turn.executeDrawPhase();
-        turnPlayer.leave();
+        turnPlayer.exit();
         turn.endTurn(Set.of(turnPlayer));
     }
 
@@ -112,9 +113,9 @@ class RoundImplTest {
         // consumes all the turns of this round.
         this.round.forEach(turn -> {
             final PlayerInRound player = turn.getCurrentPlayer();
-            assertFalse(player.hasLeft());
-            player.leave();
-            assertTrue(player.hasLeft());
+            assertEquals(PlayerChoice.STAY, player.getChoice());
+            player.exit();
+            assertEquals(PlayerChoice.EXIT, player.getChoice());
         });
 
         // a second iteration over the same round is not allowed.

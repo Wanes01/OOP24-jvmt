@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import model.others.api.Card;
-import model.others.api.PlayerInRound;
+import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 
 /**
