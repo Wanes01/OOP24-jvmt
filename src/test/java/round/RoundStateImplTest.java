@@ -11,17 +11,16 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.api.others.Deck;
-import model.api.others.PlayerInRound;
-import model.api.others.RelicCard;
-import model.api.others.TrapCard;
-import model.api.others.TreasureCard;
-import model.api.others.Card;
-import model.api.round.RoundState;
-
-import model.impl.others.DeckImpl;
-import model.impl.others.PlayerInRoundImpl;
-import model.impl.round.RoundStateImpl;
+import model.others.api.Card;
+import model.others.api.Deck;
+import model.others.api.PlayerInRound;
+import model.others.api.RelicCard;
+import model.others.api.TrapCard;
+import model.others.api.TreasureCard;
+import model.others.impl.DeckImpl;
+import model.others.impl.PlayerInRoundImpl;
+import model.round.api.RoundState;
+import model.round.impl.RoundStateImpl;
 
 /**
  * Tests for {@link RoundStateImpl} ({@link RoundState} implementation).

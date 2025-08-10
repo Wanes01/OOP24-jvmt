@@ -11,18 +11,18 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.api.others.Card;
-import model.api.others.TrapCard;
-import model.api.others.Deck;
-import model.api.others.PlayerInRound;
-import model.api.round.RoundPlayersManager;
-import model.api.round.RoundState;
-import model.api.round.roundeffect.endcondition.EndCondition;
-import model.api.round.roundeffect.endcondition.EndConditionFactory;
-import model.impl.others.DeckImpl;
-import model.impl.others.PlayerInRoundImpl;
-import model.impl.round.RoundStateImpl;
-import model.impl.round.roundeffect.endcondition.EndConditionFactoryImpl;
+import model.round.api.roundeffect.endcondition.EndCondition;
+import model.round.api.roundeffect.endcondition.EndConditionFactory;
+import model.others.api.Card;
+import model.others.api.Deck;
+import model.others.api.PlayerInRound;
+import model.others.api.TrapCard;
+import model.others.impl.DeckImpl;
+import model.others.impl.PlayerInRoundImpl;
+import model.round.api.RoundPlayersManager;
+import model.round.api.RoundState;
+import model.round.impl.RoundStateImpl;
+import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
 
 /**
  * Tests for {@link EndConditionFactoryImpl} ({@link EndConditionFactory}

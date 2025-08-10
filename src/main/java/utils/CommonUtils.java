@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import model.api.others.PlayerInRound;
-import model.impl.others.PlayerInRoundImpl;
+import model.others.api.PlayerInRound;
+import model.others.impl.PlayerInRoundImpl;
 
 /**
  * Utility class containing common helper methods for
@@ -84,7 +84,7 @@ public final class CommonUtils {
      * @return true with probability {@code 1/chances}, false otherwise.
      * @throws IllegalArgumentException if {@code chances} is less or equal to 0.
      */
-    public static boolean chanceOneIn(int chances) {
+    public static boolean chanceOneIn(final int chances) {
         final Random r = new Random();
         if (chances <= 0) {
             throw new IllegalArgumentException("The changes must be > 0");

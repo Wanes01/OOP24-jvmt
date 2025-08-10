@@ -11,18 +11,18 @@ import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.api.others.Card;
-import model.api.others.CardWithGems;
-import model.api.others.Deck;
-import model.api.others.PlayerInRound;
-import model.api.round.RoundPlayersManager;
-import model.api.round.RoundState;
-import model.api.round.roundeffect.gemmodifier.GemModifier;
-import model.api.round.roundeffect.gemmodifier.GemModifierFactory;
-import model.impl.others.DeckImpl;
-import model.impl.others.PlayerInRoundImpl;
-import model.impl.round.RoundStateImpl;
-import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
+import model.round.api.roundeffect.gemmodifier.GemModifier;
+import model.round.api.roundeffect.gemmodifier.GemModifierFactory;
+import model.others.api.Card;
+import model.others.api.CardWithGems;
+import model.others.api.Deck;
+import model.others.api.PlayerInRound;
+import model.others.impl.DeckImpl;
+import model.others.impl.PlayerInRoundImpl;
+import model.round.api.RoundPlayersManager;
+import model.round.api.RoundState;
+import model.round.impl.RoundStateImpl;
+import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
 
 /**
  * Tests for {@link GemModifierFactoryImpl} ({@link GemModifierFactory}

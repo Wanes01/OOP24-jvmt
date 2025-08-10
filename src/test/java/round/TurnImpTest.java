@@ -16,23 +16,22 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.api.others.PlayerInRound;
-import model.api.others.RelicCard;
-import model.api.others.TreasureCard;
-import model.api.round.RoundPlayersManager;
-import model.api.round.RoundState;
-import model.api.round.roundeffect.RoundEffect;
-import model.api.round.turn.Turn;
-import model.api.others.Card;
-import model.api.others.Deck;
-
-import model.impl.others.DeckImpl;
-import model.impl.others.PlayerInRoundImpl;
-import model.impl.round.RoundStateImpl;
-import model.impl.round.roundeffect.RoundEffectImpl;
-import model.impl.round.roundeffect.endcondition.EndConditionFactoryImpl;
-import model.impl.round.roundeffect.gemmodifier.GemModifierFactoryImpl;
-import model.impl.round.turn.TurnImpl;
+import model.round.api.roundeffect.RoundEffect;
+import model.round.api.turn.Turn;
+import model.others.api.Card;
+import model.others.api.Deck;
+import model.others.api.PlayerInRound;
+import model.others.api.RelicCard;
+import model.others.api.TreasureCard;
+import model.others.impl.DeckImpl;
+import model.others.impl.PlayerInRoundImpl;
+import model.round.api.RoundPlayersManager;
+import model.round.api.RoundState;
+import model.round.impl.RoundStateImpl;
+import model.round.impl.roundeffect.RoundEffectImpl;
+import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
+import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
+import model.round.impl.turn.TurnImpl;
 import utils.CommonUtils;
 
 /**
