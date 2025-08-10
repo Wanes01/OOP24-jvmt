@@ -1,6 +1,4 @@
-package impl.player;
-
-import api.player.PlayerInRound;
+package model.player.impl;
 
 /**
  * Represents a real player during a round.

@@ -1,7 +1,7 @@
-package api.player;
+package model.player.impl;
 
-import impl.player.PlayerCpu;
-import impl.player.RealPlayer;
+import model.player.api.Player;
+import model.player.api.PlayerChoice;
 
 /**
  * Represents a generic player during a round.

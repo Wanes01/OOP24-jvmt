@@ -2,12 +2,15 @@ package player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import api.player.PlayerChoice;
-import impl.player.PlayerCpu;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerCpu;
+
+
 
 class PlayerCpuTest {
 
@@ -122,7 +125,7 @@ class PlayerCpuTest {
     @Test
     void impossibleExitTest() {
         test.choose(PlayerChoice.EXIT);
-        assertThrows(IllegalStateException.class, () -> test.exit());
+        assertThrows(IllegalStateException.class, test::exit);
     }
 
     // -- Testing methods for reset --
@@ -178,8 +181,7 @@ class PlayerCpuTest {
 
     @Test
     void equalsNullTest() {
-        final PlayerCpu other = null;
-        assertNotEquals(test, other);
+        assertNotNull(test);
     }
 
     @Test

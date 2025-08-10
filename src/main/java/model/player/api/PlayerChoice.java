@@ -1,4 +1,4 @@
-package api.player;
+package model.player.api;
 
 /**
  * Enum containing the player's choices they

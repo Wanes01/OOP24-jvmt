@@ -1,4 +1,4 @@
-package api.player;
+package model.player.api;
 
 /**
  * Rapresents a generic player.
