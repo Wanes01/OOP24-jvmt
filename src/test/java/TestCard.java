@@ -158,6 +158,7 @@ public class TestCard {
     
     }
 
+    @Test
     void equalsTreasureCard() {
         Card treasureCard = new TreasureCard("treasure 1", 1);
         Card treasureCard2 = new TreasureCard("treasure 1", 1);
@@ -166,6 +167,7 @@ public class TestCard {
         assertFalse(treasureCard.equals(treasureCard3));
     }
 
+    @Test
     void equalsTrapCard() {
         Card trapCard = new TrapCard("trap 1", TypeTrapCard.SNAKE);
         Card trapCard2 = new TrapCard("trap 1", TypeTrapCard.SNAKE);
@@ -174,6 +176,7 @@ public class TestCard {
         assertFalse(trapCard.equals(trapCard3));
     }
 
+    @Test
     void equalsRelicCard() {
         Card relicCard = new RelicCard("relic 1");
         Card relicCard2 = new RelicCard("relic 1");
@@ -183,6 +186,7 @@ public class TestCard {
 
     }
 
+    @Test
     void DrawnWithEmptyDeck() {
         while(deck.hasNext()) {
             deck.next();

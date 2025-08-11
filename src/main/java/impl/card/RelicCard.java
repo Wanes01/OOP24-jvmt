@@ -88,7 +88,7 @@ public final class RelicCard extends CardWithGem {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final TreasureCard other = (TreasureCard) obj;
+        final RelicCard other = (RelicCard) obj;
         return getType() == other.getType();
     }
 
