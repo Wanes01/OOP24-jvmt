@@ -57,4 +57,9 @@ public interface Deck extends Iterator<Card> {
      */
     int totTrapCardTypesInDeck();
 
+    /**
+     * @return the number of special card initially present in the deck.
+     */
+    int totSpecialCardInDeck();
+
 }
