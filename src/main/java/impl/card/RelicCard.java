@@ -28,13 +28,6 @@ public final class RelicCard extends CardWithGem {
      * if redeemed == false, it signifies that no player has redeemed it yet.*/
     private boolean redeemed;
 
-    /*
-    public RelicCard(final String name, final TypeCard type, final String imagePath) {
-        super(name, type, imagePath);
-        setGemValue(generateGemValue());
-    }
-    */
-
     /**
      * Creates a new relic card with a random gem value from a predefined list.
      * 
@@ -43,18 +36,12 @@ public final class RelicCard extends CardWithGem {
      * @see TypeCard
      */
     public RelicCard(final String name) {
-        super(name, TypeCard.RELIC, IMAGE_RELIC_PATH);
-        setGemValue(generateGemValue());
-    }
-
-    /**
-     * @return a random gem value from the predefined list.
-     * 
-     * @see Random
-     */
-    private int generateGemValue() {
-        final int indexEl = RND.nextInt(POSSIBLE_RELIC_GEM.size());
-        return POSSIBLE_RELIC_GEM.get(indexEl);
+        // The vaue of gems gets randomly chosen from the values inside the list
+        super(
+            name,
+            TypeCard.RELIC,
+            IMAGE_RELIC_PATH, 
+            POSSIBLE_RELIC_GEM.get(RND.nextInt(POSSIBLE_RELIC_GEM.size())));
     }
 
     /**
@@ -110,7 +97,7 @@ public final class RelicCard extends CardWithGem {
      */
     @Override
     public String toString() {
-        return "Relic " + super.toString();
+        return this.getName() + super.toString();
     }
 
 }

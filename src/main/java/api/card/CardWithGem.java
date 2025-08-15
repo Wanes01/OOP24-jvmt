@@ -14,7 +14,7 @@ public class CardWithGem extends Card {
     /**
      * The number of gems associated with this card.
     */
-    private int gemValue;
+    private final int gemValue;
 
     /**
      * Builds a new card using the name, type, and path of the image.
@@ -24,25 +24,11 @@ public class CardWithGem extends Card {
      * @param name the name of the card
      * @param type the type of the card
      * @param imagePath the path used to associate the card with the image
+     * @param gemValue the gem values of the card
      */
-    protected CardWithGem(final String name, final TypeCard type, final String imagePath) {
+    protected CardWithGem(final String name, final TypeCard type, final String imagePath, final int gemValue) {
         super(name, type, imagePath);
-    }
-
-    /**
-     * Set the value of the gem on the card.
-     * 
-     * @param val the gem value assigned to the card
-     * 
-     * @throws IllegalStateException if a change to the value of the gems is requested
-     * after it has already been set previously
-     */
-    protected final void setGemValue(final int val) {
-        if (this.gemValue == 0) {
-            this.gemValue = val;
-        } else {
-            throw new IllegalStateException("Cannot modify gemValue once it has been set.");
-        }
+        this.gemValue = gemValue;
     }
 
     /**

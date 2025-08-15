@@ -37,12 +37,6 @@ public final class TreasureCard extends CardWithGem {
         PATH_IMAGE = Map.copyOf(tempMap);
     }
 
-    /*
-    public TreasureCard(final String name, final TypeCard type, final String imagePath, final int gemValue) {
-        super(name, type, imagePath);
-        setGemValue(gemValue);
-    }*/
-
     /**
      * Creates a new Treasure card.
      * The image path is automatically derived from the number of gems.
@@ -51,8 +45,7 @@ public final class TreasureCard extends CardWithGem {
      * @param gemValue the gem value of the card
      */
     public TreasureCard(final String name, final int gemValue) {
-        super(name, TypeCard.TREASURE, validateGemValueAndGetPath(gemValue));
-        setGemValue(gemValue);
+        super(name, TypeCard.TREASURE, validateGemValueAndGetPath(gemValue), gemValue);
     }
 
     /**
@@ -112,6 +105,6 @@ public final class TreasureCard extends CardWithGem {
      */
     @Override
     public String toString() {
-        return "Treasure " + super.toString();
+        return this.getName() + super.toString();
     }
 }

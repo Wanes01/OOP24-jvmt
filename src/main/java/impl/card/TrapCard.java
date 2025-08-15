@@ -31,13 +31,6 @@ public final class TrapCard extends Card {
 
     private final TypeTrapCard typeTrap;
 
-    /*
-    public TrapCard(final String name, final TypeCard type, final String imagePath, final TypeTrapCard typeTrap) {
-        super(name, type, imagePath);
-        this.typeTrap = typeTrap;
-    }
-    */
-
     /**
      * Creates a new Trap card.
      * The image path is automatically derived from the trap type.

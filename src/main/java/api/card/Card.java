@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Is the basis for all cards in the game.
  * It contains elements common to all cards.
@@ -35,7 +37,7 @@ public class Card {
         this.type = type;
         this.imagePath = "/imageCard/" + imagePath;
 
-        final URL imageUrl = getClass().getResource(this.imagePath);
+        final URL imageUrl = Card.class.getResource(this.imagePath);
         try {
             this.imageCard = ImageIO.read(imageUrl);
         } catch (final IOException e) {
@@ -70,6 +72,9 @@ public class Card {
     /**
      * @return the image of the card.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP",
+    justification = "The image is considered immutable and will not be modified" 
+        + " by callers, so it is safe to return it directly.")
     public BufferedImage getImageCard() {
         return this.imageCard;
     }
