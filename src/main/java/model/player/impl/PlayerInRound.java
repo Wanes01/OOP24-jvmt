@@ -59,16 +59,16 @@ public class PlayerInRound implements Player {
 
     /**
      * @return the player's informations
-     * in a text string.
+     *         in a text string.
      */
     @Override
     public String toString() {
         return "PlayerInRound{"
-            + "name ='" + getName()
-            + ", chestGems =" + getChestGems()
-            + ", sackGems =" + getSackGems()
-            + ", choice =" + getChoice()
-            + '}';
+                + "name ='" + getName()
+                + ", chestGems =" + getChestGems()
+                + ", sackGems =" + getSackGems()
+                + ", choice =" + getChoice()
+                + '}';
     }
 
     /**
@@ -89,14 +89,14 @@ public class PlayerInRound implements Player {
      * Adds a certain amount of gems to the player's sack.
      * 
      * @throws IllegalArgumentException if the amount of gems
-     * to add to the sack is negative.
+     *                                  to add to the sack is negative.
      * 
      * @param gems the number of gems to add to the player's sack.
      */
     public void addSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                "The amount of gems can't be negative.");
+                    "The amount of gems can't be negative.");
         }
         this.sackGems += gems;
     }
@@ -106,7 +106,7 @@ public class PlayerInRound implements Player {
      * The sack's amount of gems can't be negative.
      * 
      * @throws IllegalArgumentException if the amount of gems
-     * to substract from the sack is negative.
+     *                                  to substract from the sack is negative.
      * 
      * @param gems the number of gems to substract from the player's
      *             sack.
@@ -114,7 +114,7 @@ public class PlayerInRound implements Player {
     public void subSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                "The amount of gems can't be negative.");
+                    "The amount of gems can't be negative.");
         }
         if (this.sackGems < gems) {
             this.sackGems = 0;
@@ -144,7 +144,7 @@ public class PlayerInRound implements Player {
      * The chest's amount of gems can't be negative.
      * 
      * @throws IllegalArgumentException if the amount of gems
-     * to substract from the chest is negative.
+     *                                  to substract from the chest is negative.
      * 
      * @param gems the number of gems to substract from the player's
      *             chest.
@@ -152,7 +152,7 @@ public class PlayerInRound implements Player {
     public void subChestGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                "The amount of gems can't be negative.");
+                    "The amount of gems can't be negative.");
         }
         if (this.chestGems < gems) {
             this.chestGems = 0;
@@ -175,12 +175,12 @@ public class PlayerInRound implements Player {
      * Updates the player's choice as EXIT.
      * 
      * @throws IllegalStateException if the player's
-     * choice is already EXIT.
+     *                               choice is already EXIT.
      */
     public void exit() {
         if (this.choice == PlayerChoice.EXIT) {
             throw new IllegalStateException(
-                "The player is already out of the cave.");
+                    "The player is already out of the cave.");
         }
         this.choice = PlayerChoice.EXIT;
     }

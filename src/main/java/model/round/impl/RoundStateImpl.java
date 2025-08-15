@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import model.others.api.Card;
-import model.others.api.Deck;
+import model.card.api.Card;
+import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
-import model.others.api.RelicCard;
-import model.others.api.TrapCard;
-import model.others.api.TreasureCard;
+import model.card.impl.RelicCard;
+import model.card.impl.TrapCard;
+import model.card.impl.TreasureCard;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;

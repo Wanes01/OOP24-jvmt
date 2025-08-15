@@ -3,11 +3,11 @@ package model.round.api;
 import java.util.List;
 
 import model.round.api.roundeffect.RoundEffect;
-import model.others.api.Card;
-import model.others.api.Deck;
-import model.others.api.RelicCard;
-import model.others.api.TrapCard;
-import model.others.api.TreasureCard;
+import model.card.api.Card;
+import model.card.api.Deck;
+import model.card.impl.RelicCard;
+import model.card.impl.TrapCard;
+import model.card.impl.TreasureCard;
 
 /**
  * Rapresents the current state of a round in the game.

@@ -3,7 +3,7 @@ package model.round.api.turn;
 import java.util.Optional;
 import java.util.Set;
 
-import model.others.api.Card;
+import model.card.api.Card;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 

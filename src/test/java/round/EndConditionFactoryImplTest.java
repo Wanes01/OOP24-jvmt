@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.endcondition.EndConditionFactory;
-import model.others.api.Card;
-import model.others.api.Deck;
+import model.card.api.Card;
+import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
-import model.others.api.TrapCard;
-import model.others.impl.DeckImpl;
+import model.card.impl.TrapCard;
+import model.card.impl.DeckFactoryImpl;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
@@ -37,7 +37,7 @@ class EndConditionFactoryImplTest {
     @BeforeEach
     void setUp() {
         final int numberOfPlayers = 3;
-        final Deck deck = new DeckImpl();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
         final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
@@ -49,7 +49,7 @@ class EndConditionFactoryImplTest {
         final Map<TrapCard, Integer> occurrences = new HashMap<>();
 
         while (deck.hasNext()) {
-            final Card card = deck.drawCard();
+            final Card card = deck.next();
             this.state.addCardToPath(card);
             if (card instanceof TrapCard) {
                 final TrapCard trap = (TrapCard) card;
@@ -91,7 +91,7 @@ class EndConditionFactoryImplTest {
         final Deck deck = this.state.getDeck();
 
         while (deck.hasNext()) {
-            final Card card = deck.drawCard();
+            final Card card = deck.next();
             this.state.addCardToPath(card);
             if (card instanceof TrapCard) {
                 break;

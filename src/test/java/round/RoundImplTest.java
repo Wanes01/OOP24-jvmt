@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
-import model.others.api.Deck;
+import model.card.api.Deck;
+import model.card.impl.DeckFactoryImpl;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerInRound;
-import model.others.impl.DeckImpl;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
@@ -54,7 +54,7 @@ class RoundImplTest {
 
     @BeforeEach
     void setUp() {
-        final Deck deck = new DeckImpl();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
         this.round = new RoundImpl(this.players, deck, this.effect);
     }
 

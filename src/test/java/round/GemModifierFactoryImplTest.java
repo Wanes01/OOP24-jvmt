@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.round.api.roundeffect.gemmodifier.GemModifierFactory;
-import model.others.api.Card;
-import model.others.api.CardWithGems;
-import model.others.api.Deck;
+import model.card.api.Card;
+import model.card.api.CardWithGem;
+import model.card.api.Deck;
+import model.card.impl.DeckFactoryImpl;
 import model.player.impl.PlayerInRound;
-import model.others.impl.DeckImpl;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
@@ -38,7 +38,7 @@ class GemModifierFactoryImplTest {
     @BeforeEach
     void setUp() {
         final int numberOfPlayers = 3;
-        final Deck deck = new DeckImpl();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
         final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
@@ -64,11 +64,11 @@ class GemModifierFactoryImplTest {
             final GemModifier modifier) {
         final Deck deck = this.state.getDeck();
         while (deck.hasNext()) {
-            final Card card = deck.drawCard();
-            if (card instanceof CardWithGems) {
-                final CardWithGems gemCard = (CardWithGems) card;
-                final int expectedGems = expected.apply(gemCard.getGems());
-                final int actualGems = modifier.getGemModifier().apply(state, gemCard.getGems());
+            final Card card = deck.next();
+            if (card instanceof CardWithGem) {
+                final CardWithGem gemCard = (CardWithGem) card;
+                final int expectedGems = expected.apply(gemCard.getGemValue());
+                final int actualGems = modifier.getGemModifier().apply(state, gemCard.getGemValue());
                 assertEquals(expectedGems, actualGems);
             } else {
                 action.accept(card);

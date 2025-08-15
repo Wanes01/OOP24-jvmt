@@ -11,13 +11,13 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import model.others.api.Card;
-import model.others.api.Deck;
+import model.card.api.Card;
+import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
-import model.others.api.RelicCard;
-import model.others.api.TrapCard;
-import model.others.api.TreasureCard;
-import model.others.impl.DeckImpl;
+import model.card.impl.DeckFactoryImpl;
+import model.card.impl.RelicCard;
+import model.card.impl.TrapCard;
+import model.card.impl.TreasureCard;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
 import utils.CommonUtils;
@@ -34,7 +34,7 @@ class RoundStateImplTest {
     @BeforeEach
     void setUp() {
         final int numberOfPlayers = 6;
-        final Deck deck = new DeckImpl();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
         final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
@@ -68,7 +68,7 @@ class RoundStateImplTest {
         final Deck deck = this.state.getDeck();
 
         while (deck.hasNext()) {
-            final Card card = deck.drawCard();
+            final Card card = deck.next();
             if (cardChecker.test(card)) {
                 drawns.add(card);
             }

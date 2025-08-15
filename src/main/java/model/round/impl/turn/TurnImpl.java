@@ -8,14 +8,14 @@ import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
-import model.others.api.Card;
-import model.others.api.Deck;
-import model.player.api.PlayerChoice;
-import model.player.impl.PlayerInRound;
-import model.others.api.RelicCard;
-import model.others.api.TreasureCard;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
+import model.card.api.Card;
+import model.card.api.Deck;
+import model.card.impl.RelicCard;
+import model.card.impl.TreasureCard;
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
 
 /**
  * Concrete implementation of a {@link Turn} in a round of the game.
@@ -100,7 +100,7 @@ public class TurnImpl implements Turn {
         }
 
         final Deck deck = this.roundState.getDeck();
-        final Card card = deck.drawCard();
+        final Card card = deck.next();
 
         this.roundState.addCardToPath(card);
         this.drawnCard = Optional.of(card);
@@ -113,7 +113,7 @@ public class TurnImpl implements Turn {
         final List<PlayerInRound> actives = pm.getActivePlayers();
         if (card instanceof TreasureCard && !actives.isEmpty()) {
             final TreasureCard treasure = (TreasureCard) card;
-            this.divideGemsAmongPlayers(treasure.getGems(), actives);
+            this.divideGemsAmongPlayers(treasure.getGemValue(), actives);
         }
     }
 
@@ -180,10 +180,10 @@ public class TurnImpl implements Turn {
     private void giveAvailableRelicsToPlayer(final PlayerInRound player) {
         final List<RelicCard> relics = this.roundState.getDrawnRelics();
         relics.stream()
-                .filter(r -> !r.isAlreadyTaken())
+                .filter(r -> !r.isRedeemed())
                 .forEach(r -> {
-                    player.addSackGems(r.getGems());
-                    r.setAsTaken();
+                    player.addSackGems(r.getGemValue());
+                    r.redeemCard();
                 });
     }
 

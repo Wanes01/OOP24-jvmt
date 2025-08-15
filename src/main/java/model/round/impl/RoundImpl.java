@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
-import model.others.api.Deck;
+import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.RoundState;

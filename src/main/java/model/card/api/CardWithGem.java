@@ -13,7 +13,7 @@ public class CardWithGem extends Card {
 
     /**
      * The number of gems associated with this card.
-    */
+     */
     private final int gemValue;
 
     /**
@@ -21,10 +21,10 @@ public class CardWithGem extends Card {
      * 
      * @see TypeCard
      * 
-     * @param name the name of the card
-     * @param type the type of the card
+     * @param name      the name of the card
+     * @param type      the type of the card
      * @param imagePath the path used to associate the card with the image
-     * @param gemValue the gem values of the card
+     * @param gemValue  the gem values of the card
      */
     protected CardWithGem(final String name, final TypeCard type, final String imagePath, final int gemValue) {
         super(name, type, imagePath);
@@ -40,13 +40,13 @@ public class CardWithGem extends Card {
 
     /**
      * @return Returns a string representation of the CardWithGem including:
-     * the name, type, gem value of the card and the path to the card image.
+     *         the name, type, gem value of the card and the path to the card image.
      */
     @Override
     public String toString() {
 
         return " [getName()=" + getName() + ", getType()=" + getType() + ", getGemValue()=" + getGemValue()
-            + ", getImagePath()=" + getImagePath() + "]";
+                + ", getImagePath()=" + getImagePath() + "]";
     }
 
 }

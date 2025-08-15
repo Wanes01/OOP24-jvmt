@@ -43,16 +43,3 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
-
-tasks.withType<Checkstyle> {
-    exclude("model/others/**")
-}
-
-tasks.withType<Pmd> {
-    exclude("model/others/**")
-}
-
-tasks.javadoc {
-    exclude("model/others/**")
-}
-

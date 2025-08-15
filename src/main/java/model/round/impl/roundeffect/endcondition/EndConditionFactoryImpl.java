@@ -6,7 +6,7 @@ import java.util.Map;
 
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.endcondition.EndConditionFactory;
-import model.others.api.TrapCard;
+import model.card.impl.TrapCard;
 
 /**
  * Concrete implementation of {@link EndConditionFactory}.

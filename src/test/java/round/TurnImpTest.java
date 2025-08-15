@@ -18,13 +18,13 @@ import org.junit.jupiter.api.Test;
 
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
-import model.others.api.Card;
-import model.others.api.Deck;
+import model.card.api.Card;
+import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
 import model.player.impl.RealPlayer;
-import model.others.api.RelicCard;
-import model.others.api.TreasureCard;
-import model.others.impl.DeckImpl;
+import model.card.impl.DeckFactoryImpl;
+import model.card.impl.RelicCard;
+import model.card.impl.TreasureCard;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
@@ -59,7 +59,7 @@ class TurnImpTest {
         players.addAll(CommonUtils.generatePlayerInRoundList(PLAYER_COUNT - 1));
 
         // the standard deck ensures the precence of trasure and relic cards.
-        final Deck deck = new DeckImpl();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
         this.state = new RoundStateImpl(players, deck);
         this.effect = new RoundEffectImpl(
                 new EndConditionFactoryImpl().standard(),
@@ -115,8 +115,8 @@ class TurnImpTest {
          * path
          */
         final int expectedReward = this.effect.applyGemModifier(
-                state, treasure.getGems() / actives);
-        final int expectedOnPath = treasure.getGems() % actives;
+                state, treasure.getGemValue() / actives);
+        final int expectedOnPath = treasure.getGemValue() % actives;
 
         pm.getActivePlayers().stream()
                 .forEach(a -> assertEquals(expectedReward, a.getSackGems()));
@@ -136,7 +136,7 @@ class TurnImpTest {
             if (condition.test(deck.peekCard())) {
                 break;
             }
-            deck.drawCard();
+            deck.next();
         }
     }
 
@@ -210,15 +210,15 @@ class TurnImpTest {
          * the relics must not be assigned because more than one player have left the
          * round this turn
          */
-        assertFalse(relic.isAlreadyTaken());
+        assertFalse(relic.isRedeemed());
         for (final PlayerInRound exited : pm.getExitedPlayers()) {
             assertEquals(0, exited.getSackGems());
         }
 
         // only one player have left the round. The relics can be assigned.
         this.turn.endTurn(Set.of(this.turnPlayer));
-        assertTrue(relic.isAlreadyTaken());
-        assertEquals(relic.getGems(), this.turnPlayer.getSackGems());
+        assertTrue(relic.isRedeemed());
+        assertEquals(relic.getGemValue(), this.turnPlayer.getSackGems());
     }
 
     @Test
@@ -227,17 +227,17 @@ class TurnImpTest {
         this.turn.executeDrawPhase();
 
         final RelicCard relic = (RelicCard) turn.getDrawnCard().get();
-        assertFalse(relic.isAlreadyTaken());
+        assertFalse(relic.isRedeemed());
 
         // simulates already taken relic
-        relic.setAsTaken();
-        assertTrue(relic.isAlreadyTaken());
+        relic.redeemCard();
+        assertTrue(relic.isRedeemed());
 
         this.turnPlayer.exit();
         this.turn.endTurn(Set.of(this.turnPlayer));
 
         assertEquals(0, this.turnPlayer.getSackGems());
-        assertTrue(relic.isAlreadyTaken());
+        assertTrue(relic.isRedeemed());
     }
 
     @Test
