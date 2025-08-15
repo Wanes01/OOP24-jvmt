@@ -1,4 +1,4 @@
-package api.card;
+package model.card.api;
 
 import java.util.Iterator;
 

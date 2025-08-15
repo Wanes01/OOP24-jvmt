@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import api.card.Card;
-import api.card.TypeCard;
-import api.card.TypeTrapCard;
-import impl.card.TrapCard;
+import model.card.api.Card;
+import model.card.api.TypeCard;
+import model.card.api.TypeTrapCard;
+import model.card.impl.TrapCard;
 
 /**
  * Trap card test class.

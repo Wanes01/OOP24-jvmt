@@ -1,11 +1,11 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import api.card.CardWithGem;
-import api.card.TypeCard;
+import model.card.api.CardWithGem;
+import model.card.api.TypeCard;
 
 /**
  * Represents a treasure card.

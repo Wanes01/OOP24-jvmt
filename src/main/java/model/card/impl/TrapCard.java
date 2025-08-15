@@ -1,10 +1,10 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.Map;
 
-import api.card.Card;
-import api.card.TypeCard;
-import api.card.TypeTrapCard;
+import model.card.api.Card;
+import model.card.api.TypeCard;
+import model.card.api.TypeTrapCard;
 
 /**
  * Represents a trap card.

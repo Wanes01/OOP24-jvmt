@@ -1,10 +1,10 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.List;
 import java.util.Random;
 
-import api.card.CardWithGem;
-import api.card.TypeCard;
+import model.card.api.CardWithGem;
+import model.card.api.TypeCard;
 
 /**
  * Represents a relic card.

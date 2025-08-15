@@ -1,4 +1,4 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import api.card.Card;
-import api.card.Deck;
-import api.card.TypeTrapCard;
+import model.card.api.Card;
+import model.card.api.Deck;
+import model.card.api.TypeTrapCard;
 
 /**
  * The implementation of the Deck interface.

@@ -2,9 +2,9 @@ package card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import api.card.Card;
-import api.card.Deck;
-import impl.card.DeckFactoryImpl;
+import model.card.api.Card;
+import model.card.api.Deck;
+import model.card.impl.DeckFactoryImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

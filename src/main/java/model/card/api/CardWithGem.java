@@ -1,4 +1,4 @@
-package api.card;
+package model.card.api;
 
 /**
  * Represents a generic card that uses gems.

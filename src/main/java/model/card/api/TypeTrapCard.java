@@ -1,4 +1,4 @@
-package api.card;
+package model.card.api;
 
 /**
  * Represents the possible types of trap cards.

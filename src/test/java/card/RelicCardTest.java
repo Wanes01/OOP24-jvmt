@@ -3,11 +3,11 @@ package card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import api.card.Card;
-import api.card.TypeCard;
-import api.card.TypeTrapCard;
-import impl.card.RelicCard;
-import impl.card.TrapCard;
+import model.card.api.Card;
+import model.card.api.TypeCard;
+import model.card.api.TypeTrapCard;
+import model.card.impl.RelicCard;
+import model.card.impl.TrapCard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -1,13 +1,13 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import api.card.Card;
-import api.card.Deck;
-import api.card.DeckBuilder;
-import api.card.TypeTrapCard;
+import model.card.api.Card;
+import model.card.api.Deck;
+import model.card.api.DeckBuilder;
+import model.card.api.TypeTrapCard;
 
 /**
  * The implementation of the DeckBuilder interface.

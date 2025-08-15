@@ -1,11 +1,11 @@
-package impl.card;
+package model.card.impl;
 
 import java.util.Map;
 
-import api.card.Deck;
-import api.card.DeckBuilder;
-import api.card.DeckFactory;
-import api.card.TypeTrapCard;
+import model.card.api.Deck;
+import model.card.api.DeckBuilder;
+import model.card.api.DeckFactory;
+import model.card.api.TypeTrapCard;
 
 /**
  * The implementation of the DeckFactory interface.

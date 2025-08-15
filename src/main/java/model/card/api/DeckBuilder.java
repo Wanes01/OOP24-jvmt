@@ -1,4 +1,4 @@
-package api.card;
+package model.card.api;
 
 /**
  * Contains methods for adding various types of cards to the deck.

@@ -1,4 +1,4 @@
-package api.card;
+package model.card.api;
 
 /**
  * Represents the possible types of cards that the deck can contain.
