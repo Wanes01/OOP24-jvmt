@@ -1,11 +1,7 @@
 package model.card.api;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
-import javax.imageio.ImageIO;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.Objects;
 
 /**
  * Is the basis for all cards in the game.
@@ -19,8 +15,7 @@ public class Card {
 
     private final String name;
     private final TypeCard type;
-    private final String imagePath;
-    private final BufferedImage imageCard;
+    private final URL imageUrl;
 
     /**
      * Builds a new card using the name, type, and path of the image.
@@ -30,20 +25,17 @@ public class Card {
      * @param type the type of the card
      * @param imagePath the path used to associate the card with the image
      * 
-     * @throws IllegalArgumentException if the path provided does not point to a valid image file.
+     * @throws IllegalArgumentException if the path provided does not point to a valid image file
+     * @throws NullPointerException if the name or type of the card is null or
+     * if the image URL does not point to a valid path
      */ 
     protected Card(final String name, final TypeCard type, final String imagePath) {
-        this.name = name;
-        this.type = type;
-        this.imagePath = "/imageCard/" + imagePath;
-
-        final URL imageUrl = Card.class.getResource(this.imagePath);
-        try {
-            this.imageCard = ImageIO.read(imageUrl);
-        } catch (final IOException e) {
-            throw new IllegalArgumentException("Image not available for the card ["
-                + "name: " + name + ", type card: " + type + ", image path: " + imagePath + "]", e);
-        }
+        this.name = Objects.requireNonNull(name, "The name cannot be null.");
+        this.type = Objects.requireNonNull(type, "The card type cannot be null.");
+        final String sourceImagePath = "/imageCard/" +  imagePath;
+        this.imageUrl = Objects.requireNonNull(
+            Card.class.getResource(sourceImagePath),
+            "Image resource not found at path: " + sourceImagePath);
     }
 
     /**
@@ -63,20 +55,10 @@ public class Card {
     }
 
     /**
-     * @return the relative path of the image.
+     * @return the URL of the image resource associated with the card.
      */
-    public String getImagePath() {
-        return this.imagePath;
-    }
-
-    /**
-     * @return the image of the card.
-     */
-    @SuppressFBWarnings(value = "EI_EXPOSE_REP",
-    justification = "The image is considered immutable and will not be modified" 
-        + " by callers, so it is safe to return it directly.")
-    public BufferedImage getImageCard() {
-        return this.imageCard;
+    public URL getImagePath() {
+        return this.imageUrl;
     }
 
     /**

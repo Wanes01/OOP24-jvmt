@@ -1,8 +1,9 @@
 package card;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,26 +32,35 @@ class TrapCardTest {
         assertEquals("Boulder", trapCard.getName());
         assertEquals(TypeCard.TRAP, trapCard.getType());
         assertEquals(TypeTrapCard.BOULDER, trapCard.getTypeTrap());
-        assertEquals(imagePathBoulder, trapCard.getImagePath());
+        assertEquals(
+            trapCard.getImagePath(),
+            Card.class.getResource(imagePathBoulder));
     }
 
+    @Test
     // Check each trap card to see if the corresponding image is present.
-    @Test 
     void correctPathTrapCard() {
-        assertDoesNotThrow(() -> new TrapCard("Battering ram", TypeTrapCard.BATTERING_RAM),
-            "Image associated with trap card BATTERING RAM not found");
+        final String sourceImagePath = "/imageCard/trap/";
+        final List<String> trapCardImage = List.of(
+            "Battering_Ram.png",
+            "Boulder.png",
+            "Lava.png",
+            "Snake.png",
+            "Spider.png");
+        final List<TrapCard> trapCard = List.of(
+            new TrapCard("Battering_Ram", TypeTrapCard.BATTERING_RAM),
+            new TrapCard("Boulder", TypeTrapCard.BOULDER),
+            new TrapCard("Lava", TypeTrapCard.LAVA),
+            new TrapCard("Snake", TypeTrapCard.SNAKE),
+            new TrapCard("Spider", TypeTrapCard.SPIDER));
 
-        assertDoesNotThrow(() -> new TrapCard("Boulder", TypeTrapCard.BOULDER),
-            "Image associated with trap card BOULDER not found");
+        assertEquals(trapCard.size(), trapCard.size());
 
-        assertDoesNotThrow(() -> new TrapCard("Lava", TypeTrapCard.LAVA),
-            "Image associated with trap card LAVA not found");
-
-        assertDoesNotThrow(() -> new TrapCard("Snake", TypeTrapCard.SNAKE),
-            "Image associated with trap card SNAKE not found");
-
-        assertDoesNotThrow(() -> new TrapCard("Spider", TypeTrapCard.SPIDER),
-            "Image associated with trap card SPIDER not found");
+        for (int i = 0; i < trapCard.size(); i++) {
+            assertEquals(
+                trapCard.get(i).getImagePath(),
+                Card.class.getResource(sourceImagePath + trapCardImage.get(i)));
+        }
     }
 
     // Check that the equals function for TrapCard is working correctly

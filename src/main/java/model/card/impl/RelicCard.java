@@ -61,7 +61,7 @@ public final class RelicCard extends CardWithGem {
 
     /**
      * Compare this item with the specified item to verify that they are the same.
-     * Two RelicCards are considered the same if they have the same gem value and type.
+     * Two RelicCards are considered the same if they have the same type.
      * 
      * @param obj the object to compare with this one
      * 
