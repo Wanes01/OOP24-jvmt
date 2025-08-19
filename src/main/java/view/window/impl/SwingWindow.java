@@ -46,10 +46,6 @@ public class SwingWindow extends JFrame implements Window {
      * @param height the window's height, in pixels.
      */
     public SwingWindow(final int width, final int height) {
-        /*
-         * this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-         * must be called after the window creation.
-         */
         super.setSize(width, height);
     }
 

@@ -1,6 +1,11 @@
 package view.page.api;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import java.awt.Component;
+import java.awt.Font;
 
 import controller.PageController;
 import view.window.impl.SwingWindow;
@@ -34,6 +39,8 @@ import view.window.impl.SwingWindow;
 public abstract class SwingPage extends JPanel implements Page {
 
     private static final long serialVersionUID = 1L;
+
+    private static final Font DEFAULT_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 23);
     private PageController controller;
 
     /**
@@ -108,7 +115,135 @@ public abstract class SwingPage extends JPanel implements Page {
         if (controllerClass.isInstance(this.controller)) {
             return controllerClass.cast(this.controller);
         }
-        throw new IllegalArgumentException("The controller must extend PageContoller");
+        throw new IllegalArgumentException("The controller must extend PageController");
     }
 
+    /**
+     * Helper method that tries to apply the default font to a component
+     * and then adds it through the {@link Runnable} {@code addComponent} to this
+     * page.
+     * This method helps reduce code duplication: to set a default font, each
+     * overload of the JPanel's "add" method must be overridden. A Runnable is used
+     * to specify which overload to use.
+     * 
+     * @param component    the component on which the font will be applied, if
+     *                     possible, and which will be added to the page.
+     * @param addOperation the operation to run in order to add the component to
+     *                     this page.
+     * @return the given {@code component} with, possibly, the default font
+     *         applied.
+     */
+    private Component applyDefaultFontAndAddComponent(
+            final Component component,
+            final Runnable addOperation) {
+        this.applyDefaultFont(component);
+        addOperation.run();
+        return component;
+    }
+
+    /**
+     * Tries to apply the default font to the {@code component}.
+     * The default font is applied to the component only if no custom font
+     * is already set on it.
+     * 
+     * @param component the component to which to apply the font.
+     */
+    private void applyDefaultFont(final Component component) {
+        if (component instanceof JComponent) {
+            final JComponent jComponent = (JComponent) component;
+            final Font currentFont = jComponent.getFont();
+            if (currentFont == null || this.isDefaultSystemFont(currentFont)) {
+                jComponent.setFont(DEFAULT_FONT);
+            }
+        }
+    }
+
+    /**
+     * Returns true if the specified font is the default system font.
+     * 
+     * @param font the font to check if it is che default system font.
+     * @return true if the specified font is the system's default font, false
+     *         otherwise.
+     */
+    private boolean isDefaultSystemFont(final Font font) {
+        return font.equals(UIManager.getDefaults().getFont("Label.font"));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Tries to apply the default font to the component before adding it to this
+     * page.
+     * </p>
+     */
+    @Override
+    public Component add(final Component component) {
+        return this.applyDefaultFontAndAddComponent(
+                component,
+                () -> super.add(component));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Tries to apply the default font to the component before adding it to this
+     * page.
+     * </p>
+     */
+    @Override
+    public Component add(final String name, final Component component) {
+        return this.applyDefaultFontAndAddComponent(
+                component,
+                () -> super.add(name, component));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Tries to apply the default font to the component before adding it to this
+     * page.
+     * </p>
+     */
+    @Override
+    public Component add(final Component component, final int index) {
+        return this.applyDefaultFontAndAddComponent(
+                component,
+                () -> super.add(component, index));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Tries to apply the default font to the component before adding it to this
+     * page.
+     * </p>
+     */
+    @Override
+    public void add(final Component component, final Object obj) {
+        this.applyDefaultFontAndAddComponent(
+                component,
+                () -> super.add(component, obj));
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * <p>
+     * Tries to apply the default font to the component before adding it to this
+     * page.
+     * </p>
+     */
+    @Override
+    public void add(
+            final Component component,
+            final Object obj,
+            final int index) {
+        this.applyDefaultFontAndAddComponent(
+                component,
+                () -> super.add(component, obj, index));
+    }
 }
