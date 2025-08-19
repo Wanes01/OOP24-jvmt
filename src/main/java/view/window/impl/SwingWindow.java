@@ -143,4 +143,16 @@ public class SwingWindow extends JFrame implements Window {
         this.refresh();
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @throws IllegalStateException if a {@link SwingPage} is not set.
+     */
+    @Override
+    public Optional<Page> getCurrentPage() {
+        return this.currentPage.isPresent()
+                ? Optional.of((Page) this.currentPage.get())
+                : Optional.empty();
+    }
+
 }

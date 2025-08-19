@@ -1,5 +1,7 @@
 package view.window.api;
 
+import java.util.Optional;
+
 import view.page.api.Page;
 
 /**
@@ -77,4 +79,12 @@ public interface Window {
      * @param page the page to show.
      */
     void setCurrentPage(Page page);
+
+    /**
+     * Returns the currently displayed page.
+     * 
+     * @return an optional containing the page displayed on this window.
+     *         An empty optional if no page is set.
+     */
+    Optional<Page> getCurrentPage();
 }
