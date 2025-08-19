@@ -20,3 +20,7 @@ bin/
 *.class
 *.DS_Store
 deleteme/
+
+#Ignore java/ leaf files
+/src/main/java/*
+!/src/main/java/*/
