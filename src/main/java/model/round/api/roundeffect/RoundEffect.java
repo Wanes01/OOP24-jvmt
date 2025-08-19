@@ -37,13 +37,14 @@ import model.round.api.RoundState;
 public interface RoundEffect extends Describable {
 
     /**
-     * Returns if the round has reached the end, based on the status of the round.
+     * Returns if the round's end condition is met, based on the status of the
+     * round.
      * 
      * @param state the state of the round, used to determine if the round should
      *              end.
-     * @return true if the round has ended, false otherwise.
+     * @return true if the round's end condition is satisfied, false otherwise.
      */
-    boolean isRoundOver(RoundState state);
+    boolean isEndConditionMet(RoundState state);
 
     /**
      * Returns a quantity of gems after applying a modifier (which can also be the

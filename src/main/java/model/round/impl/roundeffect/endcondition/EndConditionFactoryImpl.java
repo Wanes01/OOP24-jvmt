@@ -31,8 +31,7 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
     @Override
     public EndCondition firstTrapEnds() {
         return new EndConditionImpl(
-                state -> !state.getDrawnTraps().isEmpty()
-                        || !state.getRoundPlayersManager().hasNext(),
+                state -> !state.getDrawnTraps().isEmpty(),
                 "Il round termina alla prima carta trappola pescata o se tutti i giocatori escono.");
     }
 
@@ -45,8 +44,7 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
                 state -> computeTrapsOccurrences(state.getDrawnTraps())
                         .values()
                         .stream()
-                        .anyMatch(occ -> occ >= 2)
-                        || !state.getRoundPlayersManager().hasNext(),
+                        .anyMatch(occ -> occ >= 2),
                 "Il round termina se vengono pescate due carte trappola uguali o se tutti i giocatori escono.");
     }
 

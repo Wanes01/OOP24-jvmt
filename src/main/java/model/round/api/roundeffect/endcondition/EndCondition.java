@@ -2,16 +2,20 @@ package model.round.api.roundeffect.endcondition;
 
 import java.util.function.Predicate;
 
-import model.round.api.roundeffect.RoundEffect;
+import model.round.api.Round;
 import model.common.api.Describable;
 import model.round.api.RoundState;
 
 /**
- * Represents the end condition of a round used by {@link RoundEffect}. The
- * condition for which a round ends is modeled via a {@link Predicate} that
- * decides whether the round has ended via the current state in
- * {@link RoundState}.
+ * Models the variable end condition of the round. A round can continue as long
+ * as there are still players, cards to draw, and this condition related to the
+ * round effect is met. The additional condition to be verified is modeled
+ * through a {@link Predicate} that checks the status of the round through the
+ * {@link RoundState} object associated with it.
  * 
+ * @see Predicate
+ * @see RoundState
+ * @see Round
  * @author Emir Wanes Aouioua.
  */
 public interface EndCondition extends Describable {

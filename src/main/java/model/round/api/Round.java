@@ -9,7 +9,7 @@ import model.common.api.Describable;
  * Represents a single round within a game.
  * <p>
  * A round is composed of a sequence of {@link Turn} objects and
- * defines how players progress, gain gems and when the rould ends.
+ * defines how players progress, gain gems and when the round ends.
  * </p>
  * <p>
  * A round is an {@link Iterable}, and provides and iterator over

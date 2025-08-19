@@ -83,9 +83,12 @@ class RoundImplTest {
     void testIteratorHasNext() {
         final RoundState state = this.round.getState();
         final RoundPlayersManager pm = state.getRoundPlayersManager();
+        final Deck deck = state.getDeck();
         final Iterator<Turn> iterator = this.round.iterator();
 
-        while (pm.hasNext() && !this.effect.isRoundOver(state)) {
+        while (pm.hasNext()
+                && deck.hasNext()
+                && !this.effect.isEndConditionMet(state)) {
             assertTrue(iterator.hasNext());
             final Turn turn = iterator.next();
             this.playTurnAndMakePlayerExit(turn);
@@ -124,11 +127,10 @@ class RoundImplTest {
 
     @Test
     void testEndRoundRoundNotEnded() {
-        final RoundState state = this.round.getState();
         final Iterator<Turn> iterator = this.round.iterator();
 
         // a round can't be terminated without it being finished.
-        while (iterator.hasNext() && !this.effect.isRoundOver(state)) {
+        while (iterator.hasNext()) {
             assertThrows(IllegalStateException.class, this.round::endRound);
             final Turn turn = iterator.next();
             this.playTurnAndMakePlayerExit(turn);

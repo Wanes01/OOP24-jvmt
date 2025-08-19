@@ -2,12 +2,11 @@ package model.round.api.roundeffect.gemmodifier;
 
 import java.util.function.BiFunction;
 
-import model.round.api.roundeffect.RoundEffect;
 import model.common.api.Describable;
 import model.round.api.RoundState;
 
 /**
- * Represents modifier applied to gems used by {@link RoundEffect}.
+ * Represents modifier applied to gems.
  * The modifier is modeled through a ${BiFunction} that takes the current
  * {@link RoundState} and the base number of gems, and returns the modified
  * amount.

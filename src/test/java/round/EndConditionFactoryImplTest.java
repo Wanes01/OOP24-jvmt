@@ -17,7 +17,6 @@ import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
 import model.card.impl.TrapCard;
 import model.card.impl.DeckFactoryImpl;
-import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
 import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
@@ -62,27 +61,6 @@ class EndConditionFactoryImplTest {
         }
 
         assertTrue(standard.getEndCondition().test(this.state));
-        this.testAllPlayersExit(standard);
-    }
-
-    /**
-     * Resets the round state and test if making all players
-     * leave triggers the {@code EndCondition}.
-     * 
-     * @param condition the EndCondition to test in case all players exit.
-     */
-    private void testAllPlayersExit(final EndCondition condition) {
-        this.setUp();
-        final RoundPlayersManager pm = this.state.getRoundPlayersManager();
-
-        while (pm.hasNext()) {
-            final PlayerInRound player = pm.next();
-            player.exit();
-            if (pm.hasNext()) {
-                assertFalse(condition.getEndCondition().test(this.state));
-            }
-        }
-        assertTrue(condition.getEndCondition().test(this.state));
     }
 
     @Test
@@ -100,6 +78,5 @@ class EndConditionFactoryImplTest {
         }
 
         assertTrue(firstTrap.getEndCondition().test(this.state));
-        this.testAllPlayersExit(firstTrap);
     }
 }

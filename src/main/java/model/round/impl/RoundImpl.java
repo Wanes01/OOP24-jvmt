@@ -100,7 +100,7 @@ public class RoundImpl implements Round {
      */
     @Override
     public void endRound() {
-        if (!this.effect.isRoundOver(state)) {
+        if (!this.isRoundOver()) {
             throw new IllegalStateException("Gems can be transfered from the sack to the chest only on round end.");
         }
 
@@ -110,6 +110,19 @@ public class RoundImpl implements Round {
          */
         final List<PlayerInRound> players = this.state.getRoundPlayersManager().getExitedPlayers();
         players.forEach(PlayerInRound::addSackToChest);
+    }
+
+    /**
+     * Return whether the current round is over or not.
+     * The round is over if there are no active players, if there are no
+     * cards to draw or if the end condition of the round is met.
+     * 
+     * @return true if the round is over, false otherwise.
+     */
+    private boolean isRoundOver() {
+        return !this.state.getRoundPlayersManager().hasNext()
+                || !this.state.getDeck().hasNext()
+                || this.effect.isEndConditionMet(state);
     }
 
     /**
@@ -132,8 +145,7 @@ public class RoundImpl implements Round {
 
             @Override
             public boolean hasNext() {
-                return state.getRoundPlayersManager().hasNext()
-                        && !effect.isRoundOver(state);
+                return !isRoundOver();
             }
 
             @Override
