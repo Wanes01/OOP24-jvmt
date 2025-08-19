@@ -1,4 +1,4 @@
-package view.window.api;
+package view.window.impl;
 
 import java.util.Optional;
 
@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import view.page.api.Page;
 import view.page.api.SwingPage;
+import view.window.api.Window;
 
 /**
  * Swing based implementation of the {@link Window} interface.
