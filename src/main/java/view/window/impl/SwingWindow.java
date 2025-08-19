@@ -33,9 +33,11 @@ import view.window.api.Window;
  */
 public class SwingWindow extends JFrame implements Window {
 
+    private static final long serialVersionUID = 1L;
+
     private static final int DEFAULT_WIDTH = 1280;
     private static final int DEFAULT_HEIGHT = 720;
-    private Optional<SwingPage> currentPage = Optional.empty();
+    private transient Optional<SwingPage> currentPage = Optional.empty();
 
     /**
      * Creates a new swing window with the given dimensions.
@@ -43,8 +45,11 @@ public class SwingWindow extends JFrame implements Window {
      * @param width  the window's width, in pixels.
      * @param height the window's height, in pixels.
      */
-    public SwingWindow(int width, int height) {
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public SwingWindow(final int width, final int height) {
+        /*
+         * this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+         * must be called after the window creation.
+         */
         super.setSize(width, height);
     }
 
@@ -72,7 +77,7 @@ public class SwingWindow extends JFrame implements Window {
      * @param message the message to use in the exception if a page is not set.
      * @throws IllegalStateException if a {@link SwingPage} is not set.
      */
-    private void checkEmptyAndThrowStateException(String message) {
+    private void checkEmptyAndThrowStateException(final String message) {
         if (this.currentPage.isEmpty()) {
             throw new IllegalStateException(message);
         }
@@ -115,12 +120,11 @@ public class SwingWindow extends JFrame implements Window {
     }
 
     /**
-     * Terminates the whole application.
+     * {@inheritDoc}
      */
     @Override
     public void close() {
         this.dispose();
-        System.exit(0);
     }
 
     /**
@@ -133,7 +137,7 @@ public class SwingWindow extends JFrame implements Window {
      * @throws IllegalArgumentException if the page is not a {@link SwingPage}.
      */
     @Override
-    public void setCurrentPage(Page page) {
+    public void setCurrentPage(final Page page) {
         if (!(page instanceof SwingPage)) {
             throw new IllegalArgumentException("View non compatibile con Swing");
         }

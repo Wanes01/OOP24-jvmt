@@ -15,7 +15,7 @@ import view.page.api.Page;
  * @author Emir Wanes Aouioua
  */
 public class PageController {
-    protected final Page page;
+    private final Page page;
 
     /**
      * Sets the page for which this controller
@@ -23,7 +23,16 @@ public class PageController {
      * 
      * @param page the page that this controller handles.
      */
-    protected PageController(Page page) {
+    protected PageController(final Page page) {
         this.page = page;
+    }
+
+    /**
+     * Returns the page that this controller handles.
+     * 
+     * @return the page handled by this controller.
+     */
+    protected Page getPage() {
+        return this.page;
     }
 }

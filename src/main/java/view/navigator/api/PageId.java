@@ -10,5 +10,28 @@ package view.navigator.api;
  * @author Emir Wanes Aouioua
  */
 public enum PageId {
-    MENU, SETTINGS, ROUND, CHOISE, LEADERBOARD
+    /**
+     * Id for the menu page.
+     */
+    MENU,
+    /**
+     * Id for the settings page.
+     */
+    SETTINGS,
+    /**
+     * Id for the round page.
+     * The round page is the one that
+     * will show the game progression.
+     */
+    ROUND,
+    /**
+     * Id for the choise page.
+     * A page that makes one player
+     * make a choise about the game.
+     */
+    CHOISE,
+    /**
+     * Id for the leaderboard page.
+     */
+    LEADERBOARD
 }

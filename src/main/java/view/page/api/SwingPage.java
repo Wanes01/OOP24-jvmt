@@ -3,6 +3,7 @@ package view.page.api;
 import javax.swing.JPanel;
 
 import controller.PageController;
+import view.window.impl.SwingWindow;
 
 /**
  * Abstract class for {@link Page}s that use the Swing library.
@@ -32,6 +33,7 @@ import controller.PageController;
  */
 public abstract class SwingPage extends JPanel implements Page {
 
+    private static final long serialVersionUID = 1L;
     private PageController controller;
 
     /**
@@ -72,7 +74,7 @@ public abstract class SwingPage extends JPanel implements Page {
      * </p>
      */
     @Override
-    public void setController(PageController controller) {
+    public void setController(final PageController controller) {
         this.controller = controller;
         this.setHandlers();
     }
@@ -102,7 +104,7 @@ public abstract class SwingPage extends JPanel implements Page {
      * @throws IllegalArgumentException if the controller class is not an extension
      *                                  of {@link PageController}.
      */
-    protected <T extends PageController> T getController(Class<T> controllerClass) {
+    protected <T extends PageController> T getController(final Class<T> controllerClass) {
         if (controllerClass.isInstance(this.controller)) {
             return controllerClass.cast(this.controller);
         }

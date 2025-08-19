@@ -35,7 +35,7 @@ public interface PageNavigator {
      * Gets the id of the current displayed page
      * (if the current displayed page is registered on this navigator).
      * 
-     * @return an {@link Optional} containing the {@link} PageId of the current
+     * @return an {@link Optional} containing the {@link PageId} of the current
      *         page, an empty optional if the displayed page is not registered on
      *         this navigator.
      */

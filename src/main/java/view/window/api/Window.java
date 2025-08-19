@@ -66,9 +66,7 @@ public interface Window {
      * <p>
      * <strong>Note:</strong>
      * While the {@link #dismiss()} method hides the window, this method should be
-     * used to
-     * delete the window (which may also result in the termination of the entire
-     * app).
+     * used to delete the window.
      * </p>
      */
     void close();

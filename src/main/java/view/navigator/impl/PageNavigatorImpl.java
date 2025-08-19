@@ -1,10 +1,12 @@
 package view.navigator.impl;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.page.api.Page;
@@ -28,16 +30,20 @@ import view.window.api.Window;
  * 
  * @author Emir Wanes Aouioua
  */
+
 public class PageNavigatorImpl implements PageNavigator {
 
+    @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+            "EI_EXPOSE_REP2" }, justification = "Internal mutable objects are part of the game logic and shared by design")
     private final Window window;
-    private final Map<PageId, Page> pages = new HashMap<>();
+    private final Map<PageId, Page> pages = new EnumMap<>(PageId.class);
 
     /**
      * Creates a new {@code PageNavigatorImpl} that operates on the specified
      * {@code window}.
      * 
-     * @param window the {@link Window} where pages will be displayed.
+     * @param window the {@link Window} where pages will be displayed. This object
+     *               is stored directly: changes to it will affect the navigator.
      * @throws NullPointerException if {@code window} is {@code null}.
      */
     public PageNavigatorImpl(final Window window) {
@@ -108,7 +114,7 @@ public class PageNavigatorImpl implements PageNavigator {
         return Optional.ofNullable(
                 this.pages.entrySet().stream()
                         .filter(e -> e.getValue().equals(page))
-                        .map(e -> e.getKey())
+                        .map(Entry::getKey)
                         .findFirst()
                         .orElse(null));
     }
