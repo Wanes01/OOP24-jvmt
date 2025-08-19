@@ -1,4 +1,4 @@
-package view.page;
+package view.page.api;
 
 /**
  * Represents a single page (i.e., a view) withing the application.
@@ -7,12 +7,12 @@ package view.page;
  * contains the UI content for a specific part of the app.
  * </p>
  * <p>
- * The user interaction is handled using a {@link ViewController} that
+ * The user interaction is handled using a {@link PageController} that
  * specifies an action for every possible user interaction with this page.
  * </p>
  * 
  * @see Window
- * @see ViewController
+ * @see PageController
  * 
  * @author Emir Wanes Aouioua
  */
@@ -37,7 +37,7 @@ public interface Page {
      * Sets the controller that will be responsible for handling
      * user interaction.
      * 
-     * @param controller a {@link ViewController} for this page.
+     * @param controller a {@link PageController} for this page.
      */
-    void setController(ViewController controller);
+    void setController(PageController controller);
 }

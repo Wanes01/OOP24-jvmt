@@ -1,5 +1,7 @@
 package view.window.api;
 
+import view.page.api.Page;
+
 /**
  * Represents a generic application window, indipendent of the
  * GUI library used.
