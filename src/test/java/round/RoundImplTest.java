@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,11 @@ import org.junit.jupiter.api.Test;
 
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
+import model.card.api.Card;
 import model.card.api.Deck;
+import model.card.api.TypeTrapCard;
 import model.card.impl.DeckFactoryImpl;
+import model.card.impl.TrapCard;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
@@ -80,7 +84,7 @@ class RoundImplTest {
     }
 
     @Test
-    void testIteratorHasNext() {
+    void testTurnIteratorConsumeTurns() {
         final RoundState state = this.round.getState();
         final RoundPlayersManager pm = state.getRoundPlayersManager();
         final Deck deck = state.getDeck();
@@ -98,6 +102,58 @@ class RoundImplTest {
         assertThrows(NoSuchElementException.class, iterator::next);
     }
 
+    @Test
+    void testTurnIteratorNoMorePlayers() {
+        final RoundState state = this.round.getState();
+        final RoundPlayersManager pm = state.getRoundPlayersManager();
+        final Iterator<Turn> iterator = this.round.iterator();
+
+        while (pm.hasNext()) {
+            assertTrue(iterator.hasNext());
+            final PlayerInRound player = pm.next();
+            player.exit();
+        }
+
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void testTurnIteratorNoMoreCards() {
+        final RoundState state = this.round.getState();
+        final Deck deck = state.getDeck();
+        final Iterator<Turn> iterator = this.round.iterator();
+
+        while (deck.hasNext()) {
+            assertTrue(iterator.hasNext());
+            deck.next();
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    void testTurnIteratorEndConditionMet() {
+        final RoundState state = this.round.getState();
+        final Deck deck = state.getDeck();
+        final Iterator<Turn> iterator = this.round.iterator();
+        final Set<TrapCard> traps = new HashSet<>();
+
+        // checks on the standard end condition: must draw 2 equals traps
+        while (deck.hasNext()) {
+            final Card drawn = deck.next();
+            state.addCardToPath(drawn);
+            if (drawn instanceof TrapCard) {
+                final TrapCard trap = (TrapCard) drawn;
+                if (!traps.add(trap)) {
+                    break;
+                }
+            }
+            assertTrue(iterator.hasNext());
+            assertFalse(this.effect.isEndConditionMet(state));
+        }
+        assertTrue(this.effect.isEndConditionMet(state));
+        assertFalse(iterator.hasNext());
+    }
+
     /**
      * Plays the specified {@code turn} and makes only the player that
      * has drawn the card exit.
@@ -112,7 +168,7 @@ class RoundImplTest {
     }
 
     @Test
-    void testIteratorSingleUseAllowed() {
+    void testTurnIteratorSingleUseAllowed() {
         // consumes all the turns of this round.
         this.round.forEach(turn -> {
             final PlayerInRound player = turn.getCurrentPlayer();
