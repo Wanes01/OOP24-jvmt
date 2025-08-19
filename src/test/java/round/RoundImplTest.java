@@ -22,7 +22,6 @@ import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
 import model.card.api.Card;
 import model.card.api.Deck;
-import model.card.api.TypeTrapCard;
 import model.card.impl.DeckFactoryImpl;
 import model.card.impl.TrapCard;
 import model.player.api.PlayerChoice;
