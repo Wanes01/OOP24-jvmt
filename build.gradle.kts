@@ -44,11 +44,19 @@ tasks.test {
     useJUnitPlatform()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs("src/main/java")
-            exclude("*.java")
-        }
-    }
+
+/* java/ direct files exclusion */
+tasks.withType<Checkstyle> {
+    exclude("*.java");
 }
+
+tasks.withType<Pmd> {
+    exclude("*.java");
+}
+
+tasks.javadoc {
+    exclude("*.java");
+}
+
+
+
