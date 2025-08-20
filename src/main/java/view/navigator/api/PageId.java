@@ -27,7 +27,8 @@ public enum PageId {
     /**
      * Id for the choise page.
      * A page that makes one player
-     * make a choise about the game.
+     * choise to continue the round
+     * or not.
      */
     CHOISE,
     /**
