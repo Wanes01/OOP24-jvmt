@@ -135,7 +135,7 @@ public class SwingWindow extends JFrame implements Window {
     @Override
     public void setCurrentPage(final Page page) {
         if (!(page instanceof SwingPage)) {
-            throw new IllegalArgumentException("View non compatibile con Swing");
+            throw new IllegalArgumentException("This class supports SwingPage only as Page implementation.");
         }
         final SwingPage swingPage = (SwingPage) page;
         this.currentPage = Optional.of(swingPage);
