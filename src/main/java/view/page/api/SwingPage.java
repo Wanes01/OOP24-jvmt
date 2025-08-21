@@ -1,11 +1,11 @@
 package view.page.api;
 
+import java.awt.Component;
+import java.awt.Font;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-
-import java.awt.Component;
-import java.awt.Font;
 
 import controller.PageController;
 import view.window.impl.SwingWindow;
