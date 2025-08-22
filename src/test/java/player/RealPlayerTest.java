@@ -11,7 +11,11 @@ import model.player.api.PlayerChoice;
 import model.player.impl.RealPlayer;
 
 
-
+/**
+ * Real player test class.
+ * 
+ * @author Filippo Gaggi
+ */
 class RealPlayerTest {
 
     private static final String PLAYER_NAME = "TestReal";

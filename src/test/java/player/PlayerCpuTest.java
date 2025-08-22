@@ -11,7 +11,11 @@ import model.player.api.PlayerChoice;
 import model.player.impl.PlayerCpu;
 
 
-
+/**
+ * CPU player test class.
+ * 
+ * @author Filippo Gaggi
+ */
 class PlayerCpuTest {
 
     private static final String PLAYER_NAME = "TestCpu";
