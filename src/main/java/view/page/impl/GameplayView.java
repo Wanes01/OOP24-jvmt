@@ -65,7 +65,7 @@ public class GameplayView extends SwingPage {
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
         gameUi.add(players(boxBorder, listPlayers));
 
-        this.add(gameUi);
+        super.add(gameUi);
     }
 
     /**
@@ -86,6 +86,7 @@ public class GameplayView extends SwingPage {
             /* + */
             + " | Turno n."
             /* +  */); //TODO add number of round and turn
+        lblRoundTurn.setAlignmentX(LEFT_ALIGNMENT);
         gameInfo.add(lblRoundTurn);
 
 
@@ -99,15 +100,18 @@ public class GameplayView extends SwingPage {
 
         final JLabel lblPlayerTurn = new JLabel("Turno di:"
             /* + roundState.getRoundPlayersManager().next().getName()*/); //TODO add player's name
+        lblPlayerTurn.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblPlayerTurn);
 
         final JLabel lblSackGems = new JLabel("Gemme nella sacca: "
             /* + roundState.getRoundPlayersManager().next().getSackGems()*/); //TODO add player's sack gems
+        lblSackGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblSackGems);
 
-        final JLabel lblSackChest = new JLabel("Gemme nella cassa: "
+        final JLabel lblChestGems = new JLabel("Gemme nella cassa: "
             /* + roundState.getRoundPlayersManager().next().getChestGems()*/); //TODO add player's chest gems
-        playerInfo.add(lblSackChest);
+        lblChestGems.setAlignmentX(LEFT_ALIGNMENT);
+        playerInfo.add(lblChestGems);
 
         final JButton btnDraw = new JButton("PESCA");
         playerInfo.add(btnDraw);
@@ -123,10 +127,12 @@ public class GameplayView extends SwingPage {
 
         final JLabel lblGameEndCond = new JLabel("Condizione fine round: "
             /* + */); //TODO add game end conditions
+        lblGameEndCond.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGameEndCond);
 
         final JLabel lblGemModifier = new JLabel("Modificatori gemme: "
             /* + */); //TODO add gems modifiers
+        lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGemModifier);
 
 
@@ -148,6 +154,7 @@ public class GameplayView extends SwingPage {
 
         final JLabel lblDrawnCards = new JLabel("Carte pescate: "
             /* + roundState.getDrawCards().size() */); //TODO add cards drawn
+        lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
 
@@ -207,6 +214,7 @@ public class GameplayView extends SwingPage {
             //+ roundState.getPathGems()
             + ", Reliquie rimaste nel percorso: "
             /* + roundState.getDrawnRelics().size() */); //TODO add path gems and relics
+        lblCaveGems.setAlignmentX(CENTER_ALIGNMENT);
         caveGems.add(lblCaveGems);
 
 
@@ -227,6 +235,7 @@ public class GameplayView extends SwingPage {
 
 
         final JLabel lblListActivePlayers = new JLabel("Giocatori in gioco:");
+        lblListActivePlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListActivePlayers);
 
 
@@ -247,6 +256,7 @@ public class GameplayView extends SwingPage {
 
 
         final JLabel lblListExitedPlayers = new JLabel("Giocatori usciti:");
+        lblListExitedPlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListExitedPlayers);
 
 
