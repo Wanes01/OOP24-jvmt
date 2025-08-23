@@ -11,7 +11,7 @@ import model.player.api.PlayerChoice;
 import model.round.api.RoundState;
 
 /**
- * It's the implementation of the LogicCpu interface.
+ * The implementation of the {@link LogicCpu} interface.
  * <p>
  * This class includes a method for calculating a score
  * that changes at the variation of certain round informations and

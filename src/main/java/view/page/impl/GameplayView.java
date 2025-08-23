@@ -53,7 +53,7 @@ public class GameplayView extends SwingPage {
     /**
      * Main panel of the gameplay view.
      * 
-     * @param roundState is the current round state.
+     * @param roundState the current round state.
      */
     public GameplayView(/* RoundStateImpl roundState */) {
         final JPanel gameUi = new JPanel();
@@ -72,11 +72,11 @@ public class GameplayView extends SwingPage {
     }
 
     /**
-     * Panel which contains the informations of the game's current turn and the button for
-     * drawing a card.
+     * Panel which contains the informations of the game's current turn and player and the button
+     * for drawing a card.
      * 
-     * @param boxBorder is the border used for the JPanels.
-     * @param roundState is the current round state.
+     * @param boxBorder the border used for the JPanels.
+     * @param roundState the current round state.
      * 
      * @return the panel itself.
      */
@@ -144,9 +144,10 @@ public class GameplayView extends SwingPage {
 
     /**
      * Panel which contains the game board.
+     * Every time a card is drawn it is added in the game board.
      * 
-     * @param boxBorder is the border used for the JPanels.
-     * @param roundState is the current round state.
+     * @param boxBorder the border used for the JPanels.
+     * @param roundState the current round state.
      * 
      * @return the panel itself.
      */
@@ -227,8 +228,8 @@ public class GameplayView extends SwingPage {
     /**
      * Panel which contains the list of active and exited players.
      * 
-     * @param boxBorder is the border used for the JPanels.
-     * @param listPlayers is the list of the players playing.
+     * @param boxBorder the border used for the JPanels.
+     * @param listPlayers the list of the players playing.
      * 
      * @return the panel itself.
      */

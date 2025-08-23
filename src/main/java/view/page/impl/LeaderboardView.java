@@ -43,7 +43,7 @@ public class LeaderboardView extends SwingPage {
      * Main panel of the leaderboard view.
      * It has a scrollable leaderboard and a button that redirects to the home page.
      * 
-     * @param players is the list of players in the leaderboard.
+     * @param players the list of players that are to appear in the leaderboard.
      */
     public LeaderboardView(final List<PlayerInRound> players) {
         final JPanel leaderboardUi = new JPanel();
@@ -83,7 +83,7 @@ public class LeaderboardView extends SwingPage {
     /**
      * Panel which contains the leaderboard itself.
      * 
-     * @param players is the list of players in the leaderboard.
+     * @param players the list of players that are to appear in the leaderboard.
      * 
      * @return the panel itself.
      */

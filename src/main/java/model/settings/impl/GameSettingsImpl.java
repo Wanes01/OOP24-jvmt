@@ -11,6 +11,13 @@ import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.settings.api.GameSettings;
 
+/**
+ * The implementation of the {@link GameSettings} interface.
+ * 
+ * @see GameSettings
+ * 
+ * @author Filippo Gaggi
+ */
 public class GameSettingsImpl implements GameSettings {
 
     public static final int MIN_PLAYERS = 3;
@@ -24,7 +31,22 @@ public class GameSettingsImpl implements GameSettings {
     private final CpuDifficulty cpuDifficulty;
     private final int nRounds;
 
-    public GameSettingsImpl(List<PlayerInRound> listPlayers, Deck deck, EndCondition endCondition, GemModifier gemModifier, CpuDifficulty cpuDifficulty, int nRound) {
+    /**
+     * Constructor of the method.
+     * 
+     * @param listPlayers the list of the players.
+     * @param deck the deck chosen.
+     * @param endCondition the game end condition chosen.
+     * @param gemModifier the gem modifier chosen.
+     * @param cpuDifficulty the difficulty of the CPUs chosen.
+     * @param nRound the number of rounds chosen.
+     */
+    public GameSettingsImpl(List<PlayerInRound> listPlayers,
+        Deck deck,
+        EndCondition endCondition,
+        GemModifier gemModifier,
+        CpuDifficulty cpuDifficulty,
+        int nRound) {
         this.listPlayers = listPlayers;
         this.deck = deck;
         this.endCondition = endCondition;
@@ -33,6 +55,9 @@ public class GameSettingsImpl implements GameSettings {
         this.nRounds = nRound;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean areSettingsOk() {
         return getNumberOfPlayers() <= MAX_PLAYERS
@@ -40,11 +65,17 @@ public class GameSettingsImpl implements GameSettings {
             && getNumberOfRounds() <= MAX_ROUNDS;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNumberOfPlayers() {
         return getNumberOfCpu() + getNumberOfRealPlayers();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNumberOfCpu() {
         int i = 0;
@@ -56,6 +87,9 @@ public class GameSettingsImpl implements GameSettings {
         return i;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNumberOfRealPlayers() {
         int i = 0;
@@ -67,31 +101,49 @@ public class GameSettingsImpl implements GameSettings {
         return i;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck getDeck() {
         return this.deck;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public EndCondition getRoundEndCondition() {
         return this.endCondition;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GemModifier getRoundGemModifier() {
         return this.gemModifier;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CpuDifficulty getCpuDifficulty() {
         return this.cpuDifficulty;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getNumberOfRounds() {
         return this.nRounds;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<PlayerInRound> createPlayers() {
         // TODO Auto-generated method stub
