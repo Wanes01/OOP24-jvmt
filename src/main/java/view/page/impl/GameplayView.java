@@ -58,6 +58,10 @@ public class GameplayView extends SwingPage {
      */
     public GameplayView(/* RoundStateImpl roundState */) {
         final JPanel gameUi = new JPanel();
+        listPlayers.get(4).choose(PlayerChoice.EXIT);
+        listPlayers.get(3).choose(PlayerChoice.EXIT);
+        listPlayers.get(6).choose(PlayerChoice.EXIT);
+        listPlayers.get(0).choose(PlayerChoice.EXIT);
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(boxBorder/* , RoundStateImpl roundState */));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
