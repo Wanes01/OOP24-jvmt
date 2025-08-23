@@ -3,6 +3,11 @@ package view.window.impl;
 import java.util.Optional;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 import view.page.api.Page;
 import view.page.api.SwingPage;
@@ -21,8 +26,10 @@ import view.window.api.Window;
  * {@link IllegalStateException} will be thrown otherwise.
  * </p>
  * <p>
- * By default, the window is created with a size of {@code 1280x720} pixels,
- * unless a custom size is provided.
+ * The window created occupies a fixed percentage of the user's screen. When the
+ * first SwingWindow is created, a default font is applied to all graphic
+ * components that support it, and the font size is scaled according to the DPI
+ * of the reference screen.
  * </p>
  * 
  * @see Window
@@ -34,26 +41,28 @@ import view.window.api.Window;
 public class SwingWindow extends JFrame implements Window {
 
     private static final long serialVersionUID = 1L;
+    // how much of the screen this window will occupy.
+    private static final double WINDOW_SCREEN_RATIO = 0.8;
+    private static final String DEFAULT_FONT = Font.SANS_SERIF;
+    private static final int BASE_FONT_SIZE = 23;
+    private static boolean swingDpiConfigured;
 
-    private static final int DEFAULT_WIDTH = 1280;
-    private static final int DEFAULT_HEIGHT = 720;
     private transient Optional<SwingPage> currentPage = Optional.empty();
 
     /**
-     * Creates a new swing window with the given dimensions.
-     * 
-     * @param width  the window's width, in pixels.
-     * @param height the window's height, in pixels.
-     */
-    public SwingWindow(final int width, final int height) {
-        super.setSize(width, height);
-    }
-
-    /**
-     * Creates a new swing window with a default size of {@code 1280x720} pixels.
+     * Creates a new swing window that occupies a fixed factor
+     * of the screen size.
      */
     public SwingWindow() {
-        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        final Dimension screen = Toolkit.getDefaultToolkit()
+                .getScreenSize();
+        final int width = (int) (WINDOW_SCREEN_RATIO * screen.width);
+        final int height = (int) (WINDOW_SCREEN_RATIO * screen.height);
+        super.setSize(width, height);
+        super.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        super.setResizable(false);
+
+        initSwingDpiConfiguration();
     }
 
     /**
@@ -153,6 +162,44 @@ public class SwingWindow extends JFrame implements Window {
         return this.currentPage.isPresent()
                 ? Optional.of((Page) this.currentPage.get())
                 : Optional.empty();
+    }
+
+    /**
+     * This method sets the default font, making it proportional on any screen. This
+     * method applies the default font to all graphical components that support it
+     * and calculates the font size based on the actual DPI of the user's display.
+     * The body of this method is executed only once when the first SwingWindow is
+     * created, in order to ensure that the default font is applied to all
+     * swing-based components.
+     */
+    private static void initSwingDpiConfiguration() {
+        if (swingDpiConfigured) {
+            return;
+        }
+
+        final int actualDpi = Toolkit.getDefaultToolkit()
+                .getScreenResolution();
+        /*
+         * Basic DPI used as a reference by Swing when the default scale
+         * factor (100%) is used in the operative system.
+         */
+        final double baseDpi = 96.0;
+        final double zoom = actualDpi / baseDpi;
+
+        final Font defaultFont = new Font(DEFAULT_FONT, Font.PLAIN, (int) (BASE_FONT_SIZE * zoom));
+
+        /*
+         * Sets the default font to every UI components that
+         * supports a font.
+         */
+        for (final var entry : UIManager.getDefaults().entrySet()) {
+            final Object item = entry.getKey();
+            if (item instanceof String
+                    && ((String) item).endsWith(".font")) {
+                UIManager.put(item, defaultFont);
+            }
+        }
+        swingDpiConfigured = true;
     }
 
 }
