@@ -2,59 +2,90 @@ package view.page.impl;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import model.player.api.PlayerChoice;
+import model.player.impl.PlayerInRound;
+import utils.CommonUtils;
 import view.page.api.SwingPage;
 
-public class GameplayView extends SwingPage{
-    final static int COL_GAP = 50;
-    final static int ROW_GAP = 20;
-    final static int CARDS_GAP = 5;
-    final static int CARDS_DIM = 150;
-    final static int CARDS_PER_ROW = 5;
-    final static int SCROLLABLE_HEIGHT = 450;
-    final static int SCROLLABLE_WIDTH = 820;
-    final static int SCROLL_PIXELS = 30;
-    final static int FONT_SIZE = 20;
+/**
+ * Represents the gameplay view of the application.
+ * <p>
+ * The user interaction is handled using a {@link GameplayController} that
+ * specifies an action for every possible user interaction with this page.
+ * </p>
+ * 
+ * @see SwingPage
+ * @see GameplayController
+ * 
+ * @author Filippo Gaggi
+ */
+public class GameplayView extends SwingPage {
+    private static final long serialVersionUID = 1L;
+    private static final int COL_GAP = 50;
+    private static final int ROW_GAP = 20;
+    private static final int CARDS_GAP = 5;
+    private static final int CARDS_DIM = 150;
+    private static final int CARDS_PER_ROW = 5;
+    private static final int SCROLLABLE_HEIGHT = 450;
+    private static final int SCROLLABLE_WIDTH = 820;
+    private static final int SCROLL_PIXELS = 30;
+    private static final int NUMBER_OF_PLAYERS = 8;
+    private final Border boxBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
+    private final List<PlayerInRound> listPlayers = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
 
+    /**
+     * Main panel of the gameplay view.
+     * 
+     * @param roundState is the current round state
+     */
     public GameplayView(/* RoundStateImpl roundState */) {
         final JPanel gameUi = new JPanel();
-        final Font uiFont = new Font("Arial", Font.PLAIN, FONT_SIZE);
-        final Border boxBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
-
-        gameUi.add(gameInfo(uiFont, boxBorder/* , RoundStateImpl roundState */));
+        gameUi.add(gameInfo(boxBorder/* , RoundStateImpl roundState */));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(gameBoard(uiFont, boxBorder/* , RoundStateImpl roundState */));
+        gameUi.add(gameBoard(boxBorder/* , RoundStateImpl roundState */));
+        gameUi.add(Box.createHorizontalStrut(COL_GAP));
+        gameUi.add(players(boxBorder, listPlayers));
 
         this.add(gameUi);
     }
 
-    private JPanel gameInfo(Font uiFont, Border boxBorder/* , RoundStateImpl roundState */) {
+    /**
+     * Panel which contains the informations of the game's
+     * current turn.
+     * 
+     * @param boxBorder is the border used for the JPanels
+     * @param roundState is the current round state
+     * 
+     * @return the panel itself.
+     */
+    private JPanel gameInfo(final Border boxBorder/* , final RoundStateImpl roundState */) {
         final JPanel gameInfo = new JPanel();
         gameInfo.setLayout(new BoxLayout(gameInfo, BoxLayout.Y_AXIS));
 
 
-        JLabel lblRoundTurn = new JLabel("Round n."
+        final JLabel lblRoundTurn = new JLabel("Round n."
             /* + */
             + " | Turno n."
-            /* +  */);//TODO add number of round and turn
-        lblRoundTurn.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        lblRoundTurn.setFont(uiFont);
+            /* +  */); //TODO add number of round and turn
         gameInfo.add(lblRoundTurn);
 
 
@@ -64,26 +95,21 @@ public class GameplayView extends SwingPage{
         final JPanel playerInfo = new JPanel();
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
         playerInfo.setBorder(boxBorder);
-        playerInfo.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         gameInfo.add(playerInfo);
 
-        JLabel lblPlayerTurn = new JLabel("Turno di:"
-            /* + */);//TODO add player's name
-        lblPlayerTurn.setFont(uiFont);
+        final JLabel lblPlayerTurn = new JLabel("Turno di:"
+            /* + roundState.getRoundPlayersManager().next().getName()*/); //TODO add player's name
         playerInfo.add(lblPlayerTurn);
 
-        JLabel lblSackGems = new JLabel("Gemme nella sacca: "
-            /* + */);//TODO add player's sack gems
-        lblSackGems.setFont(uiFont);
+        final JLabel lblSackGems = new JLabel("Gemme nella sacca: "
+            /* + roundState.getRoundPlayersManager().next().getSackGems()*/); //TODO add player's sack gems
         playerInfo.add(lblSackGems);
 
-        JLabel lblSackChest = new JLabel("Gemme nella cassa: "
-            /* + */);//TODO add player's chest gems
-        lblSackChest.setFont(uiFont);
+        final JLabel lblSackChest = new JLabel("Gemme nella cassa: "
+            /* + roundState.getRoundPlayersManager().next().getChestGems()*/); //TODO add player's chest gems
         playerInfo.add(lblSackChest);
 
         final JButton btnDraw = new JButton("PESCA");
-        btnDraw.setFont(uiFont);
         playerInfo.add(btnDraw);
 
 
@@ -93,32 +119,35 @@ public class GameplayView extends SwingPage{
         final JPanel gameConditions = new JPanel();
         gameConditions.setLayout(new BoxLayout(gameConditions, BoxLayout.Y_AXIS));
         gameConditions.setBorder(boxBorder);
-        gameConditions.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         gameInfo.add(gameConditions);
 
-        JLabel lblGameEndCond = new JLabel("Condizione fine round: "
-            /* + */);//TODO add game end conditions
-        lblGameEndCond.setFont(uiFont);
+        final JLabel lblGameEndCond = new JLabel("Condizione fine round: "
+            /* + */); //TODO add game end conditions
         gameConditions.add(lblGameEndCond);
 
-        JLabel lblGemModifier = new JLabel("Modificatori gemme: "
-            /* + */);//TODO add gems modifiers
-        lblGemModifier.setFont(uiFont);
+        final JLabel lblGemModifier = new JLabel("Modificatori gemme: "
+            /* + */); //TODO add gems modifiers
         gameConditions.add(lblGemModifier);
 
 
         return gameInfo;
     }
 
-    private JPanel gameBoard(Font uiFont, Border boxBorder/* , RoundStateImpl roundState */) {
+    /**
+     * Panel which contains the game board.
+     * 
+     * @param boxBorder is the border used for the JPanels
+     * @param roundState is the current round state
+     * 
+     * @return the panel itself.
+     */
+    private JPanel gameBoard(final Border boxBorder/* , final RoundStateImpl roundState */) {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
 
-        JLabel lblDrawnCards = new JLabel("Carte pescate: "
-            /* + roundState.getDrawCards().size() */);//TODO add cards drawn
-        lblDrawnCards.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        lblDrawnCards.setFont(uiFont);
+        final JLabel lblDrawnCards = new JLabel("Carte pescate: "
+            /* + roundState.getDrawCards().size() */); //TODO add cards drawn
         gameBoard.add(lblDrawnCards);
 
 
@@ -133,7 +162,7 @@ public class GameplayView extends SwingPage{
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
 
         //For testing, to be deleted
-        for(int i = 0; i < 35; i++) {
+        for (int i = 0; i < 35; i++) {
             final ImageIcon icon = new ImageIcon(getClass().getResource("/imageCard/relic/relic.png"));
             final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(image);
@@ -174,17 +203,71 @@ public class GameplayView extends SwingPage{
         caveGems.setBorder(boxBorder);
         gameBoard.add(caveGems);
 
-        JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: "
+        final JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: "
             //+ roundState.getPathGems()
             + ", Reliquie rimaste nel percorso: "
-            /* + roundState.getDrawnRelics().size() */);//TODO add path gems and relics
-        lblCaveGems.setFont(uiFont);
+            /* + roundState.getDrawnRelics().size() */); //TODO add path gems and relics
         caveGems.add(lblCaveGems);
 
 
         return gameBoard;
     }
 
+    /**
+     * Panel which contains the list of active and exited players.
+     * 
+     * @param boxBorder is the border used for the JPanels
+     * @param listPlayers is the list of the players playing
+     * 
+     * @return the panel itself.
+     */
+    private JPanel players(final Border boxBorder, final List<PlayerInRound> listPlayers) {
+        final JPanel playersList = new JPanel();
+        playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
+
+
+        final JLabel lblListActivePlayers = new JLabel("Giocatori in gioco:");
+        playersList.add(lblListActivePlayers);
+
+
+        playersList.add(Box.createVerticalStrut(ROW_GAP));
+
+
+        final DefaultListModel<String> activePlayers = new DefaultListModel<>();
+        listPlayers.stream()
+            .filter(player -> player.getChoice() == PlayerChoice.STAY)
+            .map(PlayerInRound::getName)
+            .forEach(activePlayers::addElement);
+        final JList<String> activePlayerNamesList = new JList<>(activePlayers);
+        activePlayerNamesList.setBorder(boxBorder);
+        playersList.add(activePlayerNamesList);
+
+
+        playersList.add(Box.createVerticalStrut(ROW_GAP));
+
+
+        final JLabel lblListExitedPlayers = new JLabel("Giocatori usciti:");
+        playersList.add(lblListExitedPlayers);
+
+
+        playersList.add(Box.createVerticalStrut(ROW_GAP));
+
+
+        final DefaultListModel<String> exitedPlayers = new DefaultListModel<>();
+        listPlayers.stream()
+            .filter(player -> player.getChoice() == PlayerChoice.EXIT)
+            .map(PlayerInRound::getName)
+            .forEach(exitedPlayers::addElement);
+        final JList<String> exitedPlayerNamesList = new JList<>(exitedPlayers);
+        exitedPlayerNamesList.setBorder(boxBorder);
+        playersList.add(exitedPlayerNamesList);
+
+        return playersList;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void setHandlers() {
         // TODO Auto-generated method stub
