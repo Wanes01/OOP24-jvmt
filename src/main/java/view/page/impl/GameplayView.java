@@ -44,17 +44,16 @@ public class GameplayView extends SwingPage {
     private static final int CARDS_GAP = 5;
     private static final int CARDS_DIM = 150;
     private static final int CARDS_PER_ROW = 5;
-    private static final int SCROLLABLE_HEIGHT = 450;
-    private static final int SCROLLABLE_WIDTH = 820;
+    private static final Dimension SCROLLABLE_DIM = new Dimension(820, 450);
     private static final int SCROLL_PIXELS = 30;
     private static final int NUMBER_OF_PLAYERS = 8;
-    private final Border boxBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
-    private final List<PlayerInRound> listPlayers = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
+    private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
+    private final List<PlayerInRound> listPlayers = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS); //to be deleted
 
     /**
      * Main panel of the gameplay view.
      * 
-     * @param roundState is the current round state
+     * @param roundState is the current round state.
      */
     public GameplayView(/* RoundStateImpl roundState */) {
         final JPanel gameUi = new JPanel();
@@ -63,21 +62,21 @@ public class GameplayView extends SwingPage {
         listPlayers.get(6).choose(PlayerChoice.EXIT);
         listPlayers.get(0).choose(PlayerChoice.EXIT);
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
-        gameUi.add(gameInfo(boxBorder/* , RoundStateImpl roundState */));
+        gameUi.add(gameInfo(BOX_BORDER/* , RoundStateImpl roundState */));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(gameBoard(boxBorder/* , RoundStateImpl roundState */));
+        gameUi.add(gameBoard(BOX_BORDER/* , RoundStateImpl roundState */));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(players(boxBorder, listPlayers));
+        gameUi.add(players(BOX_BORDER, listPlayers));
 
         super.add(gameUi);
     }
 
     /**
-     * Panel which contains the informations of the game's
-     * current turn.
+     * Panel which contains the informations of the game's current turn and the button for
+     * drawing a card.
      * 
-     * @param boxBorder is the border used for the JPanels
-     * @param roundState is the current round state
+     * @param boxBorder is the border used for the JPanels.
+     * @param roundState is the current round state.
      * 
      * @return the panel itself.
      */
@@ -146,8 +145,8 @@ public class GameplayView extends SwingPage {
     /**
      * Panel which contains the game board.
      * 
-     * @param boxBorder is the border used for the JPanels
-     * @param roundState is the current round state
+     * @param boxBorder is the border used for the JPanels.
+     * @param roundState is the current round state.
      * 
      * @return the panel itself.
      */
@@ -202,7 +201,7 @@ public class GameplayView extends SwingPage {
 
         final JScrollPane scrollableBoard = new JScrollPane(cardsContainer);
         scrollableBoard.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollableBoard.setPreferredSize(new Dimension(SCROLLABLE_WIDTH, SCROLLABLE_HEIGHT));
+        scrollableBoard.setPreferredSize(SCROLLABLE_DIM);
         scrollableBoard.getVerticalScrollBar().setUnitIncrement(SCROLL_PIXELS);
         gameBoard.add(scrollableBoard);
 
@@ -228,8 +227,8 @@ public class GameplayView extends SwingPage {
     /**
      * Panel which contains the list of active and exited players.
      * 
-     * @param boxBorder is the border used for the JPanels
-     * @param listPlayers is the list of the players playing
+     * @param boxBorder is the border used for the JPanels.
+     * @param listPlayers is the list of the players playing.
      * 
      * @return the panel itself.
      */
