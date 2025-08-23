@@ -5,6 +5,8 @@ package view.modal.api;
  * window until the user provides an input.
  * 
  * @param <T> the type of the user input returned by the modal.
+ * 
+ * @author Emir Wanes Aouioua
  */
 public interface Modal<T> {
 
