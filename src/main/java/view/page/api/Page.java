@@ -1,6 +1,6 @@
 package view.page.api;
 
-import controller.PageController;
+import controller.api.PageController;
 
 /**
  * Represents a single page (i.e., a view) withing the application.

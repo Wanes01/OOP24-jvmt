@@ -2,7 +2,7 @@ package view.page.api;
 
 import javax.swing.JPanel;
 
-import controller.PageController;
+import controller.api.PageController;
 import view.window.impl.SwingWindow;
 
 /**
