@@ -31,7 +31,7 @@ import view.page.api.SwingPage;
  * 
  * @author Filippo Gaggi
  */
-public class LeaderboardView extends SwingPage {
+public class LeaderboardPage extends SwingPage {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE_VICTOR = 30;
     private static final int FONT_SIZE_HOME_BUTTON = 30;
@@ -45,16 +45,16 @@ public class LeaderboardView extends SwingPage {
      * 
      * @param players the list of players that are to appear in the leaderboard.
      */
-    public LeaderboardView(final List<PlayerInRound> players) {
+    public LeaderboardPage(final List<PlayerInRound> players) {
         final JPanel leaderboardUi = new JPanel();
         final Font fontVictor = new Font("Arial", Font.PLAIN, FONT_SIZE_VICTOR);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
         leaderboardUi.setLayout(new BoxLayout(leaderboardUi, BoxLayout.Y_AXIS));
 
         final JLabel lblVictor = new JLabel(players.get(0).getName()
-            + " ha vinto con "
-            + players.get(0).getChestGems()
-            + " punti!");
+                + " ha vinto con "
+                + players.get(0).getChestGems()
+                + " punti!");
         lblVictor.setAlignmentX(CENTER_ALIGNMENT);
         lblVictor.setFont(fontVictor);
         lblVictor.setBorder(BOX_BORDER);
@@ -92,10 +92,10 @@ public class LeaderboardView extends SwingPage {
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.X_AXIS));
 
         final DefaultTableModel leaderboardInfo = new DefaultTableModel();
-        leaderboardInfo.setColumnIdentifiers(new Object[]{"Nome", "Punteggio"});
+        leaderboardInfo.setColumnIdentifiers(new Object[] { "Nome", "Punteggio" });
 
         for (final PlayerInRound player : players) {
-            leaderboardInfo.addRow(new Object[]{player.getName(), player.getChestGems()});
+            leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
         }
 
         final JTable table = new JTable(leaderboardInfo);

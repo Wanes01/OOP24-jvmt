@@ -33,7 +33,7 @@ import view.page.api.SwingPage;
  * 
  * @author Filippo Gaggi
  */
-public class GameplayView extends SwingPage {
+public class GameplayPage extends SwingPage {
     private static final long serialVersionUID = 1L;
     private static final int COL_GAP = 50;
     private static final int ROW_GAP = 20;
@@ -45,18 +45,22 @@ public class GameplayView extends SwingPage {
     /* private static final int NUMBER_OF_PLAYERS = 8; */
     private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
-    /* private transient final List<PlayerInRound> listPlayers =
-    CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS); */ //to be deleted
+    /*
+     * private transient final List<PlayerInRound> listPlayers =
+     * CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
+     */ // to be deleted
 
     /**
      * Main panel of the gameplay view.
      */
-    public GameplayView() {
+    public GameplayPage() {
         final JPanel gameUi = new JPanel();
-        /* listPlayers.get(4).choose(PlayerChoice.EXIT);
-        listPlayers.get(3).choose(PlayerChoice.EXIT);
-        listPlayers.get(1).choose(PlayerChoice.EXIT);
-        listPlayers.get(0).choose(PlayerChoice.EXIT); */
+        /*
+         * listPlayers.get(4).choose(PlayerChoice.EXIT);
+         * listPlayers.get(3).choose(PlayerChoice.EXIT);
+         * listPlayers.get(1).choose(PlayerChoice.EXIT);
+         * listPlayers.get(0).choose(PlayerChoice.EXIT);
+         */
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
@@ -68,7 +72,8 @@ public class GameplayView extends SwingPage {
     }
 
     /**
-     * Panel which contains the informations of the game's current turn and player and the button
+     * Panel which contains the informations of the game's current turn and player
+     * and the button
      * for drawing a card.
      * 
      * @param boxBorder the border used for the JPanels.
@@ -78,7 +83,6 @@ public class GameplayView extends SwingPage {
     private JPanel gameInfo(final Border boxBorder) {
         final JPanel gameInfo = new JPanel();
         gameInfo.setLayout(new BoxLayout(gameInfo, BoxLayout.Y_AXIS));
-
 
         final JPanel roundTurnInfo = new JPanel();
         roundTurnInfo.setLayout(new BoxLayout(roundTurnInfo, BoxLayout.Y_AXIS));
@@ -93,9 +97,7 @@ public class GameplayView extends SwingPage {
         lblTurn.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(lblTurn);
 
-
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
-
 
         final JPanel playerInfo = new JPanel();
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
@@ -117,9 +119,7 @@ public class GameplayView extends SwingPage {
         final JButton btnDraw = new JButton("PESCA");
         playerInfo.add(btnDraw);
 
-
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
-
 
         final JPanel gameConditions = new JPanel();
         gameConditions.setLayout(new BoxLayout(gameConditions, BoxLayout.Y_AXIS));
@@ -133,7 +133,6 @@ public class GameplayView extends SwingPage {
         final JLabel lblGemModifier = new JLabel("Modificatori gemme: ");
         lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGemModifier);
-
 
         return gameInfo;
     }
@@ -150,14 +149,11 @@ public class GameplayView extends SwingPage {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
-
         final JLabel lblDrawnCards = new JLabel("Carte pescate: ");
         lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
-
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
-
 
         final JPanel cardsContainer = new JPanel();
         cardsContainer.setLayout(new GridBagLayout());
@@ -166,15 +162,15 @@ public class GameplayView extends SwingPage {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
 
-        //For testing, to be deleted
+        // For testing, to be deleted
         for (int i = 0; i < MAX_CARDS; i++) {
             final ImageIcon icon = new ImageIcon(super.getClass().getResource("/imageCard/relic/relic.png"));
             final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(image);
             final JLabel labelLogo = new JLabel(imageResized);
 
-            gbc.gridx = i % CARDS_PER_ROW; //column (max 5)
-            gbc.gridy = i / CARDS_PER_ROW; //row
+            gbc.gridx = i % CARDS_PER_ROW; // column (max 5)
+            gbc.gridy = i / CARDS_PER_ROW; // row
             gbc.weightx = 0;
             gbc.weighty = 0;
 
@@ -193,16 +189,13 @@ public class GameplayView extends SwingPage {
         gbc.weighty = 1.0;
         cardsContainer.add(Box.createGlue(), gbc);
 
-
         final JScrollPane scrollableBoard = new JScrollPane(cardsContainer);
         scrollableBoard.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollableBoard.setPreferredSize(SCROLLABLE_DIM);
         scrollableBoard.getVerticalScrollBar().setUnitIncrement(SCROLL_PIXELS);
         gameBoard.add(scrollableBoard);
 
-
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
-
 
         final JPanel caveGems = new JPanel();
         caveGems.setBorder(boxBorder);
@@ -213,7 +206,6 @@ public class GameplayView extends SwingPage {
 
         final JLabel lblCaveRelics = new JLabel(", Reliquie rimaste nel percorso: ");
         caveGems.add(lblCaveRelics);
-
 
         return gameBoard;
     }
@@ -229,41 +221,38 @@ public class GameplayView extends SwingPage {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
-
         final JLabel lblListActivePlayers = new JLabel("Giocatori in gioco:");
         lblListActivePlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListActivePlayers);
 
-
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-
         final DefaultListModel<String> activePlayers = new DefaultListModel<>();
-        /* listPlayers.stream()
-            .filter(player -> player.getChoice() == PlayerChoice.STAY)
-            .map(PlayerInRound::getName)
-            .forEach(activePlayers::addElement); */
+        /*
+         * listPlayers.stream()
+         * .filter(player -> player.getChoice() == PlayerChoice.STAY)
+         * .map(PlayerInRound::getName)
+         * .forEach(activePlayers::addElement);
+         */
         final JList<String> activePlayerNamesList = new JList<>(activePlayers);
         activePlayerNamesList.setBorder(boxBorder);
         playersList.add(activePlayerNamesList);
 
-
         playersList.add(Box.createVerticalStrut(ROW_GAP));
-
 
         final JLabel lblListExitedPlayers = new JLabel("Giocatori usciti:");
         lblListExitedPlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListExitedPlayers);
 
-
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-
         final DefaultListModel<String> exitedPlayers = new DefaultListModel<>();
-        /* listPlayers.stream()
-            .filter(player -> player.getChoice() == PlayerChoice.EXIT)
-            .map(PlayerInRound::getName)
-            .forEach(exitedPlayers::addElement); */
+        /*
+         * listPlayers.stream()
+         * .filter(player -> player.getChoice() == PlayerChoice.EXIT)
+         * .map(PlayerInRound::getName)
+         * .forEach(exitedPlayers::addElement);
+         */
         final JList<String> exitedPlayerNamesList = new JList<>(exitedPlayers);
         exitedPlayerNamesList.setBorder(boxBorder);
         playersList.add(exitedPlayerNamesList);

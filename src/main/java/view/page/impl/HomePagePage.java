@@ -21,7 +21,7 @@ import view.page.api.SwingPage;
  * 
  * @author Andrea La Tosa
  */
-public class HomePageView extends SwingPage {
+public class HomePagePage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,14 +32,14 @@ public class HomePageView extends SwingPage {
     private static final Dimension BTN_DIM = new Dimension(100, 150);
     private static final Font BTN_FONT = new Font("Arial", Font.BOLD, 50);
 
-    private static final URL LOGO_IMAGE_PATH = HomePageView.class.getResource("/imageCard/logo/Diamant_Logo.png");
+    private static final URL LOGO_IMAGE_PATH = HomePagePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
     private static final int LOGO_WIDTH = 400;
     private static final int LOGO_HEIGHT = 400;
 
     /**
      * Builds the home page display and adds it to the panel.
      */
-    public HomePageView() {
+    public HomePagePage() {
         final JPanel mainPanel = createMainPanel();
         super.add(mainPanel);
     }
@@ -63,7 +63,7 @@ public class HomePageView extends SwingPage {
             final ImageIcon imageResized = new ImageIcon(scaledImage);
             labelLogo = new JLabel(imageResized);
         } catch (final IOException e) {
-            labelLogo = new JLabel("Logo image not found"); 
+            labelLogo = new JLabel("Logo image not found");
         }
 
         labelLogo.setAlignmentX(CENTER_ALIGNMENT);

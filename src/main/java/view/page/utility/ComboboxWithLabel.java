@@ -1,4 +1,4 @@
-package view.page.impl;
+package view.page.utility;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -19,16 +19,18 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.swing.DefaultListCellRenderer;
 
 /**
- * A generic Swing component that displays a {@code JLabel} above a {@code JComboBox}.
+ * A generic Swing component that displays a {@code JLabel} above a
+ * {@code JComboBox}.
  * The combo box is populated by the list provided as input.
- * This class is useful for quickly creating selection fields with an associated description.
+ * This class is useful for quickly creating selection fields with an associated
+ * description.
  * 
  * @param <T> the type of elements used to populate the combo box
  * 
  * @author Andrea La Tosa
  */
-@SuppressFBWarnings(value = { "EI_EXPOSE_REP", "EI_EXPOSE_REP2" }, 
-        justification = "The values returned by this object can be modified externally.")
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+        "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
 public class ComboboxWithLabel<T> {
 
     private static final int MAX_CHARACTERS = 40;
@@ -38,18 +40,20 @@ public class ComboboxWithLabel<T> {
     private final JComboBox<T> cmb;
 
     /**
-     * Create a panel containing the label explaining the contents of the combobox 
+     * Create a panel containing the label explaining the contents of the combobox
      * and the corresponding combobox.
-     * Set the combo box with the data to be displayed and render it for visualization
+     * Set the combo box with the data to be displayed and render it for
+     * visualization
      * using the {@code wrapTextHTML} method.
      * 
-     * @param lblText the description to add to the label explaining 
-     * what the items in the combo box represent
-     * @param listObject represents the list of items to be added to the combobox 
-     * and can be of any type
-     * @param spacing the spacing that must be applied between the label and the combobox
+     * @param lblText    the description to add to the label explaining
+     *                   what the items in the combo box represent
+     * @param listObject represents the list of items to be added to the combobox
+     *                   and can be of any type
+     * @param spacing    the spacing that must be applied between the label and the
+     *                   combobox
      * 
-     * @throws NullPointerException if listObjetc or spacing are null
+     * @throws NullPointerException     if listObjetc or spacing are null
      * @throws IllegalArgumentException if listObject is an empty list
      */
     public ComboboxWithLabel(final String lblText, final List<T> listObject, final Dimension spacing) {
@@ -77,29 +81,31 @@ public class ComboboxWithLabel<T> {
         this.panel.add(Box.createRigidArea(spacing));
         this.panel.add(cmb);
 
-        // creates a custom render of the combobox to display the content following the wrapTextHTML logic
+        // creates a custom render of the combobox to display the content following the
+        // wrapTextHTML logic
         cmb.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index,
-                final boolean isSelected, final boolean cellHasFocus) {
-                    final JLabel label = (JLabel) super.getListCellRendererComponent(
+                    final boolean isSelected, final boolean cellHasFocus) {
+                final JLabel label = (JLabel) super.getListCellRendererComponent(
                         list, value, index, isSelected, cellHasFocus);
 
-                    final Optional<Object> optionalValue = Optional.ofNullable(value);
-                    if (optionalValue.isPresent()) {
-                        final String htmlText = wrapTextHTML(value.toString());
-                        label.setText(htmlText);
-                    } else {
-                        label.setText("");
-                    }
-                    return label;
+                final Optional<Object> optionalValue = Optional.ofNullable(value);
+                if (optionalValue.isPresent()) {
+                    final String htmlText = wrapTextHTML(value.toString());
+                    label.setText(htmlText);
+                } else {
+                    label.setText("");
+                }
+                return label;
             }
         });
     }
 
     /**
      * Is intended to wrap the string to start a new line after MAX_CHARACTERS
-     * without cutting the word and permit a correct display of the combobox content.
+     * without cutting the word and permit a correct display of the combobox
+     * content.
      * 
      * @param str the string to be wrapped
      * @return the wrapped string
@@ -112,7 +118,7 @@ public class ComboboxWithLabel<T> {
         for (final String word : str.split(" ")) {
             if (lineLength + word.length() > MAX_CHARACTERS) {
                 sb.append("<br>");
-                lineLength = 0; 
+                lineLength = 0;
             } else {
                 sb.append(' ');
                 lineLength++;
