@@ -20,9 +20,24 @@ import model.settings.api.GameSettings;
  */
 public class GameSettingsImpl implements GameSettings {
 
+    /**
+     * Constant that represents the minimum players that can be added
+     * in the game.
+     */
     public static final int MIN_PLAYERS = 3;
+    /**
+     * Constant that represents the maximum players that can be added
+     * in the game.
+     */
     public static final int MAX_PLAYERS = 8;
+    /**
+     * Constant that represents the maximum characters a player's name
+     * can have.
+     */
     public static final int MAX_PLAYERS_NAME_CHR = 12;
+    /**
+     * Constant that represents the maximum rounds the game can have.
+     */
     public static final int MAX_ROUNDS = 16;
     private final List<PlayerInRound> listPlayers;
     private final Deck deck;
@@ -41,12 +56,12 @@ public class GameSettingsImpl implements GameSettings {
      * @param cpuDifficulty the difficulty of the CPUs chosen.
      * @param nRound the number of rounds chosen.
      */
-    public GameSettingsImpl(List<PlayerInRound> listPlayers,
-        Deck deck,
-        EndCondition endCondition,
-        GemModifier gemModifier,
-        CpuDifficulty cpuDifficulty,
-        int nRound) {
+    public GameSettingsImpl(final List<PlayerInRound> listPlayers,
+        final Deck deck,
+        final EndCondition endCondition,
+        final GemModifier gemModifier,
+        final CpuDifficulty cpuDifficulty,
+        final int nRound) {
         this.listPlayers = listPlayers;
         this.deck = deck;
         this.endCondition = endCondition;
@@ -79,7 +94,7 @@ public class GameSettingsImpl implements GameSettings {
     @Override
     public int getNumberOfCpu() {
         int i = 0;
-        for (PlayerInRound player : this.listPlayers) {
+        for (final PlayerInRound player : this.listPlayers) {
             if (player instanceof PlayerCpu) {
                 i++;
             }
@@ -93,7 +108,7 @@ public class GameSettingsImpl implements GameSettings {
     @Override
     public int getNumberOfRealPlayers() {
         int i = 0;
-        for (PlayerInRound player : this.listPlayers) {
+        for (final PlayerInRound player : this.listPlayers) {
             if (player instanceof RealPlayer) {
                 i++;
             }

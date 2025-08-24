@@ -31,7 +31,7 @@ public interface GameSettings {
      *         otherwise.
      */
     boolean areSettingsOk();
-    
+
     /**
      * @return the total number of players.
      */
