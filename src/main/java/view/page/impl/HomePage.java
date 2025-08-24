@@ -21,7 +21,7 @@ import view.page.api.SwingPage;
  * 
  * @author Andrea La Tosa
  */
-public class HomePagePage extends SwingPage {
+public class HomePage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,14 +32,14 @@ public class HomePagePage extends SwingPage {
     private static final Dimension BTN_DIM = new Dimension(100, 150);
     private static final Font BTN_FONT = new Font("Arial", Font.BOLD, 50);
 
-    private static final URL LOGO_IMAGE_PATH = HomePagePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
+    private static final URL LOGO_IMAGE_PATH = HomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
     private static final int LOGO_WIDTH = 400;
     private static final int LOGO_HEIGHT = 400;
 
     /**
      * Builds the home page display and adds it to the panel.
      */
-    public HomePagePage() {
+    public HomePage() {
         final JPanel mainPanel = createMainPanel();
         super.add(mainPanel);
     }
