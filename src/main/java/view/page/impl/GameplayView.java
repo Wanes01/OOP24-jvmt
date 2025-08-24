@@ -47,24 +47,23 @@ public class GameplayView extends SwingPage {
     private static final Dimension SCROLLABLE_DIM = new Dimension(820, 450);
     private static final int SCROLL_PIXELS = 30;
     private static final int NUMBER_OF_PLAYERS = 8;
+    private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
     private final List<PlayerInRound> listPlayers = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS); //to be deleted
 
     /**
      * Main panel of the gameplay view.
-     * 
-     * @param roundState the current round state.
      */
-    public GameplayView(/* RoundStateImpl roundState */) {
+    public GameplayView() {
         final JPanel gameUi = new JPanel();
         listPlayers.get(4).choose(PlayerChoice.EXIT);
         listPlayers.get(3).choose(PlayerChoice.EXIT);
-        listPlayers.get(6).choose(PlayerChoice.EXIT);
+        listPlayers.get(1).choose(PlayerChoice.EXIT);
         listPlayers.get(0).choose(PlayerChoice.EXIT);
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
-        gameUi.add(gameInfo(BOX_BORDER/* , RoundStateImpl roundState */));
+        gameUi.add(gameInfo(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(gameBoard(BOX_BORDER/* , RoundStateImpl roundState */));
+        gameUi.add(gameBoard(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
         gameUi.add(players(BOX_BORDER, listPlayers));
 
@@ -76,21 +75,26 @@ public class GameplayView extends SwingPage {
      * for drawing a card.
      * 
      * @param boxBorder the border used for the JPanels.
-     * @param roundState the current round state.
      * 
      * @return the panel itself.
      */
-    private JPanel gameInfo(final Border boxBorder/* , final RoundStateImpl roundState */) {
+    private JPanel gameInfo(final Border boxBorder) {
         final JPanel gameInfo = new JPanel();
         gameInfo.setLayout(new BoxLayout(gameInfo, BoxLayout.Y_AXIS));
 
 
-        final JLabel lblRoundTurn = new JLabel("Round n."
-            /* + */
-            + " | Turno n."
-            /* +  */); //TODO add number of round and turn
-        lblRoundTurn.setAlignmentX(LEFT_ALIGNMENT);
-        gameInfo.add(lblRoundTurn);
+        final JPanel roundTurnInfo = new JPanel();
+        roundTurnInfo.setLayout(new BoxLayout(roundTurnInfo, BoxLayout.Y_AXIS));
+        roundTurnInfo.setBorder(boxBorder);
+        gameInfo.add(roundTurnInfo);
+
+        final JLabel lblRound = new JLabel("Round n.");
+        lblRound.setAlignmentX(LEFT_ALIGNMENT);
+        roundTurnInfo.add(lblRound);
+
+        final JLabel lblTurn = new JLabel("Turno n.");
+        lblTurn.setAlignmentX(LEFT_ALIGNMENT);
+        roundTurnInfo.add(lblTurn);
 
 
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
@@ -101,18 +105,15 @@ public class GameplayView extends SwingPage {
         playerInfo.setBorder(boxBorder);
         gameInfo.add(playerInfo);
 
-        final JLabel lblPlayerTurn = new JLabel("Turno di:"
-            /* + roundState.getRoundPlayersManager().next().getName()*/); //TODO add player's name
+        final JLabel lblPlayerTurn = new JLabel("Turno di: ");
         lblPlayerTurn.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblPlayerTurn);
 
-        final JLabel lblSackGems = new JLabel("Gemme nella sacca: "
-            /* + roundState.getRoundPlayersManager().next().getSackGems()*/); //TODO add player's sack gems
+        final JLabel lblSackGems = new JLabel("Gemme nella sacca: ");
         lblSackGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblSackGems);
 
-        final JLabel lblChestGems = new JLabel("Gemme nella cassa: "
-            /* + roundState.getRoundPlayersManager().next().getChestGems()*/); //TODO add player's chest gems
+        final JLabel lblChestGems = new JLabel("Gemme nella cassa: ");
         lblChestGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblChestGems);
 
@@ -128,13 +129,11 @@ public class GameplayView extends SwingPage {
         gameConditions.setBorder(boxBorder);
         gameInfo.add(gameConditions);
 
-        final JLabel lblGameEndCond = new JLabel("Condizione fine round: "
-            /* + */); //TODO add game end conditions
+        final JLabel lblGameEndCond = new JLabel("Condizione fine round: ");
         lblGameEndCond.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGameEndCond);
 
-        final JLabel lblGemModifier = new JLabel("Modificatori gemme: "
-            /* + */); //TODO add gems modifiers
+        final JLabel lblGemModifier = new JLabel("Modificatori gemme: ");
         lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGemModifier);
 
@@ -147,17 +146,15 @@ public class GameplayView extends SwingPage {
      * Every time a card is drawn it is added in the game board.
      * 
      * @param boxBorder the border used for the JPanels.
-     * @param roundState the current round state.
      * 
      * @return the panel itself.
      */
-    private JPanel gameBoard(final Border boxBorder/* , final RoundStateImpl roundState */) {
+    private JPanel gameBoard(final Border boxBorder) {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
 
-        final JLabel lblDrawnCards = new JLabel("Carte pescate: "
-            /* + roundState.getDrawCards().size() */); //TODO add cards drawn
+        final JLabel lblDrawnCards = new JLabel("Carte pescate: ");
         lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
@@ -173,8 +170,8 @@ public class GameplayView extends SwingPage {
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
 
         //For testing, to be deleted
-        for (int i = 0; i < 35; i++) {
-            final ImageIcon icon = new ImageIcon(getClass().getResource("/imageCard/relic/relic.png"));
+        for (int i = 0; i < MAX_CARDS; i++) {
+            final ImageIcon icon = new ImageIcon(super.getClass().getResource("/imageCard/relic/relic.png"));
             final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(image);
             final JLabel labelLogo = new JLabel(imageResized);
@@ -194,7 +191,7 @@ public class GameplayView extends SwingPage {
         cardsContainer.add(Box.createGlue(), gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = (35 / CARDS_PER_ROW) + 1;
+        gbc.gridy = (MAX_CARDS / CARDS_PER_ROW) + 1;
         gbc.weightx = 0.0;
         gbc.weighty = 1.0;
         cardsContainer.add(Box.createGlue(), gbc);
@@ -214,12 +211,11 @@ public class GameplayView extends SwingPage {
         caveGems.setBorder(boxBorder);
         gameBoard.add(caveGems);
 
-        final JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: "
-            //+ roundState.getPathGems()
-            + ", Reliquie rimaste nel percorso: "
-            /* + roundState.getDrawnRelics().size() */); //TODO add path gems and relics
-        lblCaveGems.setAlignmentX(CENTER_ALIGNMENT);
+        final JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: ");
         caveGems.add(lblCaveGems);
+
+        final JLabel lblCaveRelics = new JLabel(", Reliquie rimaste nel percorso: ");
+        caveGems.add(lblCaveRelics);
 
 
         return gameBoard;

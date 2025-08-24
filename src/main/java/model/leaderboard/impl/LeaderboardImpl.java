@@ -1,4 +1,6 @@
 package model.leaderboard.impl;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class LeaderboardImpl implements Leaderboard {
      * @param listPlayers list of the players that played the game.
      */
     public LeaderboardImpl(final List<PlayerInRound> listPlayers) {
-        this.listPlayers = listPlayers;
+        this.listPlayers = new ArrayList<>(listPlayers);
     }
 
     /**
@@ -31,6 +33,6 @@ public class LeaderboardImpl implements Leaderboard {
     @Override
     public List<PlayerInRound> getPlayersSortedByScore() {
         this.listPlayers.sort(Comparator.comparing(PlayerInRound::getChestGems).reversed());
-        return this.listPlayers;
+        return Collections.unmodifiableList(this.listPlayers);
     }
 }

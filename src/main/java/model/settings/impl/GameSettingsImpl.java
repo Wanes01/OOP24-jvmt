@@ -1,5 +1,6 @@
 package model.settings.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.card.api.Deck;
@@ -62,7 +63,7 @@ public class GameSettingsImpl implements GameSettings {
         final GemModifier gemModifier,
         final CpuDifficulty cpuDifficulty,
         final int nRound) {
-        this.listPlayers = listPlayers;
+        this.listPlayers = new ArrayList<>(listPlayers);
         this.deck = deck;
         this.endCondition = endCondition;
         this.gemModifier = gemModifier;
