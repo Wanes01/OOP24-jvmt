@@ -39,6 +39,8 @@ import view.page.api.SwingPage;
  *  <li>Round gem modifier</li>
  *  <li>Total number of rounds</li>
  * </ul>
+ * 
+ * @author Andrea La Tosa
  */
 public class SettingsPageView extends SwingPage {
 
