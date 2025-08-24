@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,9 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
-import model.player.api.PlayerChoice;
-import model.player.impl.PlayerInRound;
-import utils.CommonUtils;
 import view.page.api.SwingPage;
 
 /**
@@ -46,26 +42,27 @@ public class GameplayView extends SwingPage {
     private static final int CARDS_PER_ROW = 5;
     private static final Dimension SCROLLABLE_DIM = new Dimension(820, 450);
     private static final int SCROLL_PIXELS = 30;
-    private static final int NUMBER_OF_PLAYERS = 8;
+    /* private static final int NUMBER_OF_PLAYERS = 8; */
     private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
-    private final List<PlayerInRound> listPlayers = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS); //to be deleted
+    /* private transient final List<PlayerInRound> listPlayers =
+    CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS); */ //to be deleted
 
     /**
      * Main panel of the gameplay view.
      */
     public GameplayView() {
         final JPanel gameUi = new JPanel();
-        listPlayers.get(4).choose(PlayerChoice.EXIT);
+        /* listPlayers.get(4).choose(PlayerChoice.EXIT);
         listPlayers.get(3).choose(PlayerChoice.EXIT);
         listPlayers.get(1).choose(PlayerChoice.EXIT);
-        listPlayers.get(0).choose(PlayerChoice.EXIT);
+        listPlayers.get(0).choose(PlayerChoice.EXIT); */
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
         gameUi.add(gameBoard(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(players(BOX_BORDER, listPlayers));
+        gameUi.add(players(BOX_BORDER/* , listPlayers */));
 
         super.add(gameUi);
     }
@@ -225,11 +222,10 @@ public class GameplayView extends SwingPage {
      * Panel which contains the list of active and exited players.
      * 
      * @param boxBorder the border used for the JPanels.
-     * @param listPlayers the list of the players playing.
      * 
      * @return the panel itself.
      */
-    private JPanel players(final Border boxBorder, final List<PlayerInRound> listPlayers) {
+    private JPanel players(final Border boxBorder/* , final List<PlayerInRound> listPlayers */) {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
@@ -243,10 +239,10 @@ public class GameplayView extends SwingPage {
 
 
         final DefaultListModel<String> activePlayers = new DefaultListModel<>();
-        listPlayers.stream()
+        /* listPlayers.stream()
             .filter(player -> player.getChoice() == PlayerChoice.STAY)
             .map(PlayerInRound::getName)
-            .forEach(activePlayers::addElement);
+            .forEach(activePlayers::addElement); */
         final JList<String> activePlayerNamesList = new JList<>(activePlayers);
         activePlayerNamesList.setBorder(boxBorder);
         playersList.add(activePlayerNamesList);
@@ -264,10 +260,10 @@ public class GameplayView extends SwingPage {
 
 
         final DefaultListModel<String> exitedPlayers = new DefaultListModel<>();
-        listPlayers.stream()
+        /* listPlayers.stream()
             .filter(player -> player.getChoice() == PlayerChoice.EXIT)
             .map(PlayerInRound::getName)
-            .forEach(exitedPlayers::addElement);
+            .forEach(exitedPlayers::addElement); */
         final JList<String> exitedPlayerNamesList = new JList<>(exitedPlayers);
         exitedPlayerNamesList.setBorder(boxBorder);
         playersList.add(exitedPlayerNamesList);
