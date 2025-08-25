@@ -1,5 +1,7 @@
 package model.player.impl;
 
+import java.util.Objects;
+
 import model.player.api.Player;
 import model.player.api.PlayerChoice;
 
@@ -32,10 +34,12 @@ public class PlayerInRound implements Player {
     /**
      * Initializes the player's informations.
      * 
+     * @throws NullPointerException if {@link name} is null.
+     * 
      * @param name a string representing the player's name
      */
     protected PlayerInRound(final String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
         this.chestGems = 0;
         this.sackGems = 0;
         this.choice = PlayerChoice.STAY;
@@ -164,11 +168,13 @@ public class PlayerInRound implements Player {
     /**
      * Updates the player's choice.
      * 
+     * @throws NullPointerException if {@link choice} is null.
+     * 
      * @param choice the choice that'll be overwitten as
      *               the player's choice.
      */
     public void choose(final PlayerChoice choice) {
-        this.choice = choice;
+        this.choice = Objects.requireNonNull(choice);
     }
 
     /**
