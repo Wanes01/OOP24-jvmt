@@ -23,24 +23,57 @@ import model.settings.api.GameSettings;
 public class GameSettingsImpl implements GameSettings {
 
     /**
-     * Constant that represents the minimum players that can be added
+     * Constant that represents the minimum number of players that can be added
      * in the game.
      */
     public static final int MIN_PLAYERS = 3;
+
     /**
-     * Constant that represents the maximum players that can be added
+     * Constant that represents the maximum number of players that can be added
      * in the game.
      */
     public static final int MAX_PLAYERS = 8;
+
+    /**
+     * Constant that represents the minimum number of real players that can be added
+     * in the game.
+     */
+    public static final int MIN_REAL_PLAYERS = 0;
+
+    /**
+     * Constant that represents the maximum number of real players that can be added
+     * in the game.
+     */
+    public static final int MAX_REAL_PLAYERS = 8;
+
+    /**
+     * Constant that represents the minimum number of CPU players that can be added
+     * in the game.
+     */
+    public static final int MIN_CPU_PLAYERS = 0;
+
+    /**
+     * Constant that represents the maximum number of CPU players that can be added
+     * in the game.
+     */
+    public static final int MAX_CPU_PLAYERS = 8;
+
+    /**
+     * Constant that represents the minimum rounds the game can have.
+     */
+    public static final int MIN_ROUNDS = 3;
+
     /**
      * Constant that represents the maximum rounds the game can have.
      */
     public static final int MAX_ROUNDS = 16;
+
     /**
      * Constant that represents the maximum characters a player's name
      * can have.
      */
     private static final int MAX_PLAYERS_NAME_CHR = 12;
+
     private final List<String> listNamePlayers;
     private final int numberOfCpu;
     private final Deck deck;
