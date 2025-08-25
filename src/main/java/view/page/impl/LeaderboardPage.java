@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -43,6 +44,8 @@ public class LeaderboardPage extends SwingPage {
      * Main panel of the leaderboard view.
      * It has a scrollable leaderboard and a button that redirects to the home page.
      * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
      * @param players the list of players that are to appear in the leaderboard.
      */
     public LeaderboardPage(final List<PlayerInRound> players) {
@@ -51,9 +54,9 @@ public class LeaderboardPage extends SwingPage {
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
         leaderboardUi.setLayout(new BoxLayout(leaderboardUi, BoxLayout.Y_AXIS));
 
-        final JLabel lblVictor = new JLabel(players.get(0).getName()
+        final JLabel lblVictor = new JLabel(Objects.requireNonNull(players).get(0).getName()
                 + " won with a score of "
-                + players.get(0).getChestGems()
+                + Objects.requireNonNull(players).get(0).getChestGems()
                 + " gems!");
         lblVictor.setAlignmentX(CENTER_ALIGNMENT);
         lblVictor.setFont(fontVictor);
@@ -67,7 +70,7 @@ public class LeaderboardPage extends SwingPage {
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        leaderboardUi.add(playersList(players));
+        leaderboardUi.add(playersList(Objects.requireNonNull(players)));
         lblleaderboard.setAlignmentX(CENTER_ALIGNMENT);
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
@@ -83,6 +86,8 @@ public class LeaderboardPage extends SwingPage {
     /**
      * Panel which contains the leaderboard itself.
      * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
      * @param players the list of players that are to appear in the leaderboard.
      * 
      * @return the panel itself.
@@ -94,7 +99,7 @@ public class LeaderboardPage extends SwingPage {
         final DefaultTableModel leaderboardInfo = new DefaultTableModel();
         leaderboardInfo.setColumnIdentifiers(new Object[] { "Name", "Score" });
 
-        for (final PlayerInRound player : players) {
+        for (final PlayerInRound player : Objects.requireNonNull(players)) {
             leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
         }
 
