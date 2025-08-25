@@ -52,9 +52,9 @@ public class LeaderboardPage extends SwingPage {
         leaderboardUi.setLayout(new BoxLayout(leaderboardUi, BoxLayout.Y_AXIS));
 
         final JLabel lblVictor = new JLabel(players.get(0).getName()
-                + " ha vinto con "
+                + " won with a score of "
                 + players.get(0).getChestGems()
-                + " punti!");
+                + " gems!");
         lblVictor.setAlignmentX(CENTER_ALIGNMENT);
         lblVictor.setFont(fontVictor);
         lblVictor.setBorder(BOX_BORDER);
@@ -62,7 +62,7 @@ public class LeaderboardPage extends SwingPage {
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        final JLabel lblleaderboard = new JLabel("Classifica");
+        final JLabel lblleaderboard = new JLabel("Leaderboard");
         leaderboardUi.add(lblleaderboard);
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
@@ -72,7 +72,7 @@ public class LeaderboardPage extends SwingPage {
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        final JButton btnHome = new JButton("Torna alla home");
+        final JButton btnHome = new JButton("Go back to Home page");
         btnHome.setFont(fontHomeButton);
         btnHome.setAlignmentX(CENTER_ALIGNMENT);
         leaderboardUi.add(btnHome);
@@ -92,7 +92,7 @@ public class LeaderboardPage extends SwingPage {
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.X_AXIS));
 
         final DefaultTableModel leaderboardInfo = new DefaultTableModel();
-        leaderboardInfo.setColumnIdentifiers(new Object[] { "Nome", "Punteggio" });
+        leaderboardInfo.setColumnIdentifiers(new Object[] { "Name", "Score" });
 
         for (final PlayerInRound player : players) {
             leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });

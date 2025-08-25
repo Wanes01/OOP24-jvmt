@@ -93,7 +93,7 @@ public class GameplayPage extends SwingPage {
         lblRound.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(lblRound);
 
-        final JLabel lblTurn = new JLabel("Turno n.");
+        final JLabel lblTurn = new JLabel("Turn n.");
         lblTurn.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(lblTurn);
 
@@ -104,19 +104,19 @@ public class GameplayPage extends SwingPage {
         playerInfo.setBorder(boxBorder);
         gameInfo.add(playerInfo);
 
-        final JLabel lblPlayerTurn = new JLabel("Turno di: ");
+        final JLabel lblPlayerTurn = new JLabel("Turn of: ");
         lblPlayerTurn.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblPlayerTurn);
 
-        final JLabel lblSackGems = new JLabel("Gemme nella sacca: ");
+        final JLabel lblSackGems = new JLabel("Gems in the sack: ");
         lblSackGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblSackGems);
 
-        final JLabel lblChestGems = new JLabel("Gemme nella cassa: ");
+        final JLabel lblChestGems = new JLabel("Gems in the chest: ");
         lblChestGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblChestGems);
 
-        final JButton btnDraw = new JButton("PESCA");
+        final JButton btnDraw = new JButton("DRAW");
         playerInfo.add(btnDraw);
 
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
@@ -126,11 +126,11 @@ public class GameplayPage extends SwingPage {
         gameConditions.setBorder(boxBorder);
         gameInfo.add(gameConditions);
 
-        final JLabel lblGameEndCond = new JLabel("Condizione fine round: ");
+        final JLabel lblGameEndCond = new JLabel("End round condition: ");
         lblGameEndCond.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGameEndCond);
 
-        final JLabel lblGemModifier = new JLabel("Modificatori gemme: ");
+        final JLabel lblGemModifier = new JLabel("Gem modifier: ");
         lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGemModifier);
 
@@ -149,7 +149,7 @@ public class GameplayPage extends SwingPage {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
-        final JLabel lblDrawnCards = new JLabel("Carte pescate: ");
+        final JLabel lblDrawnCards = new JLabel("Cards drawn: ");
         lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
@@ -201,10 +201,10 @@ public class GameplayPage extends SwingPage {
         caveGems.setBorder(boxBorder);
         gameBoard.add(caveGems);
 
-        final JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: ");
+        final JLabel lblCaveGems = new JLabel("Gems in the path: ");
         caveGems.add(lblCaveGems);
 
-        final JLabel lblCaveRelics = new JLabel(", Reliquie rimaste nel percorso: ");
+        final JLabel lblCaveRelics = new JLabel(", Relics in the path: ");
         caveGems.add(lblCaveRelics);
 
         return gameBoard;
@@ -221,7 +221,7 @@ public class GameplayPage extends SwingPage {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
-        final JLabel lblListActivePlayers = new JLabel("Giocatori in gioco:");
+        final JLabel lblListActivePlayers = new JLabel("Players in game:");
         lblListActivePlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListActivePlayers);
 
@@ -240,7 +240,7 @@ public class GameplayPage extends SwingPage {
 
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-        final JLabel lblListExitedPlayers = new JLabel("Giocatori usciti:");
+        final JLabel lblListExitedPlayers = new JLabel("Exited players:");
         lblListExitedPlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListExitedPlayers);
 
