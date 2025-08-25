@@ -26,21 +26,21 @@ public class GameSettingsImpl implements GameSettings {
      * Constant that represents the minimum players that can be added
      * in the game.
      */
-    private static final int MIN_PLAYERS = 3;
+    public static final int MIN_PLAYERS = 3;
     /**
      * Constant that represents the maximum players that can be added
      * in the game.
      */
-    private static final int MAX_PLAYERS = 8;
+    public static final int MAX_PLAYERS = 8;
+    /**
+     * Constant that represents the maximum rounds the game can have.
+     */
+    public static final int MAX_ROUNDS = 16;
     /**
      * Constant that represents the maximum characters a player's name
      * can have.
      */
     private static final int MAX_PLAYERS_NAME_CHR = 12;
-    /**
-     * Constant that represents the maximum rounds the game can have.
-     */
-    private static final int MAX_ROUNDS = 16;
     private final List<String> listNamePlayers;
     private final int numberOfCpu;
     private final Deck deck;
@@ -52,6 +52,12 @@ public class GameSettingsImpl implements GameSettings {
 
     /**
      * Constructor of the method.
+     * 
+     * @throws NullPointerException if {@link listNamePlayers} is null.
+     * @throws NullPointerException if {@link deck} is null.
+     * @throws NullPointerException if {@link endCondition} is null.
+     * @throws NullPointerException if {@link gemModifier} is null.
+     * @throws NullPointerException if {@link cpuDifficulty} is null.
      * 
      * @param listNamePlayers the list of the name of the players.
      * @param numberOfCpu the number of CPU players.
@@ -68,13 +74,13 @@ public class GameSettingsImpl implements GameSettings {
         final GemModifier gemModifier,
         final CpuDifficulty cpuDifficulty,
         final int nRound) {
-        this.listNamePlayers = new ArrayList<>(listNamePlayers);
-        this.numberOfCpu = Objects.requireNonNull(numberOfCpu);
+        this.listNamePlayers = new ArrayList<>(Objects.requireNonNull(listNamePlayers));
+        this.numberOfCpu = numberOfCpu;
         this.deck = Objects.requireNonNull(deck);
         this.endCondition = Objects.requireNonNull(endCondition);
         this.gemModifier = Objects.requireNonNull(gemModifier);
         this.cpuDifficulty = Objects.requireNonNull(cpuDifficulty);
-        this.nRounds =  Objects.requireNonNull(nRound);
+        this.nRounds = nRound;
         this.errorMessagesList = new ArrayList<>();
     }
 
