@@ -32,7 +32,7 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
     public EndCondition firstTrapEnds() {
         return new EndConditionImpl(
                 state -> !state.getDrawnTraps().isEmpty(),
-                "Il round termina alla prima carta trappola pescata o se tutti i giocatori escono.");
+                "a trap card is drawn");
     }
 
     /**
@@ -45,7 +45,7 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
                         .values()
                         .stream()
                         .anyMatch(occ -> occ >= 2),
-                "Il round termina se vengono pescate due carte trappola uguali o se tutti i giocatori escono.");
+                "two identical trap cards are drawn");
     }
 
     /**

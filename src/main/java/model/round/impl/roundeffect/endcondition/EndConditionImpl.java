@@ -13,8 +13,8 @@ import model.round.api.RoundState;
  * simple data holder.
  * </p>
  * 
- * @param condition   the predicate defining when the round should end
- * @param description a human readable explanation of the condition
+ * @param condition   the predicate defining when the round should end.
+ * @param description a human readable explanation of the effect end condition.
  * 
  * @see RoundState
  * @see model.common.api.Describable
@@ -25,12 +25,14 @@ public record EndConditionImpl(
         Predicate<RoundState> condition,
         String description) implements EndCondition {
 
+    private static final String BASE_END_CONDITION = "The round ends when the deck is over, if all players leave, or if ";
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String getDescription() {
-        return description();
+        return BASE_END_CONDITION + description();
     }
 
     /**

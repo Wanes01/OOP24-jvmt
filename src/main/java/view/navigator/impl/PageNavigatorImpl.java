@@ -84,7 +84,7 @@ public class PageNavigatorImpl implements PageNavigator {
      * </p>
      */
     @Override
-    public void registerView(final PageId id, final Page page) {
+    public void registerPage(final PageId id, final Page page) {
         this.pages.put(id, page);
     }
 

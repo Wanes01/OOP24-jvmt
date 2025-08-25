@@ -115,7 +115,7 @@ public class RoundImpl implements Round {
     /**
      * Return whether the current round is over or not.
      * The round is over if there are no active players, if there are no
-     * cards to draw or if the end condition of the round is met.
+     * cards to draw or if the extra end condition of the round is met.
      * 
      * @return true if the round is over, false otherwise.
      */
