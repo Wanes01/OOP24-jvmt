@@ -12,10 +12,16 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A generic Swing component that displays a {@code JLabel} above a {@code JSpinner}.
  * This class is useful for quickly creating spinners with an associated description.
+ * 
+ * @author Andrea La Tosa
  */
+@SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+    "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
 public class JSpinnerWithLabel {
 
     private final JPanel panel;
@@ -69,7 +75,7 @@ public class JSpinnerWithLabel {
             this.panel.add(Box.createRigidArea(spacing));
             this.panel.add(spn);
     }
-    
+
     /**
      * @return the panel containing the label and jspinner.
      */

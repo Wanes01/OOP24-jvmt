@@ -30,7 +30,7 @@ import javax.swing.DefaultListCellRenderer;
  * @author Andrea La Tosa
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
-        "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
+    "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
 public class ComboboxWithLabel<T> {
 
     private static final int MAX_CHARACTERS = 40;
@@ -132,7 +132,7 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
-     * @return the panel containing the label and combobox
+     * @return the panel containing the label and combobox.
      */
     public JPanel getPanel() {
         return this.panel;
@@ -146,7 +146,7 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
-     * @return the label added to the panel
+     * @return the label added to the panel.
      */
     public JLabel getLabel() {
         return this.lbl;
