@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -90,5 +91,16 @@ public final class CommonUtils {
             throw new IllegalArgumentException("The changes must be > 0");
         }
         return r.nextInt(chances) == 0;
+    }
+
+    /**
+     * Checks that all the given objects are non-null.
+     * 
+     * @param objects the objects to check to not be null.
+     */
+    public static void requireNonNulls(final Object... objects) {
+        for (final Object obj : objects) {
+            Objects.requireNonNull(obj);
+        }
     }
 }

@@ -12,6 +12,7 @@ import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.RoundState;
 import model.round.impl.turn.TurnImpl;
+import utils.CommonUtils;
 
 /**
  * Implementation of the {@link Round} interface that represents a single round
@@ -70,6 +71,7 @@ public class RoundImpl implements Round {
             final List<PlayerInRound> players,
             final Deck deck,
             final RoundEffect effect) {
+        CommonUtils.requireNonNulls(players, deck, effect);
 
         players.forEach(PlayerInRound::resetRoundPlayer);
         this.state = new RoundStateImpl(players, deck);
