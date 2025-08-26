@@ -48,14 +48,17 @@ tasks.test {
 /* java/ direct files exclusion */
 tasks.withType<Checkstyle> {
     exclude("*.java");
+    exclude("**/controller/mock/**");
 }
 
 tasks.withType<Pmd> {
     exclude("*.java");
+    exclude("**/controller/mock/**");
 }
 
 tasks.javadoc {
     exclude("*.java");
+    exclude("**/controller/mock/**");
 }
 
 
