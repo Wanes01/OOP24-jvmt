@@ -3,53 +3,129 @@ package settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
 
+import model.card.api.Deck;
+import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerInRound;
+import model.round.api.roundeffect.endcondition.EndCondition;
+import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.settings.impl.GameSettingsImpl;
-import utils.CommonUtils;
+import model.settings.impl.InvalidGameSettingsException;
+
 
 /**
- * GameSettings test class.
+ * Game settings test class.
  * 
  * @author Filippo Gaggi
  */
 class GameSettingsTest {
 
-    private static final int PLAYERS_MIN_TEST = 2;
-    private static final int PLAYERS_MAX_TEST = 9;
-    private static final int PLAYERS_RIGHT_TEST = 4;
-    private static final int RIGHT_ROUNDS_TEST = 10;
-    private static final int MAX_ROUNDS_TEST = 17;
+    private Deck mockDeck;
+    private EndCondition mockEndCondition;
+    private GemModifier mockGemModifier;
+    private CpuDifficulty mockCpuDifficulty;
 
-    // -- Testing the method for making sure the game settings are ok --
+    @BeforeEach
+    void setUp() {
+        // Create mock objects for dependencies to isolate the class under test
+        mockDeck = mock(Deck.class);
+        mockEndCondition = mock(EndCondition.class);
+        mockGemModifier = mock(GemModifier.class);
+        mockCpuDifficulty = mock(CpuDifficulty.class);
+    }
+
+    // -- Testing players creation with valid settings --
+
     @Test
-    void testAreSettingsOkMinPlayers() {
-        final List<PlayerInRound> playersTooFew = new ArrayList<>(CommonUtils.generatePlayerInRoundList(PLAYERS_MIN_TEST));
-        final GameSettingsImpl gameSettings = new GameSettingsImpl(playersTooFew, null, null, null, null, RIGHT_ROUNDS_TEST);
-        assertFalse(gameSettings.areSettingsOk());
+    void areSettingsOkTestAllRight() {
+        final List<String> playerNames = new ArrayList<>();
+        playerNames.add("Player-1-ok");
+        playerNames.add("Player-2-ok");
+        final int numberOfCpu = 1;
+        final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
+        final GameSettingsImpl settings = new GameSettingsImpl(playerNames,
+            numberOfCpu,
+            mockDeck,
+            mockEndCondition,
+            mockGemModifier,
+            mockCpuDifficulty,
+            numberOfRounds);
+        final List<PlayerInRound> allPlayers = settings.getPlayers();
+
+        assertEquals(3, allPlayers.size());
+    }
+
+    // -- Testing exceptions with invalid settings --
+
+    @Test
+    void areSettingsOkTestNameTooLong() {
+        final List<String> playerNames = new ArrayList<>();
+        playerNames.add("Player-1-ok");
+        playerNames.add("Player-2-too-long");
+        final int numberOfCpu = 1;
+        final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
+        final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
+            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
+        });
+
+        assertEquals("One or more players' names exceed the maximum of 12 characters.",
+            exception.getErrors().get(0));
     }
 
     @Test
-    void testAreSettingsOkMaxPlayers() {
-        final List<PlayerInRound> playersTooMany = new ArrayList<>(CommonUtils.generatePlayerInRoundList(PLAYERS_MAX_TEST));
-        final GameSettingsImpl gameSettings = new GameSettingsImpl(playersTooMany, null, null, null, null, RIGHT_ROUNDS_TEST);
-        assertFalse(gameSettings.areSettingsOk());
+    void areSettingsOkTestFewPlayers() {
+        final List<String> playerNames = new ArrayList<>();
+        playerNames.add("Player-1");
+        final int numberOfCpu = 1;
+        final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
+        final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
+            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
+        });
+
+        assertEquals("The number of players is inferior to the minimum of "
+            + GameSettingsImpl.MIN_PLAYERS
+            + " players.", exception.getErrors().get(0));
     }
 
     @Test
-    void testAreSettingsOkRightPlayers() {
-        final List<PlayerInRound> playersRight = new ArrayList<>(CommonUtils.generatePlayerInRoundList(PLAYERS_RIGHT_TEST));
-        final GameSettingsImpl gameSettings = new GameSettingsImpl(playersRight, null, null, null, null, RIGHT_ROUNDS_TEST);
-        assertTrue(gameSettings.areSettingsOk());
+    void areSettingsOkTestTooManyPlayers() {
+        final List<String> playerNames = new ArrayList<>();
+        for (int i = 0; i < GameSettingsImpl.MAX_PLAYERS; i++) {
+            playerNames.add("Player-" + i);
+        }
+        final int numberOfCpu = 1;
+        final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
+        final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
+            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
+        });
+
+        assertEquals("The number of players exceeds the maximum of "
+            + GameSettingsImpl.MAX_PLAYERS
+            + " players.", exception.getErrors().get(0));
     }
 
     @Test
-    void testAreSettingsOkMaxRounds() {
-        final List<PlayerInRound> playersRight = new ArrayList<>(CommonUtils.generatePlayerInRoundList(PLAYERS_RIGHT_TEST));
-        final GameSettingsImpl gameSettings = new GameSettingsImpl(playersRight, null, null, null, null, MAX_ROUNDS_TEST);
-        assertFalse(gameSettings.areSettingsOk());
+    void areSettingsOkTestTooManyRounds() {
+        final List<String> playerNames = new ArrayList<>();
+        playerNames.add("Player-1");
+        playerNames.add("Player-2");
+        final int numberOfCpu = 1;
+        final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS + 1;
+        final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
+            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
+        });
+
+        assertEquals("The number of rounds exceeds the maximum of "
+            + GameSettingsImpl.MAX_ROUNDS
+            + " rounds.", exception.getErrors().get(0));
     }
 }
