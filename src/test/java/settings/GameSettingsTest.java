@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.mock;
 
 import model.card.api.Deck;
+import model.card.impl.DeckFactoryImpl;
 import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerInRound;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
+import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
+import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
 import model.settings.impl.GameSettingsImpl;
 import model.settings.impl.InvalidGameSettingsException;
 
@@ -25,7 +27,7 @@ import model.settings.impl.InvalidGameSettingsException;
  */
 class GameSettingsTest {
 
-    private Deck mockDeck;
+    private Deck Deck;
     private EndCondition mockEndCondition;
     private GemModifier mockGemModifier;
     private CpuDifficulty mockCpuDifficulty;
@@ -33,10 +35,10 @@ class GameSettingsTest {
     @BeforeEach
     void setUp() {
         // Create mock objects for dependencies to isolate the class under test
-        mockDeck = mock(Deck.class);
-        mockEndCondition = mock(EndCondition.class);
-        mockGemModifier = mock(GemModifier.class);
-        mockCpuDifficulty = mock(CpuDifficulty.class);
+        Deck =  new DeckFactoryImpl().standardDeck();
+        mockEndCondition = new EndConditionFactoryImpl().standard();
+        mockGemModifier = new  GemModifierFactoryImpl().standard();
+        mockCpuDifficulty = CpuDifficulty.EASY;
     }
 
     // -- Testing players creation with valid settings --
@@ -50,7 +52,7 @@ class GameSettingsTest {
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final GameSettingsImpl settings = new GameSettingsImpl(playerNames,
             numberOfCpu,
-            mockDeck,
+            Deck,
             mockEndCondition,
             mockGemModifier,
             mockCpuDifficulty,
@@ -70,7 +72,7 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            new GameSettingsImpl(playerNames, numberOfCpu, Deck,
             mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
         });
 
@@ -85,7 +87,7 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            new GameSettingsImpl(playerNames, numberOfCpu, Deck,
             mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
         });
 
@@ -103,7 +105,7 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            new GameSettingsImpl(playerNames, numberOfCpu, Deck,
             mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
         });
 
@@ -120,7 +122,7 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS + 1;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, mockDeck,
+            new GameSettingsImpl(playerNames, numberOfCpu, Deck,
             mockEndCondition, mockGemModifier, mockCpuDifficulty, numberOfRounds);
         });
 
