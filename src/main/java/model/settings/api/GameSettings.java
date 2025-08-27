@@ -23,18 +23,6 @@ import model.settings.impl.GameSettingsImpl;
 public interface GameSettings {
 
     /**
-     * This method checks if there is an acceptable number of players,
-     * if their name has an acceptable number of characters and if there's
-     * an acceptable number of rounds.
-     * 
-     * @return true if the number of players is between its min and its max, if
-     *         their names don't exceed the maximum amount of characters and if
-     *         the number of rounds isn't exceeded by its max, returns false
-     *         otherwise.
-     */
-    boolean areSettingsOk();
-
-    /**
      * @return the total number of players.
      */
     int getNumberOfPlayers();
@@ -75,9 +63,7 @@ public interface GameSettings {
     int getNumberOfRounds();
 
     /**
-     * Creates the list of all players (real players + CPU players).
-     * 
-     * @return the list of all players.
+     * @return a list of players.
      */
-    List<PlayerInRound> createPlayers();
+    List<PlayerInRound> getPlayers();
 }
