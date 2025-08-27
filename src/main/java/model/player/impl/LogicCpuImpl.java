@@ -47,17 +47,34 @@ public class LogicCpuImpl implements LogicCpu {
      * 
      * @throws NullPointerException if {@link deck} is null.
      * @throws NullPointerException if {@link difficulty} is null.
-     * @throws NullPointerException if {@link rand} is null.
      * 
      * @param deck the round cards deck.
      * @param difficulty the CPU's expected difficulty.
-     * @param rand random number generator for giving the CPU some unpredictability.
      */
-    public LogicCpuImpl(final Deck deck, final CpuDifficulty difficulty, final Random rand) {
+    public LogicCpuImpl(final Deck deck, final CpuDifficulty difficulty) {
         this.deck = Objects.requireNonNull(deck);
         this.difficulty = Objects.requireNonNull(difficulty);
         this.config = DIFFICULTY_VARIABLES.get(this.difficulty);
-        this.rand = Objects.requireNonNull(rand);
+        this.rand = new Random();
+    }
+
+    /**
+     * Initializes the CPU's logic, second constructor that gives in input
+     * the seed of the Random object on top of other fields in order to
+     * facilitate testing.
+     * 
+     * @throws NullPointerException if {@link deck} is null.
+     * @throws NullPointerException if {@link difficulty} is null.
+     * 
+     * @param deck the round cards deck.
+     * @param difficulty the CPU's expected difficulty.
+     * @param seed seed for the Random object.
+     */
+    public LogicCpuImpl(final Deck deck, final CpuDifficulty difficulty, final int seed) {
+        this.deck = Objects.requireNonNull(deck);
+        this.difficulty = Objects.requireNonNull(difficulty);
+        this.config = DIFFICULTY_VARIABLES.get(this.difficulty);
+        this.rand = new Random(seed);
     }
 
     /**
