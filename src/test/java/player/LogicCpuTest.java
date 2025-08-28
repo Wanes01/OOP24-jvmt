@@ -22,6 +22,12 @@ import model.round.api.RoundState;
 import model.round.impl.RoundStateImpl;
 import utils.CommonUtils;
 
+
+/**
+ * CPU logic test class.
+ * 
+ * @author Filippo Gaggi
+ */
 class LogicCpuTest {
 
     private static final int HIGH_RAND_SEED = 2345; // nextDouble() = 0.9336903394987087
