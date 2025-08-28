@@ -32,6 +32,8 @@ public final class DeckImpl implements Deck {
      * Creates the deck for the round and sets its statistics.
      * 
      * @param deck the deck to use
+     * 
+     * @throws NullPointerException if null is passed to the deck parameter
      */
     public DeckImpl(final List<Card> deck) {
         this.deck = new ArrayList<>(
