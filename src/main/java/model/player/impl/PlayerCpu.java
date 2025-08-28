@@ -1,5 +1,7 @@
 package model.player.impl;
 
+import java.util.Objects;
+
 /**
  * Represents a CPU player during a round.
  * <p>
@@ -15,10 +17,12 @@ public class PlayerCpu extends PlayerInRound {
     /**
      * Initializes the CPU player's informations.
      * 
+     * @throws NullPointerException if {@link name} is null.
+     * 
      * @param name a string representing the CPU player's
      *             name
      */
     public PlayerCpu(final String name) {
-        super(name);
+        super(Objects.requireNonNull(name));
     }
 }

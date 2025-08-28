@@ -4,14 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -46,7 +45,7 @@ public class GameplayPage extends SwingPage {
     private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
     /*
-     * private transient final List<PlayerInRound> listPlayers =
+     * private final List<PlayerInRound> listPlayers =
      * CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
      */ // to be deleted
 
@@ -76,6 +75,8 @@ public class GameplayPage extends SwingPage {
      * and the button
      * for drawing a card.
      * 
+     * @throws NullPointerException if {@link boxBorder} is null.
+     * 
      * @param boxBorder the border used for the JPanels.
      * 
      * @return the panel itself.
@@ -86,14 +87,14 @@ public class GameplayPage extends SwingPage {
 
         final JPanel roundTurnInfo = new JPanel();
         roundTurnInfo.setLayout(new BoxLayout(roundTurnInfo, BoxLayout.Y_AXIS));
-        roundTurnInfo.setBorder(boxBorder);
+        roundTurnInfo.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(roundTurnInfo);
 
         final JLabel lblRound = new JLabel("Round n.");
         lblRound.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(lblRound);
 
-        final JLabel lblTurn = new JLabel("Turno n.");
+        final JLabel lblTurn = new JLabel("Turn n.");
         lblTurn.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(lblTurn);
 
@@ -101,36 +102,36 @@ public class GameplayPage extends SwingPage {
 
         final JPanel playerInfo = new JPanel();
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
-        playerInfo.setBorder(boxBorder);
+        playerInfo.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(playerInfo);
 
-        final JLabel lblPlayerTurn = new JLabel("Turno di: ");
+        final JLabel lblPlayerTurn = new JLabel("Turn of: ");
         lblPlayerTurn.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblPlayerTurn);
 
-        final JLabel lblSackGems = new JLabel("Gemme nella sacca: ");
+        final JLabel lblSackGems = new JLabel("Gems in the sack: ");
         lblSackGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblSackGems);
 
-        final JLabel lblChestGems = new JLabel("Gemme nella cassa: ");
+        final JLabel lblChestGems = new JLabel("Gems in the chest: ");
         lblChestGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(lblChestGems);
 
-        final JButton btnDraw = new JButton("PESCA");
+        final JButton btnDraw = new JButton("DRAW");
         playerInfo.add(btnDraw);
 
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
 
         final JPanel gameConditions = new JPanel();
         gameConditions.setLayout(new BoxLayout(gameConditions, BoxLayout.Y_AXIS));
-        gameConditions.setBorder(boxBorder);
+        gameConditions.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(gameConditions);
 
-        final JLabel lblGameEndCond = new JLabel("Condizione fine round: ");
+        final JLabel lblGameEndCond = new JLabel("End round condition: ");
         lblGameEndCond.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGameEndCond);
 
-        final JLabel lblGemModifier = new JLabel("Modificatori gemme: ");
+        final JLabel lblGemModifier = new JLabel("Gem modifier: ");
         lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(lblGemModifier);
 
@@ -141,6 +142,8 @@ public class GameplayPage extends SwingPage {
      * Panel which contains the game board.
      * Every time a card is drawn it is added in the game board.
      * 
+     * @throws NullPointerException if {@link boxBorder} is null.
+     * 
      * @param boxBorder the border used for the JPanels.
      * 
      * @return the panel itself.
@@ -149,7 +152,7 @@ public class GameplayPage extends SwingPage {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
-        final JLabel lblDrawnCards = new JLabel("Carte pescate: ");
+        final JLabel lblDrawnCards = new JLabel("Cards drawn: ");
         lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
@@ -163,7 +166,7 @@ public class GameplayPage extends SwingPage {
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
 
         // For testing, to be deleted
-        for (int i = 0; i < MAX_CARDS; i++) {
+        /* for (int i = 0; i < MAX_CARDS; i++) {
             final ImageIcon icon = new ImageIcon(super.getClass().getResource("/imageCard/relic/relic.png"));
             final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(image);
@@ -175,7 +178,7 @@ public class GameplayPage extends SwingPage {
             gbc.weighty = 0;
 
             cardsContainer.add(labelLogo, gbc);
-        }
+        } */
 
         gbc.gridx = CARDS_PER_ROW;
         gbc.gridy = 0;
@@ -198,13 +201,13 @@ public class GameplayPage extends SwingPage {
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
 
         final JPanel caveGems = new JPanel();
-        caveGems.setBorder(boxBorder);
+        caveGems.setBorder(Objects.requireNonNull(boxBorder));
         gameBoard.add(caveGems);
 
-        final JLabel lblCaveGems = new JLabel("Gemme rimaste nel percorso: ");
+        final JLabel lblCaveGems = new JLabel("Gems in the path: ");
         caveGems.add(lblCaveGems);
 
-        final JLabel lblCaveRelics = new JLabel(", Reliquie rimaste nel percorso: ");
+        final JLabel lblCaveRelics = new JLabel(", Relics in the path: ");
         caveGems.add(lblCaveRelics);
 
         return gameBoard;
@@ -212,6 +215,8 @@ public class GameplayPage extends SwingPage {
 
     /**
      * Panel which contains the list of active and exited players.
+     * 
+     * @throws NullPointerException if {@link boxBorder} is null.
      * 
      * @param boxBorder the border used for the JPanels.
      * 
@@ -221,7 +226,7 @@ public class GameplayPage extends SwingPage {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
-        final JLabel lblListActivePlayers = new JLabel("Giocatori in gioco:");
+        final JLabel lblListActivePlayers = new JLabel("Players in game:");
         lblListActivePlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListActivePlayers);
 
@@ -235,12 +240,12 @@ public class GameplayPage extends SwingPage {
          * .forEach(activePlayers::addElement);
          */
         final JList<String> activePlayerNamesList = new JList<>(activePlayers);
-        activePlayerNamesList.setBorder(boxBorder);
+        activePlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
         playersList.add(activePlayerNamesList);
 
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-        final JLabel lblListExitedPlayers = new JLabel("Giocatori usciti:");
+        final JLabel lblListExitedPlayers = new JLabel("Exited players:");
         lblListExitedPlayers.setAlignmentX(CENTER_ALIGNMENT);
         playersList.add(lblListExitedPlayers);
 
@@ -254,7 +259,7 @@ public class GameplayPage extends SwingPage {
          * .forEach(exitedPlayers::addElement);
          */
         final JList<String> exitedPlayerNamesList = new JList<>(exitedPlayers);
-        exitedPlayerNamesList.setBorder(boxBorder);
+        exitedPlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
         playersList.add(exitedPlayerNamesList);
 
         return playersList;

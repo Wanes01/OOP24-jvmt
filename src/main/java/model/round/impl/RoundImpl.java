@@ -12,6 +12,7 @@ import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.RoundState;
 import model.round.impl.turn.TurnImpl;
+import utils.CommonUtils;
 
 /**
  * Implementation of the {@link Round} interface that represents a single round
@@ -70,6 +71,7 @@ public class RoundImpl implements Round {
             final List<PlayerInRound> players,
             final Deck deck,
             final RoundEffect effect) {
+        CommonUtils.requireNonNulls(players, deck, effect);
 
         players.forEach(PlayerInRound::resetRoundPlayer);
         this.state = new RoundStateImpl(players, deck);
@@ -115,7 +117,7 @@ public class RoundImpl implements Round {
     /**
      * Return whether the current round is over or not.
      * The round is over if there are no active players, if there are no
-     * cards to draw or if the end condition of the round is met.
+     * cards to draw or if the extra end condition of the round is met.
      * 
      * @return true if the round is over, false otherwise.
      */

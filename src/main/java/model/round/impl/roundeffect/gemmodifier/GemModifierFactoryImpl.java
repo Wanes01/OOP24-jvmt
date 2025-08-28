@@ -26,7 +26,7 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
     public GemModifier standard() {
         return new GemModifierImpl(
                 (state, gems) -> gems,
-                "Nessun modificatore applicato alle gemme.");
+                "no modifiers applied to gems");
     }
 
     /**
@@ -41,7 +41,7 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
     public GemModifier riskyReward(final int bonus) {
         return new GemModifierImpl(
                 (state, gems) -> gems + (state.getDrawnTraps().size() * bonus),
-                (bonus >= 0 ? "+" : "") + bonus + " gemme per ogni carta trappola già pescata.");
+                (bonus >= 0 ? "+" : "") + bonus + " gems for each trap card already drawn");
     }
 
     /**
@@ -56,7 +56,7 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
     public GemModifier gemMultiplier(final double multiplier) {
         return new GemModifierImpl(
                 (state, gems) -> (int) (gems * multiplier),
-                "Moltiplicatore applicato alle gemme [x" + multiplier + "]");
+                "multiplier applied to gems [x" + multiplier + "]");
     }
 
     /**
@@ -71,7 +71,7 @@ public class GemModifierFactoryImpl implements GemModifierFactory {
     public GemModifier leftReward(final int leftBonus) {
         return new GemModifierImpl(
                 (state, gems) -> gems + (leftBonus * state.getRoundPlayersManager().getExitedPlayers().size()),
-                (leftBonus >= 0 ? "+" : "") + leftBonus + " gemme per ogni giocatore uscito dal round.");
+                (leftBonus >= 0 ? "+" : "") + leftBonus + " gems for each player who exits the round");
     }
 
 }

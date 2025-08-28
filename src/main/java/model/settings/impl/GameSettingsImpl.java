@@ -1,6 +1,7 @@
 package model.settings.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -76,21 +77,27 @@ public class GameSettingsImpl implements GameSettings {
 
     private final List<String> listNamePlayers;
     private final int numberOfCpu;
+    private final int numberRealPlayers;
+    private final int totalNumberOfPlayers;
     private final Deck deck;
     private final EndCondition endCondition;
     private final GemModifier gemModifier;
     private final CpuDifficulty cpuDifficulty;
     private final int nRounds;
-    private final List<String> errorMessagesList;
+
+    private final List<PlayerInRound> players;
 
     /**
-     * Constructor of the method.
+     * Constructor of the method, creates the list of players of the game after
+     * making sure the game settings are acceptable.
      * 
      * @throws NullPointerException if {@link listNamePlayers} is null.
      * @throws NullPointerException if {@link deck} is null.
      * @throws NullPointerException if {@link endCondition} is null.
      * @throws NullPointerException if {@link gemModifier} is null.
      * @throws NullPointerException if {@link cpuDifficulty} is null.
+     * @throws InvalidGameSettingsException if {@link error} isn't empty
+     *         (the settings aren't acceptable).
      * 
      * @param listNamePlayers the list of the name of the players.
      * @param numberOfCpu the number of CPU players.
@@ -109,45 +116,52 @@ public class GameSettingsImpl implements GameSettings {
         final int nRound) {
         this.listNamePlayers = new ArrayList<>(Objects.requireNonNull(listNamePlayers));
         this.numberOfCpu = numberOfCpu;
+        this.numberRealPlayers = Objects.requireNonNull(listNamePlayers).size();
+        this.totalNumberOfPlayers = this.numberRealPlayers + this.numberOfCpu;
         this.deck = Objects.requireNonNull(deck);
         this.endCondition = Objects.requireNonNull(endCondition);
         this.gemModifier = Objects.requireNonNull(gemModifier);
         this.cpuDifficulty = Objects.requireNonNull(cpuDifficulty);
         this.nRounds = nRound;
-        this.errorMessagesList = new ArrayList<>();
+
+        final List<String> errors = this.getSettingsErrors();
+
+        if (!errors.isEmpty()) {
+            throw new InvalidGameSettingsException(errors);
+        }
+
+        this.players = this.createPlayers();
     }
 
     /**
-     * {@inheritDoc}
+     * This method checks if the game settings are ok and adds error messages if
+     * they aren't.
+     * 
+     * @return the list of error messages.
      */
-    @Override
-    public boolean areSettingsOk() {
-        this.errorMessagesList.clear();
-        final boolean result = namePlayersLengthOk()
-            && minNumberPlayersOk()
-            && maxNumberPlayersOk()
-            && numberOfRoundsOk();
+    private List<String> getSettingsErrors() {
+        final List<String> errorMessagesList = new ArrayList<>();
         if (!namePlayersLengthOk()) {
-            this.errorMessagesList.add("One or more players' names exceed the maximum of "
-                + MAX_PLAYERS_NAME_CHR
-                + " characters.");
+            errorMessagesList.add("One or more players' names exceed the maximum of "
+                    + MAX_PLAYERS_NAME_CHR
+                    + " characters.");
         }
         if (!minNumberPlayersOk()) {
-            this.errorMessagesList.add("The number of players is inferior to the minimum of "
-                + MIN_PLAYERS
-                + " players.");
+            errorMessagesList.add("The number of players is inferior to the minimum of "
+                    + MIN_PLAYERS
+                    + " players.");
         }
         if (!maxNumberPlayersOk()) {
-            this.errorMessagesList.add("The number of players exceeds the maximum of "
-                + MAX_PLAYERS
-                + " players.");
+            errorMessagesList.add("The number of players exceeds the maximum of "
+                    + MAX_PLAYERS
+                    + " players.");
         }
         if (!numberOfRoundsOk()) {
-            this.errorMessagesList.add("The number of rounds exceeds the maximum of "
-                + MAX_ROUNDS
-                + " rounds.");
+            errorMessagesList.add("The number of rounds exceeds the maximum of "
+                    + MAX_ROUNDS
+                    + " rounds.");
         }
-        return result;
+        return errorMessagesList;
     }
 
     /**
@@ -155,7 +169,7 @@ public class GameSettingsImpl implements GameSettings {
      */
     @Override
     public int getNumberOfPlayers() {
-        return getNumberOfCpu() + getNumberOfRealPlayers();
+        return this.totalNumberOfPlayers;
     }
 
     /**
@@ -171,7 +185,7 @@ public class GameSettingsImpl implements GameSettings {
      */
     @Override
     public int getNumberOfRealPlayers() {
-        return this.listNamePlayers.size();
+        return this.numberRealPlayers;
     }
     /**
      * {@inheritDoc}
@@ -238,7 +252,7 @@ public class GameSettingsImpl implements GameSettings {
      *         false if not.
      */
     private boolean maxNumberPlayersOk() {
-        return getNumberOfPlayers() <= MAX_PLAYERS;
+        return this.totalNumberOfPlayers <= MAX_PLAYERS;
     }
 
     /**
@@ -246,7 +260,7 @@ public class GameSettingsImpl implements GameSettings {
      *         false if not.
      */
     private boolean minNumberPlayersOk() {
-        return getNumberOfPlayers() >= MIN_PLAYERS;
+        return this.totalNumberOfPlayers >= MIN_PLAYERS;
     }
 
     /**
@@ -270,7 +284,7 @@ public class GameSettingsImpl implements GameSettings {
      */
     private List<PlayerInRound> createCpuPlayers() {
         final List<PlayerInRound> listCpuPlayers = new ArrayList<>();
-        for (int i = 0; i < this.getNumberOfCpu(); i++) {
+        for (int i = 0; i < this.numberOfCpu; i++) {
             final PlayerCpu playerCpu = new PlayerCpu("CPU-" + i);
             listCpuPlayers.add(playerCpu);
         }
@@ -278,13 +292,24 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
-     * {@inheritDoc}
+     * Creates the list of all players (real players + CPU players)
+     * and shuffles it.
+     * 
+     * @return the shuffled list of all players.
      */
-    @Override
-    public List<PlayerInRound> createPlayers() {
+    private List<PlayerInRound> createPlayers() {
         final List<PlayerInRound> listAllPlayers = new ArrayList<>();
         listAllPlayers.addAll(createRealPlayers());
         listAllPlayers.addAll(createCpuPlayers());
+        Collections.shuffle(listAllPlayers);
         return listAllPlayers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<PlayerInRound> getPlayers() {
+        return new ArrayList<>(this.players);
     }
 }

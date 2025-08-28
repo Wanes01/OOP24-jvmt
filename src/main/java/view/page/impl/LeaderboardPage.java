@@ -3,7 +3,6 @@ package view.page.impl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
 
 /**
@@ -43,18 +41,17 @@ public class LeaderboardPage extends SwingPage {
      * Main panel of the leaderboard view.
      * It has a scrollable leaderboard and a button that redirects to the home page.
      * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
      * @param players the list of players that are to appear in the leaderboard.
      */
-    public LeaderboardPage(final List<PlayerInRound> players) {
+    public LeaderboardPage() {
         final JPanel leaderboardUi = new JPanel();
         final Font fontVictor = new Font("Arial", Font.PLAIN, FONT_SIZE_VICTOR);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
         leaderboardUi.setLayout(new BoxLayout(leaderboardUi, BoxLayout.Y_AXIS));
 
-        final JLabel lblVictor = new JLabel(players.get(0).getName()
-                + " ha vinto con "
-                + players.get(0).getChestGems()
-                + " punti!");
+        final JLabel lblVictor = new JLabel(" won!");
         lblVictor.setAlignmentX(CENTER_ALIGNMENT);
         lblVictor.setFont(fontVictor);
         lblVictor.setBorder(BOX_BORDER);
@@ -62,17 +59,17 @@ public class LeaderboardPage extends SwingPage {
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        final JLabel lblleaderboard = new JLabel("Classifica");
+        final JLabel lblleaderboard = new JLabel("Leaderboard");
         leaderboardUi.add(lblleaderboard);
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        leaderboardUi.add(playersList(players));
+        leaderboardUi.add(playersList());
         lblleaderboard.setAlignmentX(CENTER_ALIGNMENT);
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        final JButton btnHome = new JButton("Torna alla home");
+        final JButton btnHome = new JButton("Go back to Home page");
         btnHome.setFont(fontHomeButton);
         btnHome.setAlignmentX(CENTER_ALIGNMENT);
         leaderboardUi.add(btnHome);
@@ -83,20 +80,18 @@ public class LeaderboardPage extends SwingPage {
     /**
      * Panel which contains the leaderboard itself.
      * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
      * @param players the list of players that are to appear in the leaderboard.
      * 
      * @return the panel itself.
      */
-    private JPanel playersList(final List<PlayerInRound> players) {
+    private JPanel playersList() {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.X_AXIS));
 
         final DefaultTableModel leaderboardInfo = new DefaultTableModel();
-        leaderboardInfo.setColumnIdentifiers(new Object[] { "Nome", "Punteggio" });
-
-        for (final PlayerInRound player : players) {
-            leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
-        }
+        leaderboardInfo.setColumnIdentifiers(new Object[] { "Name", "Score" });
 
         final JTable table = new JTable(leaderboardInfo);
         final JScrollPane scrollableBoard = new JScrollPane(table);

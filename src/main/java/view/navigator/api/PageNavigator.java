@@ -29,7 +29,7 @@ public interface PageNavigator {
      * @param id   the id to bind to the page.
      * @param page the page that has to been bound to the id.
      */
-    void registerView(PageId id, Page page);
+    void registerPage(PageId id, Page page);
 
     /**
      * Gets the id of the current displayed page

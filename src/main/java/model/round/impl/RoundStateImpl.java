@@ -2,6 +2,7 @@ package model.round.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -14,6 +15,7 @@ import model.card.impl.TreasureCard;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
+import utils.CommonUtils;
 
 /**
  * Concrete implementation of {@link RoundState}, responsible
@@ -53,6 +55,8 @@ public class RoundStateImpl implements RoundState {
      * @param deck    the deck that will be used in this round.
      */
     public RoundStateImpl(final List<PlayerInRound> players, final Deck deck) {
+        CommonUtils.requireNonNulls(players, deck);
+
         this.playersManager = new RoundPlayersManagerImpl(players);
         this.deck = deck;
         this.drawnCards = new ArrayList<>();
@@ -91,6 +95,8 @@ public class RoundStateImpl implements RoundState {
     private <T extends Card> List<T> getDrawnFiltered(
             final Predicate<Card> filter,
             final Function<Card, T> mapper) {
+        CommonUtils.requireNonNulls(filter, mapper);
+
         return this.drawnCards.stream()
                 .filter(filter)
                 .map(mapper)
@@ -146,6 +152,7 @@ public class RoundStateImpl implements RoundState {
      */
     @Override
     public void addCardToPath(final Card card) {
+        Objects.requireNonNull(card);
         this.drawnCards.add(card);
     }
 

@@ -2,12 +2,14 @@ package model.round.impl.turn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.turn.Turn;
+import utils.CommonUtils;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
 import model.card.api.Card;
@@ -69,6 +71,7 @@ public class TurnImpl implements Turn {
             final PlayerInRound player,
             final RoundState roundState,
             final RoundEffect roundEffect) {
+        CommonUtils.requireNonNulls(player, roundState, roundEffect);
         this.player = player;
         this.roundState = roundState;
         this.roundEffect = roundEffect;
@@ -147,6 +150,8 @@ public class TurnImpl implements Turn {
      */
     @Override
     public void endTurn(final Set<PlayerInRound> playersExitingThisTurn) {
+        Objects.requireNonNull(playersExitingThisTurn);
+
         if (isAnyActive(playersExitingThisTurn)) {
             throw new IllegalArgumentException("Players passed to endTurn function must all have left the round.");
         } else if (this.drawnCard.isEmpty()) {

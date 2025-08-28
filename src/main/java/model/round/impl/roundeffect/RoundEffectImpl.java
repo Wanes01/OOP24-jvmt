@@ -3,6 +3,10 @@ package model.round.impl.roundeffect;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
+import utils.CommonUtils;
+
+import java.util.Objects;
+
 import model.round.api.RoundState;
 
 /**
@@ -37,6 +41,7 @@ public class RoundEffectImpl implements RoundEffect {
     public RoundEffectImpl(
             final EndCondition endCondition,
             final GemModifier gemModifier) {
+        CommonUtils.requireNonNulls(endCondition, gemModifier);
         this.endCondition = endCondition;
         this.gemModifier = gemModifier;
     }
@@ -64,6 +69,7 @@ public class RoundEffectImpl implements RoundEffect {
      */
     @Override
     public boolean isEndConditionMet(final RoundState state) {
+        Objects.requireNonNull(state);
         return this.endCondition.getEndCondition()
                 .test(state);
     }
@@ -78,6 +84,7 @@ public class RoundEffectImpl implements RoundEffect {
      */
     @Override
     public int applyGemModifier(final RoundState state, final int gems) {
+        Objects.requireNonNull(state);
         return this.gemModifier.getGemModifier()
                 .apply(state, gems);
     }

@@ -3,6 +3,7 @@ package model.round.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerInRound;
@@ -33,6 +34,8 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      *                                  that is not active.
      */
     public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
+        Objects.requireNonNull(players);
+
         this.players = new ArrayList<>(players);
 
         if (!this.getExitedPlayers().isEmpty()) {
