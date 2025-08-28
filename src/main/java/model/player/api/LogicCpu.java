@@ -19,10 +19,8 @@ public interface LogicCpu {
 
     /**
      * This method returns the CPU's choice at the end of the turn.
-     * It'll return a PlayerChoice.EXIT if the CPU exits or a
-     * PlayerChoice.STAY if the CPU stays.
-     * Said choice is obtained through a comparison between a score
-     * and a borderline.
+     * It'll return a PlayerChoice.EXIT if the score of the CPU is bigger
+     * than the borderline and PlayerChoice.STAY if not.
      * 
      * @throws NullPointerException if {@link state} is null.
      * 

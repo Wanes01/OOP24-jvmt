@@ -34,10 +34,10 @@ class GameSettingsTest {
 
     @BeforeEach
     void setUp() {
-        deck =  new DeckFactoryImpl().standardDeck();
-        endCondition = new EndConditionFactoryImpl().standard();
-        gemModifier = new  GemModifierFactoryImpl().standard();
-        cpuDifficulty = CpuDifficulty.EASY;
+        this.deck =  new DeckFactoryImpl().standardDeck();
+        this.endCondition = new EndConditionFactoryImpl().standard();
+        this.gemModifier = new  GemModifierFactoryImpl().standard();
+        this.cpuDifficulty = CpuDifficulty.EASY;
     }
 
     // -- Testing players creation with valid settings --
@@ -51,10 +51,10 @@ class GameSettingsTest {
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final GameSettingsImpl settings = new GameSettingsImpl(playerNames,
             numberOfCpu,
-            deck,
-            endCondition,
-            gemModifier,
-            cpuDifficulty,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            this.cpuDifficulty,
             numberOfRounds);
         final List<PlayerInRound> allPlayers = settings.getPlayers();
 
@@ -71,8 +71,8 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, deck,
-            endCondition, gemModifier, cpuDifficulty, numberOfRounds);
+            new GameSettingsImpl(playerNames, numberOfCpu, this.deck,
+            this.endCondition, this.gemModifier, this.cpuDifficulty, numberOfRounds);
         });
 
         assertEquals("One or more players' names exceed the maximum of 12 characters.",
@@ -86,8 +86,8 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, deck,
-            endCondition, gemModifier, cpuDifficulty, numberOfRounds);
+            new GameSettingsImpl(playerNames, numberOfCpu, this.deck,
+            this.endCondition, this.gemModifier, this.cpuDifficulty, numberOfRounds);
         });
 
         assertEquals("The number of players is inferior to the minimum of "
@@ -104,8 +104,8 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, deck,
-            endCondition, gemModifier, cpuDifficulty, numberOfRounds);
+            new GameSettingsImpl(playerNames, numberOfCpu, this.deck,
+            this.endCondition, this.gemModifier, this.cpuDifficulty, numberOfRounds);
         });
 
         assertEquals("The number of players exceeds the maximum of "
@@ -121,8 +121,8 @@ class GameSettingsTest {
         final int numberOfCpu = 1;
         final int numberOfRounds = GameSettingsImpl.MAX_ROUNDS + 1;
         final InvalidGameSettingsException exception = assertThrows(InvalidGameSettingsException.class, () -> {
-            new GameSettingsImpl(playerNames, numberOfCpu, deck,
-            endCondition, gemModifier, cpuDifficulty, numberOfRounds);
+            new GameSettingsImpl(playerNames, numberOfCpu, this.deck,
+            this.endCondition, this.gemModifier, this.cpuDifficulty, numberOfRounds);
         });
 
         assertEquals("The number of rounds exceeds the maximum of "

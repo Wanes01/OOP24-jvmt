@@ -14,11 +14,15 @@ import model.round.api.RoundState;
 /**
  * The implementation of the {@link LogicCpu} interface.
  * <p>
- * This class includes a method for calculating a score
- * that changes at the variation of certain round informations and
- * various methods for calculating the normalized values needed for it.
+ * This class includes a method for calculating a score with a
+ * weighted average that changes at the variation of certain round
+ * informations and various methods for calculating the normalized
+ * values needed for it.
+ * Each normalized value calculated with private methods goes from
+ * 0.0 to 1.0 (except for normRelics that reaches up to 2.0).
+ * The sum of all weights in all difficulties is equal to 1.0.
  * In the end said score is going to be confronted with a calculated
- * borderline value in another method.
+ * borderline value.
  * </p>
  * 
  * @see LogicCpu
@@ -28,14 +32,16 @@ import model.round.api.RoundState;
  * @author Filippo Gaggi
  */
 public class LogicCpuImpl implements LogicCpu {
+
     /**
-     * Map containing the various weights of the round informations
-     * needed for the CPU to take the end turn choice.
+     * Map containing the various weights of the variables used for
+     * making the CPU take a choice at the end of the turns based off
+     * the round informations.
      */
     private static final Map<CpuDifficulty, CpuDifficultyVariables> DIFFICULTY_VARIABLES = Map.of(
-        CpuDifficulty.EASY, new CpuDifficultyVariables(0.35, 0.20, 0.30, 0.0, 0.15, 0.4, 0.7),
-        CpuDifficulty.NORMAL, new CpuDifficultyVariables(0.30, 0.30, 0.20, 0.15, 0.05, 0.6, 0.8),
-        CpuDifficulty.HARD, new CpuDifficultyVariables(0.45, 0.25, 0.05, 0.20, 0.05, 0.7, 0.9)
+        CpuDifficulty.EASY, new CpuDifficultyVariables(0.60, 0.05, 0.15, 0, 0.20, 0.4, 0.7),
+        CpuDifficulty.NORMAL, new CpuDifficultyVariables(0.25, 0.20, 0.15, 0.20, 0.20, 0.5, 0.7),
+        CpuDifficulty.HARD, new CpuDifficultyVariables(0.05, 0.50, 0.15, 0.30, 0, 0.5, 0.7)
     );
     private final Deck deck;
     private final CpuDifficulty difficulty;
@@ -83,64 +89,89 @@ public class LogicCpuImpl implements LogicCpu {
     @Override
     public PlayerChoice cpuChoice(final RoundState state) {
         final double score = calculateScore(Objects.requireNonNull(state));
-        final double borderline = config.minBl() + this.rand.nextDouble() * (config.maxBl() - config.minBl());
+        final double borderline = calculateBorderline();
         return (score >= borderline) ? PlayerChoice.EXIT : PlayerChoice.STAY;
     }
 
     /**
+     * This method normalizes the variable representing the gems.
+     * It divides the gems on the path by the amount of active players by 2.0.
+     * This way the variable can reach its highest value (1.0) when the gems
+     * per player are 2 or more.
+     * 
      * @throws NullPointerException if {@link state} is null.
      * 
      * @param state the round state.
-     * @param remainingCards the remaining cards in the deck.
      * @param activePlayers the number of active players.
      * 
      * @return the normalized gems value.
      */
-    private double calculateNormGems(final RoundState state, final int remainingCards, final int activePlayers) {
-        final double averageGemsPerCard = Objects.requireNonNull(state).getPathGems()
-            / (double) (this.deck.deckSize() - remainingCards);
-        final double expectedAverage = (activePlayers - 1) / 2.0;
-        return averageGemsPerCard / expectedAverage;
+    private double calculateNormGems(final RoundState state, final int activePlayers) {
+        return Objects.requireNonNull(state).getPathGems() / (activePlayers * 2.0);
     }
 
     /**
-     * @param differentTraps the number of different traps drawn until this turn.
+     * This method normalizes the variable representing the traps.
+     * It divides the amount of drawn traps by the amount of trap types in the deck.
+     * This way the variable can reach its highest value (1.0) when the amount of
+     * drawn traps are equal to the number of trap types in the deck.
+     * 
+     * @throws NullPointerException if {@link state} is null.
+     * 
+     * @param state the round state.
      * 
      * @return the normalized traps value.
      */
-    private double calculateNormTraps(final int differentTraps) {
-        final double probTrapNextCard = this.deck.totTrapCardsInDeck()
-            / (double) this.deck.deckSize();
-        return (this.deck.totTrapCardTypesInDeck() - differentTraps)
-            / (double) this.deck.totTrapCardTypesInDeck() * probTrapNextCard;
+    private double calculateNormTraps(final RoundState state) {
+        return Objects.requireNonNull(state).getDrawnTraps().size() / (double) this.deck.totTrapCardTypesInDeck();
     }
 
     /**
-     * @param remainingCards the remaining cards in the deck.
+     * This method normalizes the variable representing the drawn cards.
+     * It substracts from 1.0 the amount of cards not yet drawn divided by the
+     * total amount of cards in the deck.
+     * This way the less cards remain in the deck, the higher the variable is.
+     * 
+     * @throws NullPointerException if {@link state} is null.
+     * 
+     * @param state the round state.
      * 
      * @return the normalized cards value.
      */
-    private double calculateNormCards(final int remainingCards) {
+    private double calculateNormCards(final RoundState state) {
+        final int remainingCards = this.deck.deckSize() - Objects.requireNonNull(state).getDrawCards().size();
         return 1.0 - (remainingCards / (double) this.deck.deckSize());
     }
 
     /**
-     * @param drawnRelicCards the number of relics drawn until this turn.
+     * This method normalizes the variable representing the relic cards.
+     * It divides the amount of drawn relics by the total amount of relics in the deck
+     * and multiplies it by 2.0.
+     * It's the only variable that can reach 2.0 as its maximum.
+     * 
+     * @throws NullPointerException if {@link state} is null.
+     * 
+     * @param state the round state.
      * 
      * @return the normalized relics value.
      */
-    private double calculateNormRelics(final int drawnRelicCards) {
-        return drawnRelicCards / (double) this.deck.totRelicCardsInDeck();
+    private double calculateNormRelics(final RoundState state) {
+        return Objects.requireNonNull(state).getDrawnRelics().size() * 2.0 / this.deck.totRelicCardsInDeck();
     }
 
     /**
+     * This method normalizes the variable representing the players.
+     * It substracts from 1.0 the amount of exited players by the total amount of
+     * players in the game.
+     * This way the less players exit, the higher the variable is.
+     * 
      * @param activePlayers the number of active players.
      * @param exitedPlayers the number of players that left.
      * 
      * @return the normalized players value.
      */
     private double calculateNormPlayers(final int activePlayers, final int exitedPlayers) {
-        return activePlayers > 0 ? (exitedPlayers / (double) activePlayers) : 0;
+        return 1.0 - (exitedPlayers / (double) (exitedPlayers + activePlayers));
     }
 
     /**
@@ -160,17 +191,27 @@ public class LogicCpuImpl implements LogicCpu {
         }
         final int exitedPlayers = Objects.requireNonNull(state).getRoundPlayersManager().getExitedPlayers().size();
         final double normPlayers = calculateNormPlayers(activePlayers, exitedPlayers);
-        final int remainingCards = this.deck.deckSize() - Objects.requireNonNull(state).getDrawCards().size();
-        final double normCards = calculateNormCards(remainingCards);
-        final double normGems = calculateNormGems(Objects.requireNonNull(state), remainingCards, activePlayers);
-        final int differentTraps = Objects.requireNonNull(state).getDrawnTraps().size();
-        final double normTraps = calculateNormTraps(differentTraps);
-        final int drawnRelicCards = Objects.requireNonNull(state).getDrawnRelics().size();
-        final double normRelics = calculateNormRelics(drawnRelicCards);
+        final double normCards = calculateNormCards(Objects.requireNonNull(state));
+        final double normGems = calculateNormGems(Objects.requireNonNull(state), activePlayers);
+        final double normTraps = calculateNormTraps(Objects.requireNonNull(state));
+        final double normRelics = calculateNormRelics(Objects.requireNonNull(state));
         return (config.weightGems() * normGems)
             + (config.weightTraps() * normTraps)
             + (config.weightCards() * normCards)
             + (config.weightRelics() * normRelics)
             + (config.weightPlayers() * normPlayers);
+    }
+
+    /**
+     * Calculates the borderline value using the configured minimum borderline
+     * and maximum borderline that depend on the difficulty chosen.
+     * The borderline is calculated by summing the minimum borderline to the difference
+     * between the maximum and minimum borderlines multiplied by a random real number
+     * between 0.0 and 1.0.
+     * 
+     * @return the borderline value of the difficulty.
+     */
+    private double calculateBorderline() {
+        return config.minBl() + this.rand.nextDouble() * (config.maxBl() - config.minBl());
     }
 }
