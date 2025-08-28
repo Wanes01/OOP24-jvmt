@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 import model.card.api.Card;
@@ -33,7 +34,8 @@ public final class DeckImpl implements Deck {
      * @param deck the deck to use
      */
     public DeckImpl(final List<Card> deck) {
-        this.deck = new ArrayList<>(deck);
+        this.deck = new ArrayList<>(
+            Objects.requireNonNull(deck, "Deck must not be null"));
         this.initialDeckSize = deck.size();
         totTrapTypes = EnumSet.noneOf(TypeTrapCard.class);
         calculateStatistics();
