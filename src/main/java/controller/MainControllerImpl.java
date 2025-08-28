@@ -85,11 +85,7 @@ public class MainControllerImpl implements MainController {
                 PageId.MENU, new HomePage(),
                 PageId.SETTINGS, new SettingsPage(),
                 PageId.ROUND, new GameplayPage(),
-                /*
-                 * TODO: Questo null verrà levato non appena si farà il merge della nuova
-                 * versione di LeaderboardPage
-                 */
-                PageId.LEADERBOARD, new LeaderboardPage(null));
+                PageId.LEADERBOARD, new LeaderboardPage());
     }
 
     /**
@@ -140,13 +136,7 @@ public class MainControllerImpl implements MainController {
         final PageController leaderboardController = new LeaderboardControllerImpl(
                 leaderboard,
                 navigator,
-                /*
-                 * TODO: PER ORA NULLO. Bisogna cambiare createPlayers
-                 * con getPlayers in GameSettings. Ci andrà:
-                 * 
-                 * settings.getPlayers()
-                 */
-                null);
+                settings.getPlayers());
 
         controllers.put(PageId.ROUND, gameplayController);
         controllers.put(PageId.LEADERBOARD, leaderboardController);

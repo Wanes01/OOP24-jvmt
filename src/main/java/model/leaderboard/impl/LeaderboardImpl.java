@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import model.leaderboard.api.Leaderboard;
 import model.player.impl.PlayerInRound;
@@ -21,10 +22,12 @@ public class LeaderboardImpl implements Leaderboard {
     /**
      * Saves the list of players that played in a game.
      * 
+     * @throws NullPointerException if {@link listPlayers} is null.
+     * 
      * @param listPlayers list of the players that played the game.
      */
     public LeaderboardImpl(final List<PlayerInRound> listPlayers) {
-        this.listPlayers = new ArrayList<>(listPlayers);
+        this.listPlayers = new ArrayList<>(Objects.requireNonNull(listPlayers));
     }
 
     /**
