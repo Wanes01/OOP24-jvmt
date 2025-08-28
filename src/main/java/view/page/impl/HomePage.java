@@ -94,11 +94,11 @@ public class HomePage extends SwingPage {
     @Override
     protected void setHandlers() {
 
-        //final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
+        final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
         
         btnStartGame.addActionListener(e -> {
-            //homeCtrl.goToSettingPage();
-            System.out.println("ciao");
+            homeCtrl.goToSettingPage();
+            //System.out.println("ciao");
         });
 
     }
