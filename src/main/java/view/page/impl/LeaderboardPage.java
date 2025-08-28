@@ -3,8 +3,6 @@ package view.page.impl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.List;
-import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
 
 /**
@@ -48,16 +45,13 @@ public class LeaderboardPage extends SwingPage {
      * 
      * @param players the list of players that are to appear in the leaderboard.
      */
-    public LeaderboardPage(final List<PlayerInRound> players) {
+    public LeaderboardPage() {
         final JPanel leaderboardUi = new JPanel();
         final Font fontVictor = new Font("Arial", Font.PLAIN, FONT_SIZE_VICTOR);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
         leaderboardUi.setLayout(new BoxLayout(leaderboardUi, BoxLayout.Y_AXIS));
 
-        final JLabel lblVictor = new JLabel(Objects.requireNonNull(players).get(0).getName()
-                + " won with a score of "
-                + Objects.requireNonNull(players).get(0).getChestGems()
-                + " gems!");
+        final JLabel lblVictor = new JLabel(" won!");
         lblVictor.setAlignmentX(CENTER_ALIGNMENT);
         lblVictor.setFont(fontVictor);
         lblVictor.setBorder(BOX_BORDER);
@@ -70,7 +64,7 @@ public class LeaderboardPage extends SwingPage {
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
-        leaderboardUi.add(playersList(Objects.requireNonNull(players)));
+        leaderboardUi.add(playersList());
         lblleaderboard.setAlignmentX(CENTER_ALIGNMENT);
 
         leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
@@ -92,16 +86,12 @@ public class LeaderboardPage extends SwingPage {
      * 
      * @return the panel itself.
      */
-    private JPanel playersList(final List<PlayerInRound> players) {
+    private JPanel playersList() {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.X_AXIS));
 
         final DefaultTableModel leaderboardInfo = new DefaultTableModel();
         leaderboardInfo.setColumnIdentifiers(new Object[] { "Name", "Score" });
-
-        for (final PlayerInRound player : Objects.requireNonNull(players)) {
-            leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
-        }
 
         final JTable table = new JTable(leaderboardInfo);
         final JScrollPane scrollableBoard = new JScrollPane(table);

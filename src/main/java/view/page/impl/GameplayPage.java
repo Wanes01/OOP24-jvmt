@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.util.Objects;
 
@@ -12,7 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -168,7 +166,7 @@ public class GameplayPage extends SwingPage {
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
 
         // For testing, to be deleted
-        for (int i = 0; i < MAX_CARDS; i++) {
+        /* for (int i = 0; i < MAX_CARDS; i++) {
             final ImageIcon icon = new ImageIcon(super.getClass().getResource("/imageCard/relic/relic.png"));
             final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(image);
@@ -180,7 +178,7 @@ public class GameplayPage extends SwingPage {
             gbc.weighty = 0;
 
             cardsContainer.add(labelLogo, gbc);
-        }
+        } */
 
         gbc.gridx = CARDS_PER_ROW;
         gbc.gridy = 0;
