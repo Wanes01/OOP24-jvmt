@@ -7,12 +7,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import controller.api.HomeController;
+import controller.impl.HomeControllerImpl;
+import controller.impl.SettingsControllerImpl;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 
+import view.navigator.api.PageNavigator;
 import view.page.api.SwingPage;
 
 /**
@@ -36,6 +42,8 @@ public class HomePage extends SwingPage {
     private static final int LOGO_WIDTH = 400;
     private static final int LOGO_HEIGHT = 400;
 
+    private JButton btnStartGame;
+
     /**
      * Builds the home page display and adds it to the panel.
      */
@@ -50,7 +58,6 @@ public class HomePage extends SwingPage {
     private JPanel createMainPanel() {
 
         final JPanel mainPanel;
-        final JButton startGame;
         JLabel labelLogo;
 
         mainPanel = new JPanel();
@@ -68,15 +75,15 @@ public class HomePage extends SwingPage {
 
         labelLogo.setAlignmentX(CENTER_ALIGNMENT);
 
-        startGame = new JButton("Avvia Partita");
-        startGame.setPreferredSize(BTN_DIM);
-        startGame.setFont(BTN_FONT);
-        startGame.setAlignmentX(CENTER_ALIGNMENT);
+        btnStartGame = new JButton("START GAME");
+        btnStartGame.setPreferredSize(BTN_DIM);
+        btnStartGame.setFont(BTN_FONT);
+        btnStartGame.setAlignmentX(CENTER_ALIGNMENT);
 
         mainPanel.add(Box.createRigidArea(TOP_SPACING));
         mainPanel.add(labelLogo);
         mainPanel.add(Box.createRigidArea(COMPONENT_SPACING));
-        mainPanel.add(startGame);
+        mainPanel.add(btnStartGame);
 
         return mainPanel;
     }
@@ -86,8 +93,13 @@ public class HomePage extends SwingPage {
      */
     @Override
     protected void setHandlers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setHandlers'");
-    }
 
+        //final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
+        
+        btnStartGame.addActionListener(e -> {
+            //homeCtrl.goToSettingPage();
+            System.out.println("ciao");
+        });
+
+    }
 }

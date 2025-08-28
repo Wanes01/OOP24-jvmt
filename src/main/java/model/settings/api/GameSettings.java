@@ -13,7 +13,7 @@ import model.settings.impl.GameSettingsImpl;
  * Represents the settings of the game.
  * <p>
  * This interface provides a method for checking that everything
- * is ready to start the game.
+ * is ready to start the game and creates all players.
  * </p>
  * 
  * @see GameSettingsImpl
@@ -23,11 +23,13 @@ import model.settings.impl.GameSettingsImpl;
 public interface GameSettings {
 
     /**
-     * This method checks if there is an acceptable number of players
-     * and an acceptable number of rounds.
+     * This method checks if there is an acceptable number of players,
+     * if their name has an acceptable number of characters and if there's
+     * an acceptable number of rounds.
      * 
-     * @return true if the number of players is between its min and its max and
-     *         if the number of rounds isn't exceeded by its max, returns false
+     * @return true if the number of players is between its min and its max, if
+     *         their names don't exceed the maximum amount of characters and if
+     *         the number of rounds isn't exceeded by its max, returns false
      *         otherwise.
      */
     boolean areSettingsOk();
@@ -73,7 +75,9 @@ public interface GameSettings {
     int getNumberOfRounds();
 
     /**
-     * @return a list of players.
+     * Creates the list of all players (real players + CPU players).
+     * 
+     * @return the list of all players.
      */
     List<PlayerInRound> createPlayers();
 }

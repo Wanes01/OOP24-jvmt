@@ -1,5 +1,6 @@
 package controller.api;
 
+import view.navigator.api.PageNavigator;
 import view.page.api.Page;
 
 /**
@@ -16,15 +17,18 @@ import view.page.api.Page;
  */
 public class PageController {
     private final Page page;
+    private final PageNavigator navigator;
 
     /**
      * Sets the page for which this controller
      * must handle interactions.
      * 
-     * @param page the page that this controller handles.
+     * @param page      the page that this controller handles.
+     * @param navigator the navigator used to go to other pages.
      */
-    protected PageController(final Page page) {
+    protected PageController(final Page page, final PageNavigator navigator) {
         this.page = page;
+        this.navigator = navigator;
     }
 
     /**
@@ -34,5 +38,14 @@ public class PageController {
      */
     protected Page getPage() {
         return this.page;
+    }
+
+    /**
+     * Returns the navigator used to to to other pages.
+     * 
+     * @return the navigator to switch page.
+     */
+    protected PageNavigator getPageNavigator() {
+        return this.navigator;
     }
 }

@@ -18,6 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import controller.api.PageController;
+import controller.api.SettingsController;
 import controller.impl.SettingsControllerImpl;
 import model.card.api.TypeDeck;
 import model.player.api.CpuDifficulty;
@@ -209,6 +210,10 @@ public class SettingsPage extends SwingPage {
             Arrays.asList(TypeDeck.values()),
             RELATED_SPACE);
 
+        // The special deck has been removed because it has not yet been implemented
+        deckType.getComboBox().removeItem(TypeDeck.SPECIAL);
+        
+
         endCondDescr = END_CONDITIONS.stream()
             .map(EndCondition::getDescription)
             .collect(Collectors.toList());
@@ -277,5 +282,7 @@ public class SettingsPage extends SwingPage {
      */
     @Override
     protected void setHandlers() {
+
+        //final SettingsController settingCtrl = this.getController(SettingsControllerImpl.class);
     }
 }
