@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import controller.api.GameAwarePageController;
 import controller.api.LeaderboardController;
 import controller.api.PageController;
+import model.game.api.Game;
 import model.player.impl.PlayerInRound;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
@@ -20,7 +22,7 @@ import view.page.api.Page;
  * 
  * @author Filippo Gaggi
  */
-public class LeaderboardControllerImpl extends PageController implements LeaderboardController {
+public class LeaderboardControllerImpl extends GameAwarePageController implements LeaderboardController {
     private final List<PlayerInRound> players;
 
     /**
@@ -30,15 +32,18 @@ public class LeaderboardControllerImpl extends PageController implements Leaderb
      * @throws NullPointerException if {@link navigator} is null.
      * @throws NullPointerException if {@link players} is null.
      * 
-     * @param page the page that this controller handles.
+     * @param page      the page that this controller handles.
      * @param navigator the navigator used to go to other pages.
-     * @param players the list of players that are to appear in the leaderboard.
+     * @param players   the list of players that are to appear in the leaderboard.
      */
-    public LeaderboardControllerImpl(final Page page, final PageNavigator navigator, final List<PlayerInRound> players) {
-        super(Objects.requireNonNull(page), Objects.requireNonNull(navigator));
+    public LeaderboardControllerImpl(final Page page, final PageNavigator navigator, final Game game) {
+        super(
+                Objects.requireNonNull(page),
+                Objects.requireNonNull(navigator),
+                Objects.requireNonNull(game));
         this.players = Objects.requireNonNull(players).stream()
-            .sorted(Comparator.comparingInt(PlayerInRound::getChestGems).reversed())
-            .collect(Collectors.toList());
+                .sorted(Comparator.comparingInt(PlayerInRound::getChestGems).reversed())
+                .collect(Collectors.toList());
     }
 
     /**

@@ -1,5 +1,6 @@
 package view.window.api;
 
+import java.awt.Dimension;
 import java.util.Optional;
 
 import view.page.api.Page;
@@ -85,4 +86,6 @@ public interface Window {
      *         An empty optional if no page is set.
      */
     Optional<Page> getCurrentPage();
+
+    Dimension getDimension();
 }

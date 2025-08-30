@@ -68,7 +68,8 @@ public class GameplayPage extends SwingPage {
     /**
      * Main panel of the gameplay page.
      */
-    public GameplayPage() {
+    public GameplayPage(Dimension winDim) {
+        super(winDim);
         final JPanel gameUi = new JPanel();
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
@@ -265,7 +266,8 @@ public class GameplayPage extends SwingPage {
             labelLogo = new JLabel("Logo image not found");
         }
 
-        this.gbc.gridx = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 % CARDS_PER_ROW; // column (max 5)
+        this.gbc.gridx = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 % CARDS_PER_ROW; // column (max
+                                                                                                         // 5)
         this.gbc.gridy = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 / CARDS_PER_ROW; // row
         this.gbc.weightx = 0;
         this.gbc.weighty = 0;
@@ -307,8 +309,10 @@ public class GameplayPage extends SwingPage {
      * @param gameplayCtrl the gameplay controller.
      */
     private void updateDraw(final GameplayControllerImpl gameplayCtrl) {
-        this.lblSackGems.setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
-        this.lblChestGems.setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
+        this.lblSackGems
+                .setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
+        this.lblChestGems
+                .setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
         this.lblPathGems.setText("Gems in the path: " + Objects.requireNonNull(gameplayCtrl).getPathGems());
         this.lblPathRelics.setText(", Relics in the path: " + Objects.requireNonNull(gameplayCtrl).getPathRelics());
     }
@@ -334,7 +338,8 @@ public class GameplayPage extends SwingPage {
     private void initializeInfo(final GameplayControllerImpl gameplayCtrl) {
         updateInfo(gameplayCtrl);
         updateDraw(gameplayCtrl);
-        this.lblGameEndCond.setText("End round condition: " + Objects.requireNonNull(gameplayCtrl).getGameEndCondition());
+        this.lblGameEndCond
+                .setText("End round condition: " + Objects.requireNonNull(gameplayCtrl).getGameEndCondition());
         this.lblGemModifier.setText("Gem modifier: " + Objects.requireNonNull(gameplayCtrl).getGemModifier());
     }
 
@@ -357,7 +362,7 @@ public class GameplayPage extends SwingPage {
 
             // Apri il modale e raccogli la scelta
             for (final PlayerInRound activePlayer : gameplayCtrl.getActivePlayersList()) {
-                //gameplayCtrl.openModalAndGetResult(window, activePlayer.getName());
+                // gameplayCtrl.openModalAndGetResult(window, activePlayer.getName());
             }
 
             // Avanza al turno successivo

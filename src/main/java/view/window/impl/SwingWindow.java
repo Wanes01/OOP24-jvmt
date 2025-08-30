@@ -210,4 +210,9 @@ public class SwingWindow extends JFrame implements Window {
         swingDpiConfigured = true;
     }
 
+    @Override
+    public Dimension getDimension() {
+        return super.getSize();
+    }
+
 }

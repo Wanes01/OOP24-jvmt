@@ -4,10 +4,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+import controller.api.GameAwarePageController;
 import controller.api.PageController;
 import model.card.api.Card;
 import model.card.api.Deck;
 import model.card.impl.DeckFactoryImpl;
+import model.game.api.Game;
 import model.game.api.GameSettings;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerInRound;
@@ -28,7 +30,7 @@ import view.navigator.api.PageNavigator;
 import view.page.api.Page;
 import view.window.impl.SwingWindow;
 
-public class GameplayControllerImpl extends PageController {
+public class GameplayControllerImpl extends GameAwarePageController {
     // QUESTI PASSATI NEL COSTRUTTORE PER COSTRUIRE IL ROUND
     private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(3);
     private final Deck deck = new DeckFactoryImpl().standardDeck();
@@ -42,9 +44,13 @@ public class GameplayControllerImpl extends PageController {
     private final GameSettings settings;
     private Turn currentTurn;
 
-    public GameplayControllerImpl(Page page, PageNavigator navigator, GameSettings settings) {
-        super(Objects.requireNonNull(page), Objects.requireNonNull(navigator));
-        this.round = new RoundImpl(Objects.requireNonNull(players), Objects.requireNonNull(deck), Objects.requireNonNull(effect));
+    public GameplayControllerImpl(Page page, PageNavigator navigator, Game game) {
+        super(
+                Objects.requireNonNull(page),
+                Objects.requireNonNull(navigator),
+                Objects.requireNonNull(game));
+        this.round = new RoundImpl(Objects.requireNonNull(players), Objects.requireNonNull(deck),
+                Objects.requireNonNull(effect));
         this.turns = this.round.iterator();
         this.settings = Objects.requireNonNull(settings);
 

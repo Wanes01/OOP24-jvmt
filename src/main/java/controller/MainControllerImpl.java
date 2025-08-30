@@ -2,14 +2,15 @@ package controller;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Optional;
 
 import controller.api.MainController;
 import controller.api.PageController;
 import controller.impl.HomeControllerImpl;
 import controller.impl.SettingsControllerImpl;
-import controller.mock.GameplayControllerImpl;
-import controller.mock.LeaderboardControllerImpl;
-import model.settings.api.GameSettings;
+import controller.impl.GameplayControllerImpl;
+import controller.impl.LeaderboardControllerImpl;
+import model.game.api.GameSettings;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.navigator.impl.PageNavigatorImpl;
@@ -20,6 +21,8 @@ import view.page.impl.LeaderboardPage;
 import view.page.impl.SettingsPage;
 import view.window.api.Window;
 import view.window.impl.SwingWindow;
+import model.game.api.Game;
+import model.game.impl.GameImpl;
 
 /**
  * Concrete implementation of {@link MainController}.
@@ -61,6 +64,8 @@ public class MainControllerImpl implements MainController {
     // the controllers bound to the pages.
     private final Map<PageId, PageController> controllers = new EnumMap<>(PageId.class);
 
+    private Optional<Game> game = Optional.empty();
+
     /**
      * Constructs the {@code MainControllerImpl}.
      * Initializes the window, the navigator, the pages
@@ -82,10 +87,10 @@ public class MainControllerImpl implements MainController {
      */
     private Map<PageId, Page> createPages() {
         return Map.of(
-                PageId.MENU, new HomePage(),
-                PageId.SETTINGS, new SettingsPage(),
-                PageId.ROUND, new GameplayPage(),
-                PageId.LEADERBOARD, new LeaderboardPage());
+                PageId.MENU, new HomePage(this.window.getDimension()),
+                PageId.SETTINGS, new SettingsPage(this.window.getDimension()),
+                PageId.ROUND, new GameplayPage(this.window.getDimension()),
+                PageId.LEADERBOARD, new LeaderboardPage(this.window.getDimension()));
     }
 
     /**
@@ -126,17 +131,19 @@ public class MainControllerImpl implements MainController {
      * @param settings
      */
     private void finishControllersSetup(final GameSettings settings) {
+        this.game = Optional.of(new GameImpl(settings));
+
         final Page gameplay = (GameplayPage) pages.get(PageId.ROUND);
         final Page leaderboard = (LeaderboardPage) pages.get(PageId.LEADERBOARD);
 
         final PageController gameplayController = new GameplayControllerImpl(
                 gameplay,
                 navigator,
-                settings);
+                this.game.get());
         final PageController leaderboardController = new LeaderboardControllerImpl(
                 leaderboard,
                 navigator,
-                settings.getPlayers());
+                this.game.get());
 
         controllers.put(PageId.ROUND, gameplayController);
         controllers.put(PageId.LEADERBOARD, leaderboardController);

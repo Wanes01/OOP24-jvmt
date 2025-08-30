@@ -1,5 +1,7 @@
 package view.page.api;
 
+import java.awt.Dimension;
+
 import controller.api.PageController;
 
 /**
@@ -42,4 +44,6 @@ public interface Page {
      * @param controller a {@link PageController} for this page.
      */
     void setController(PageController controller);
+
+    Dimension getParentWindowDimension();
 }

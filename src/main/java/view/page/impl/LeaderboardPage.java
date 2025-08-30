@@ -48,7 +48,8 @@ public class LeaderboardPage extends SwingPage {
      * Main panel of the leaderboard page.
      * It has a scrollable leaderboard and a button that redirects to the home page.
      */
-    public LeaderboardPage() {
+    public LeaderboardPage(Dimension winDim) {
+        super(winDim);
         final JPanel leaderboardUi = new JPanel();
         final Font fontWinner = new Font("Arial", Font.PLAIN, FONT_SIZE_WINNER);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
@@ -122,9 +123,9 @@ public class LeaderboardPage extends SwingPage {
      */
     private void updateWinnerLabel(final LeaderboardControllerImpl leaderboardCtrl) {
         this.lblWinner.setText(Objects.requireNonNull(leaderboardCtrl).getWinner().getName()
-            + " won with "
-            + Objects.requireNonNull(leaderboardCtrl).getWinner().getChestGems()
-            + "gems!");
+                + " won with "
+                + Objects.requireNonNull(leaderboardCtrl).getWinner().getChestGems()
+                + "gems!");
     }
 
     /**

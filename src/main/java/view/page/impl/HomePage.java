@@ -47,7 +47,8 @@ public class HomePage extends SwingPage {
     /**
      * Builds the home page display and adds it to the panel.
      */
-    public HomePage() {
+    public HomePage(Dimension winDim) {
+        super(winDim);
         final JPanel mainPanel = createMainPanel();
         super.add(mainPanel);
     }
@@ -95,7 +96,7 @@ public class HomePage extends SwingPage {
     protected void setHandlers() {
 
         final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
-        
+
         btnStartGame.addActionListener(e -> {
             homeCtrl.goToSettingPage();
         });
