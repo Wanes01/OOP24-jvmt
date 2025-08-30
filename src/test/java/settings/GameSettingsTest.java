@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Test;
 
 import model.card.api.Deck;
 import model.card.impl.DeckFactoryImpl;
+import model.game.impl.GameSettingsImpl;
+import model.game.impl.InvalidGameSettingsException;
 import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerInRound;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
 import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
-import model.settings.impl.GameSettingsImpl;
-import model.settings.impl.InvalidGameSettingsException;
 
 
 /**

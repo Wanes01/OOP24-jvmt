@@ -1,13 +1,13 @@
-package model.settings.api;
+package model.game.api;
 
 import java.util.List;
 
 import model.card.api.Deck;
+import model.game.impl.GameSettingsImpl;
 import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerInRound;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
-import model.settings.impl.GameSettingsImpl;
 
 /**
  * Represents the settings of the game.

@@ -4,13 +4,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -18,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import controller.impl.GameplayControllerImpl;
+import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
 
 /**
@@ -41,31 +48,34 @@ public class GameplayPage extends SwingPage {
     private static final int CARDS_PER_ROW = 5;
     private static final Dimension SCROLLABLE_DIM = new Dimension(820, 450);
     private static final int SCROLL_PIXELS = 30;
-    /* private static final int NUMBER_OF_PLAYERS = 8; */
     private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
-    /*
-     * private final List<PlayerInRound> listPlayers =
-     * CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
-     */ // to be deleted
+    private JButton btnDraw;
+    private JLabel lblRound;
+    private JLabel lblTurn;
+    private JLabel lblPlayerTurn;
+    private JLabel lblSackGems;
+    private JLabel lblChestGems;
+    private JLabel lblGameEndCond;
+    private JLabel lblGemModifier;
+    private JLabel lblPathGems;
+    private JLabel lblPathRelics;
+    private DefaultListModel<String> activePlayers;
+    private DefaultListModel<String> exitedPlayers;
+    private JPanel cardsContainer;
+    private GridBagConstraints gbc;
 
     /**
-     * Main panel of the gameplay view.
+     * Main panel of the gameplay page.
      */
     public GameplayPage() {
         final JPanel gameUi = new JPanel();
-        /*
-         * listPlayers.get(4).choose(PlayerChoice.EXIT);
-         * listPlayers.get(3).choose(PlayerChoice.EXIT);
-         * listPlayers.get(1).choose(PlayerChoice.EXIT);
-         * listPlayers.get(0).choose(PlayerChoice.EXIT);
-         */
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
         gameUi.add(gameBoard(BOX_BORDER));
         gameUi.add(Box.createHorizontalStrut(COL_GAP));
-        gameUi.add(players(BOX_BORDER/* , listPlayers */));
+        gameUi.add(players(BOX_BORDER));
 
         super.add(gameUi);
     }
@@ -90,13 +100,13 @@ public class GameplayPage extends SwingPage {
         roundTurnInfo.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(roundTurnInfo);
 
-        final JLabel lblRound = new JLabel("Round n.");
+        this.lblRound = new JLabel("Round n.");
         lblRound.setAlignmentX(LEFT_ALIGNMENT);
-        roundTurnInfo.add(lblRound);
+        roundTurnInfo.add(this.lblRound);
 
-        final JLabel lblTurn = new JLabel("Turn n.");
+        this.lblTurn = new JLabel("Turn n.");
         lblTurn.setAlignmentX(LEFT_ALIGNMENT);
-        roundTurnInfo.add(lblTurn);
+        roundTurnInfo.add(this.lblTurn);
 
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
 
@@ -105,20 +115,20 @@ public class GameplayPage extends SwingPage {
         playerInfo.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(playerInfo);
 
-        final JLabel lblPlayerTurn = new JLabel("Turn of: ");
+        this.lblPlayerTurn = new JLabel("Turn of: ");
         lblPlayerTurn.setAlignmentX(LEFT_ALIGNMENT);
-        playerInfo.add(lblPlayerTurn);
+        playerInfo.add(this.lblPlayerTurn);
 
-        final JLabel lblSackGems = new JLabel("Gems in the sack: ");
+        this.lblSackGems = new JLabel("Gems in the sack: ");
         lblSackGems.setAlignmentX(LEFT_ALIGNMENT);
-        playerInfo.add(lblSackGems);
+        playerInfo.add(this.lblSackGems);
 
-        final JLabel lblChestGems = new JLabel("Gems in the chest: ");
+        this.lblChestGems = new JLabel("Gems in the chest: ");
         lblChestGems.setAlignmentX(LEFT_ALIGNMENT);
-        playerInfo.add(lblChestGems);
+        playerInfo.add(this.lblChestGems);
 
-        final JButton btnDraw = new JButton("DRAW");
-        playerInfo.add(btnDraw);
+        this.btnDraw = new JButton("DRAW");
+        playerInfo.add(this.btnDraw);
 
         gameInfo.add(Box.createVerticalStrut(ROW_GAP));
 
@@ -127,13 +137,13 @@ public class GameplayPage extends SwingPage {
         gameConditions.setBorder(Objects.requireNonNull(boxBorder));
         gameInfo.add(gameConditions);
 
-        final JLabel lblGameEndCond = new JLabel("End round condition: ");
+        this.lblGameEndCond = new JLabel("End round condition: ");
         lblGameEndCond.setAlignmentX(LEFT_ALIGNMENT);
-        gameConditions.add(lblGameEndCond);
+        gameConditions.add(this.lblGameEndCond);
 
-        final JLabel lblGemModifier = new JLabel("Gem modifier: ");
+        this.lblGemModifier = new JLabel("Gem modifier: ");
         lblGemModifier.setAlignmentX(LEFT_ALIGNMENT);
-        gameConditions.add(lblGemModifier);
+        gameConditions.add(this.lblGemModifier);
 
         return gameInfo;
     }
@@ -152,34 +162,18 @@ public class GameplayPage extends SwingPage {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
-        final JLabel lblDrawnCards = new JLabel("Cards drawn: ");
+        final JLabel lblDrawnCards = new JLabel("Cards drawn:");
         lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
         gameBoard.add(lblDrawnCards);
 
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
 
-        final JPanel cardsContainer = new JPanel();
+        this.cardsContainer = new JPanel();
         cardsContainer.setLayout(new GridBagLayout());
-        final GridBagConstraints gbc = new GridBagConstraints();
+        this.gbc = new GridBagConstraints();
 
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
-
-        // For testing, to be deleted
-        /* for (int i = 0; i < MAX_CARDS; i++) {
-            final ImageIcon icon = new ImageIcon(super.getClass().getResource("/imageCard/relic/relic.png"));
-            final Image image = icon.getImage().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
-            final ImageIcon imageResized = new ImageIcon(image);
-            final JLabel labelLogo = new JLabel(imageResized);
-
-            gbc.gridx = i % CARDS_PER_ROW; // column (max 5)
-            gbc.gridy = i / CARDS_PER_ROW; // row
-            gbc.weightx = 0;
-            gbc.weighty = 0;
-
-            cardsContainer.add(labelLogo, gbc);
-        } */
-
         gbc.gridx = CARDS_PER_ROW;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
@@ -200,15 +194,15 @@ public class GameplayPage extends SwingPage {
 
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
 
-        final JPanel caveGems = new JPanel();
-        caveGems.setBorder(Objects.requireNonNull(boxBorder));
-        gameBoard.add(caveGems);
+        final JPanel pathGems = new JPanel();
+        pathGems.setBorder(Objects.requireNonNull(boxBorder));
+        gameBoard.add(pathGems);
 
-        final JLabel lblCaveGems = new JLabel("Gems in the path: ");
-        caveGems.add(lblCaveGems);
+        this.lblPathGems = new JLabel("Gems in the path: ");
+        pathGems.add(this.lblPathGems);
 
-        final JLabel lblCaveRelics = new JLabel(", Relics in the path: ");
-        caveGems.add(lblCaveRelics);
+        this.lblPathRelics = new JLabel(", Relics in the path: ");
+        pathGems.add(this.lblPathRelics);
 
         return gameBoard;
     }
@@ -222,7 +216,7 @@ public class GameplayPage extends SwingPage {
      * 
      * @return the panel itself.
      */
-    private JPanel players(final Border boxBorder/* , final List<PlayerInRound> listPlayers */) {
+    private JPanel players(final Border boxBorder) {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
@@ -232,14 +226,8 @@ public class GameplayPage extends SwingPage {
 
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-        final DefaultListModel<String> activePlayers = new DefaultListModel<>();
-        /*
-         * listPlayers.stream()
-         * .filter(player -> player.getChoice() == PlayerChoice.STAY)
-         * .map(PlayerInRound::getName)
-         * .forEach(activePlayers::addElement);
-         */
-        final JList<String> activePlayerNamesList = new JList<>(activePlayers);
+        this.activePlayers = new DefaultListModel<>();
+        final JList<String> activePlayerNamesList = new JList<>(this.activePlayers);
         activePlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
         playersList.add(activePlayerNamesList);
 
@@ -251,14 +239,8 @@ public class GameplayPage extends SwingPage {
 
         playersList.add(Box.createVerticalStrut(ROW_GAP));
 
-        final DefaultListModel<String> exitedPlayers = new DefaultListModel<>();
-        /*
-         * listPlayers.stream()
-         * .filter(player -> player.getChoice() == PlayerChoice.EXIT)
-         * .map(PlayerInRound::getName)
-         * .forEach(exitedPlayers::addElement);
-         */
-        final JList<String> exitedPlayerNamesList = new JList<>(exitedPlayers);
+        this.exitedPlayers = new DefaultListModel<>();
+        final JList<String> exitedPlayerNamesList = new JList<>(this.exitedPlayers);
         exitedPlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
         playersList.add(exitedPlayerNamesList);
 
@@ -266,12 +248,121 @@ public class GameplayPage extends SwingPage {
     }
 
     /**
+     * Method that adds the last card drawn in the path.
+     * 
+     * @throws NullPointerException if {@link gameplayCtrl} is null.
+     * 
+     * @param gameplayCtrl the gameplay controller.
+     */
+    private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
+        JLabel labelLogo;
+        try {
+            final Image image = ImageIO.read(Objects.requireNonNull(gameplayCtrl).getDrawnCard().getImagePath());
+            final Image scaledImage = image.getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
+            final ImageIcon imageResized = new ImageIcon(scaledImage);
+            labelLogo = new JLabel(imageResized);
+        } catch (final IOException e) {
+            labelLogo = new JLabel("Logo image not found");
+        }
+
+        this.gbc.gridx = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 % CARDS_PER_ROW; // column (max 5)
+        this.gbc.gridy = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 / CARDS_PER_ROW; // row
+        this.gbc.weightx = 0;
+        this.gbc.weighty = 0;
+
+        this.cardsContainer.add(labelLogo, this.gbc);
+
+        updateDraw(Objects.requireNonNull(gameplayCtrl));
+    }
+
+    /**
+     * Method that populates the active players list in the GUI.
+     * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
+     * @param players the active players to add.
+     */
+    private void addActivePlayers(final List<PlayerInRound> players) {
+        for (final PlayerInRound activePlayer : Objects.requireNonNull(players)) {
+            this.activePlayers.addElement(activePlayer.getName());
+        }
+    }
+
+    /**
+     * Method that populates the exited players list in the GUI.
+     * 
+     * @throws NullPointerException if {@link players} is null.
+     * 
+     * @param players the exited players to add.
+     */
+    private void addExitedPlayers(final List<PlayerInRound> players) {
+        for (final PlayerInRound exitedPlayer : Objects.requireNonNull(players)) {
+            this.exitedPlayers.addElement(exitedPlayer.getName());
+        }
+    }
+
+    /**
+     * @throws NullPointerException if {@link gameplayCtrl} is null.
+     * 
+     * @param gameplayCtrl the gameplay controller.
+     */
+    private void updateDraw(final GameplayControllerImpl gameplayCtrl) {
+        this.lblSackGems.setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
+        this.lblChestGems.setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
+        this.lblPathGems.setText("Gems in the path: " + Objects.requireNonNull(gameplayCtrl).getPathGems());
+        this.lblPathRelics.setText(", Relics in the path: " + Objects.requireNonNull(gameplayCtrl).getPathRelics());
+    }
+
+    /**
+     * @throws NullPointerException if {@link gameplayCtrl} is null.
+     * 
+     * @param gameplayCtrl the gameplay controller.
+     */
+    private void updateInfo(final GameplayControllerImpl gameplayCtrl) {
+        this.lblPlayerTurn.setText("Turn of: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
+        this.lblTurn.setText("Turn n." + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
+        this.lblRound.setText("Round n." + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
+        addActivePlayers(Objects.requireNonNull(gameplayCtrl).getActivePlayersList());
+        addExitedPlayers(Objects.requireNonNull(gameplayCtrl).getExitedPlayersList());
+    }
+
+    /**
+     * @throws NullPointerException if {@link gameplayCtrl} is null.
+     * 
+     * @param gameplayCtrl the gameplay controller.
+     */
+    private void initializeInfo(final GameplayControllerImpl gameplayCtrl) {
+        updateInfo(gameplayCtrl);
+        updateDraw(gameplayCtrl);
+        this.lblGameEndCond.setText("End round condition: " + Objects.requireNonNull(gameplayCtrl).getGameEndCondition());
+        this.lblGemModifier.setText("Gem modifier: " + Objects.requireNonNull(gameplayCtrl).getGemModifier());
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void setHandlers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setHandlers'");
-    }
+        final GameplayControllerImpl gameplayCtrl = this.getController(GameplayControllerImpl.class);
+        initializeInfo(gameplayCtrl);
 
+        this.btnDraw.addActionListener(e -> {
+            if (!gameplayCtrl.canRoundContinue()) {
+                gameplayCtrl.goToLeaderbooardPage();
+            }
+
+            gameplayCtrl.drawPhase();
+
+            addCardToPath(gameplayCtrl);
+
+            // Apri il modale e raccogli la scelta
+            for (final PlayerInRound activePlayer : gameplayCtrl.getActivePlayersList()) {
+                //gameplayCtrl.openModalAndGetResult(window, activePlayer.getName());
+            }
+
+            // Avanza al turno successivo
+            gameplayCtrl.advanceTurn();
+            updateInfo(gameplayCtrl);
+        });
+    }
 }

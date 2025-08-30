@@ -1,4 +1,4 @@
-package model.settings.impl;
+package model.game.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Objects;
 
 import model.card.api.Deck;
+import model.game.api.GameSettings;
 import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
 import model.player.impl.RealPlayer;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
-import model.settings.api.GameSettings;
 
 /**
  * The implementation of the {@link GameSettings} interface.
@@ -187,12 +187,13 @@ public class GameSettingsImpl implements GameSettings {
     public int getNumberOfRealPlayers() {
         return this.numberRealPlayers;
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Deck getDeck() {
-        return this.deck;
+        return this.deck.getShuffledCopy();
     }
 
     /**
