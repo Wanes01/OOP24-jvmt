@@ -1,8 +1,27 @@
 package model.card.api;
 
+import model.card.impl.DeckFactoryImpl;
+
 /**
  * Represents the types of deck that can be used.
  * 
  * @author Andrea La Tosa
  */
-public enum TypeDeck { STANDARD, SPECIAL }
+public enum TypeDeck { 
+    STANDARD, SPECIAL;
+
+    private static final DeckFactory FACTORY = new DeckFactoryImpl();
+
+    /**
+     * Creates and returns a new {@link Deck} based on this deck type.
+     * This method delegates the creation of a deck to {@link DeckFactory}.
+     * 
+     * @return a new {@code Deck} instance corresponding to the selected type
+     */
+    public Deck getDeck() {
+        return switch (this) {
+            case STANDARD -> FACTORY.standardDeck();
+            case SPECIAL -> FACTORY.specialDeck();
+        };
+    }
+}
