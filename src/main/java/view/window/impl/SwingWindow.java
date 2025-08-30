@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -45,6 +46,7 @@ public class SwingWindow extends JFrame implements Window {
     private static final double WINDOW_SCREEN_RATIO = 0.8;
     private static final String DEFAULT_FONT = Font.SANS_SERIF;
     private static final int BASE_FONT_SIZE = 23;
+    private static final int WINDOW_MARGIN = 30;
     private static boolean swingDpiConfigured;
 
     private transient Optional<SwingPage> currentPage = Optional.empty();
@@ -147,6 +149,12 @@ public class SwingWindow extends JFrame implements Window {
             throw new IllegalArgumentException("This class supports SwingPage only as Page implementation.");
         }
         final SwingPage swingPage = (SwingPage) page;
+        swingPage.setBorder(
+                new EmptyBorder(
+                        WINDOW_MARGIN,
+                        WINDOW_MARGIN,
+                        WINDOW_MARGIN,
+                        WINDOW_MARGIN));
         this.currentPage = Optional.of(swingPage);
         this.setContentPane(swingPage);
         this.refresh();

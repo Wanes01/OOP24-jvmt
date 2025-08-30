@@ -5,10 +5,10 @@ import java.util.Map;
 
 import controller.api.MainController;
 import controller.api.PageController;
+import controller.impl.HomeControllerImpl;
+import controller.impl.SettingsControllerImpl;
 import controller.mock.GameplayControllerImpl;
-import controller.mock.HomeControllerImpl;
 import controller.mock.LeaderboardControllerImpl;
-import controller.mock.SettingsControllerImpl;
 import model.settings.api.GameSettings;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
