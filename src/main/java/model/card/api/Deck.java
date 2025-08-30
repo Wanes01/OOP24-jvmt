@@ -62,4 +62,5 @@ public interface Deck extends Iterator<Card> {
      */
     int totSpecialCardInDeck();
 
+    Deck getShuffledCopy();
 }

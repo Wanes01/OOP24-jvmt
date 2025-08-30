@@ -1,6 +1,7 @@
 package model.card.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -155,6 +156,13 @@ public final class DeckImpl implements Deck {
     @Override
     public int totSpecialCardInDeck() {
         return this.totSpecial;
+    }
+
+    @Override
+    public Deck getShuffledCopy() {
+        final List<Card> cards = new ArrayList<>(this.deck);
+        Collections.shuffle(cards);
+        return new DeckImpl(cards);
     }
 
 }

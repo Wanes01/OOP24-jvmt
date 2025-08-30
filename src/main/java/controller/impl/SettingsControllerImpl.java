@@ -12,6 +12,7 @@ import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.settings.api.GameSettings;
 import model.settings.impl.GameSettingsImpl;
+import model.settings.impl.InvalidGameSettingsException;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.page.api.Page;
@@ -21,7 +22,7 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
     private final Consumer<GameSettings> settingsSetter;
     private Optional<List<String>> errors = Optional.empty();
 
-    protected SettingsControllerImpl(
+    public SettingsControllerImpl(
         final Page page,
         final PageNavigator nav,
         Consumer<GameSettings> settingsSetter) {
@@ -49,20 +50,19 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
                     nRound);
                 this.settingsSetter.accept(gameSet);
                 return true;
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (InvalidGameSettingsException ex) {
+                this.errors = Optional.of(ex.getErrors());
+                return false;
             }
-            return false;
     }
 
     @Override
     public void goToGamePlayPage() {
-        this.getPageNavigator().navigateTo(PageId.ROUND);
+        this.getPageNavigator().navigateTo(PageId.MENU);
     }
 
     @Override
     public Optional<List<String>> getErrors() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getErrors'");
+        return this.errors;
     }
 }

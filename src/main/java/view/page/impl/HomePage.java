@@ -98,7 +98,6 @@ public class HomePage extends SwingPage {
         
         btnStartGame.addActionListener(e -> {
             homeCtrl.goToSettingPage();
-            //System.out.println("ciao");
         });
 
     }
