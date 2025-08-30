@@ -1,5 +1,6 @@
 package controller.impl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +46,7 @@ public class LeaderboardControllerImpl extends PageController implements Leaderb
      */
     @Override
     public List<PlayerInRound> getPlayerList() {
-        return this.players;
+        return new ArrayList<>(this.players);
     }
 
     /**

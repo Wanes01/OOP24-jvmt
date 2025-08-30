@@ -187,12 +187,13 @@ public class GameSettingsImpl implements GameSettings {
     public int getNumberOfRealPlayers() {
         return this.numberRealPlayers;
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public Deck getDeck() {
-        return this.deck;
+        return this.deck.getShuffledCopy();
     }
 
     /**

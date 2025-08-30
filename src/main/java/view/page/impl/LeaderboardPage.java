@@ -45,7 +45,7 @@ public class LeaderboardPage extends SwingPage {
     private DefaultTableModel leaderboardInfo;
 
     /**
-     * Main panel of the leaderboard view.
+     * Main panel of the leaderboard page.
      * It has a scrollable leaderboard and a button that redirects to the home page.
      */
     public LeaderboardPage() {
