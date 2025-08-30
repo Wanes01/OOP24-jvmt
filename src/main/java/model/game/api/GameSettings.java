@@ -63,7 +63,9 @@ public interface GameSettings {
     int getNumberOfRounds();
 
     /**
-     * @return a list of players.
+     * Creates the list of all players (real players + CPU players).
+     * 
+     * @return the list of all players.
      */
     List<PlayerInRound> getPlayers();
 }

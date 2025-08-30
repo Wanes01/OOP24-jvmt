@@ -1,9 +1,11 @@
 package model.card.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 import model.card.api.Card;
@@ -31,9 +33,12 @@ public final class DeckImpl implements Deck {
      * Creates the deck for the round and sets its statistics.
      * 
      * @param deck the deck to use
+     * 
+     * @throws NullPointerException if null is passed to the deck parameter
      */
     public DeckImpl(final List<Card> deck) {
-        this.deck = new ArrayList<>(deck);
+        this.deck = new ArrayList<>(
+            Objects.requireNonNull(deck, "Deck must not be null"));
         this.initialDeckSize = deck.size();
         totTrapTypes = EnumSet.noneOf(TypeTrapCard.class);
         calculateStatistics();
@@ -151,6 +156,13 @@ public final class DeckImpl implements Deck {
     @Override
     public int totSpecialCardInDeck() {
         return this.totSpecial;
+    }
+
+    @Override
+    public Deck getShuffledCopy() {
+        final List<Card> cards = new ArrayList<>(this.deck);
+        Collections.shuffle(cards);
+        return new DeckImpl(cards);
     }
 
 }

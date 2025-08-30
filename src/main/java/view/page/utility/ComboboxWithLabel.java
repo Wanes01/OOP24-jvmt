@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.Toolkit;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -30,10 +31,13 @@ import javax.swing.DefaultListCellRenderer;
  * @author Andrea La Tosa
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
-        "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
+    "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
 public class ComboboxWithLabel<T> {
 
     private static final int MAX_CHARACTERS = 40;
+    /* represents the percentage of spacing applied between the label 
+        and the jcombobox in relation to the height of the view */
+    private static final double VERTICAL_SPACING_RATIO = 0.02;
 
     private final JPanel panel;
     private final JLabel lbl;
@@ -50,20 +54,24 @@ public class ComboboxWithLabel<T> {
      *                   what the items in the combo box represent
      * @param listObject represents the list of items to be added to the combobox
      *                   and can be of any type
-     * @param spacing    the spacing that must be applied between the label and the
-     *                   combobox
+     * @param viewDim    the size of the view.
+     *  It is used to calculate the vertical spacing between jlabel and jcombobox.
      * 
-     * @throws NullPointerException     if listObjetc or spacing are null
+     * @throws NullPointerException     if listObjetc or viewDim are null
      * @throws IllegalArgumentException if listObject is an empty list
      */
-    public ComboboxWithLabel(final String lblText, final List<T> listObject, final Dimension spacing) {
+    public ComboboxWithLabel(final String lblText, final List<T> listObject, Dimension viewDim) {
 
         Objects.requireNonNull(listObject, "listObject cannot be null.");
-        Objects.requireNonNull(spacing, "spacing cannot be null.");
+        Objects.requireNonNull(viewDim, "viewDim cannot be null.");
 
         if (listObject.isEmpty()) {
             throw new IllegalArgumentException("listObject cannot be empty.");
         }
+
+        /* The spacing between label and jcombobx.
+         * The cast to int is done because it works with pixels */
+        final int spacingY = (int) (viewDim.height * VERTICAL_SPACING_RATIO);
 
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
@@ -78,7 +86,8 @@ public class ComboboxWithLabel<T> {
         }
 
         this.panel.add(lbl);
-        this.panel.add(Box.createRigidArea(spacing));
+        this.panel.add(Box.createRigidArea(
+            new Dimension(0, spacingY)));
         this.panel.add(cmb);
 
         // creates a custom render of the combobox to display the content following the
@@ -132,7 +141,7 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
-     * @return the panel containing the label and combobox
+     * @return the panel containing the label and combobox.
      */
     public JPanel getPanel() {
         return this.panel;
@@ -146,7 +155,7 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
-     * @return the label added to the panel
+     * @return the label added to the panel.
      */
     public JLabel getLabel() {
         return this.lbl;
