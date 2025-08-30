@@ -3,7 +3,6 @@ package view.page.impl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.List;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -17,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import controller.api.LeaderboardController;
 import controller.impl.LeaderboardControllerImpl;
 import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
@@ -47,9 +47,13 @@ public class LeaderboardPage extends SwingPage {
     /**
      * Main panel of the leaderboard page.
      * It has a scrollable leaderboard and a button that redirects to the home page.
+     * 
+     * @throws NullPointerException if {@link winDim} is null.
+     * 
+     * @param winDim the window's dimension.
      */
-    public LeaderboardPage(Dimension winDim) {
-        super(winDim);
+    public LeaderboardPage(final Dimension winDim) {
+        super(Objects.requireNonNull(winDim));
         final JPanel leaderboardUi = new JPanel();
         final Font fontWinner = new Font("Arial", Font.PLAIN, FONT_SIZE_WINNER);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);
@@ -104,12 +108,12 @@ public class LeaderboardPage extends SwingPage {
     /**
      * Method that fills the leaderboard.
      * 
-     * @throws NullPointerException if {@link players} is null.
+     * @throws NullPointerException if {@link leaderboardCtrl} is null.
      * 
-     * @param players the list of players that are to appear in the leaderboard.
+     * @param leaderboardCtrl the leaderboard controller.
      */
-    private void fillLeaderboard(final List<PlayerInRound> players) {
-        for (final PlayerInRound player : Objects.requireNonNull(players)) {
+    private void fillLeaderboard(final LeaderboardControllerImpl leaderboardCtrl) {
+        for (final PlayerInRound player : Objects.requireNonNull(leaderboardCtrl.getPlayerList())) {
             this.leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
         }
     }
@@ -134,7 +138,7 @@ public class LeaderboardPage extends SwingPage {
     @Override
     protected void setHandlers() {
         final LeaderboardControllerImpl leaderboardCtrl = this.getController(LeaderboardControllerImpl.class);
-        fillLeaderboard(leaderboardCtrl.getPlayerList());
+        fillLeaderboard(leaderboardCtrl);
         updateWinnerLabel(leaderboardCtrl);
         this.btnHome.addActionListener(e -> {
             leaderboardCtrl.goToHomePage();
