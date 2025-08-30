@@ -10,6 +10,8 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 
 /**
  * Controller for the view related to game settings.
+ * 
+ * @author Andrea La Tosa
  */
 public interface SettingsController {
 
@@ -28,14 +30,14 @@ public interface SettingsController {
      * 
      * @return the result of the settings check
      */
-    boolean setGameSetting(
-        final List<String> listPlayersName,
-        final int numCpu,
-        final Deck deck,
-        final EndCondition endCondition,
-        final GemModifier gemModifier,
-        final CpuDifficulty cpuDifficulty,
-        final int nRound);
+    boolean areGameSettingOK(
+        List<String> listPlayersName,
+        int numCpu,
+        Deck deck,
+        EndCondition endCondition,
+        GemModifier gemModifier,
+        CpuDifficulty cpuDifficulty,
+        int nRound);
 
     /**
      * If errors are encountered while entering settings to configure the game,
@@ -49,5 +51,5 @@ public interface SettingsController {
      * Navigates to the gameplay view.
      */
     void goToGamePlayPage();
-    
+
 }
