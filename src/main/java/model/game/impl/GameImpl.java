@@ -43,9 +43,9 @@ public class GameImpl implements Game {
      * @param settings the game's settings.
      */
     public GameImpl(final GameSettings settings) {
-        Objects.requireNonNull(settings);
-        this.settings = settings;
-        this.logicCpu = new LogicCpuImpl(this.settings.getDeck(), this.settings.getCpuDifficulty());
+        this.settings = Objects.requireNonNull(settings);
+        this.logicCpu = new LogicCpuImpl(Objects.requireNonNull(settings).getDeck(),
+            Objects.requireNonNull(settings).getCpuDifficulty());
     }
 
     /**

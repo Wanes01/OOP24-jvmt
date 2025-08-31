@@ -15,7 +15,7 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 
 /**
  * Iterator that manages the game's rounds
- * and has all of the game informations.
+ * and has all of the game's informations.
  * 
  * @see GameImpl
  * @see Iterator
