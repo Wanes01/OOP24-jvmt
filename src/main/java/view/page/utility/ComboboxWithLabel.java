@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.Toolkit;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -22,7 +21,6 @@ import javax.swing.DefaultListCellRenderer;
 /**
  * A generic Swing component that displays a {@code JLabel} above a
  * {@code JComboBox}.
- * The combo box is populated by the list provided as input.
  * This class is useful for quickly creating selection fields with an associated
  * description.
  * 
@@ -32,7 +30,7 @@ import javax.swing.DefaultListCellRenderer;
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
     "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
-public class ComboboxWithLabel<T> {
+public class ComboboxWithLabel<T> extends JComboBox<T>{
 
     private static final int MAX_CHARACTERS = 40;
     /* represents the percentage of spacing applied between the label 
@@ -41,37 +39,26 @@ public class ComboboxWithLabel<T> {
 
     private final JPanel panel;
     private final JLabel lbl;
-    private final JComboBox<T> cmb;
 
     /**
      * Create a panel containing the label explaining the contents of the combobox
      * and the corresponding combobox.
-     * Set the combo box with the data to be displayed and render it for
-     * visualization
-     * using the {@code wrapTextHTML} method.
+     * Renders for display using the {@code wrapTextHTML} method.
      * 
      * @param lblText    the description to add to the label explaining
-     *                   what the items in the combo box represent
-     * @param listObject represents the list of items to be added to the combobox
-     *                   and can be of any type
-     * @param viewDim    the size of the view.
+     *                   what the items in the combobox represent
+     * @param winDim    the size of the window.
      *  It is used to calculate the vertical spacing between jlabel and jcombobox.
      * 
-     * @throws NullPointerException     if listObjetc or viewDim are null
-     * @throws IllegalArgumentException if listObject is an empty list
+     * @throws NullPointerException     if winDim is null
      */
-    public ComboboxWithLabel(final String lblText, final List<T> listObject, Dimension viewDim) {
+    public ComboboxWithLabel(final String lblText, Dimension winDim) {
 
-        Objects.requireNonNull(listObject, "listObject cannot be null.");
-        Objects.requireNonNull(viewDim, "viewDim cannot be null.");
+        Objects.requireNonNull(winDim, "winDim cannot be null.");
 
-        if (listObject.isEmpty()) {
-            throw new IllegalArgumentException("listObject cannot be empty.");
-        }
-
-        /* The spacing between label and jcombobx.
-         * The cast to int is done because it works with pixels */
-        final int spacingY = (int) (viewDim.height * VERTICAL_SPACING_RATIO);
+        // The spacing between label and jcombobx.
+        // Cast to int to convert pixel based calculation to integer value for spacing
+        final int spacingY = (int) (winDim.height * VERTICAL_SPACING_RATIO);
 
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
@@ -79,20 +66,15 @@ public class ComboboxWithLabel<T> {
         this.lbl = new JLabel(lblText);
         this.lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.lbl.setHorizontalAlignment(SwingConstants.CENTER);
-        this.cmb = new JComboBox<>();
-
-        for (final T o : listObject) {
-            cmb.addItem(o);
-        }
 
         this.panel.add(lbl);
         this.panel.add(Box.createRigidArea(
             new Dimension(0, spacingY)));
-        this.panel.add(cmb);
+        this.panel.add(this);
 
         // creates a custom render of the combobox to display the content following the
         // wrapTextHTML logic
-        cmb.setRenderer(new DefaultListCellRenderer() {
+        this.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index,
                     final boolean isSelected, final boolean cellHasFocus) {
@@ -141,6 +123,20 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
+     * Adds a list of items to the combo box.
+     * 
+     * @param list the items to add to the combobox
+     * 
+     * @throws NullPointerException if null is passed to the list parameter
+     */
+    public void addItems(final List<T> list) {
+        Objects.requireNonNull(list, "list cannot be null.");
+        for (final T el : list) {
+            this.addItem(el);
+        }
+    }
+
+    /**
      * @return the panel containing the label and combobox.
      */
     public JPanel getPanel() {
@@ -151,7 +147,7 @@ public class ComboboxWithLabel<T> {
      * @return the combobox added to panel.
      */
     public JComboBox<T> getComboBox() {
-        return this.cmb;
+        return this;
     }
 
     /**
@@ -162,10 +158,10 @@ public class ComboboxWithLabel<T> {
     }
 
     /**
-     * @return the selected item in the combo box.
+     * @return the selected item in the combobox.
      */
     public T getSelectedItem() {
-        final int index = this.cmb.getSelectedIndex();
-        return this.cmb.getItemAt(index);
+        final int index = this.getSelectedIndex();
+        return this.getItemAt(index);
     }
 }
