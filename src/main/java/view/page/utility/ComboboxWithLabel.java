@@ -31,12 +31,14 @@ import javax.swing.DefaultListCellRenderer;
  * @author Andrea La Tosa
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
-    "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
+        "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
 public class ComboboxWithLabel<T> {
 
     private static final int MAX_CHARACTERS = 40;
-    /* represents the percentage of spacing applied between the label 
-        and the jcombobox in relation to the height of the view */
+    /*
+     * represents the percentage of spacing applied between the label
+     * and the jcombobox in relation to the height of the view
+     */
     private static final double VERTICAL_SPACING_RATIO = 0.02;
 
     private final JPanel panel;
@@ -55,7 +57,8 @@ public class ComboboxWithLabel<T> {
      * @param listObject represents the list of items to be added to the combobox
      *                   and can be of any type
      * @param viewDim    the size of the view.
-     *  It is used to calculate the vertical spacing between jlabel and jcombobox.
+     *                   It is used to calculate the vertical spacing between jlabel
+     *                   and jcombobox.
      * 
      * @throws NullPointerException     if listObjetc or viewDim are null
      * @throws IllegalArgumentException if listObject is an empty list
@@ -69,8 +72,10 @@ public class ComboboxWithLabel<T> {
             throw new IllegalArgumentException("listObject cannot be empty.");
         }
 
-        /* The spacing between label and jcombobx.
-         * The cast to int is done because it works with pixels */
+        /*
+         * The spacing between label and jcombobx.
+         * The cast to int is done because it works with pixels
+         */
         final int spacingY = (int) (viewDim.height * VERTICAL_SPACING_RATIO);
 
         this.panel = new JPanel();
@@ -87,7 +92,7 @@ public class ComboboxWithLabel<T> {
 
         this.panel.add(lbl);
         this.panel.add(Box.createRigidArea(
-            new Dimension(0, spacingY)));
+                new Dimension(0, spacingY)));
         this.panel.add(cmb);
 
         // creates a custom render of the combobox to display the content following the

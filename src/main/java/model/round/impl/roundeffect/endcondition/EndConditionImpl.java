@@ -54,4 +54,12 @@ public record EndConditionImpl(
     public Predicate<RoundState> getEndCondition() {
         return condition();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
 }

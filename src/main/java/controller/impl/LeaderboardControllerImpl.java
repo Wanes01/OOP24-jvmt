@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import controller.api.GameAwarePageController;
 import controller.api.LeaderboardController;
-import controller.api.PageController;
 import model.game.api.Game;
 import model.player.impl.PlayerInRound;
 import view.navigator.api.PageId;
@@ -41,9 +40,12 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
                 Objects.requireNonNull(page),
                 Objects.requireNonNull(navigator),
                 Objects.requireNonNull(game));
-        this.players = Objects.requireNonNull(players).stream()
-                .sorted(Comparator.comparingInt(PlayerInRound::getChestGems).reversed())
-                .collect(Collectors.toList());
+        this.players = null;
+        /*
+         * Objects.requireNonNull(players).stream()
+         * .sorted(Comparator.comparingInt(PlayerInRound::getChestGems).reversed())
+         * .collect(Collectors.toList());
+         */
     }
 
     /**

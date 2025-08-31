@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import controller.api.GameAwarePageController;
-import controller.api.PageController;
 import model.card.api.Card;
 import model.card.api.Deck;
 import model.card.impl.DeckFactoryImpl;
@@ -52,7 +51,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
         this.round = new RoundImpl(Objects.requireNonNull(players), Objects.requireNonNull(deck),
                 Objects.requireNonNull(effect));
         this.turns = this.round.iterator();
-        this.settings = Objects.requireNonNull(settings);
+        this.settings = null; // Objects.requireNonNull(settings);
 
         if (this.turns.hasNext()) {
             this.currentTurn = this.turns.next();

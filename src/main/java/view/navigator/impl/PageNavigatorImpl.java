@@ -63,6 +63,7 @@ public class PageNavigatorImpl implements PageNavigator {
         }
         final Page page = pages.get(id);
         this.window.setCurrentPage(page);
+        this.window.setTitle(id.getPageTitle());
     }
 
     /**

@@ -87,5 +87,17 @@ public interface Window {
      */
     Optional<Page> getCurrentPage();
 
+    /**
+     * Returns the current {@link Dimension} of this window.
+     * 
+     * @return the current Dimension of this window.
+     */
     Dimension getDimension();
+
+    /**
+     * Sets the title of this window.
+     * 
+     * @param title the title to be set on this window.
+     */
+    void setTitle(String title);
 }

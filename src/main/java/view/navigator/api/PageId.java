@@ -10,29 +10,31 @@ package view.navigator.api;
  * @author Emir Wanes Aouioua
  */
 public enum PageId {
+    MENU("Welcome to Javamant!"),
+    SETTINGS("Game settings"),
+    ROUND("Cave exploration"),
+    LEADERBOARD("Final results");
+
+    private final String pageTitle;
+
     /**
-     * Id for the menu page.
+     * Associate each page ID with the title that the window should display when
+     * visiting the page.
+     * 
+     * @param title the title to be shown when navigating to the page associated
+     *              with this {@code PageId}
      */
-    MENU,
+    private PageId(final String title) {
+        this.pageTitle = title;
+    }
+
     /**
-     * Id for the settings page.
+     * Returns the title bound to this page.
+     * 
+     * @return the title that should be displayed when navigating
+     *         to to page bound to this {@code PageId}.
      */
-    SETTINGS,
-    /**
-     * Id for the round page.
-     * The round page is the one that
-     * will show the game progression.
-     */
-    ROUND,
-    /**
-     * Id for the choise page.
-     * A page that makes one player
-     * choise to continue the round
-     * or not.
-     */
-    CHOISE,
-    /**
-     * Id for the leaderboard page.
-     */
-    LEADERBOARD
+    public String getPageTitle() {
+        return this.pageTitle;
+    }
 }

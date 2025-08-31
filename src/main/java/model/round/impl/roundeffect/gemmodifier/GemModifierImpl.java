@@ -55,4 +55,11 @@ public record GemModifierImpl(
         return modifier();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
 }

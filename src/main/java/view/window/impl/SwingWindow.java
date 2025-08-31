@@ -1,5 +1,6 @@
 package view.window.impl;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.JFrame;
@@ -210,9 +211,20 @@ public class SwingWindow extends JFrame implements Window {
         swingDpiConfigured = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getDimension() {
         return super.getSize();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTitle(String title) {
+        Objects.requireNonNull(title);
+        super.setTitle(title);
+    }
 }
