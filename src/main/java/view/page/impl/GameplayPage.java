@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -23,9 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import controller.api.GameplayController;
 import controller.impl.GameplayControllerImpl;
 import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
+import view.window.impl.SwingWindow;
 
 /**
  * Represents the gameplay view of the application.
@@ -50,6 +53,7 @@ public class GameplayPage extends SwingPage {
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
+    private final SwingWindow window;
     private JButton btnDraw;
     private JLabel lblRound;
     private JLabel lblTurn;
@@ -58,6 +62,7 @@ public class GameplayPage extends SwingPage {
     private JLabel lblChestGems;
     private JLabel lblGameEndCond;
     private JLabel lblGemModifier;
+    private JLabel lblDrawnCards;
     private JLabel lblPathGems;
     private JLabel lblPathRelics;
     private DefaultListModel<String> activePlayers;
@@ -68,10 +73,15 @@ public class GameplayPage extends SwingPage {
     /**
      * Main panel of the gameplay page.
      * 
-     * @param winDim the window's dimension.
+     * @throws NullPointerException if {@link winDim} is null.
+     * @throws NullPointerException if {@link window} is null.
+     * 
+     * @param winDim the main application window.
+     * @param window the window's dimension.
      */
-    public GameplayPage(final Dimension winDim) {
+    public GameplayPage(final Dimension winDim, final SwingWindow window) {
         super(Objects.requireNonNull(winDim));
+        this.window = Objects.requireNonNull(window);
         final JPanel gameUi = new JPanel();
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
@@ -165,9 +175,9 @@ public class GameplayPage extends SwingPage {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
-        final JLabel lblDrawnCards = new JLabel("Cards drawn:");
-        lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
-        gameBoard.add(lblDrawnCards);
+        this.lblDrawnCards = new JLabel("Cards drawn: ");
+        this.lblDrawnCards.setAlignmentX(CENTER_ALIGNMENT);
+        gameBoard.add(this.lblDrawnCards);
 
         gameBoard.add(Box.createVerticalStrut(ROW_GAP));
 
@@ -251,13 +261,14 @@ public class GameplayPage extends SwingPage {
     }
 
     /**
-     * Method that adds the last card drawn in the path.
+     * Method that draws a card from the deck and adds it in the path.
      * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
      * 
      * @param gameplayCtrl the gameplay controller.
      */
     private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
+        Objects.requireNonNull(gameplayCtrl).drawPhase();
         JLabel labelLogo;
         try {
             final Image image = ImageIO.read(Objects.requireNonNull(gameplayCtrl).getDrawnCard().getImagePath());
@@ -305,42 +316,53 @@ public class GameplayPage extends SwingPage {
     }
 
     /**
-     * @throws NullPointerException if {@link gameplayCtrl} is null.
+     * Method for updating the game page's info after drawing a card.
+     * 
+     *@throws NullPointerException if {@link gameplayCtrl} is null.
      * 
      * @param gameplayCtrl the gameplay controller.
      */
     private void updateDraw(final GameplayControllerImpl gameplayCtrl) {
         this.lblSackGems
-                .setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
+            .setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
         this.lblChestGems
-                .setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
+            .setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
+        this.lblDrawnCards.setText("Cards drawn: " + Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber());
         this.lblPathGems.setText("Gems in the path: " + Objects.requireNonNull(gameplayCtrl).getPathGems());
         this.lblPathRelics.setText(", Relics in the path: " + Objects.requireNonNull(gameplayCtrl).getPathRelics());
     }
 
     /**
+     * Method for updating some game page's info at the end of the turns.
+     * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
      * 
      * @param gameplayCtrl the gameplay controller.
      */
     private void updateInfo(final GameplayControllerImpl gameplayCtrl) {
         this.lblPlayerTurn.setText("Turn of: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
-        this.lblTurn.setText("Turn n." + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
-        this.lblRound.setText("Round n." + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerName());
+        this.lblTurn.setText("Turn n." + Objects.requireNonNull(gameplayCtrl).getGame().getCurrentRoundNumber());
+        this.lblRound.setText("Round n." + Objects.requireNonNull(gameplayCtrl).getGame().getCurrentRoundNumber());
+        this.lblSackGems
+            .setText("Gems in the sack: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerSackGems());
+        this.lblChestGems
+            .setText("Gems in the chest: " + Objects.requireNonNull(gameplayCtrl).getCurrentPlayerChestGems());
         addActivePlayers(Objects.requireNonNull(gameplayCtrl).getActivePlayersList());
         addExitedPlayers(Objects.requireNonNull(gameplayCtrl).getExitedPlayersList());
     }
 
     /**
+     * Method for initializing the game page's lables.
+     * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
      * 
      * @param gameplayCtrl the gameplay controller.
      */
     private void initializeInfo(final GameplayControllerImpl gameplayCtrl) {
-        updateInfo(gameplayCtrl);
-        updateDraw(gameplayCtrl);
+        updateInfo(Objects.requireNonNull(gameplayCtrl));
+        updateDraw(Objects.requireNonNull(gameplayCtrl));
         this.lblGameEndCond
-                .setText("End round condition: " + Objects.requireNonNull(gameplayCtrl).getGameEndCondition());
+            .setText("End round condition: " + Objects.requireNonNull(gameplayCtrl).getGameEndCondition());
         this.lblGemModifier.setText("Gem modifier: " + Objects.requireNonNull(gameplayCtrl).getGemModifier());
     }
 
@@ -353,21 +375,17 @@ public class GameplayPage extends SwingPage {
         initializeInfo(gameplayCtrl);
 
         this.btnDraw.addActionListener(e -> {
-            if (!gameplayCtrl.canRoundContinue()) {
-                gameplayCtrl.goToLeaderbooardPage();
-            }
-
-            gameplayCtrl.drawPhase();
 
             addCardToPath(gameplayCtrl);
 
-            // Apri il modale e raccogli la scelta
-            for (final PlayerInRound activePlayer : gameplayCtrl.getActivePlayersList()) {
-                // gameplayCtrl.openModalAndGetResult(window, activePlayer.getName());
+            final Set<PlayerInRound> exitingPlayers = gameplayCtrl.choicePhase(this.window);
+
+            gameplayCtrl.advanceTurn(exitingPlayers);
+
+            if (gameplayCtrl.isGameOver()) {
+                gameplayCtrl.goToLeaderboardPage();
             }
 
-            // Avanza al turno successivo
-            gameplayCtrl.advanceTurn();
             updateInfo(gameplayCtrl);
         });
     }
