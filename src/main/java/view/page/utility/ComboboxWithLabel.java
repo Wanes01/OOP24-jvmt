@@ -30,7 +30,9 @@ import javax.swing.DefaultListCellRenderer;
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
     "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
-public class ComboboxWithLabel<T> extends JComboBox<T> {
+public final class ComboboxWithLabel<T> extends JComboBox<T> {
+
+    private static final long serialVersionUID = 1L;
 
     private static final int MAX_CHARACTERS = 40;
     /* represents the percentage of spacing applied between the label 
@@ -64,7 +66,7 @@ public class ComboboxWithLabel<T> extends JComboBox<T> {
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
         this.lbl = new JLabel(lblText);
-        this.lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.lbl.setAlignmentX(CENTER_ALIGNMENT);
         this.lbl.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.panel.add(lbl);
@@ -160,6 +162,7 @@ public class ComboboxWithLabel<T> extends JComboBox<T> {
     /**
      * @return the selected item in the combobox.
      */
+    @Override
     public T getSelectedItem() {
         final int index = this.getSelectedIndex();
         return this.getItemAt(index);
