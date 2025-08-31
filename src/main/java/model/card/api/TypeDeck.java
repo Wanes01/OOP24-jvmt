@@ -7,8 +7,11 @@ import model.card.impl.DeckFactoryImpl;
  * 
  * @author Andrea La Tosa
  */
-public enum TypeDeck { 
-    STANDARD, SPECIAL;
+public enum TypeDeck {
+    /**Represents a standard deck of cards and includes 35 cards.*/ 
+    STANDARD,
+    /**Represents a special deck of cards.*/
+    SPECIAL;
 
     private static final DeckFactory FACTORY = new DeckFactoryImpl();
 
