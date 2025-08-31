@@ -15,6 +15,7 @@ import model.card.impl.RelicCard;
 import model.card.impl.TrapCard;
 import model.card.impl.TreasureCard;
 import model.player.api.CpuDifficulty;
+import model.player.api.LogicCpu;
 import model.player.api.PlayerChoice;
 import model.player.impl.LogicCpuImpl;
 import model.player.impl.PlayerInRound;
@@ -45,7 +46,7 @@ class LogicCpuTest {
     private static final String TRAP_NAME = "Trap card";
     private static final String RELIC_NAME = "Relic card";
     private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
-    private LogicCpuImpl logicCpu;
+    private LogicCpu logicCpu;
     private Deck deck;
     private RoundState roundState;
 

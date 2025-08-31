@@ -11,6 +11,8 @@ import model.game.api.Game;
 import model.game.api.GameSettings;
 import model.leaderboard.api.Leaderboard;
 import model.leaderboard.impl.LeaderboardImpl;
+import model.player.api.LogicCpu;
+import model.player.impl.LogicCpuImpl;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.roundeffect.RoundEffect;
@@ -30,6 +32,7 @@ import model.round.impl.roundeffect.RoundEffectImpl;
 public class GameImpl implements Game {
 
     private final GameSettings settings;
+    private final LogicCpu logicCpu;
     private int currentRound;
 
     /**
@@ -42,6 +45,7 @@ public class GameImpl implements Game {
     public GameImpl(final GameSettings settings) {
         Objects.requireNonNull(settings);
         this.settings = settings;
+        this.logicCpu = new LogicCpuImpl(this.settings.getDeck(), this.settings.getCpuDifficulty());
     }
 
     /**
@@ -126,5 +130,13 @@ public class GameImpl implements Game {
     @Override
     public RoundEffect getRoundEffect() {
         return new RoundEffectImpl(this.settings.getRoundEndCondition(), this.settings.getRoundGemModifier());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public LogicCpu getLogicCpu() {
+        return this.logicCpu;
     }
 }

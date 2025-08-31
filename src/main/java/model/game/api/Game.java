@@ -6,6 +6,7 @@ import java.util.List;
 import model.card.api.Deck;
 import model.game.impl.GameImpl;
 import model.leaderboard.api.Leaderboard;
+import model.player.api.LogicCpu;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.roundeffect.RoundEffect;
@@ -14,7 +15,7 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 
 /**
  * Iterator that manages the game's rounds
- * and has all of its informations.
+ * and has all of the game informations.
  * 
  * @see GameImpl
  * @see Iterator
@@ -57,4 +58,9 @@ public interface Game extends Iterator<Round> {
      * @return the game's gem modifier.
      */
     RoundEffect getRoundEffect();
+
+    /**
+     * @return the game's CPU logic.
+     */
+    LogicCpu getLogicCpu();
 }
