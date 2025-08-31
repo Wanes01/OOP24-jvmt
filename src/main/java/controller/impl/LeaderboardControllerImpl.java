@@ -34,8 +34,7 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
      * @param game      the round iterator of the game.
      */
     public LeaderboardControllerImpl(final Page page, final PageNavigator navigator, final Game game) {
-        super(
-            Objects.requireNonNull(page),
+        super(Objects.requireNonNull(page),
             Objects.requireNonNull(navigator),
             Objects.requireNonNull(game));
         this.players = Objects.requireNonNull(game).getLeaderboard().getPlayersSortedByScore();
@@ -64,5 +63,4 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
     public void goToHomePage() {
         this.getPageNavigator().navigateTo(PageId.MENU);
     }
-
 }

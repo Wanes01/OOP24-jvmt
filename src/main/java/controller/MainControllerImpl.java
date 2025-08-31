@@ -1,16 +1,19 @@
 package controller;
 
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
 import controller.api.MainController;
 import controller.api.PageController;
-import controller.impl.HomeControllerImpl;
-import controller.impl.SettingsControllerImpl;
 import controller.impl.GameplayControllerImpl;
+import controller.impl.HomeControllerImpl;
 import controller.impl.LeaderboardControllerImpl;
+import controller.impl.SettingsControllerImpl;
+import model.game.api.Game;
 import model.game.api.GameSettings;
+import model.game.impl.GameImpl;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.navigator.impl.PageNavigatorImpl;
@@ -21,8 +24,6 @@ import view.page.impl.LeaderboardPage;
 import view.page.impl.SettingsPage;
 import view.window.api.Window;
 import view.window.impl.SwingWindow;
-import model.game.api.Game;
-import model.game.impl.GameImpl;
 
 /**
  * Concrete implementation of {@link MainController}.

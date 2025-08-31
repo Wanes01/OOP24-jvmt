@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import model.card.api.Deck;
 import model.game.api.Game;
 import model.game.api.GameSettings;
 import model.leaderboard.api.Leaderboard;
 import model.leaderboard.impl.LeaderboardImpl;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
+import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.round.impl.RoundImpl;
@@ -90,6 +92,14 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
+    public Deck getDeck() {
+        return this.settings.getDeck();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getCurrentRoundNumber() {
         return this.currentRound;
     }
@@ -108,5 +118,13 @@ public class GameImpl implements Game {
     @Override
     public GemModifier getGemModifier() {
         return this.settings.getRoundGemModifier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RoundEffect getRoundEffect() {
+        return new RoundEffectImpl(this.settings.getRoundEndCondition(), this.settings.getRoundGemModifier());
     }
 }

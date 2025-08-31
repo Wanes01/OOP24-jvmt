@@ -11,8 +11,10 @@ import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
 import model.player.impl.RealPlayer;
+import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
+import model.round.impl.roundeffect.RoundEffectImpl;
 
 /**
  * The implementation of the {@link GameSettings} interface.
@@ -210,6 +212,14 @@ public class GameSettingsImpl implements GameSettings {
     @Override
     public GemModifier getRoundGemModifier() {
         return this.gemModifier;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RoundEffect getRoundEffect() {
+        return new RoundEffectImpl(this.endCondition, this.gemModifier);
     }
 
     /**

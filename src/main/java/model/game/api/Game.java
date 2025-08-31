@@ -3,15 +3,18 @@ package model.game.api;
 import java.util.Iterator;
 import java.util.List;
 
+import model.card.api.Deck;
 import model.game.impl.GameImpl;
 import model.leaderboard.api.Leaderboard;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
+import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 
 /**
- * Iterator that manages the game's rounds.
+ * Iterator that manages the game's rounds
+ * and has all of its informations.
  * 
  * @see GameImpl
  * @see Iterator
@@ -31,6 +34,11 @@ public interface Game extends Iterator<Round> {
     List<PlayerInRound> getPlayers();
 
     /**
+     * @return the game's deck.
+     */
+    Deck getDeck();
+
+    /**
      * @return the current round number.
      */
     int getCurrentRoundNumber();
@@ -44,4 +52,9 @@ public interface Game extends Iterator<Round> {
      * @return the game's gem modifier.
      */
     GemModifier getGemModifier();
+
+    /**
+     * @return the game's gem modifier.
+     */
+    RoundEffect getRoundEffect();
 }
