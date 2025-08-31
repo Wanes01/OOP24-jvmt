@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.Objects;
 
 import view.page.api.SwingPage;
+import view.page.utility.GuiScaler;
 
 /**
  * Represents the home page of the application.
@@ -65,15 +66,17 @@ public class HomePage extends SwingPage {
      */
     private JPanel createMainPanel() {
 
+        final GuiScaler guiScaler = new GuiScaler(this.winDim);
+
         // The spacing at the top of the page and between objects
-        final int topSpacingY = (int) (this.winDim.getHeight() * TOP_SPACING_RATIO);
-        final int componentSpacingY = (int) (this.winDim.getHeight() * COMPONENT_SPACING_RATIO);
+        final int topSpacingY = guiScaler.scaleHeight(TOP_SPACING_RATIO);
+        final int componentSpacingY = guiScaler.scaleHeight(COMPONENT_SPACING_RATIO);
 
-        final int logoSize = (int) (winDim.getHeight() * LOGO_SIZE_RATIO);
+        final int logoSize = guiScaler.scaleHeight(LOGO_SIZE_RATIO); 
 
-        final int btnWidth = (int) (this.winDim.getWidth() * BTN_WIDTH_RATIO);
-        final int btnHeight = (int) (this.winDim.getHeight() * BTN_HEIGHT_RATIO);
-        final int btnFontSize = (int) (this.winDim.getHeight() * BTN_FONT_RATIO);
+        final int btnWidth = guiScaler.scaleWidth(BTN_WIDTH_RATIO);
+        final int btnHeight = guiScaler.scaleHeight(BTN_HEIGHT_RATIO);
+        final int btnFontSize = guiScaler.scaleHeight(BTN_FONT_RATIO);
         final Font btnFont = new Font("Arial", Font.BOLD, btnFontSize);
 
         final JPanel mainPanel;

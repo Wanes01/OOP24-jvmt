@@ -8,6 +8,8 @@ import java.util.Objects;
  * This class receives the dimensions of the view.
  * It provides methods for calculating the dimensions of components as a percentage 
  * of the width and height of the input.
+ * 
+ * @author Andrea La Tosa
  */
 public class GuiScaler {
 
