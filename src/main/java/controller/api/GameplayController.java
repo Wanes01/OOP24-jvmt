@@ -1,12 +1,14 @@
 package controller.api;
 
 import java.util.List;
+import java.util.Set;
 
 import controller.impl.GameplayControllerImpl;
 import model.card.api.Card;
 import model.player.impl.PlayerInRound;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
+import view.window.impl.SwingWindow;
 
 /**
  * Represents the controller of the gameplay page.
@@ -73,12 +75,39 @@ public interface GameplayController {
     List<PlayerInRound> getExitedPlayersList();
 
     /**
-     * Executes the turn's round phase.
+     * Executes the turn's draw phase.
      */
     void drawPhase();
 
     /**
+     * Executes the turn's choice phase.
+     * 
+     * @throws NullPointerException if {@link window} is null.
+     * 
+     * @param window the main application window.
+     * 
+     * @return the set of exiting players of the turn.
+     */
+    Set<PlayerInRound> choicePhase(SwingWindow window);
+
+    /**
+     * Method for controlling if the game is over.
+     * 
+     * @return true if the game is over or false if not.
+     */
+    boolean isGameOver();
+
+    /**
+     * Advances to the next turn.
+     * 
+     * @throws NullPointerException if {@link exitedPlayers} is null.
+     * 
+     * @param exitedPlayers the set of exiting players of the turn.
+     */
+    void advanceTurn(Set<PlayerInRound> exitedPlayers);
+
+    /**
      * Method that redirects to the Leaderboard page.
      */
-    void goToLeaderbooardPage();
+    void goToLeaderboardPage();
 }

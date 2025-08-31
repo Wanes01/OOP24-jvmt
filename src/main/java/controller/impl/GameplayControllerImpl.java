@@ -1,8 +1,10 @@
 package controller.impl;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import controller.api.GameAwarePageController;
 import controller.api.GameplayController;
@@ -10,6 +12,7 @@ import model.card.api.Card;
 import model.game.api.Game;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerInRound;
+import model.player.impl.RealPlayer;
 import model.round.api.Round;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
@@ -29,17 +32,8 @@ import view.window.impl.SwingWindow;
  * 
  * @author Filippo Gaggi
  */
-public class GameplayControllerImpl extends GameAwarePageController {
+public class GameplayControllerImpl extends GameAwarePageController implements GameplayController {
 
-    /* private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(3);
-    private final Deck deck = new DeckFactoryImpl().standardDeck();
-    private final RoundEffect effect = new RoundEffectImpl(
-            new EndConditionFactoryImpl().standard(),
-            new GemModifierFactoryImpl().standard()); */
-
-    /* private final List<PlayerInRound> players;
-    private final Deck deck;
-    private final RoundEffect effect; */
     private final Round round;
     private final Iterator<Turn> turns;
     private final Game game;
@@ -78,6 +72,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getCurrentPlayerName() {
         return this.currentTurn.getCurrentPlayer().getName();
     }
@@ -85,6 +80,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getCurrentPlayerChestGems() {
         return this.currentTurn.getCurrentPlayer().getChestGems();
     }
@@ -92,6 +88,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getCurrentPlayerSackGems() {
         return this.currentTurn.getCurrentPlayer().getSackGems();
     }
@@ -99,6 +96,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public EndCondition getGameEndCondition() {
         return this.game.getEndCondition();
     }
@@ -106,6 +104,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public GemModifier getGemModifier() {
         return this.game.getGemModifier();
     }
@@ -113,6 +112,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getPathGems() {
         return this.round.getState().getPathGems();
     }
@@ -120,6 +120,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getPathRelics() {
         return this.round.getState().getDrawnRelics().size();
     }
@@ -127,6 +128,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getDrawnCardsNumber() {
         return this.round.getState().getDrawCards().size();
     }
@@ -134,13 +136,15 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Card getDrawnCard() {
-        return round.getState().getDrawCards().getLast();
+        return this.currentTurn.getDrawnCard().get();
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<PlayerInRound> getActivePlayersList() {
         return round.getState().getRoundPlayersManager().getActivePlayers();
     }
@@ -148,6 +152,7 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<PlayerInRound> getExitedPlayersList() {
         return round.getState().getRoundPlayersManager().getExitedPlayers();
     }
@@ -155,41 +160,101 @@ public class GameplayControllerImpl extends GameAwarePageController {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void drawPhase() {
         this.currentTurn.executeDrawPhase();
     }
 
-    /** Apri il modale e ritorna la scelta dell'utente */
-    public void openModalAndGetResult(final SwingWindow window, final String playerName) {
-        final Modal<PlayerChoice> modal = new SwingPlayerChoiceModal(window, playerName);
-        modal.waitUserInput(); // blocca finché l'utente non chiude
-
-        final PlayerChoice choice = modal.getUserInput();
-
-        // Salva la scelta sul giocatore corrente
-        this.currentTurn.getCurrentPlayer().choose(choice);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<PlayerInRound> choicePhase(final SwingWindow window) {
+        final Set<PlayerInRound> exitingPlayers = new HashSet<>();
+        PlayerChoice choice;
+        for (final PlayerInRound activePlayer : this.round.getState().getRoundPlayersManager().getActivePlayers()) {
+            if (Objects.requireNonNull(activePlayer) instanceof RealPlayer) {
+                choice = obtainPlayerChoice(Objects.requireNonNull(window), Objects.requireNonNull(activePlayer));
+            } else {
+                choice = this.game.getLogicCpu().cpuChoice(this.round.getState());
+                Objects.requireNonNull(activePlayer).choose(choice);
+            }
+            if (choice == PlayerChoice.EXIT) {
+                exitingPlayers.add(activePlayer);
+            }
+        }
+        return exitingPlayers;
     }
 
-    /** Controlla se ci sono ancora turni da giocare */
-    public boolean canRoundContinue() {
-        return this.currentTurn != null;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isGameOver() {
+        return !this.game.hasNext();
     }
 
-    /** Avanza al turno successivo */
-    public void advanceTurn() {
-        if (this.turns.hasNext()) {
-            this.currentTurn = this.turns.next();
-        } else {
-            // Round finito
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void advanceTurn(final Set<PlayerInRound> exitedPlayers) {
+        endTurn(Objects.requireNonNull(exitedPlayers));
+        if (isRoundOver()) {
             this.round.endRound();
-            this.currentTurn = null; // segnala che il round è terminato
+            this.game.next();
+        } else {
+            this.turns.next();
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void goToLeaderbooardPage() {
+    @Override
+    public void goToLeaderboardPage() {
         this.getPageNavigator().navigateTo(PageId.LEADERBOARD);
+    }
+
+    /**
+     * Opens a modal for making the player take the choice.
+     * 
+     * @throws NullPointerException if {@link window} is null.
+     * @throws NullPointerException if {@link player} is null.
+     * 
+     * @param window the main application window.
+     * @param player the player who does the choice.
+     * 
+     * @return the choice of the player.
+     */
+    private PlayerChoice obtainPlayerChoice(final SwingWindow window, final PlayerInRound player) {
+        final Modal<PlayerChoice> modal = new SwingPlayerChoiceModal(Objects.requireNonNull(window),
+            Objects.requireNonNull(player).getName());
+        modal.waitUserInput();
+
+        final PlayerChoice choice = modal.getUserInput();
+
+        Objects.requireNonNull(player).choose(choice);
+        return choice;
+    }
+
+    /**
+     * Executes the end turn.
+     * 
+     * @throws NullPointerException if {@link exitedPlayers} is null.
+     * 
+     * @param exitedPlayers the main application window.
+     */
+    private void endTurn(final Set<PlayerInRound> exitedPlayers) {
+        this.currentTurn.endTurn(Objects.requireNonNull(exitedPlayers));
+    }
+
+    /**
+     * Method for controlling if the round is over.
+     * 
+     * @return true if the round is over or false if not.
+     */
+    private boolean isRoundOver() {
+        return !this.turns.hasNext();
     }
 }
