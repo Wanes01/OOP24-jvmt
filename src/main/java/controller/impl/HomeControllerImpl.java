@@ -19,7 +19,7 @@ public class HomeControllerImpl extends PageController implements HomeController
      * @param page the page that this controller handles
      * @param nav the navigation controller to move between the various views
      */
-    public HomeControllerImpl(Page page, PageNavigator nav) {
+    public HomeControllerImpl(final Page page, final PageNavigator nav) {
         super(page, nav);
     } 
 

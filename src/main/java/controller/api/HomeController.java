@@ -3,7 +3,7 @@ package controller.api;
 /**
  * Controller for the Home Page.
  * 
- * @authoe Andrea La Tosa
+ * @author Andrea La Tosa
  */
 public interface HomeController {
 

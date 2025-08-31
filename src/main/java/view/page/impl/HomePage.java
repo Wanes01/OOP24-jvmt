@@ -10,15 +10,14 @@ import javax.swing.JPanel;
 
 import controller.api.HomeController;
 import controller.impl.HomeControllerImpl;
-import controller.impl.SettingsControllerImpl;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
-import view.navigator.api.PageNavigator;
 import view.page.api.SwingPage;
 
 /**
@@ -31,24 +30,32 @@ public class HomePage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
-    // The spacing at the top of the page and between objects
-    private static final Dimension TOP_SPACING = new Dimension(0, 50);
-    private static final Dimension COMPONENT_SPACING = new Dimension(0, 40);
-
-    private static final Dimension BTN_DIM = new Dimension(100, 150);
-    private static final Font BTN_FONT = new Font("Arial", Font.BOLD, 50);
+    // Layout ratios used to scale spacing, component sizes, 
+    // and font sizes relative to the current window dimensions.
+    private static final double TOP_SPACING_RATIO = 0.05;
+    private static final double COMPONENT_SPACING_RATIO = 0.04;
+    private static final double LOGO_SIZE_RATIO = 0.5;
+    private static final double BTN_WIDTH_RATIO = 0.15;
+    private static final double BTN_HEIGHT_RATIO = 0.15;
+    private static final double BTN_FONT_RATIO = 0.06;
 
     private static final URL LOGO_IMAGE_PATH = HomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
-    private static final int LOGO_WIDTH = 400;
-    private static final int LOGO_HEIGHT = 400;
+
+    private final Dimension winDim;
 
     private JButton btnStartGame;
 
     /**
      * Builds the home page display and adds it to the panel.
+     * 
+     * @param winDim the width and height dimensions of the window
      */
-    public HomePage(Dimension winDim) {
+    public HomePage(final Dimension winDim) {
         super(winDim);
+
+        this.winDim = new Dimension(winDim);
+        Objects.requireNonNull(winDim, "viewDim cannot be null.");
+
         final JPanel mainPanel = createMainPanel();
         super.add(mainPanel);
     }
@@ -57,6 +64,17 @@ public class HomePage extends SwingPage {
      * @return the panel to be displayed on the home page.
      */
     private JPanel createMainPanel() {
+
+        // The spacing at the top of the page and between objects
+        final int topSpacingY = (int) (this.winDim.getHeight() * TOP_SPACING_RATIO);
+        final int componentSpacingY = (int) (this.winDim.getHeight() * COMPONENT_SPACING_RATIO);
+
+        final int logoSize = (int) (winDim.getHeight() * LOGO_SIZE_RATIO);
+
+        final int btnWidth = (int) (this.winDim.getWidth() * BTN_WIDTH_RATIO);
+        final int btnHeight = (int) (this.winDim.getHeight() * BTN_HEIGHT_RATIO);
+        final int btnFontSize = (int) (this.winDim.getHeight() * BTN_FONT_RATIO);
+        final Font btnFont = new Font("Arial", Font.BOLD, btnFontSize);
 
         final JPanel mainPanel;
         JLabel labelLogo;
@@ -67,7 +85,8 @@ public class HomePage extends SwingPage {
         // Create an image of the specified size
         try {
             final Image image = ImageIO.read(LOGO_IMAGE_PATH);
-            final Image scaledImage = image.getScaledInstance(LOGO_WIDTH, LOGO_HEIGHT, Image.SCALE_SMOOTH);
+            final Image scaledImage = 
+                image.getScaledInstance(logoSize, logoSize, Image.SCALE_SMOOTH);
             final ImageIcon imageResized = new ImageIcon(scaledImage);
             labelLogo = new JLabel(imageResized);
         } catch (final IOException e) {
@@ -77,13 +96,15 @@ public class HomePage extends SwingPage {
         labelLogo.setAlignmentX(CENTER_ALIGNMENT);
 
         btnStartGame = new JButton("START GAME");
-        btnStartGame.setPreferredSize(BTN_DIM);
-        btnStartGame.setFont(BTN_FONT);
+        btnStartGame.setPreferredSize(new Dimension(btnWidth, btnHeight));
+        btnStartGame.setFont(btnFont);
         btnStartGame.setAlignmentX(CENTER_ALIGNMENT);
 
-        mainPanel.add(Box.createRigidArea(TOP_SPACING));
+        mainPanel.add(
+            Box.createRigidArea(new Dimension(0, topSpacingY)));
         mainPanel.add(labelLogo);
-        mainPanel.add(Box.createRigidArea(COMPONENT_SPACING));
+        mainPanel.add(
+            Box.createRigidArea(new Dimension(0, componentSpacingY)));
         mainPanel.add(btnStartGame);
 
         return mainPanel;
@@ -95,7 +116,8 @@ public class HomePage extends SwingPage {
     @Override
     protected void setHandlers() {
 
-        final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
+        final HomeController homeCtrl = 
+            this.getController(HomeControllerImpl.class);
 
         btnStartGame.addActionListener(e -> {
             homeCtrl.goToSettingPage();
