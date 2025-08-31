@@ -6,12 +6,26 @@ import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.page.api.Page;
 
+/**
+ * The implementation of the HomeController interface.
+ * 
+ * @author Andrea La Tosa
+ */
 public class HomeControllerImpl extends PageController implements HomeController {
 
+    /**
+     * Creates a new instance of {@code HomeControllerImpl}.
+     * 
+     * @param page the page that this controller handles
+     * @param nav the navigation controller to move between the various views
+     */
     public HomeControllerImpl(Page page, PageNavigator nav) {
         super(page, nav);
     } 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void goToSettingPage() {
         this.getPageNavigator().navigateTo(PageId.SETTINGS);

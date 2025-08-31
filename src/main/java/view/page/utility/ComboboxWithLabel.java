@@ -30,7 +30,7 @@ import javax.swing.DefaultListCellRenderer;
  */
 @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
     "EI_EXPOSE_REP2" }, justification = "The values returned by this object can be modified externally.")
-public class ComboboxWithLabel<T> extends JComboBox<T>{
+public class ComboboxWithLabel<T> extends JComboBox<T> {
 
     private static final int MAX_CHARACTERS = 40;
     /* represents the percentage of spacing applied between the label 
@@ -52,7 +52,7 @@ public class ComboboxWithLabel<T> extends JComboBox<T>{
      * 
      * @throws NullPointerException     if winDim is null
      */
-    public ComboboxWithLabel(final String lblText, Dimension winDim) {
+    public ComboboxWithLabel(final String lblText, final Dimension winDim) {
 
         Objects.requireNonNull(winDim, "winDim cannot be null.");
 

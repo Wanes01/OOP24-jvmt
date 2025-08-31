@@ -23,6 +23,8 @@ import view.page.api.Page;
 
 /**
  * The implementation of the SettingController interface.
+ * 
+ * @author Andrea La Tosa
  */
 public class SettingsControllerImpl extends PageController implements SettingsController {
 
