@@ -2,10 +2,10 @@ package model.round.impl.roundeffect.gemmodifier;
 
 import java.util.function.BiFunction;
 
+import model.common.api.Describable;
+import model.round.api.RoundState;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
 import utils.CommonUtils;
-import model.round.api.RoundState;
-import model.common.api.Describable;
 
 /**
  * Simple implementation of {@link GemModifier}.
@@ -55,4 +55,11 @@ public record GemModifierImpl(
         return modifier();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
 }

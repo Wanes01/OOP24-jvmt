@@ -67,9 +67,11 @@ public class GameplayPage extends SwingPage {
 
     /**
      * Main panel of the gameplay page.
+     * 
+     * @param winDim the window's dimension.
      */
-    public GameplayPage(Dimension winDim) {
-        super(winDim);
+    public GameplayPage(final Dimension winDim) {
+        super(Objects.requireNonNull(winDim));
         final JPanel gameUi = new JPanel();
         gameUi.setLayout(new BoxLayout(gameUi, BoxLayout.X_AXIS));
         gameUi.add(gameInfo(BOX_BORDER));
@@ -266,8 +268,7 @@ public class GameplayPage extends SwingPage {
             labelLogo = new JLabel("Logo image not found");
         }
 
-        this.gbc.gridx = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 % CARDS_PER_ROW; // column (max
-                                                                                                         // 5)
+        this.gbc.gridx = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 % CARDS_PER_ROW; // column (max 5)
         this.gbc.gridy = Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() + 1 / CARDS_PER_ROW; // row
         this.gbc.weightx = 0;
         this.gbc.weighty = 0;

@@ -2,10 +2,10 @@ package model.round.impl.roundeffect.endcondition;
 
 import java.util.function.Predicate;
 
+import model.common.api.Describable;
+import model.round.api.RoundState;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import utils.CommonUtils;
-import model.round.api.RoundState;
-import model.common.api.Describable;
 
 /**
  * Simple implementation of {@link EndCondition}.
@@ -53,5 +53,13 @@ public record EndConditionImpl(
     @Override
     public Predicate<RoundState> getEndCondition() {
         return condition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.getDescription();
     }
 }
