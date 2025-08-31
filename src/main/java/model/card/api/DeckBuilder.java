@@ -28,6 +28,8 @@ public interface DeckBuilder {
      * @param type the type of trap to add to the deck
      * 
      * @return DeckBuilder to follow the builder pattern
+     * 
+     * @throws NullPointerException if {@code typeTrap} is null
      */
     DeckBuilder addTrap(TypeTrapCard type);
     /**
@@ -38,6 +40,9 @@ public interface DeckBuilder {
      * @param numTrap the number of trap cards to create
      * 
      * @return DeckBuilder to follow the builder pattern
+     * 
+     * @throws NullPointerException if {@code typeTrap} is null
+     * @throws IllegalArgumentException if numtrap is <= 0
      */
     DeckBuilder addMultipleTrap(TypeTrapCard typeTrap, int numTrap);
 
@@ -47,6 +52,8 @@ public interface DeckBuilder {
      * @param gemValue the number of gems to assign to the card before adding it to the deck
      * 
      * @return DeckBuilder to follow the builder pattern
+     * 
+     * @throws IllegalArgumentException if gemValue is <= 0
      */
     DeckBuilder addTreasure(int gemValue);
     /**
@@ -57,6 +64,8 @@ public interface DeckBuilder {
      * @param numTreasure the number of treasure cards to add to the deck
      * 
      * @return DeckBuilder to follow the builder pattern
+     * 
+     * @throws IllegalArgumentException if gemValue or numTreasure are <= 0
      */
     DeckBuilder addMultipleTreasure(int gemValue, int numTreasure);
 
@@ -72,6 +81,8 @@ public interface DeckBuilder {
      * @param numRelic the number of relic cards to add to the deck
      * 
      * @return DeckBuilder to follow the builder pattern
+     * 
+     * @throws IllegalArgumentException if numRelic is <= 0
      */
     DeckBuilder addMultipleRelicCard(int numRelic);
 

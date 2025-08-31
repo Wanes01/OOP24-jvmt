@@ -3,6 +3,7 @@ package model.card.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import model.card.api.Card;
 import model.card.api.Deck;
@@ -43,6 +44,7 @@ public class DeckBuilderImpl implements DeckBuilder {
     @Override
     public DeckBuilder addTrap(final TypeTrapCard typeTrap) {
         checkNotBuilt();
+        Objects.requireNonNull(typeTrap, "typeTrap cannot be null.");
         deck.add(new TrapCard(typeTrap.toString(), typeTrap));
         return this;
     }
@@ -53,6 +55,12 @@ public class DeckBuilderImpl implements DeckBuilder {
     @Override
     public DeckBuilder addMultipleTrap(final TypeTrapCard typeTrap, final int numTrap) {
         checkNotBuilt();
+
+        Objects.requireNonNull(typeTrap, "typeTrap cannot be null.");
+        if (numTrap <= 0) {
+            throw new IllegalArgumentException("numTrap must be greater than zero.");
+        }
+
         for (int i = 1; i <= numTrap; i++) {
             deck.add(new TrapCard(typeTrap.toString() + " " + Integer.toString(i), typeTrap));
         }
@@ -65,6 +73,11 @@ public class DeckBuilderImpl implements DeckBuilder {
     @Override
     public DeckBuilder addTreasure(final int gemValue) {
         checkNotBuilt();
+
+        if (gemValue <= 0) {
+            throw new IllegalArgumentException("gemValue must be greater than zero.");
+        }
+
         deck.add(new TreasureCard(gemValue + " gems", gemValue));
         return this;
     }
@@ -75,6 +88,14 @@ public class DeckBuilderImpl implements DeckBuilder {
     @Override
     public DeckBuilder addMultipleTreasure(final int gemValue, final int numTreasure) {
         checkNotBuilt();
+
+        if (gemValue <= 0) {
+            throw new IllegalArgumentException("gemValue must be greater than zero.");
+        }
+        if (numTreasure <= 0) {
+            throw new IllegalArgumentException("numTreasure must be greater then zero.");
+        }
+
         for (int i = 1; i <= numTreasure; i++) {
             deck.add(new TreasureCard("Treasure " + gemValue 
                 + " gems" + " " + i, gemValue));
@@ -98,6 +119,11 @@ public class DeckBuilderImpl implements DeckBuilder {
     @Override
     public DeckBuilder addMultipleRelicCard(final int numRelic) {
         checkNotBuilt();
+
+        if (numRelic <= 0) {
+            throw new IllegalArgumentException("numRelic must be greater then zero.");
+        }
+
         for (int i = 1; i <= numRelic; i++) {
             deck.add(new RelicCard("Relic " + Integer.toString(i)));
         }
