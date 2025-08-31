@@ -51,7 +51,7 @@ public class SettingsPage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final double GAP_PERCENTAGE = 0.05;
+    private static final double SPACING_COLUMN_RATIO = 0.05;
     private static final double RELATED_SPACE_HIGHT_RATIO = 0.01;
     private static final double UNRELATED_SPACE_HIGHT_RATIO = 0.06;
     private static final int SPN_STEP_SIZE = 1;
@@ -95,7 +95,8 @@ public class SettingsPage extends SwingPage {
         this.spnDimension = guiScaler.scaleDim(SPN_DIM_WIDTH_RATIO, SPN_DIM_HEIGHT_RATIO);
 
         final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, guiScaler.scaleWidth(GAP_PERCENTAGE), 0));
+        mainPanel.setLayout(
+            new FlowLayout(FlowLayout.LEFT, guiScaler.scaleWidth(SPACING_COLUMN_RATIO), 0));
 
         mainPanel.add(settingsCol1());
         mainPanel.add(settingsCol2());
@@ -268,22 +269,6 @@ public class SettingsPage extends SwingPage {
             this.getController(SettingsControllerImpl.class);
 
         btnPlay.addActionListener(e -> {
-
-
-
-            JOptionPane.showMessageDialog(
-            null,
-            "PLAYER NAME: " + filterNamePlayer(txtAreaName.getText()) + "\n"
-                + "NUMCPU: " + numCPU.getSpinnerValue() + "\n"
-                + "DECK TYPE: " + deckType.getSelectedItem() + "\n"
-                + "END CONDITION: " + endCond.getSelectedItem() + "\n"
-                + "GEM MODIFIERS: " + gemMod.getSelectedItem() + "\n"
-                + "DIFFICULTY: " + difficulty.getSelectedItem() + "\n"
-                + "NUM ROUND: " + numRound.getSpinnerValue());
-
-
-
-
             if (settingCtrl.areGameSettingOK(
                 filterNamePlayer(txtAreaName.getText()),
                 numCPU.getSpinnerValue(),
