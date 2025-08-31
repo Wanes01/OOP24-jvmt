@@ -90,7 +90,7 @@ public class MainControllerImpl implements MainController {
         return Map.of(
                 PageId.MENU, new HomePage(this.window.getDimension()),
                 PageId.SETTINGS, new SettingsPage(this.window.getDimension()),
-                PageId.ROUND, new GameplayPage(this.window.getDimension()),
+                PageId.ROUND, new GameplayPage(this.window.getDimension(), (SwingWindow) this.window),
                 PageId.LEADERBOARD, new LeaderboardPage(this.window.getDimension()));
     }
 
