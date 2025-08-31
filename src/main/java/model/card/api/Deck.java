@@ -62,5 +62,12 @@ public interface Deck extends Iterator<Card> {
      */
     int totSpecialCardInDeck();
 
+    /**
+     * Returns a new {@code Deck} instance containing the same cards as this deck
+     * but in a random order.
+     * The original deck remains unmodified.
+     *
+     * @return a shuffled copy of this deck
+     */
     Deck getShuffledCopy();
 }
