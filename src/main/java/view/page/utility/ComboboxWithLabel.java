@@ -45,7 +45,6 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
     /**
      * Create a panel containing the label explaining the contents of the combobox
      * and the corresponding combobox.
-     * Renders for display using the {@code wrapTextHTML} method.
      * 
      * @param lblText    the description to add to the label explaining
      *                   what the items in the combobox represent
@@ -75,7 +74,7 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
         this.panel.add(this);
 
         // creates a custom render of the combobox to display the content following the
-        // wrapTextHTML logic
+        // wrapTextHTML logic in HtmlUtil
         this.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index,
@@ -85,7 +84,7 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
 
                 final Optional<Object> optionalValue = Optional.ofNullable(value);
                 if (optionalValue.isPresent()) {
-                    final String htmlText = wrapTextHTML(value.toString());
+                    final String htmlText = HtmlUtils.wrapTextHTML(value.toString(), MAX_CHARACTERS);
                     label.setText(htmlText);
                 } else {
                     label.setText("");
@@ -93,35 +92,6 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
                 return label;
             }
         });
-    }
-
-    /**
-     * Is intended to wrap the string to start a new line after MAX_CHARACTERS
-     * without cutting the word and permit a correct display of the combobox
-     * content.
-     * 
-     * @param str the string to be wrapped
-     * @return the wrapped string
-     */
-    private String wrapTextHTML(final String str) {
-
-        int lineLength = 0;
-        final StringBuilder sb = new StringBuilder("<html>");
-
-        for (final String word : str.split(" ")) {
-            if (lineLength + word.length() > MAX_CHARACTERS) {
-                sb.append("<br>");
-                lineLength = 0;
-            } else {
-                sb.append(' ');
-                lineLength++;
-            }
-            sb.append(word);
-            lineLength += word.length();
-        }
-        sb.append("</html>");
-
-        return sb.toString();
     }
 
     /**
