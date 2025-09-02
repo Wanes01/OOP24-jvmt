@@ -1,23 +1,16 @@
 package model.game.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import model.card.api.Deck;
 import model.game.api.Game;
 import model.game.api.GameSettings;
 import model.leaderboard.api.Leaderboard;
 import model.leaderboard.impl.LeaderboardImpl;
 import model.player.api.LogicCpu;
 import model.player.impl.LogicCpuImpl;
-import model.player.impl.PlayerInRound;
 import model.round.api.Round;
-import model.round.api.roundeffect.RoundEffect;
-import model.round.api.roundeffect.endcondition.EndCondition;
-import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.round.impl.RoundImpl;
 import model.round.impl.roundeffect.RoundEffectImpl;
 
@@ -66,11 +59,11 @@ public class GameImpl implements Game {
         }
         this.currentRound++;
         return new RoundImpl(
-                settings.getPlayers(),
-                settings.getDeck(),
+                this.settings.getPlayers(),
+                this.settings.getDeck(),
                 new RoundEffectImpl(
-                        settings.getRoundEndCondition(),
-                        settings.getRoundGemModifier()));
+                        this.settings.getRoundEndCondition(),
+                        this.settings.getRoundGemModifier()));
     }
 
     /**
@@ -81,23 +74,7 @@ public class GameImpl implements Game {
         if (this.hasNext()) {
             throw new IllegalStateException("There are still rounds to do");
         }
-        return new LeaderboardImpl(this.getPlayers());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<PlayerInRound> getPlayers() {
-        return new ArrayList<>(this.settings.getPlayers());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Deck getDeck() {
-        return this.settings.getDeck();
+        return new LeaderboardImpl(this.settings.getPlayers());
     }
 
     /**
@@ -112,31 +89,15 @@ public class GameImpl implements Game {
      * {@inheritDoc}
      */
     @Override
-    public EndCondition getEndCondition() {
-        return this.settings.getRoundEndCondition();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GemModifier getGemModifier() {
-        return this.settings.getRoundGemModifier();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RoundEffect getRoundEffect() {
-        return new RoundEffectImpl(this.settings.getRoundEndCondition(), this.settings.getRoundGemModifier());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public LogicCpu getLogicCpu() {
         return this.logicCpu;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameSettings getSettings() {
+        return this.settings;
     }
 }
