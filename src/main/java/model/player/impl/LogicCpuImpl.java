@@ -181,12 +181,16 @@ public class LogicCpuImpl implements LogicCpu {
      * of the normalized round informations for their weights.
      * 
      * @throws NullPointerException if {@link state} is null.
+     * @throws IllegalArgumentException if there aren't active players.
      * 
      * @param state the round state.
      * 
      * @return the score calculated.
      */
     private double calculateScore(final RoundState state) {
+        if (Objects.requireNonNull(state).getRoundPlayersManager().getActivePlayers().isEmpty()) {
+            throw new IllegalArgumentException("There must be at least one active player.");
+        }
         final double normPlayers = calculateNormPlayers(state);
         final double normCards = calculateNormCards(Objects.requireNonNull(state));
         final double normGems = calculateNormGems(Objects.requireNonNull(state));
