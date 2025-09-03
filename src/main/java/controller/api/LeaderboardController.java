@@ -2,7 +2,8 @@ package controller.api;
 
 import java.util.List;
 
-import model.player.impl.PlayerInRound;
+import controller.impl.LeaderboardControllerImpl;
+import view.page.utility.Pair;
 
 /**
  * Represents the controller of the leaderboard page.
@@ -16,12 +17,12 @@ public interface LeaderboardController {
     /**
      * @return the list of the players sorted by their final score.
      */
-    List<PlayerInRound> getPlayerList();
+    List<Pair<String, Integer>> getSortedPlayerScores();
 
     /**
      * @return the winner of the game.
      */
-    PlayerInRound getWinner();
+    String getWinner();
 
     /**
      * Method that redirects to the Home page.

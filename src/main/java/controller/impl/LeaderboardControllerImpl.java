@@ -1,16 +1,16 @@
 package controller.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import controller.api.GameAwarePageController;
 import controller.api.LeaderboardController;
 import model.game.api.Game;
-import model.player.impl.PlayerInRound;
+import model.leaderboard.api.Leaderboard;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.page.api.Page;
+import view.page.utility.Pair;
 
 /**
  * The implementation of the {@link LeaderboardController} interface.
@@ -20,7 +20,8 @@ import view.page.api.Page;
  * @author Filippo Gaggi
  */
 public class LeaderboardControllerImpl extends GameAwarePageController implements LeaderboardController {
-    private final List<PlayerInRound> players;
+
+    private final Leaderboard leaderboard;
 
     /**
      * Constructor of the class.
@@ -37,23 +38,26 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
         super(Objects.requireNonNull(page),
             Objects.requireNonNull(navigator),
             Objects.requireNonNull(game));
-        this.players = Objects.requireNonNull(game).getLeaderboard().getPlayersSortedByScore();
+        this.leaderboard = game.getLeaderboard();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getPlayerList() {
-        return new ArrayList<>(this.players);
+    public List<Pair<String, Integer>> getSortedPlayerScores() {
+        return this.leaderboard.getPlayersSortedByScore()
+                .stream()
+                .map(p -> new Pair<>(p.getName(), p.getChestGems()))
+                .toList();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public PlayerInRound getWinner() {
-        return this.players.getFirst();
+    public String getWinner() {
+        return this.getSortedPlayerScores().getFirst().first();
     }
 
     /**
