@@ -101,13 +101,13 @@ public class LeaderboardPage extends SwingPage {
     /**
      * Method that fills the leaderboard.
      * 
-     * @throws NullPointerException if {@link leaderboardCtrl} is null.
+     * @throws NullPointerException if {@link scores} is null.
      * 
-     * @param leaderboardCtrl the leaderboard controller.
+     * @param scores the list of pair of players and their scores.
      */
-    private void fillLeaderboard(List<Pair<String, Integer>> scores) {
+    private void fillLeaderboard(final List<Pair<String, Integer>> scores) {
         this.leaderboardInfo.setRowCount(0); // la pulisce nel caso di gioco ripetuto
-        for (final var score : scores) {
+        for (final var score : Objects.requireNonNull(scores)) {
             this.leaderboardInfo.addRow(new Object[] { score.first(), score.second() });
         }
     }
