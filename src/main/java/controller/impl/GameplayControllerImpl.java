@@ -247,8 +247,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
                 choiceModal.waitUserInput();
                 choice = choiceModal.getUserInput();
             } else {
-                final LogicCpuImpl cpu = new LogicCpuImpl(state.getDeck(),
-                        this.getGame().getSettings().getCpuDifficulty());
+                final LogicCpuImpl cpu = new LogicCpuImpl(this.getGame().getSettings());
                 choice = cpu.cpuChoice(state);
             }
             player.choose(choice);

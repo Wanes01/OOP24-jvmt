@@ -37,8 +37,7 @@ public class GameImpl implements Game {
      */
     public GameImpl(final GameSettings settings) {
         this.settings = Objects.requireNonNull(settings);
-        this.logicCpu = new LogicCpuImpl(Objects.requireNonNull(settings).getDeck(),
-            Objects.requireNonNull(settings).getCpuDifficulty());
+        this.logicCpu = new LogicCpuImpl(Objects.requireNonNull(settings));
     }
 
     /**
