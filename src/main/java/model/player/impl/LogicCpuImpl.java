@@ -156,7 +156,7 @@ public class LogicCpuImpl implements LogicCpu {
      * @return the normalized relics value.
      */
     private double calculateNormRelics(final RoundState state) {
-        return Objects.requireNonNull(state).getDrawnRelics().size() * 2.0 / this.deck.totRelicCardsInDeck();
+        return Objects.requireNonNull(state).getReedamableRelics().size() * 2.0 / this.deck.totRelicCardsInDeck();
     }
 
     /**
