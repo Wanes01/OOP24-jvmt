@@ -1,14 +1,11 @@
 package controller.api;
 
+import java.awt.Image;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 import controller.impl.GameplayControllerImpl;
-import model.card.api.Card;
-import model.player.impl.PlayerInRound;
-import model.round.api.roundeffect.endcondition.EndCondition;
-import model.round.api.roundeffect.gemmodifier.GemModifier;
-import view.window.impl.SwingWindow;
+import view.window.api.Window;
 
 /**
  * Represents the controller of the gameplay page.
@@ -35,14 +32,19 @@ public interface GameplayController {
     int getCurrentPlayerSackGems();
 
     /**
-     * @return the game's end condition.
+     * @return the current turn number.
      */
-    EndCondition getGameEndCondition();
+    int getCurrentTurnNumber();
 
     /**
-     * @return the game's gem modifier.
+     * @return the current round number.
      */
-    GemModifier getGemModifier();
+    int getCurrentRoundNumber();
+
+    /**
+     * @return the number of current redeemable relics.
+     */
+    int getRedeemableRelicsNumber();
 
     /**
      * @return the current path gems.
@@ -50,9 +52,24 @@ public interface GameplayController {
     int getPathGems();
 
     /**
-     * @return the current path relics.
+     * @return the game's gem modifier description.
      */
-    int getPathRelics();
+    String getGemModifierDescrition();
+
+    /**
+     * @return the game's end condition description.
+     */
+    String getEndConditionDescription();
+
+    /**
+     * @return the list of names of the current active players.
+     */
+    List<String> getActivePlayersNames();
+
+    /**
+     * @return the list of names of the current exited players.
+     */
+    List<String> getExitedPlayersNames();
 
     /**
      * @return the number of drawn cards.
@@ -60,54 +77,57 @@ public interface GameplayController {
     int getDrawnCardsNumber();
 
     /**
-     * @return the last drawn card.
+     * @return the image of the drawn card.
      */
-    Card getDrawnCard();
-
-    /**
-     * @return the list of the current active players.
-     */
-    List<PlayerInRound> getActivePlayersList();
-
-    /**
-     * @return the list of the current exited players.
-     */
-    List<PlayerInRound> getExitedPlayersList();
+    Optional<Image> getDrawnCardImage();
 
     /**
      * Executes the turn's draw phase.
      */
-    void drawPhase();
+    void executeDrawPhase();
 
     /**
-     * Executes the turn's choice phase.
+     * @return true if the current player is a CPU and false if not.
+     */
+    boolean isCurrentPlayerACpu();
+
+    /**
+     * Executes the turn's decision phase.
      * 
      * @throws NullPointerException if {@link window} is null.
      * 
-     * @param window the main application window.
-     * 
-     * @return the set of exiting players of the turn.
+     * @param toBlockWindow the main application window.
      */
-    Set<PlayerInRound> choicePhase(SwingWindow window);
+    void executeDecisionPhase(Window toBlockWindow);
 
     /**
-     * Method for controlling if the game is over.
+     * Method for checking if the game can continue.
+     * It checks if another turn or another round exist.
      * 
-     * @return true if the game is over or false if not.
+     * @return true if the game can continue or false if not.
      */
-    boolean isGameOver();
+    boolean canGameContinue();
 
     /**
-     * Advances to the next turn.
+     * Method for checking if the rounds can continue.
      * 
-     * @throws NullPointerException if {@link exitedPlayers} is null.
-     * 
-     * @param exitedPlayers the set of exiting players of the turn.
+     * @return true if the rounds can continue or false if not.
      */
-    void advanceTurn(Set<PlayerInRound> exitedPlayers);
+    boolean canRoundContinue();
+
+    /**
+     * Method for advancing to the next turn or round.
+     */
+    void advance();
 
     /**
      * Method that redirects to the Leaderboard page.
+     * Executes the turn's decision phase.
+     * 
+     * @throws NullPointerException if {@link reset} is null.
+     * 
+     * @param reset the runnable used for clearing the game board when
+     *              before redirecting to the leaderboard.
      */
-    void goToLeaderboardPage();
+    void goToLeaderboard(Runnable reset);
 }

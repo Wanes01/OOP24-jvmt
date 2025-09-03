@@ -1,28 +1,34 @@
 package controller.impl;
 
+import java.awt.Image;
+import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+
+import javax.imageio.ImageIO;
 
 import controller.api.GameAwarePageController;
 import controller.api.GameplayController;
 import model.card.api.Card;
 import model.game.api.Game;
 import model.player.api.PlayerChoice;
+import model.player.impl.LogicCpuImpl;
+import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
 import model.player.impl.RealPlayer;
 import model.round.api.Round;
-import model.round.api.roundeffect.endcondition.EndCondition;
-import model.round.api.roundeffect.gemmodifier.GemModifier;
+import model.round.api.RoundPlayersManager;
+import model.round.api.RoundState;
 import model.round.api.turn.Turn;
-import model.round.impl.RoundImpl;
 import view.modal.api.Modal;
 import view.modal.impl.SwingPlayerChoiceModal;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.page.api.Page;
+import view.window.api.Window;
 import view.window.impl.SwingWindow;
 
 /**
@@ -34,10 +40,9 @@ import view.window.impl.SwingWindow;
  */
 public class GameplayControllerImpl extends GameAwarePageController implements GameplayController {
 
-    private final Round round;
-    private final Iterator<Turn> turns;
-    private final Game game;
+    private final Runnable leaderboardSetter;
     private Turn currentTurn;
+    private Round currentRound;
 
     /**
      * Constructor of the class.
@@ -45,28 +50,36 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      * @throws NullPointerException if {@link page} is null.
      * @throws NullPointerException if {@link navigator} is null.
      * @throws NullPointerException if {@link game} is null.
+     * @throws NullPointerException if {@link leaderboardSetter} is null.
      * 
      * @param page      the page that this controller handles.
      * @param navigator the navigator used to go to other pages.
      * @param game      the round iterator of the game.
+     * @param leaderboardSetter      the runnable for starting the leaderboard when the game ends.
      */
     public GameplayControllerImpl(final Page page,
         final PageNavigator navigator,
-        final Game game) {
+        final Game game,
+        final Runnable leaderboardSetter) {
 
-        super(Objects.requireNonNull(page),
+        super(
+            Objects.requireNonNull(page),
             Objects.requireNonNull(navigator),
             Objects.requireNonNull(game));
 
-        this.round = new RoundImpl(Objects.requireNonNull(game).getPlayers(),
-            Objects.requireNonNull(game).getDeck(),
-            Objects.requireNonNull(game).getRoundEffect());
-        this.turns = this.round.iterator();
-        this.game = Objects.requireNonNull(game);
+        this.leaderboardSetter = Objects.requireNonNull(leaderboardSetter);
 
-        if (this.turns.hasNext()) {
-            this.currentTurn = this.turns.next();
+        if (!game.hasNext()) {
+            throw new IllegalStateException("You can't start the game with 0 rounds!");
         }
+
+        this.currentRound = game.next();
+
+        if (!this.currentRound.hasNext()) {
+            throw new IllegalStateException("You can't play the game with 0 turns!");
+        }
+
+        this.currentTurn = this.currentRound.next();
     }
 
     /**
@@ -97,16 +110,24 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      * {@inheritDoc}
      */
     @Override
-    public EndCondition getGameEndCondition() {
-        return this.game.getEndCondition();
+    public int getCurrentTurnNumber() {
+        return this.currentRound.getTurnNumber();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public GemModifier getGemModifier() {
-        return this.game.getGemModifier();
+    public int getCurrentRoundNumber() {
+        return this.getGame().getCurrentRoundNumber();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getRedeemableRelicsNumber() {
+        return this.currentRound.getState().getReedamableRelics().size();
     }
 
     /**
@@ -114,15 +135,55 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      */
     @Override
     public int getPathGems() {
-        return this.round.getState().getPathGems();
+        return this.currentRound.getState().getPathGems();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getPathRelics() {
-        return this.round.getState().getDrawnRelics().size();
+    public String getGemModifierDescrition() {
+        return this.getGame()
+                .getSettings()
+                .getRoundGemModifier()
+                .getDescription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getEndConditionDescription() {
+        return this.getGame()
+                .getSettings()
+                .getRoundEndCondition()
+                .getDescription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getActivePlayersNames() {
+        return this.currentRound.getState()
+                .getRoundPlayersManager()
+                .getActivePlayers()
+                .stream()
+                .map(p -> p.getName())
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getExitedPlayersNames() {
+        return this.currentRound.getState()
+                .getRoundPlayersManager()
+                .getExitedPlayers()
+                .stream()
+                .map(p -> p.getName())
+                .toList();
     }
 
     /**
@@ -130,131 +191,114 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      */
     @Override
     public int getDrawnCardsNumber() {
-        return this.round.getState().getDrawCards().size();
+        return this.currentRound.getState().getDrawCards().size();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Card getDrawnCard() {
-        return this.currentTurn.getDrawnCard().get();
+    public Optional<Image> getDrawnCardImage() {
+        final Card card = this.currentTurn.getDrawnCard().get();
+        Optional<Image> img;
+        try {
+            img = Optional.of(ImageIO.read(card.getImagePath()));
+        } catch (final IOException e) {
+            img = Optional.empty();
+        }
+        return img;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getActivePlayersList() {
-        return round.getState().getRoundPlayersManager().getActivePlayers();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<PlayerInRound> getExitedPlayersList() {
-        return round.getState().getRoundPlayersManager().getExitedPlayers();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void drawPhase() {
+    public void executeDrawPhase() {
         this.currentTurn.executeDrawPhase();
+        this.getPage().refresh();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Set<PlayerInRound> choicePhase(final SwingWindow window) {
-        final Set<PlayerInRound> exitingPlayers = new HashSet<>();
-        PlayerChoice choice;
-        for (final PlayerInRound activePlayer : this.round.getState().getRoundPlayersManager().getActivePlayers()) {
-            if (Objects.requireNonNull(activePlayer) instanceof RealPlayer) {
-                choice = obtainPlayerChoice(Objects.requireNonNull(window), Objects.requireNonNull(activePlayer));
+    public boolean isCurrentPlayerACpu() {
+        return this.currentTurn.getCurrentPlayer() instanceof PlayerCpu;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void executeDecisionPhase(final Window toBlockWindow) {
+        if (!this.canRoundContinue()) {
+            return;
+        }
+        final RoundState state = this.currentRound.getState();
+        final RoundPlayersManager pManager = state.getRoundPlayersManager();
+        final List<PlayerInRound> activePlayers = pManager.getActivePlayers();
+        final Set<PlayerInRound> exitingThisTurn = new HashSet<>();
+        for (final PlayerInRound player : activePlayers) {
+            final PlayerChoice choice;
+            if (player instanceof RealPlayer) {
+                final Modal<PlayerChoice> choiceModal = new SwingPlayerChoiceModal(
+                        (SwingWindow) Objects.requireNonNull(toBlockWindow),
+                        player.getName());
+                choiceModal.waitUserInput();
+                choice = choiceModal.getUserInput();
             } else {
-                choice = this.game.getLogicCpu().cpuChoice(this.round.getState());
-                Objects.requireNonNull(activePlayer).choose(choice);
+                final LogicCpuImpl cpu = new LogicCpuImpl(state.getDeck(),
+                        this.getGame().getSettings().getCpuDifficulty());
+                choice = cpu.cpuChoice(state);
             }
+            player.choose(choice);
+
             if (choice == PlayerChoice.EXIT) {
-                exitingPlayers.add(activePlayer);
+                exitingThisTurn.add(player);
             }
         }
-        return exitingPlayers;
+        this.currentTurn.endTurn(exitingThisTurn);
+        this.getPage().refresh();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isGameOver() {
-        return !this.game.hasNext();
+    public boolean canGameContinue() {
+        return this.getGame().hasNext() || this.currentRound.hasNext();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void advanceTurn(final Set<PlayerInRound> exitedPlayers) {
-        endTurn(Objects.requireNonNull(exitedPlayers));
-        if (isRoundOver()) {
-            this.round.endRound();
-            this.game.next();
-        } else {
-            this.turns.next();
+    public boolean canRoundContinue() {
+        return this.currentRound.hasNext();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void advance() {
+        if (!this.currentRound.hasNext() && this.getGame().hasNext()) {
+            this.currentRound.endRound();
+            this.currentRound = this.getGame().next();
         }
+        if (this.currentRound.hasNext()) {
+            this.currentTurn = this.currentRound.next();
+        }
+        this.getPage().refresh();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void goToLeaderboardPage() {
+    public void goToLeaderboard(final Runnable reset) {
+        Objects.requireNonNull(reset).run();
+        this.leaderboardSetter.run();
         this.getPageNavigator().navigateTo(PageId.LEADERBOARD);
-    }
-
-    /**
-     * Opens a modal for making the player take the choice.
-     * 
-     * @throws NullPointerException if {@link window} is null.
-     * @throws NullPointerException if {@link player} is null.
-     * 
-     * @param window the main application window.
-     * @param player the player who does the choice.
-     * 
-     * @return the choice of the player.
-     */
-    private PlayerChoice obtainPlayerChoice(final SwingWindow window, final PlayerInRound player) {
-        final Modal<PlayerChoice> modal = new SwingPlayerChoiceModal(Objects.requireNonNull(window),
-            Objects.requireNonNull(player).getName());
-        modal.waitUserInput();
-
-        final PlayerChoice choice = modal.getUserInput();
-
-        Objects.requireNonNull(player).choose(choice);
-        return choice;
-    }
-
-    /**
-     * Executes the end turn.
-     * 
-     * @throws NullPointerException if {@link exitedPlayers} is null.
-     * 
-     * @param exitedPlayers the main application window.
-     */
-    private void endTurn(final Set<PlayerInRound> exitedPlayers) {
-        this.currentTurn.endTurn(Objects.requireNonNull(exitedPlayers));
-    }
-
-    /**
-     * Method for controlling if the round is over.
-     * 
-     * @return true if the round is over or false if not.
-     */
-    private boolean isRoundOver() {
-        return !this.turns.hasNext();
     }
 }
