@@ -60,7 +60,6 @@ public class GameplayPage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
     private static final int CARDS_GAP = 5;
-    private static final int CARDS_DIM = 150;
     private static final int CARDS_PER_ROW = 5;
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
@@ -264,18 +263,19 @@ public class GameplayPage extends SwingPage {
      * @param gameplayCtrl the gameplay controller.
      */
     private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
+        final int cardSize = this.cardsContainer.getWidth() / CARDS_PER_ROW - CARDS_GAP * 2;
         final JLabel labelLogo;
         final Optional<Image> img = Objects.requireNonNull(gameplayCtrl).getDrawnCardImage();
 
         if (img.isPresent()) {
-            final Image scaledImage = img.get().getScaledInstance(CARDS_DIM, CARDS_DIM, Image.SCALE_SMOOTH);
+            final Image scaledImage = img.get().getScaledInstance(cardSize, cardSize, Image.SCALE_SMOOTH);
             labelLogo = new ImageLabel(scaledImage);
-            labelLogo.setPreferredSize(new Dimension(CARDS_DIM, CARDS_DIM));
+            labelLogo.setPreferredSize(new Dimension(cardSize, cardSize));
         } else {
             labelLogo = new JLabel("Image not found.");
         }
 
-        labelLogo.setSize(new Dimension(CARDS_DIM, CARDS_DIM));
+        labelLogo.setSize(new Dimension(cardSize, cardSize));
 
         this.gbc.gridx = (Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() - 1) % CARDS_PER_ROW; // column (max 5)
         this.gbc.gridy = (Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() - 1) / CARDS_PER_ROW; // row
