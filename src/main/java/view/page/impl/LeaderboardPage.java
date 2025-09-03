@@ -3,10 +3,10 @@ package view.page.impl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,8 +18,8 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.api.LeaderboardController;
 import controller.impl.LeaderboardControllerImpl;
-import model.player.impl.PlayerInRound;
 import view.page.api.SwingPage;
+import view.page.utility.Pair;
 
 /**
  * Represents the leaderboard that appears at the end of the game.
@@ -37,7 +37,6 @@ public class LeaderboardPage extends SwingPage {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE_WINNER = 30;
     private static final int FONT_SIZE_HOME_BUTTON = 30;
-    private static final int COL_GAP = 10;
     private static final Dimension SCROLLABLE_DIM = new Dimension(400, 200);
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
     private final JLabel lblWinner;
@@ -65,17 +64,11 @@ public class LeaderboardPage extends SwingPage {
         this.lblWinner.setBorder(BOX_BORDER);
         leaderboardUi.add(this.lblWinner);
 
-        leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
-
         final JLabel lblleaderboard = new JLabel("Leaderboard");
         leaderboardUi.add(lblleaderboard);
 
-        leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
-
         leaderboardUi.add(playersList());
         lblleaderboard.setAlignmentX(CENTER_ALIGNMENT);
-
-        leaderboardUi.add(Box.createVerticalStrut(COL_GAP));
 
         this.btnHome = new JButton("Go back to Home page");
         this.btnHome.setFont(fontHomeButton);
@@ -112,24 +105,11 @@ public class LeaderboardPage extends SwingPage {
      * 
      * @param leaderboardCtrl the leaderboard controller.
      */
-    private void fillLeaderboard(final LeaderboardControllerImpl leaderboardCtrl) {
-        for (final PlayerInRound player : Objects.requireNonNull(leaderboardCtrl.getPlayerList())) {
-            this.leaderboardInfo.addRow(new Object[] { player.getName(), player.getChestGems() });
+    private void fillLeaderboard(List<Pair<String, Integer>> scores) {
+        this.leaderboardInfo.setRowCount(0); // la pulisce nel caso di gioco ripetuto
+        for (final var score : scores) {
+            this.leaderboardInfo.addRow(new Object[] { score.first(), score.second() });
         }
-    }
-
-    /**
-     * Method that updates the winner label.
-     * 
-     * @throws NullPointerException if {@link leaderboardCtrl} is null.
-     * 
-     * @param leaderboardCtrl the leaderboard controller.
-     */
-    private void updateWinnerLabel(final LeaderboardControllerImpl leaderboardCtrl) {
-        this.lblWinner.setText(Objects.requireNonNull(leaderboardCtrl).getWinner().getName()
-                + " won with "
-                + Objects.requireNonNull(leaderboardCtrl).getWinner().getChestGems()
-                + "gems!");
     }
 
     /**
@@ -137,11 +117,10 @@ public class LeaderboardPage extends SwingPage {
      */
     @Override
     protected void setHandlers() {
-        final LeaderboardControllerImpl leaderboardCtrl = this.getController(LeaderboardControllerImpl.class);
-        fillLeaderboard(leaderboardCtrl);
-        updateWinnerLabel(leaderboardCtrl);
-        this.btnHome.addActionListener(e -> {
-            leaderboardCtrl.goToHomePage();
-        });
+        final LeaderboardController ctrl = this.getController(LeaderboardControllerImpl.class);
+        this.lblWinner.setText("WINNER: " + ctrl.getWinner());
+        this.fillLeaderboard(ctrl.getSortedPlayerScores());
+
+        this.btnHome.addActionListener(e -> ctrl.goToHomePage());
     }
 }
