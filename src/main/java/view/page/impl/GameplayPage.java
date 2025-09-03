@@ -59,7 +59,7 @@ public class GameplayPage extends SwingPage {
     private static final int WAIT_TIME_MILLIS = 1000;
 
     private static final long serialVersionUID = 1L;
-    private static final int CARDS_GAP = 5;
+    private static final int CARDS_GAP = 3;
     private static final int CARDS_PER_ROW = 5;
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
