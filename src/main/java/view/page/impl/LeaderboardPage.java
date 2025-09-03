@@ -3,6 +3,7 @@ package view.page.impl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +38,7 @@ public class LeaderboardPage extends SwingPage {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE_WINNER = 30;
     private static final int FONT_SIZE_HOME_BUTTON = 30;
+    private static final int CELL_HEIGHT_MARGIN = 3;
     private static final Dimension SCROLLABLE_DIM = new Dimension(400, 200);
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
     private final JLabel lblWinner;
@@ -87,10 +89,19 @@ public class LeaderboardPage extends SwingPage {
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.X_AXIS));
 
-        this.leaderboardInfo = new DefaultTableModel();
+        this.leaderboardInfo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(final int row, final int column) {
+                return false;
+            }
+        };
         this.leaderboardInfo.setColumnIdentifiers(new Object[] { "Name", "Score" });
         final JTable table = new JTable(leaderboardInfo);
         final JScrollPane scrollableBoard = new JScrollPane(table);
+        final Font font = table.getFont();
+        final FontMetrics fm = table.getFontMetrics(font);
+        final int rowHeight = fm.getHeight();
+        table.setRowHeight(rowHeight + CELL_HEIGHT_MARGIN);
         scrollableBoard.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollableBoard.setPreferredSize(SCROLLABLE_DIM);
         playersList.add(scrollableBoard);
