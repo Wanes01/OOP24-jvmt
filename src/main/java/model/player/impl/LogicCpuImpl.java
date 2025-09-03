@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import model.card.api.Deck;
+import model.game.api.GameSettings;
 import model.player.api.CpuDifficulty;
 import model.player.api.CpuDifficultyVariables;
 import model.player.api.LogicCpu;
@@ -43,7 +43,7 @@ public class LogicCpuImpl implements LogicCpu {
         CpuDifficulty.NORMAL, new CpuDifficultyVariables(0.25, 0.20, 0.15, 0.20, 0.20, 0.5, 0.7),
         CpuDifficulty.HARD, new CpuDifficultyVariables(0.05, 0.50, 0.15, 0.30, 0, 0.5, 0.7)
     );
-    private final Deck deck;
+    private final GameSettings settings;
     private final CpuDifficulty difficulty;
     private final CpuDifficultyVariables config;
     private final Random rand;
@@ -51,15 +51,13 @@ public class LogicCpuImpl implements LogicCpu {
     /**
      * Initializes the CPU's logic.
      * 
-     * @throws NullPointerException if {@link deck} is null.
-     * @throws NullPointerException if {@link difficulty} is null.
+     * @throws NullPointerException if {@link settings} is null.
      * 
-     * @param deck the round cards deck.
-     * @param difficulty the CPU's expected difficulty.
+     * @param settings the game settings.
      */
-    public LogicCpuImpl(final Deck deck, final CpuDifficulty difficulty) {
-        this.deck = Objects.requireNonNull(deck);
-        this.difficulty = Objects.requireNonNull(difficulty);
+    public LogicCpuImpl(final GameSettings settings) {
+        this.settings = Objects.requireNonNull(settings);
+        this.difficulty = Objects.requireNonNull(settings).getCpuDifficulty();
         this.config = DIFFICULTY_VARIABLES.get(this.difficulty);
         this.rand = new Random();
     }
@@ -69,16 +67,14 @@ public class LogicCpuImpl implements LogicCpu {
      * the seed of the Random object on top of other fields in order to
      * facilitate testing.
      * 
-     * @throws NullPointerException if {@link deck} is null.
-     * @throws NullPointerException if {@link difficulty} is null.
+     * @throws NullPointerException if {@link settings} is null.
      * 
-     * @param deck the round cards deck.
-     * @param difficulty the CPU's expected difficulty.
+     * @param settings the game settings.
      * @param seed seed for the Random object.
      */
-    public LogicCpuImpl(final Deck deck, final CpuDifficulty difficulty, final int seed) {
-        this.deck = Objects.requireNonNull(deck);
-        this.difficulty = Objects.requireNonNull(difficulty);
+    public LogicCpuImpl(final GameSettings settings, final int seed) {
+        this.settings = Objects.requireNonNull(settings);
+        this.difficulty = Objects.requireNonNull(settings).getCpuDifficulty();
         this.config = DIFFICULTY_VARIABLES.get(this.difficulty);
         this.rand = new Random(seed);
     }
@@ -102,12 +98,12 @@ public class LogicCpuImpl implements LogicCpu {
      * @throws NullPointerException if {@link state} is null.
      * 
      * @param state the round state.
-     * @param activePlayers the number of active players.
      * 
      * @return the normalized gems value.
      */
-    private double calculateNormGems(final RoundState state, final int activePlayers) {
-        return Objects.requireNonNull(state).getPathGems() / (activePlayers * 2.0);
+    private double calculateNormGems(final RoundState state) {
+        return Objects.requireNonNull(state).getPathGems()
+            / (Objects.requireNonNull(state).getRoundPlayersManager().getActivePlayers().size() * 2.0);
     }
 
     /**
@@ -123,7 +119,8 @@ public class LogicCpuImpl implements LogicCpu {
      * @return the normalized traps value.
      */
     private double calculateNormTraps(final RoundState state) {
-        return Objects.requireNonNull(state).getDrawnTraps().size() / (double) this.deck.totTrapCardTypesInDeck();
+        return Objects.requireNonNull(state).getDrawnTraps().size()
+            / (double) this.settings.getDeck().totTrapCardTypesInDeck();
     }
 
     /**
@@ -139,8 +136,9 @@ public class LogicCpuImpl implements LogicCpu {
      * @return the normalized cards value.
      */
     private double calculateNormCards(final RoundState state) {
-        final int remainingCards = this.deck.deckSize() - Objects.requireNonNull(state).getDrawCards().size();
-        return 1.0 - (remainingCards / (double) this.deck.deckSize());
+        final int remainingCards = this.settings.getDeck().deckSize()
+            - Objects.requireNonNull(state).getDrawCards().size();
+        return 1.0 - (remainingCards / (double) this.settings.getDeck().deckSize());
     }
 
     /**
@@ -156,7 +154,8 @@ public class LogicCpuImpl implements LogicCpu {
      * @return the normalized relics value.
      */
     private double calculateNormRelics(final RoundState state) {
-        return Objects.requireNonNull(state).getReedamableRelics().size() * 2.0 / this.deck.totRelicCardsInDeck();
+        return Objects.requireNonNull(state).getReedamableRelics().size() * 2.0
+            / this.settings.getDeck().totRelicCardsInDeck();
     }
 
     /**
@@ -165,13 +164,16 @@ public class LogicCpuImpl implements LogicCpu {
      * players in the game.
      * This way the less players exit, the higher the variable is.
      * 
-     * @param activePlayers the number of active players.
-     * @param exitedPlayers the number of players that left.
+     * @throws NullPointerException if {@link state} is null.
+     * 
+     * @param state the round state.
      * 
      * @return the normalized players value.
      */
-    private double calculateNormPlayers(final int activePlayers, final int exitedPlayers) {
-        return 1.0 - (exitedPlayers / (double) (exitedPlayers + activePlayers));
+    private double calculateNormPlayers(final RoundState state) {
+        return 1.0 - (Objects.requireNonNull(state).getRoundPlayersManager().getExitedPlayers().size()
+            / (double) (Objects.requireNonNull(state).getRoundPlayersManager().getExitedPlayers().size()
+            + Objects.requireNonNull(state).getRoundPlayersManager().getActivePlayers().size()));
     }
 
     /**
@@ -185,14 +187,9 @@ public class LogicCpuImpl implements LogicCpu {
      * @return the score calculated.
      */
     private double calculateScore(final RoundState state) {
-        final int activePlayers = Objects.requireNonNull(state).getRoundPlayersManager().getActivePlayers().size();
-        if (activePlayers == 0) {
-            throw new IllegalArgumentException("There must be at least one active player.");
-        }
-        final int exitedPlayers = Objects.requireNonNull(state).getRoundPlayersManager().getExitedPlayers().size();
-        final double normPlayers = calculateNormPlayers(activePlayers, exitedPlayers);
+        final double normPlayers = calculateNormPlayers(state);
         final double normCards = calculateNormCards(Objects.requireNonNull(state));
-        final double normGems = calculateNormGems(Objects.requireNonNull(state), activePlayers);
+        final double normGems = calculateNormGems(Objects.requireNonNull(state));
         final double normTraps = calculateNormTraps(Objects.requireNonNull(state));
         final double normRelics = calculateNormRelics(Objects.requireNonNull(state));
         return (config.weightGems() * normGems)
