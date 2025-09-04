@@ -4,12 +4,9 @@ import model.player.impl.LogicCpuImpl;
 import model.round.api.RoundState;
 
 /**
- * Represents the logic behind a CPU player's
- * end turn choice.
- * <p>
+ * Represents the logic behind a CPU player's end turn choice.
  * This interface gives a method that represents the CPU player's
- * choice they take at the end of the turn.
- * </p>
+ * choice taken at the end of the turn.
  * 
  * @see LogicCpuImpl
  * 
@@ -26,7 +23,7 @@ public interface LogicCpu {
      * 
      * @param state the round state.
      * 
-     * @return a PlayerChoice that represents the CPU choice.
+     * @return  a PlayerChoice that represents the CPU choice.
      */
     PlayerChoice cpuChoice(RoundState state);
 }
