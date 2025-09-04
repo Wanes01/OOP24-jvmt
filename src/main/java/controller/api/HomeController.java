@@ -9,5 +9,4 @@ public interface HomeController {
 
     /** Navigates to the settings view. */
     void goToSettingPage();
-
 }

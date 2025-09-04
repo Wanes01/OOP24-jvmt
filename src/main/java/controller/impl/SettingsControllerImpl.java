@@ -35,18 +35,18 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
      * The list of possible end-of-round conditions.
      */
     public static final List<EndCondition> END_CONDITIONS = List.of(
-        FACTORY_END_COND.standard(),
-        FACTORY_END_COND.firstTrapEnds());
+            FACTORY_END_COND.standard(),
+            FACTORY_END_COND.firstTrapEnds());
 
     /**
      * The list of possible gem modifiers.
      */
     public static final List<GemModifier> GEM_MODIFIERS = List.of(
-        FACTORY_GEM_MOD.standard(),
-        FACTORY_GEM_MOD.gemMultiplier(2),
-        FACTORY_GEM_MOD.gemMultiplier(3),
-        FACTORY_GEM_MOD.riskyReward(10),
-        FACTORY_GEM_MOD.leftReward(3));
+            FACTORY_GEM_MOD.standard(),
+            FACTORY_GEM_MOD.gemMultiplier(2),
+            FACTORY_GEM_MOD.gemMultiplier(3),
+            FACTORY_GEM_MOD.riskyReward(10),
+            FACTORY_GEM_MOD.leftReward(3));
 
     private final Consumer<GameSettings> settingsSetter;
     private Optional<List<String>> errors = Optional.empty();
@@ -54,8 +54,9 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
     /**
      * Creates a new instance of {@code SettingsControllerImpl}.
      * 
-     * @param page the page that this controller handles.
-     * @param nav the navigation controller to move between the various views
+     * @param page           the page that this controller handles.
+     * @param nav            the navigation controller to move between the various
+     *                       views
      * @param settingsSetter used to configure game settings
      */
     public SettingsControllerImpl(
@@ -71,16 +72,16 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
      */
     @Override
     public boolean areGameSettingOK(
-        final List<String> listPlayersName,
-        final int numCpu,
-        final Deck deck,
-        final EndCondition endCond,
-        final GemModifier gemMod,
-        final CpuDifficulty cpuDiff,
-        final int nRound) {
-            final GameSettings gameSet;
-            try {
-                gameSet = new GameSettingsImpl(
+            final List<String> listPlayersName,
+            final int numCpu,
+            final Deck deck,
+            final EndCondition endCond,
+            final GemModifier gemMod,
+            final CpuDifficulty cpuDiff,
+            final int nRound) {
+        final GameSettings gameSet;
+        try {
+            gameSet = new GameSettingsImpl(
                     listPlayersName,
                     numCpu,
                     deck,
@@ -88,12 +89,12 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
                     gemMod,
                     cpuDiff,
                     nRound);
-                this.settingsSetter.accept(gameSet);
-                return true;
-            } catch (final InvalidGameSettingsException ex) {
-                this.errors = Optional.of(ex.getErrors());
-                return false;
-            }
+            this.settingsSetter.accept(gameSet);
+            return true;
+        } catch (final InvalidGameSettingsException ex) {
+            this.errors = Optional.of(ex.getErrors());
+            return false;
+        }
     }
 
     /**
@@ -101,7 +102,7 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
      */
     @Override
     public void goToGamePlayPage() {
-        this.getPageNavigator().navigateTo(PageId.MENU);
+        this.getPageNavigator().navigateTo(PageId.GAMEPLAY);
     }
 
     /**

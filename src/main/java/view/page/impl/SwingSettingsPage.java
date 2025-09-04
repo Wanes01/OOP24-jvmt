@@ -44,7 +44,7 @@ import view.page.utility.JSpinnerWithLabel;
  * @author Andrea La Tosa
  */
 
-public class SettingsPage extends SwingPage {
+public class SwingSettingsPage extends SwingPage {
 
         private static final long serialVersionUID = 1L;
 
@@ -63,8 +63,7 @@ public class SettingsPage extends SwingPage {
         /**
          * Create the panel to be displayed by adding 3 columns.
          */
-        public SettingsPage(final Dimension winDim) {
-                super(winDim);
+        public SwingSettingsPage() {
 
                 super.setLayout(new MigLayout(
                                 "fill, insets dialog",

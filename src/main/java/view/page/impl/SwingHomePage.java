@@ -7,7 +7,6 @@ import controller.api.HomeController;
 import controller.impl.HomeControllerImpl;
 import net.miginfocom.swing.MigLayout;
 
-import java.awt.Dimension;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
@@ -22,13 +21,11 @@ import view.page.utility.ImageLabel;
  * 
  * @author Andrea La Tosa
  */
-public class HomePage extends SwingPage {
+public class SwingHomePage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
-
-    private static final URL LOGO_IMAGE_PATH = 
-        HomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
+    private static final URL LOGO_IMAGE_PATH = SwingHomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
 
     private final JButton btnStartGame;
     private ImageLabel labelLogo;
@@ -36,13 +33,12 @@ public class HomePage extends SwingPage {
     /**
      * Builds the home page display.
      */
-    public HomePage(final Dimension winDim) {
-        super(winDim);
+    public SwingHomePage() {
 
         super.setLayout(new MigLayout(
-            "fill, wrap 1, insets 0",
-            "[center]",
-            "push[]paragraph[]push"));
+                "fill, wrap 1, insets 0",
+                "[center]",
+                "push[]paragraph[]push"));
 
         // load the application logo image if possible
         loadImage(LOGO_IMAGE_PATH).ifPresent(image -> {
@@ -60,8 +56,7 @@ public class HomePage extends SwingPage {
     @Override
     protected void setHandlers() {
 
-        final HomeController homeCtrl = 
-            this.getController(HomeControllerImpl.class);
+        final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
 
         btnStartGame.addActionListener(e -> {
             homeCtrl.goToSettingPage();

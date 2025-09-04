@@ -34,7 +34,7 @@ import view.page.utility.Pair;
  * 
  * @author Filippo Gaggi
  */
-public class LeaderboardPage extends SwingPage {
+public class SwingLeaderboardPage extends SwingPage {
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE_WINNER = 30;
     private static final int FONT_SIZE_HOME_BUTTON = 30;
@@ -53,8 +53,7 @@ public class LeaderboardPage extends SwingPage {
      * 
      * @param winDim the window's dimension.
      */
-    public LeaderboardPage(final Dimension winDim) {
-        super(Objects.requireNonNull(winDim));
+    public SwingLeaderboardPage() {
         final JPanel leaderboardUi = new JPanel();
         final Font fontWinner = new Font("Arial", Font.PLAIN, FONT_SIZE_WINNER);
         final Font fontHomeButton = new Font("Arial", Font.PLAIN, FONT_SIZE_HOME_BUTTON);

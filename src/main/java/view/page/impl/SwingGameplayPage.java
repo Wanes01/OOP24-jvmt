@@ -45,7 +45,7 @@ import view.window.impl.SwingWindow;
  * 
  * @author Filippo Gaggi
  */
-public class GameplayPage extends SwingPage {
+public class SwingGameplayPage extends SwingPage {
 
     private static final String TURN_TEXT = "Current turn: ";
     private static final String ROUND_TEXT = "Current round: ";
@@ -94,8 +94,8 @@ public class GameplayPage extends SwingPage {
      * @param winDim        the window's dimension.
      * @param toBlockWindow the main application window.
      */
-    public GameplayPage(final Dimension winDim, final SwingWindow toBlockWindow) {
-        super(Objects.requireNonNull(winDim));
+    public SwingGameplayPage(final SwingWindow toBlockWindow) {
+        Objects.requireNonNull(toBlockWindow);
         this.toBlockWindow = Objects.requireNonNull(toBlockWindow);
         super.setLayout(new BorderLayout());
 

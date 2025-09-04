@@ -12,7 +12,7 @@ package view.navigator.api;
 public enum PageId {
     MENU("Welcome to Javamant!"),
     SETTINGS("Game settings"),
-    ROUND("Cave exploration"),
+    GAMEPLAY("Cave exploration"),
     LEADERBOARD("Final results");
 
     private final String pageTitle;

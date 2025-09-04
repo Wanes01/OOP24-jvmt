@@ -1,7 +1,6 @@
 package view.page.api;
 
 import javax.swing.JPanel;
-import java.awt.Dimension;
 import controller.api.PageController;
 import view.window.impl.SwingWindow;
 
@@ -32,12 +31,6 @@ import view.window.impl.SwingWindow;
  * @author Emir Wanes Aouioua
  */
 public abstract class SwingPage extends JPanel implements Page {
-
-    final Dimension windowDimension;
-
-    public SwingPage(Dimension windowDimension) {
-        this.windowDimension = windowDimension;
-    }
 
     private static final long serialVersionUID = 1L;
     private PageController controller;
@@ -115,10 +108,5 @@ public abstract class SwingPage extends JPanel implements Page {
             return controllerClass.cast(this.controller);
         }
         throw new IllegalArgumentException("The controller must extend PageController");
-    }
-
-    @Override
-    public Dimension getParentWindowDimension() {
-        return this.windowDimension;
     }
 }

@@ -17,10 +17,10 @@ import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.navigator.impl.PageNavigatorImpl;
 import view.page.api.Page;
-import view.page.impl.GameplayPage;
-import view.page.impl.HomePage;
-import view.page.impl.LeaderboardPage;
-import view.page.impl.SettingsPage;
+import view.page.impl.SwingGameplayPage;
+import view.page.impl.SwingHomePage;
+import view.page.impl.SwingLeaderboardPage;
+import view.page.impl.SwingSettingsPage;
 import view.window.api.Window;
 import view.window.impl.SwingWindow;
 
@@ -87,10 +87,10 @@ public class MainControllerImpl implements MainController {
      */
     private Map<PageId, Page> createPages() {
         return Map.of(
-                PageId.MENU, new HomePage(this.window.getDimension()),
-                PageId.SETTINGS, new SettingsPage(this.window.getDimension()),
-                PageId.ROUND, new GameplayPage(this.window.getDimension(), (SwingWindow) this.window),
-                PageId.LEADERBOARD, new LeaderboardPage(this.window.getDimension()));
+                PageId.MENU, new SwingHomePage(),
+                PageId.SETTINGS, new SwingSettingsPage(),
+                PageId.GAMEPLAY, new SwingGameplayPage((SwingWindow) this.window),
+                PageId.LEADERBOARD, new SwingLeaderboardPage());
     }
 
     /**
@@ -133,8 +133,8 @@ public class MainControllerImpl implements MainController {
     private void finishControllersSetup(final GameSettings settings) {
         this.game = Optional.of(new GameImpl(settings));
 
-        final Page gameplay = (GameplayPage) pages.get(PageId.ROUND);
-        final Page leaderboard = (LeaderboardPage) pages.get(PageId.LEADERBOARD);
+        final Page gameplay = (SwingGameplayPage) pages.get(PageId.GAMEPLAY);
+        final Page leaderboard = (SwingLeaderboardPage) pages.get(PageId.LEADERBOARD);
 
         final PageController gameplayController = new GameplayControllerImpl(
                 gameplay,
@@ -149,7 +149,7 @@ public class MainControllerImpl implements MainController {
                     controllers.put(PageId.LEADERBOARD, leaderboardController);
                 });
 
-        controllers.put(PageId.ROUND, gameplayController);
+        controllers.put(PageId.GAMEPLAY, gameplayController);
         gameplay.setController(gameplayController);
     }
 
