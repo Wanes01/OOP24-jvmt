@@ -8,10 +8,11 @@ import model.player.api.LogicCpu;
 import model.round.api.Round;
 
 /**
- * Iterator that manages the game's rounds
- * and has all of the game's informations.
+ * Iterator of {@link Round} elements that saves the
+ * informations regarding a game.
  * 
  * @see GameImpl
+ * @see Round
  * @see Iterator
  * 
  * @author Filippo Gaggi

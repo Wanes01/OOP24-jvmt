@@ -36,8 +36,9 @@ public class GameImpl implements Game {
      * @param settings the game's settings.
      */
     public GameImpl(final GameSettings settings) {
-        this.settings = Objects.requireNonNull(settings);
-        this.logicCpu = new LogicCpuImpl(Objects.requireNonNull(settings));
+        Objects.requireNonNull(settings);
+        this.settings = settings;
+        this.logicCpu = new LogicCpuImpl(settings);
     }
 
     /**
@@ -50,6 +51,8 @@ public class GameImpl implements Game {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if there are no more rounds.
      */
     @Override
     public Round next() {
@@ -67,6 +70,8 @@ public class GameImpl implements Game {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if there are still rounds to do.
      */
     @Override
     public Leaderboard getLeaderboard() {
