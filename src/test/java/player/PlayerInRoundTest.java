@@ -8,23 +8,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.player.api.PlayerChoice;
-import model.player.impl.RealPlayer;
-
+import model.player.impl.PlayerInRound;
 
 /**
- * Real player test class.
+ * Plyer in round test class.
  * 
  * @author Filippo Gaggi
  */
-class RealPlayerTest {
+class PlayerInRoundTest {
 
     private static final String PLAYER_NAME = "TestReal";
     private static final String PLAYER_DIFF_NAME = "TestDiffReal";
-    private RealPlayer test;
+    private PlayerInRound test;
 
     @BeforeEach
     void setUp() {
-        test = new RealPlayer(PLAYER_NAME);
+        test = new PlayerInRound(PLAYER_NAME);
     }
 
     // -- Testing the initial values --
@@ -161,25 +160,25 @@ class RealPlayerTest {
     // -- Testing for hashCode() and equals() methods --
     @Test
     void hashCodeTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
+        final PlayerInRound other = new PlayerInRound(PLAYER_NAME);
         assertEquals(test.hashCode(), other.hashCode());
     }
 
     @Test
     void hashCodeDiffNameTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_DIFF_NAME);
+        final PlayerInRound other = new PlayerInRound(PLAYER_DIFF_NAME);
         assertNotEquals(test.hashCode(), other.hashCode());
     }
 
     @Test
     void equalsTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_NAME);
+        final PlayerInRound other = new PlayerInRound(PLAYER_NAME);
         assertEquals(test, other);
     }
 
     @Test
     void equalsDiffNameTest() {
-        final RealPlayer other = new RealPlayer(PLAYER_DIFF_NAME);
+        final PlayerInRound other = new PlayerInRound(PLAYER_DIFF_NAME);
         assertNotEquals(test, other);
     }
 
