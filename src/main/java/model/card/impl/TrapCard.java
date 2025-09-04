@@ -1,6 +1,7 @@
 package model.card.impl;
 
 import java.util.Map;
+import java.util.Objects;
 
 import model.card.api.Card;
 import model.card.api.TypeCard;
@@ -37,9 +38,14 @@ public final class TrapCard extends Card {
      * 
      * @param name the name of the card
      * @param typeTrap the type of trap card to create
+     * 
+     * @throws NullPointerException if null is passed to the typeTrap parameter
      */
     public TrapCard(final String name, final TypeTrapCard typeTrap) {
-        super(name, TypeCard.TRAP, PATH_IMAGE.get(typeTrap));
+        super(
+            name,
+            TypeCard.TRAP,
+            PATH_IMAGE.get(Objects.requireNonNull(typeTrap, "typeTrap cannot be null.")));
         this.typeTrap = typeTrap;
     }
 

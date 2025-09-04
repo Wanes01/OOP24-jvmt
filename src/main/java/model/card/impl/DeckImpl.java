@@ -158,6 +158,9 @@ public final class DeckImpl implements Deck {
         return this.totSpecial;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck getShuffledCopy() {
         final List<Card> cards = new ArrayList<>(this.deck);

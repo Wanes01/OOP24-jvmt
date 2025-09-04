@@ -1,25 +1,20 @@
 package view.page.impl;
 
 import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import controller.api.HomeController;
 import controller.impl.HomeControllerImpl;
-import controller.impl.SettingsControllerImpl;
+import net.miginfocom.swing.MigLayout;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
-import view.navigator.api.PageNavigator;
 import view.page.api.SwingPage;
+import view.page.utility.ImageLabel;
 
 /**
  * Represents the home page of the application.
@@ -31,62 +26,32 @@ public class HomePage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
-    // The spacing at the top of the page and between objects
-    private static final Dimension TOP_SPACING = new Dimension(0, 50);
-    private static final Dimension COMPONENT_SPACING = new Dimension(0, 40);
 
-    private static final Dimension BTN_DIM = new Dimension(100, 150);
-    private static final Font BTN_FONT = new Font("Arial", Font.BOLD, 50);
+    private static final URL LOGO_IMAGE_PATH = 
+        HomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
 
-    private static final URL LOGO_IMAGE_PATH = HomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
-    private static final int LOGO_WIDTH = 400;
-    private static final int LOGO_HEIGHT = 400;
-
-    private JButton btnStartGame;
+    private final JButton btnStartGame;
+    private ImageLabel labelLogo;
 
     /**
-     * Builds the home page display and adds it to the panel.
+     * Builds the home page display.
      */
-    public HomePage(Dimension winDim) {
+    public HomePage(final Dimension winDim) {
         super(winDim);
-        final JPanel mainPanel = createMainPanel();
-        super.add(mainPanel);
-    }
 
-    /**
-     * @return the panel to be displayed on the home page.
-     */
-    private JPanel createMainPanel() {
+        super.setLayout(new MigLayout(
+            "fill, wrap 1, insets 0",
+            "[center]",
+            "push[]paragraph[]push"));
 
-        final JPanel mainPanel;
-        JLabel labelLogo;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
-        // Create an image of the specified size
-        try {
-            final Image image = ImageIO.read(LOGO_IMAGE_PATH);
-            final Image scaledImage = image.getScaledInstance(LOGO_WIDTH, LOGO_HEIGHT, Image.SCALE_SMOOTH);
-            final ImageIcon imageResized = new ImageIcon(scaledImage);
-            labelLogo = new JLabel(imageResized);
-        } catch (final IOException e) {
-            labelLogo = new JLabel("Logo image not found");
-        }
-
-        labelLogo.setAlignmentX(CENTER_ALIGNMENT);
+        // load the application logo image if possible
+        loadImage(LOGO_IMAGE_PATH).ifPresent(image -> {
+            this.labelLogo = new ImageLabel(image);
+            this.add(labelLogo, "w 50%, h 50%, align center");
+        });
 
         btnStartGame = new JButton("START GAME");
-        btnStartGame.setPreferredSize(BTN_DIM);
-        btnStartGame.setFont(BTN_FONT);
-        btnStartGame.setAlignmentX(CENTER_ALIGNMENT);
-
-        mainPanel.add(Box.createRigidArea(TOP_SPACING));
-        mainPanel.add(labelLogo);
-        mainPanel.add(Box.createRigidArea(COMPONENT_SPACING));
-        mainPanel.add(btnStartGame);
-
-        return mainPanel;
+        super.add(btnStartGame, "w 25%, h 10%, align center, gaptop unrel");
     }
 
     /**
@@ -95,11 +60,27 @@ public class HomePage extends SwingPage {
     @Override
     protected void setHandlers() {
 
-        final HomeController homeCtrl = this.getController(HomeControllerImpl.class);
+        final HomeController homeCtrl = 
+            this.getController(HomeControllerImpl.class);
 
         btnStartGame.addActionListener(e -> {
             homeCtrl.goToSettingPage();
         });
 
+    }
+
+    /**
+     * Attempts to load an image from the specified URL.
+     * 
+     * @param urlImage the URL of the image to load
+     * @return an Optional containing the loaded Image,
+     *         or an empty Optional if the image could not be loaded
+     */
+    private Optional<Image> loadImage(final URL urlImage) {
+        try {
+            return Optional.ofNullable(ImageIO.read(urlImage));
+        } catch (final IOException ex) {
+            return Optional.empty();
+        }
     }
 }

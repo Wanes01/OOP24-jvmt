@@ -8,18 +8,23 @@ import model.card.impl.DeckFactoryImpl;
  * @author Andrea La Tosa
  */
 public enum TypeDeck {
-    STANDARD, SPECIAL;
+    /** Represents a standard deck of cards and includes 35 cards. */
+    STANDARD,
+    /** Represents a special deck of cards. */
+    SPECIAL;
 
     private static final DeckFactory FACTORY = new DeckFactoryImpl();
 
+    /**
+     * Creates and returns a new {@link Deck} based on this deck type.
+     * This method delegates the creation of a deck to {@link DeckFactory}.
+     * 
+     * @return a new {@code Deck} instance corresponding to the selected type
+     */
     public Deck getDeck() {
-        switch (this) {
-            case STANDARD:
-                return FACTORY.standardDeck();
-            case SPECIAL:
-                return FACTORY.specialDeck();
-            default:
-                throw new IllegalStateException("Unexpected value: " + this);
-        }
+        return switch (this) {
+            case STANDARD -> FACTORY.standardDeck();
+            case SPECIAL -> FACTORY.specialDeck();
+        };
     }
 }
