@@ -20,9 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import model.player.api.PlayerChoice;
-import view.common.ImageButton;
 import view.modal.api.Modal;
 import view.window.impl.SwingWindow;
+import view.page.utility.ImageButton;
 
 /**
  * A swing-based modal dialog that allows a player to choose to continue or not
