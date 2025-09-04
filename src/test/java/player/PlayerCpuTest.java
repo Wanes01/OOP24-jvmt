@@ -198,7 +198,7 @@ class PlayerCpuTest {
     void testCpuChoose() {
         test.choose(PlayerChoice.STAY);
         final PlayerChoice choice = test.getChoice();
-        test.choose(this.roundState);
+        test.chooseCpu(this.roundState);
         final PlayerChoice choiceCpu = test.getChoice();
         assertEquals(choice, choiceCpu);
     }

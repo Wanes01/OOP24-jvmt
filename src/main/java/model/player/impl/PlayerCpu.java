@@ -59,7 +59,7 @@ public class PlayerCpu extends PlayerInRound {
      * 
      * @param state the current game state.
      */
-    public void choose(final RoundState state) {
+    public void chooseCpu(final RoundState state) {
         choose(logic.cpuChoice(Objects.requireNonNull(state)));
     }
 }
