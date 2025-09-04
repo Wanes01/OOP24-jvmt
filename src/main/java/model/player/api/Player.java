@@ -2,10 +2,8 @@ package model.player.api;
 
 /**
  * Rapresents a generic player.
- * <p>
  * This interface provides the name of a player
  * and the gems inside their chest.
- * </p>
  * 
  * @see PlayerInRound
  * 

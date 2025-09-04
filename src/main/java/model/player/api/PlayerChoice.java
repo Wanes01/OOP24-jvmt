@@ -1,8 +1,8 @@
 package model.player.api;
 
 /**
- * Enum containing the player's choices they
- * can make at the end of the turns.
+ * Enum containing the player's choices that
+ * can be made at the end of the turn.
  * 
  * @see PlayerInRound
  * 
