@@ -10,7 +10,6 @@ import model.game.api.GameSettings;
 import model.player.api.CpuDifficulty;
 import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
-import model.player.impl.RealPlayer;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
@@ -75,7 +74,7 @@ public class GameSettingsImpl implements GameSettings {
      * Constant that represents the maximum characters a player's name
      * can have.
      */
-    public static final int MAX_PLAYERS_NAME_CHR = 12;
+    private static final int MAX_PLAYERS_NAME_CHR = 12;
 
     private final List<String> listNamePlayers;
     private final int numberOfCpu;
@@ -282,7 +281,7 @@ public class GameSettingsImpl implements GameSettings {
     private List<PlayerInRound> createRealPlayers() {
         final List<PlayerInRound> listRealPlayers = new ArrayList<>();
         for (final String name : this.listNamePlayers) {
-            final RealPlayer realPlayer = new RealPlayer(name);
+            final PlayerInRound realPlayer = new PlayerInRound(name);
             listRealPlayers.add(realPlayer);
         }
         return listRealPlayers;
@@ -296,7 +295,7 @@ public class GameSettingsImpl implements GameSettings {
     private List<PlayerInRound> createCpuPlayers() {
         final List<PlayerInRound> listCpuPlayers = new ArrayList<>();
         for (int i = 0; i < this.numberOfCpu; i++) {
-            final PlayerCpu playerCpu = new PlayerCpu("CPU-" + i);
+            final PlayerCpu playerCpu = new PlayerCpu("CPU-" + i, this);
             listCpuPlayers.add(playerCpu);
         }
         return listCpuPlayers;
