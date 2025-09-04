@@ -85,7 +85,6 @@ public class GameSettingsImpl implements GameSettings {
     private final GemModifier gemModifier;
     private final CpuDifficulty cpuDifficulty;
     private final int nRounds;
-
     private final List<PlayerInRound> players;
 
     /**
@@ -100,13 +99,13 @@ public class GameSettingsImpl implements GameSettings {
      * @throws InvalidGameSettingsException if {@link error} isn't empty
      *         (the settings aren't acceptable).
      * 
-     * @param listNamePlayers the list of the name of the players.
-     * @param numberOfCpu the number of CPU players.
-     * @param deck the deck chosen.
-     * @param endCondition the game end condition chosen.
-     * @param gemModifier the gem modifier chosen.
-     * @param cpuDifficulty the difficulty of the CPUs chosen.
-     * @param nRound the number of rounds chosen.
+     * @param listNamePlayers   the list of the players' names.
+     * @param numberOfCpu       the number of CPU players.
+     * @param deck              the chosen deck.
+     * @param endCondition      the chosen end condition.
+     * @param gemModifier       the chosen gem modifier.
+     * @param cpuDifficulty     the chosen difficulty of the CPUs.
+     * @param nRound            the chosen number of rounds.
      */
     public GameSettingsImpl(final List<String> listNamePlayers,
         final int numberOfCpu,
@@ -115,18 +114,23 @@ public class GameSettingsImpl implements GameSettings {
         final GemModifier gemModifier,
         final CpuDifficulty cpuDifficulty,
         final int nRound) {
-        this.listNamePlayers = new ArrayList<>(Objects.requireNonNull(listNamePlayers));
+        Objects.requireNonNull(listNamePlayers);
+        Objects.requireNonNull(deck);
+        Objects.requireNonNull(endCondition);
+        Objects.requireNonNull(gemModifier);
+        Objects.requireNonNull(cpuDifficulty);
+
+        this.listNamePlayers = new ArrayList<>(listNamePlayers);
         this.numberOfCpu = numberOfCpu;
-        this.numberRealPlayers = Objects.requireNonNull(listNamePlayers).size();
+        this.numberRealPlayers = listNamePlayers.size();
         this.totalNumberOfPlayers = this.numberRealPlayers + this.numberOfCpu;
-        this.deck = Objects.requireNonNull(deck);
-        this.endCondition = Objects.requireNonNull(endCondition);
-        this.gemModifier = Objects.requireNonNull(gemModifier);
-        this.cpuDifficulty = Objects.requireNonNull(cpuDifficulty);
+        this.deck = deck;
+        this.endCondition = endCondition;
+        this.gemModifier = gemModifier;
+        this.cpuDifficulty = cpuDifficulty;
         this.nRounds = nRound;
 
         final List<String> errors = this.getSettingsErrors();
-
         if (!errors.isEmpty()) {
             throw new InvalidGameSettingsException(errors);
         }

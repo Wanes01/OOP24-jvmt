@@ -12,10 +12,8 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 
 /**
  * Represents the settings of the game.
- * <p>
  * This interface provides a method for checking that everything
  * is ready to start the game and creates all players.
- * </p>
  * 
  * @see GameSettingsImpl
  * 
@@ -39,32 +37,32 @@ public interface GameSettings {
     int getNumberOfRealPlayers();
 
     /**
-     * @return the deck chosen.
+     * @return the shuffled chosen deck.
      */
     Deck getDeck();
 
     /**
-     * @return the game end condition chosen.
+     * @return the chosen end condition.
      */
     EndCondition getRoundEndCondition();
 
     /**
-     * @return the gem modifier chosen.
+     * @return the chosen gem modifier.
      */
     GemModifier getRoundGemModifier();
 
     /**
-     * @return the round effect.
+     * @return the chosen round effect.
      */
     RoundEffect getRoundEffect();
 
     /**
-     * @return the difficulty of the CPUs chosen.
+     * @return the chosen difficulty of the CPUs.
      */
     CpuDifficulty getCpuDifficulty();
 
     /**
-     * @return the number of rounds chosen.
+     * @return the chosen number of rounds.
      */
     int getNumberOfRounds();
 
