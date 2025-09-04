@@ -95,6 +95,7 @@ public interface GameplayController {
      * Executes the turn's decision phase.
      * 
      * @throws NullPointerException if {@link window} is null.
+     * @throws NullPointerException if an active player is null.
      * 
      * @param toBlockWindow the main application window.
      */
