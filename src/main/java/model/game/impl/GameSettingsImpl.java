@@ -75,7 +75,7 @@ public class GameSettingsImpl implements GameSettings {
      * Constant that represents the maximum characters a player's name
      * can have.
      */
-    private static final int MAX_PLAYERS_NAME_CHR = 12;
+    public static final int MAX_PLAYERS_NAME_CHR = 12;
 
     private final List<String> listNamePlayers;
     private final int numberOfCpu;

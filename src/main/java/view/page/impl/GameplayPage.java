@@ -59,11 +59,11 @@ public class GameplayPage extends SwingPage {
     private static final int WAIT_TIME_MILLIS = 1000;
 
     private static final long serialVersionUID = 1L;
-    private static final int CARDS_GAP = 3;
+    private static final int CARDS_GAP = 2;
     private static final int CARDS_PER_ROW = 5;
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
-    private static final int MAX_LINE_LENGTH = 21;
+    private static final int MAX_LINE_LENGTH = 14;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 
     private final JLabel roundNumber = new JLabel();
@@ -336,7 +336,7 @@ public class GameplayPage extends SwingPage {
     public void refresh() {
         final GameplayControllerImpl gameplayCtrl = this.getController(GameplayControllerImpl.class);
 
-        this.playerName.setText(PLAYER_NAME_TEXT + gameplayCtrl.getCurrentPlayerName());
+        this.playerName.setText("<html>" + PLAYER_NAME_TEXT + "<br>" + gameplayCtrl.getCurrentPlayerName() + "</html>");
         this.sackGems.setText(SACK_TEXT + gameplayCtrl.getCurrentPlayerSackGems());
         this.chestGems.setText(CHEST_TEXT + gameplayCtrl.getCurrentPlayerChestGems());
         this.roundNumber.setText(ROUND_TEXT + gameplayCtrl.getCurrentRoundNumber());
