@@ -1,20 +1,17 @@
 package view.page.utility;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.DefaultListCellRenderer;
 
@@ -24,7 +21,7 @@ import javax.swing.DefaultListCellRenderer;
  * This class is useful for quickly creating selection fields with an associated
  * description.
  * 
- * @param <T> the type of elements used to populate the combo box
+ * @param <T> the type of elements used to populate the combobox
  * 
  * @author Andrea La Tosa
  */
@@ -35,9 +32,6 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
     private static final long serialVersionUID = 1L;
 
     private static final int MAX_CHARACTERS = 40;
-    /* represents the percentage of spacing applied between the label 
-        and the jcombobox in relation to the height of the view */
-    private static final double VERTICAL_SPACING_RATIO = 0.02;
 
     private final JPanel panel;
     private final JLabel lbl;
@@ -48,30 +42,21 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
      * 
      * @param lblText    the description to add to the label explaining
      *                   what the items in the combobox represent
-     * @param winDim    the size of the window.
-     *  It is used to calculate the vertical spacing between jlabel and jcombobox.
      * 
-     * @throws NullPointerException     if winDim is null
+     * @throws NullPointerException if lblText is null
      */
-    public ComboboxWithLabel(final String lblText, final Dimension winDim) {
+    public ComboboxWithLabel(final String lblText) {
+        Objects.requireNonNull(lblText, "lblText cannot be null.");
 
-        Objects.requireNonNull(winDim, "winDim cannot be null.");
-
-        // The spacing between label and jcombobx.
-        // Cast to int to convert pixel based calculation to integer value for spacing
-        final int spacingY = (int) (winDim.height * VERTICAL_SPACING_RATIO);
-
-        this.panel = new JPanel();
-        this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+       this.panel = new JPanel(
+            new MigLayout(
+                "fillx, wrap 1, insets 0",
+                "[center]"));
 
         this.lbl = new JLabel(lblText);
-        this.lbl.setAlignmentX(CENTER_ALIGNMENT);
-        this.lbl.setHorizontalAlignment(SwingConstants.CENTER);
 
-        this.panel.add(lbl);
-        this.panel.add(Box.createRigidArea(
-            new Dimension(0, spacingY)));
-        this.panel.add(this);
+        this.panel.add(lbl, "gapbottom rel");
+        this.panel.add(this, "growx");
 
         // creates a custom render of the combobox to display the content following the
         // wrapTextHTML logic in HtmlUtil
@@ -95,7 +80,7 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
     }
 
     /**
-     * Adds a list of items to the combo box.
+     * Adds a list of items to the combobox.
      * 
      * @param list the items to add to the combobox
      * 

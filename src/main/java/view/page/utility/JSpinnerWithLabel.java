@@ -1,18 +1,14 @@
 package view.page.utility;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.util.Objects;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.miginfocom.swing.MigLayout;
 
 /**
  * A generic Swing component that displays a {@code JLabel} above a {@code JSpinner}.
@@ -37,47 +33,37 @@ public class JSpinnerWithLabel {
      * @param spnMinValue the minimum value allowed by the spinner
      * @param spnMaxValue the maximum value allowed by the spinner
      * @param spnStepSize the size of the spinner step
-     * @param spnDim the size of the spinner
-     * @param spacing the spacing applied between the label and the spinner
      * 
-     * @throws NullPointerException if lblText, spnDim, or spacing are null
+     * @throws NullPointerException if lblText is null
      */
     public JSpinnerWithLabel(
         final String lblText,
         final int spnStartValue,
         final int spnMinValue,
         final int spnMaxValue,
-        final int  spnStepSize,
-        final Dimension spnDim,
-        final Dimension spacing) {
+        final int  spnStepSize) {
             Objects.requireNonNull(lblText, "lblText cannot be null.");
-            Objects.requireNonNull(spnDim, "spnDim cannot be null.");
-            Objects.requireNonNull(spacing, "spacing cannot be null.");
 
             final SpinnerNumberModel modelSpinner;
 
-            panel = new JPanel();
-            this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+            this.panel = new JPanel(
+                new MigLayout(
+                    "fillx, wrap 1, insets 0",
+                    "[center]"));
 
             this.lbl = new JLabel(lblText);
-            this.lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-            this.lbl.setHorizontalAlignment(SwingConstants.CENTER);
 
             modelSpinner = new SpinnerNumberModel(spnStartValue, spnMinValue, spnMaxValue, spnStepSize);
             this.spn = new JSpinner(modelSpinner);
             // Makes the spinner textbox read-only
             ((JSpinner.DefaultEditor) spn.getEditor()).getTextField().setEditable(false);
-            this.spn.setPreferredSize(spnDim);
-            this.spn.setMaximumSize(spnDim);
-            this.spn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            this.panel.add(lbl);
-            this.panel.add(Box.createRigidArea(spacing));
-            this.panel.add(spn);
+            panel.add(lbl, "gapbottom rel");
+            panel.add(spn, "growx, wmax 50%");
     }
 
     /**
-     * @return the panel containing the label and jspinner.
+     * @return the panel containing the label and spinner.
      */
     public JPanel getPanel() {
         return this.panel;

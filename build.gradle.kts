@@ -34,6 +34,8 @@ dependencies {
     // when dependencies share the same version, grouping in a val helps to keep them in sync
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
+
+    implementation("com.miglayout:miglayout-swing:11.3")
 }
 
 /* application {

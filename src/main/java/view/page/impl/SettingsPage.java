@@ -1,15 +1,11 @@
 package view.page.impl;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,10 +20,10 @@ import model.card.api.TypeDeck;
 import model.player.api.CpuDifficulty;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
+import net.miginfocom.swing.MigLayout;
 import model.game.impl.GameSettingsImpl;
 import view.page.api.SwingPage;
 import view.page.utility.ComboboxWithLabel;
-import view.page.utility.GuiScaler;
 import view.page.utility.JSpinnerWithLabel;
 
 /**
@@ -47,26 +43,13 @@ import view.page.utility.JSpinnerWithLabel;
  * 
  * @author Andrea La Tosa
  */
+
 public class SettingsPage extends SwingPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final double SPACING_COLUMN_RATIO = 0.05;
-    private static final double RELATED_SPACE_HIGHT_RATIO = 0.01;
-    private static final double UNRELATED_SPACE_HIGHT_RATIO = 0.06;
     private static final int SPN_STEP_SIZE = 1;
-    private static final double SPN_DIM_WIDTH_RATIO = 0.13;
-    private static final double SPN_DIM_HEIGHT_RATIO = 0.046;
-    private static final double BTN_FONT_SIZE = 0.07;
-    private static final double BTN_MARGIN_SCALAR_FACTOR = 4.5;
-
-    private final Dimension winDim;
-    private final transient GuiScaler guiScaler;
-
-    private final Dimension relatedSpace;
-    private final Dimension unrelatedSpace;
-    // Behaviors common to all JSpinners
-    private final Dimension spnDimension;
+    private static final String UNRELATED_SPACING_GROWX = "gaptop unrelated, growx";
 
     private JTextArea txtAreaName;
     private JButton btnPlay;
@@ -79,31 +62,17 @@ public class SettingsPage extends SwingPage {
 
     /**
      * Create the panel to be displayed by adding 3 columns.
-     * 
-     * @param winDim the width and height dimensions of the window
-     * 
-     * @throws NullPointerException if if the newDim parameter receives null
      */
     public SettingsPage(final Dimension winDim) {
         super(winDim);
 
-        this.winDim = Objects.requireNonNull(winDim, "viewDim cannot be null.");
+        super.setLayout(new MigLayout(
+            "fill, insets dialog",
+            "[grow, fill]paragraph[grow, fill]paragraph[grow, fill]"));
 
-        this.guiScaler = new GuiScaler(winDim);
-        this.relatedSpace = guiScaler.scaleDim(0, RELATED_SPACE_HIGHT_RATIO);
-        this.unrelatedSpace =  guiScaler.scaleDim(0, UNRELATED_SPACE_HIGHT_RATIO);
-        this.spnDimension = guiScaler.scaleDim(SPN_DIM_WIDTH_RATIO, SPN_DIM_HEIGHT_RATIO);
-
-        final JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(
-            new FlowLayout(FlowLayout.LEFT, guiScaler.scaleWidth(SPACING_COLUMN_RATIO), 0));
-
-        mainPanel.add(settingsCol1());
-        mainPanel.add(settingsCol2());
-        mainPanel.add(settingsCol3());
-
-        super.add(mainPanel);
-
+        super.add(settingsCol1());
+        super.add(settingsCol2());
+        super.add(settingsCol3());
     }
 
     /**
@@ -126,14 +95,14 @@ public class SettingsPage extends SwingPage {
         final int spnMinValue = 0;
         final int spnMaxValue = GameSettingsImpl.MAX_CPU_PLAYERS;
 
-        settingsCol1 = new JPanel();
-        settingsCol1.setLayout(new BoxLayout(settingsCol1, BoxLayout.Y_AXIS));
+        settingsCol1 = new JPanel(new MigLayout(
+            "fillx, wrap 1, insets 0", 
+            "[grow, fill]"));
 
         lblDescrName = new JLabel(
                 "<html><div style='text-align: center;'>"
                         + "Enter the names of the players<br> (one per line):</div></html>");
         lblDescrName.setHorizontalAlignment(SwingConstants.CENTER);
-        lblDescrName.setAlignmentX(CENTER_ALIGNMENT);
 
         this.txtAreaName = new JTextArea();
         this.txtAreaName.setRows(GameSettingsImpl.MAX_PLAYERS);
@@ -147,24 +116,15 @@ public class SettingsPage extends SwingPage {
                 spnStartValue,
                 spnMinValue,
                 spnMaxValue,
-                SPN_STEP_SIZE,
-                spnDimension,
-                relatedSpace);
+                SPN_STEP_SIZE);
 
-        difficulty = new ComboboxWithLabel<>(
-                "Enter CPU difficulty:",
-                this.winDim);
-
+        difficulty = new ComboboxWithLabel<>("Enter CPU difficulty:");
         difficulty.addItems(Arrays.asList(CpuDifficulty.values()));
 
-        settingsCol1.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol1.add(lblDescrName);
-        settingsCol1.add(Box.createRigidArea(relatedSpace));
-        settingsCol1.add(scrlPaneName);
-        settingsCol1.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol1.add(numCPU.getPanel());
-        settingsCol1.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol1.add(difficulty.getPanel());
+        settingsCol1.add(lblDescrName, "gaptop unrel");
+        settingsCol1.add(scrlPaneName, "grow");
+        settingsCol1.add(numCPU.getPanel(), "gaptop unrel");
+        settingsCol1.add(difficulty.getPanel(), "gaptop unrel");
 
         return settingsCol1;
     }
@@ -188,27 +148,24 @@ public class SettingsPage extends SwingPage {
         final int spnMinValue = 1;
         final int spnMaxValue = GameSettingsImpl.MAX_ROUNDS;
 
-        settingsCol2 = new JPanel();
-        settingsCol2.setLayout(new BoxLayout(settingsCol2, BoxLayout.Y_AXIS));
+        settingsCol2 = new JPanel(new MigLayout(
+            "fillx, wrap 1, insets 0", 
+            "[grow, fill]"));
 
         deckType = new ComboboxWithLabel<>(
-                "Select the type of deck:",
-                this.winDim);
-
+                "Select the type of deck:");
         deckType.addItems(Arrays.asList(TypeDeck.values()));
         // The special deck has been removed because it has not yet been implemented
         deckType.getComboBox().removeItem(TypeDeck.SPECIAL);
 
         endCond = new ComboboxWithLabel<>(
             "<html><div style='text-align: center;'>"
-                    + "Select the end condition<br>for the rounds:</div></html>",
-            this.winDim);
+                    + "Select the end condition<br>for the rounds:</div></html>");
         endCond.addItems(SettingsControllerImpl.END_CONDITIONS);
 
         gemMod = new ComboboxWithLabel<>(
             "<html><div style='text-align: center;'>"
-                    + "Select the gem modifier<br>for the rounds:</div></html>",
-            this.winDim);
+                    + "Select the gem modifier<br>for the rounds:</div></html>");
         gemMod.addItems(SettingsControllerImpl.GEM_MODIFIERS);
 
         numRound = new JSpinnerWithLabel(
@@ -216,18 +173,12 @@ public class SettingsPage extends SwingPage {
             spnStartValue,
             spnMinValue,
             spnMaxValue,
-            SPN_STEP_SIZE,
-            spnDimension,
-            relatedSpace);
+            SPN_STEP_SIZE);
 
-        settingsCol2.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol2.add(deckType.getPanel());
-        settingsCol2.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol2.add(endCond.getPanel());
-        settingsCol2.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol2.add(gemMod.getPanel());
-        settingsCol2.add(Box.createRigidArea(unrelatedSpace));
-        settingsCol2.add(numRound.getPanel());
+        settingsCol2.add(deckType.getPanel(), UNRELATED_SPACING_GROWX);
+        settingsCol2.add(endCond.getPanel(), UNRELATED_SPACING_GROWX);
+        settingsCol2.add(gemMod.getPanel(), UNRELATED_SPACING_GROWX);
+        settingsCol2.add(numRound.getPanel(), UNRELATED_SPACING_GROWX);
 
         return settingsCol2;
     }
@@ -237,24 +188,27 @@ public class SettingsPage extends SwingPage {
      *         It contains the button to start the game.
      */
     private JPanel settingsCol3() {
-        final JPanel settingsCol3;
-        final int btnFontSize = guiScaler.scaleHeight(BTN_FONT_SIZE);
-        final int btnDim = (int) (btnFontSize * BTN_MARGIN_SCALAR_FACTOR);
-        final Font btnFont = new Font("Arial", Font.BOLD, btnFontSize);
+        final float btnFontScale = 3f; // font size multiplier
+        // multiplier to calculate the square size of the button based on the font size
+        final int btnSizeMultiplier = 4;
 
-        settingsCol3 = new JPanel();
-        settingsCol3.setLayout(new BoxLayout(settingsCol3, BoxLayout.Y_AXIS));
+        final JPanel settingsCol3;
+
+        settingsCol3 = new JPanel(new MigLayout(
+            "fill, wrap 1, insets 0",
+            "[grow, center]",
+            "[grow]")); 
 
         btnPlay = new JButton("<html><center>START<br>GAME</center></html>");
-        btnPlay.setPreferredSize(new Dimension(btnDim, btnDim));
-        btnPlay.setMinimumSize(new Dimension(btnDim, btnDim));
-        btnPlay.setMaximumSize(new Dimension(btnDim, btnDim));
-        btnPlay.setFont(btnFont);
-        btnPlay.setAlignmentX(CENTER_ALIGNMENT);
 
-        settingsCol3.add(Box.createVerticalGlue());
-        settingsCol3.add(btnPlay);
-        settingsCol3.add(Box.createVerticalGlue());
+        final Font baseFont = btnPlay.getFont();
+        final float fontSize = baseFont.getSize2D() * btnFontScale;
+        btnPlay.setFont(baseFont.deriveFont(Font.BOLD, fontSize));
+        final int size = (int) (fontSize * btnSizeMultiplier);
+        final Dimension squareDim = new Dimension(size, size);
+        btnPlay.setMinimumSize(squareDim);
+
+        settingsCol3.add(btnPlay, "grow, align center");
 
         return settingsCol3;
     }
