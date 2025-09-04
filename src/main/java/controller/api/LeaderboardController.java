@@ -15,13 +15,13 @@ import view.page.utility.Pair;
 public interface LeaderboardController {
 
     /**
-     * @return the list of the pair of the players and their score,
-     *         sorted by their final score.
+     * @return  the list of the pair of the players and their score,
+     *          sorted by their final score.
      */
     List<Pair<String, Integer>> getSortedPlayerScores();
 
     /**
-     * @return the name of the winner of the game.
+     * @return  the name of the winner of the game.
      */
     String getWinner();
 

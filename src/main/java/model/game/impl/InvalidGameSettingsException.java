@@ -22,7 +22,7 @@ public class InvalidGameSettingsException extends RuntimeException {
      * 
      * @throws NullPointerException if {@link errors} is null.
      * 
-     * @param errors the list of error messages.
+     * @param errors    the list of error messages.
      */
     public InvalidGameSettingsException(final List<String> errors) {
         super(String.join("; ", Objects.requireNonNull(errors)));

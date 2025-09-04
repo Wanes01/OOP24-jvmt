@@ -22,54 +22,54 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 public interface GameSettings {
 
     /**
-     * @return the total number of players.
+     * @return  the total number of players.
      */
     int getNumberOfPlayers();
 
     /**
-     * @return the number of CPU players.
+     * @return  the number of CPU players.
      */
     int getNumberOfCpu();
 
     /**
-     * @return the number of real players.
+     * @return  the number of real players.
      */
     int getNumberOfRealPlayers();
 
     /**
-     * @return the shuffled chosen deck.
+     * @return  the shuffled chosen deck.
      */
     Deck getDeck();
 
     /**
-     * @return the chosen end condition.
+     * @return  the chosen end condition.
      */
     EndCondition getRoundEndCondition();
 
     /**
-     * @return the chosen gem modifier.
+     * @return  the chosen gem modifier.
      */
     GemModifier getRoundGemModifier();
 
     /**
-     * @return the chosen round effect.
+     * @return  the chosen round effect.
      */
     RoundEffect getRoundEffect();
 
     /**
-     * @return the chosen difficulty of the CPUs.
+     * @return  the chosen difficulty of the CPUs.
      */
     CpuDifficulty getCpuDifficulty();
 
     /**
-     * @return the chosen number of rounds.
+     * @return  the chosen number of rounds.
      */
     int getNumberOfRounds();
 
     /**
      * Creates the list of all players (real players + CPU players).
      * 
-     * @return the list of all players.
+     * @return  the list of all players.
      */
     List<PlayerInRound> getPlayers();
 }

@@ -20,11 +20,11 @@ public class LeaderboardImpl implements Leaderboard {
     private final List<PlayerInRound> listPlayers;
 
     /**
-     * Saves the list of players that played in a game.
+     * Constructor of the class.
      * 
      * @throws NullPointerException if {@link listPlayers} is null.
      * 
-     * @param listPlayers list of the players that played the game.
+     * @param listPlayers   list of the players that played the game.
      */
     public LeaderboardImpl(final List<PlayerInRound> listPlayers) {
         this.listPlayers = new ArrayList<>(Objects.requireNonNull(listPlayers));

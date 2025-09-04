@@ -20,22 +20,22 @@ import model.round.api.Round;
 public interface Game extends Iterator<Round> {
 
     /**
-     * @return the end game's leaderboard.
+     * @return  the end game's leaderboard.
      */
     Leaderboard getLeaderboard();
 
     /**
-     * @return the current round number.
+     * @return  the current round number.
      */
     int getCurrentRoundNumber();
 
     /**
-     * @return the game's CPU logic.
+     * @return  the game's CPU logic.
      */
     LogicCpu getLogicCpu();
 
     /**
-     * @return the game's settings.
+     * @return  the game's settings.
      */
     GameSettings getSettings();
 }

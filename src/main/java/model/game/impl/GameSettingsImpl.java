@@ -142,7 +142,7 @@ public class GameSettingsImpl implements GameSettings {
      * This method checks if the game settings are ok and adds error messages if
      * they aren't.
      * 
-     * @return the list of error messages.
+     * @return  the list of error messages.
      */
     private List<String> getSettingsErrors() {
         final List<String> errorMessagesList = new ArrayList<>();
@@ -242,8 +242,8 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
-     * @return true if the longest player name doesn't exceed MAX_PLAYERS_NAME_CHR,
-     *         false if not.
+     * @return  true if the longest player name doesn't exceed MAX_PLAYERS_NAME_CHR,
+     *          false if not.
      */
     private boolean namePlayersLengthOk() {
         final int maxLength = this.listNamePlayers.stream()
@@ -254,24 +254,24 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
-     * @return true if the number of rounds doesn't exceed MAX_ROUNDS,
-     *         false if not.
+     * @return  true if the number of rounds doesn't exceed MAX_ROUNDS,
+     *          false if not.
      */
     private boolean numberOfRoundsOk() {
         return this.nRounds <= MAX_ROUNDS;
     }
 
     /**
-     * @return true if the number of players doesn't exceed MAX_PLAYERS,
-     *         false if not.
+     * @return  true if the number of players doesn't exceed MAX_PLAYERS,
+     *          false if not.
      */
     private boolean maxNumberPlayersOk() {
         return this.totalNumberOfPlayers <= MAX_PLAYERS;
     }
 
     /**
-     * @return true if the number of players isn't inferior to MIN_PLAYERS,
-     *         false if not.
+     * @return  true if the number of players isn't inferior to MIN_PLAYERS,
+     *          false if not.
      */
     private boolean minNumberPlayersOk() {
         return this.totalNumberOfPlayers >= MIN_PLAYERS;
@@ -280,7 +280,7 @@ public class GameSettingsImpl implements GameSettings {
     /**
      * Creates the list of real players.
      * 
-     * @return the list of real players.
+     * @return  the list of real players.
      */
     private List<PlayerInRound> createRealPlayers() {
         final List<PlayerInRound> listRealPlayers = new ArrayList<>();
@@ -294,7 +294,7 @@ public class GameSettingsImpl implements GameSettings {
     /**
      * Creates the list of CPU players.
      * 
-     * @return the list of CPU players.
+     * @return  the list of CPU players.
      */
     private List<PlayerInRound> createCpuPlayers() {
         final List<PlayerInRound> listCpuPlayers = new ArrayList<>();
@@ -309,7 +309,7 @@ public class GameSettingsImpl implements GameSettings {
      * Creates the list of all players (real players + CPU players)
      * and shuffles it.
      * 
-     * @return the shuffled list of all players.
+     * @return  the shuffled list of all players.
      */
     private List<PlayerInRound> createPlayers() {
         final List<PlayerInRound> listAllPlayers = new ArrayList<>();

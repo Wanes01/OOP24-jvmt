@@ -17,67 +17,67 @@ import view.window.api.Window;
 public interface GameplayController {
 
     /**
-     * @return the current player's name.
+     * @return  the current player's name.
      */
     String getCurrentPlayerName();
 
     /**
-     * @return the current player's chest gems.
+     * @return  the current player's chest gems.
      */
     int getCurrentPlayerChestGems();
 
     /**
-     * @return the current player's sack gems.
+     * @return  the current player's sack gems.
      */
     int getCurrentPlayerSackGems();
 
     /**
-     * @return the current turn number.
+     * @return  the current turn number.
      */
     int getCurrentTurnNumber();
 
     /**
-     * @return the current round number.
+     * @return  the current round number.
      */
     int getCurrentRoundNumber();
 
     /**
-     * @return the number of the current redeemable relics.
+     * @return  the number of the current redeemable relics.
      */
     int getRedeemableRelicsNumber();
 
     /**
-     * @return the current path gems.
+     * @return  the current path gems.
      */
     int getPathGems();
 
     /**
-     * @return the game's gem modifier description.
+     * @return  the game's gem modifier description.
      */
     String getGemModifierDescrition();
 
     /**
-     * @return the game's end condition description.
+     * @return  the game's end condition description.
      */
     String getEndConditionDescription();
 
     /**
-     * @return the list of the names of the current active players.
+     * @return  the list of the names of the current active players.
      */
     List<String> getActivePlayersNames();
 
     /**
-     * @return the list of the names of the current exited players.
+     * @return  the list of the names of the current exited players.
      */
     List<String> getExitedPlayersNames();
 
     /**
-     * @return the number of drawn cards.
+     * @return  the number of drawn cards.
      */
     int getDrawnCardsNumber();
 
     /**
-     * @return the image of the drawn card.
+     * @return  the image of the drawn card.
      */
     Optional<Image> getDrawnCardImage();
 
@@ -87,7 +87,7 @@ public interface GameplayController {
     void executeDrawPhase();
 
     /**
-     * @return true if the current player is a CPU and false if not.
+     * @return  true if the current player is a CPU and false if not.
      */
     boolean isCurrentPlayerACpu();
 
@@ -105,7 +105,7 @@ public interface GameplayController {
      * Method for checking if the game can continue.
      * It checks if another turn or another round exists.
      * 
-     * @return true if the game can continue or false if not.
+     * @return  true if the game can continue or false if not.
      */
     boolean canGameContinue();
 
@@ -113,7 +113,7 @@ public interface GameplayController {
      * Method for checking if the round can continue.
      * It checks if another turn exists.
      * 
-     * @return true if the round can continue or false if not.
+     * @return  true if the round can continue or false if not.
      */
     boolean canRoundContinue();
 

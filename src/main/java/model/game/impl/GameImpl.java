@@ -33,7 +33,7 @@ public class GameImpl implements Game {
      * 
      * @throws NullPointerException if {@link settings} is null.
      * 
-     * @param settings the game's settings.
+     * @param settings  the game's settings.
      */
     public GameImpl(final GameSettings settings) {
         Objects.requireNonNull(settings);
