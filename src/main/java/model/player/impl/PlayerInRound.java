@@ -17,7 +17,6 @@ import model.player.api.PlayerChoice;
  * </p>
  * 
  * @see Player
- * @see RealPlayer
  * @see PlayerCpu
  * @see PlayerChoice
  * 

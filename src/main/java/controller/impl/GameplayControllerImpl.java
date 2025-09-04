@@ -17,7 +17,6 @@ import model.game.api.Game;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
-import model.player.impl.RealPlayer;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
@@ -238,14 +237,14 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
         final List<PlayerInRound> activePlayers = pManager.getActivePlayers();
         final Set<PlayerInRound> exitingThisTurn = new HashSet<>();
         for (final PlayerInRound player : activePlayers) {
-            if (player instanceof RealPlayer) {
+            if (player instanceof final PlayerCpu playerCpu) {
+                playerCpu.choose(state);
+            } else {
                 final Modal<PlayerChoice> choiceModal = new SwingPlayerChoiceModal(
                         (SwingWindow) Objects.requireNonNull(toBlockWindow),
                         player.getName());
                 choiceModal.waitUserInput();
                 player.choose(choiceModal.getUserInput());
-            } else {
-                ((PlayerCpu) player).choose(state);
             }
             if (player.getChoice() == PlayerChoice.EXIT) {
                 exitingThisTurn.add(player);
