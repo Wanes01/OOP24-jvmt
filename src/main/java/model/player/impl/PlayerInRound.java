@@ -38,7 +38,7 @@ public class PlayerInRound implements Player {
      * 
      * @param name a string representing the player's name
      */
-    protected PlayerInRound(final String name) {
+    public PlayerInRound(final String name) {
         this.name = Objects.requireNonNull(name);
         this.chestGems = 0;
         this.sackGems = 0;

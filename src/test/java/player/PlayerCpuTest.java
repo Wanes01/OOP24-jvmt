@@ -1,5 +1,8 @@
 package player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,8 +10,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.card.api.Deck;
+import model.card.impl.DeckFactoryImpl;
+import model.game.api.GameSettings;
+import model.game.impl.GameSettingsImpl;
+import model.player.api.CpuDifficulty;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerCpu;
+import model.player.impl.PlayerInRound;
+import model.round.api.RoundState;
+import model.round.api.roundeffect.endcondition.EndCondition;
+import model.round.api.roundeffect.gemmodifier.GemModifier;
+import model.round.impl.RoundStateImpl;
+import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
+import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
+import utils.CommonUtils;
 
 
 /**
@@ -20,11 +36,33 @@ class PlayerCpuTest {
 
     private static final String PLAYER_NAME = "TestCpu";
     private static final String PLAYER_DIFF_NAME = "TestDiffCpu";
+    private static final int NUMBER_OF_PLAYERS = 5;
+    private static final int LOW_RAND_SEED = 1_234_537; // nextDouble() = 0.222229786389059
+    private static final int N_CPU = 3;
+    private static final int N_ROUND = 5;
+    private Deck deck;
+    private RoundState roundState;
+    private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
+    private final List<String> playerNames = new ArrayList<>();
     private PlayerCpu test;
+    private EndCondition endCondition;
+    private GemModifier gemModifier;
+    private GameSettings settings;
 
     @BeforeEach
     void setUp() {
-        test = new PlayerCpu(PLAYER_NAME);
+        this.deck = new DeckFactoryImpl().standardDeck();
+        this.roundState = new RoundStateImpl(this.players, this.deck);
+        this.endCondition = new EndConditionFactoryImpl().standard();
+        this.gemModifier = new  GemModifierFactoryImpl().standard();
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.EASY,
+            N_ROUND);
+        this.test = new PlayerCpu(PLAYER_NAME, this.settings, LOW_RAND_SEED);
     }
 
     // -- Testing the initial values --
@@ -158,28 +196,38 @@ class PlayerCpuTest {
         assertEquals(PlayerChoice.STAY, test.getChoice());
     }
 
+    // -- Testing the CPU choice --
+    @Test
+    void testCpuChoose() {
+        test.choose(PlayerChoice.STAY);
+        final PlayerChoice choice = test.getChoice();
+        test.choose(this.roundState);
+        final PlayerChoice choiceCpu = test.getChoice();
+        assertEquals(choice, choiceCpu);
+    }
+
     // -- Testing for hashCode() and equals() methods --
     @Test
     void hashCodeTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
+        final PlayerCpu other = new PlayerCpu(PLAYER_NAME, this.settings);
         assertEquals(test.hashCode(), other.hashCode());
     }
 
     @Test
     void hashCodeDiffNameTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME);
+        final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME, this.settings);
         assertNotEquals(test.hashCode(), other.hashCode());
     }
 
     @Test
     void equalsTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_NAME);
+        final PlayerCpu other = new PlayerCpu(PLAYER_NAME, this.settings);
         assertEquals(test, other);
     }
 
     @Test
     void equalsDiffNameTest() {
-        final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME);
+        final PlayerCpu other = new PlayerCpu(PLAYER_DIFF_NAME, this.settings);
         assertNotEquals(test, other);
     }
 
