@@ -40,26 +40,23 @@ class PlayerCpuTest {
     private static final int LOW_RAND_SEED = 1_234_537; // nextDouble() = 0.222229786389059
     private static final int N_CPU = 3;
     private static final int N_ROUND = 5;
-    private Deck deck;
     private RoundState roundState;
     private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
     private final List<String> playerNames = new ArrayList<>();
     private PlayerCpu test;
-    private EndCondition endCondition;
-    private GemModifier gemModifier;
     private GameSettings settings;
 
     @BeforeEach
     void setUp() {
-        this.deck = new DeckFactoryImpl().standardDeck();
-        this.roundState = new RoundStateImpl(this.players, this.deck);
-        this.endCondition = new EndConditionFactoryImpl().standard();
-        this.gemModifier = new  GemModifierFactoryImpl().standard();
+        final Deck deck = new DeckFactoryImpl().standardDeck();
+        this.roundState = new RoundStateImpl(this.players, deck);
+        final EndCondition endCondition = new EndConditionFactoryImpl().standard();
+        final GemModifier gemModifier = new  GemModifierFactoryImpl().standard();
         this.settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
-            this.deck,
-            this.endCondition,
-            this.gemModifier,
+            deck,
+            endCondition,
+            gemModifier,
             CpuDifficulty.EASY,
             N_ROUND);
         this.test = new PlayerCpu(PLAYER_NAME, this.settings, LOW_RAND_SEED);

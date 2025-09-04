@@ -61,7 +61,6 @@ class LogicCpuTest {
     private LogicCpu logicCpu;
     private Deck deck;
     private RoundState roundState;
-    private GameSettings settings;
 
     @BeforeEach
     void setUp() {
@@ -96,14 +95,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.EASY,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -125,14 +124,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.EASY,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -156,14 +155,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.EASY,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -184,14 +183,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.EASY,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -218,14 +217,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.NORMAL,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -245,14 +244,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.NORMAL,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -275,14 +274,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.NORMAL,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -304,14 +303,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.NORMAL,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -340,14 +339,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.NORMAL,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -379,14 +378,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.HARD,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -416,14 +415,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.HARD,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings, seed);
+        this.logicCpu = new LogicCpuImpl(settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -442,14 +441,14 @@ class LogicCpuTest {
         for (final PlayerInRound player : this.players) {
             this.playerNames.add(player.getName());
         }
-        this.settings = new GameSettingsImpl(this.playerNames,
+        final GameSettings settings = new GameSettingsImpl(this.playerNames,
             N_CPU,
             this.deck,
             this.endCondition,
             this.gemModifier,
             CpuDifficulty.HARD,
             N_ROUND);
-        this.logicCpu = new LogicCpuImpl(this.settings);
+        this.logicCpu = new LogicCpuImpl(settings);
         assertThrows(IllegalArgumentException.class, () -> logicCpu.cpuChoice(this.roundState));
     }
 }
