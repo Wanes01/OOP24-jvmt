@@ -47,8 +47,8 @@ class FullGameTest {
             final Round round = new RoundImpl(this.players, deck, this.effect);
             final RoundState state = round.getState();
             final RoundPlayersManager pm = state.getRoundPlayersManager();
-            for (final Turn turn : round) {
-                turn.executeDrawPhase();
+            while (round.hasNext()) {
+                final Turn turn = round.next();
                 final Set<PlayerInRound> exiting = this.makeRandomPlayersLeave(pm);
                 turn.endTurn(exiting);
             }

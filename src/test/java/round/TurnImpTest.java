@@ -21,7 +21,6 @@ import model.round.api.turn.Turn;
 import model.card.api.Card;
 import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
-import model.player.impl.RealPlayer;
 import model.card.impl.DeckFactoryImpl;
 import model.card.impl.RelicCard;
 import model.card.impl.TreasureCard;
@@ -48,7 +47,7 @@ import utils.CommonUtils;
 class TurnImpTest {
 
     private static final int PLAYER_COUNT = 5;
-    private final PlayerInRound turnPlayer = new RealPlayer("TURN_PLAYER");
+    private final PlayerInRound turnPlayer = new PlayerInRound("PLAYER");
     private RoundEffect effect;
     private RoundState state;
     private Turn turn;

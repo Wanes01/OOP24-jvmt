@@ -87,53 +87,49 @@ class RoundImplTest {
         final RoundState state = this.round.getState();
         final RoundPlayersManager pm = state.getRoundPlayersManager();
         final Deck deck = state.getDeck();
-        final Iterator<Turn> iterator = this.round.iterator();
 
         while (pm.hasNext()
                 && deck.hasNext()
                 && !this.effect.isEndConditionMet(state)) {
-            assertTrue(iterator.hasNext());
-            final Turn turn = iterator.next();
+            assertTrue(this.round.hasNext());
+            final Turn turn = this.round.next();
             this.playTurnAndMakePlayerExit(turn);
         }
 
-        assertFalse(iterator.hasNext());
-        assertThrows(NoSuchElementException.class, iterator::next);
+        assertFalse(this.round.hasNext());
+        assertThrows(NoSuchElementException.class, this.round::next);
     }
 
     @Test
     void testTurnIteratorNoMorePlayers() {
         final RoundState state = this.round.getState();
         final RoundPlayersManager pm = state.getRoundPlayersManager();
-        final Iterator<Turn> iterator = this.round.iterator();
 
         while (pm.hasNext()) {
-            assertTrue(iterator.hasNext());
+            assertTrue(this.round.hasNext());
             final PlayerInRound player = pm.next();
             player.exit();
         }
 
-        assertFalse(iterator.hasNext());
+        assertFalse(this.round.hasNext());
     }
 
     @Test
     void testTurnIteratorNoMoreCards() {
         final RoundState state = this.round.getState();
         final Deck deck = state.getDeck();
-        final Iterator<Turn> iterator = this.round.iterator();
 
         while (deck.hasNext()) {
-            assertTrue(iterator.hasNext());
+            assertTrue(this.round.hasNext());
             deck.next();
         }
-        assertFalse(iterator.hasNext());
+        assertFalse(this.round.hasNext());
     }
 
     @Test
     void testTurnIteratorEndConditionMet() {
         final RoundState state = this.round.getState();
         final Deck deck = state.getDeck();
-        final Iterator<Turn> iterator = this.round.iterator();
         final Set<TrapCard> traps = new HashSet<>();
 
         // checks on the standard end condition: must draw 2 equals traps
@@ -146,11 +142,11 @@ class RoundImplTest {
                     break;
                 }
             }
-            assertTrue(iterator.hasNext());
+            assertTrue(this.round.hasNext());
             assertFalse(this.effect.isEndConditionMet(state));
         }
         assertTrue(this.effect.isEndConditionMet(state));
-        assertFalse(iterator.hasNext());
+        assertFalse(this.round.hasNext());
     }
 
     /**
@@ -167,27 +163,11 @@ class RoundImplTest {
     }
 
     @Test
-    void testTurnIteratorSingleUseAllowed() {
-        // consumes all the turns of this round.
-        this.round.forEach(turn -> {
-            final PlayerInRound player = turn.getCurrentPlayer();
-            assertEquals(PlayerChoice.STAY, player.getChoice());
-            player.exit();
-            assertEquals(PlayerChoice.EXIT, player.getChoice());
-        });
-
-        // a second iteration over the same round is not allowed.
-        assertThrows(IllegalStateException.class, this.round::iterator);
-    }
-
-    @Test
     void testEndRoundRoundNotEnded() {
-        final Iterator<Turn> iterator = this.round.iterator();
-
         // a round can't be terminated without it being finished.
-        while (iterator.hasNext()) {
+        while (this.round.hasNext()) {
             assertThrows(IllegalStateException.class, this.round::endRound);
-            final Turn turn = iterator.next();
+            final Turn turn = this.round.next();
             this.playTurnAndMakePlayerExit(turn);
         }
 
@@ -205,7 +185,9 @@ class RoundImplTest {
         final Map<PlayerInRound, Integer> playerSacks = new HashMap<>();
 
         // plays a full round
-        this.round.forEach(this::playTurnAndMakePlayerExit);
+        while (this.round.hasNext()) {
+            this.playTurnAndMakePlayerExit(this.round.next());
+        }
 
         final RoundState state = this.round.getState();
         final RoundPlayersManager pm = state.getRoundPlayersManager();
