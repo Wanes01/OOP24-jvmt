@@ -35,10 +35,8 @@ import view.window.impl.SwingWindow;
 
 /**
  * Represents the gameplay view of the application.
- * <p>
  * The user interaction is handled using a {@link GameplayController} that
  * specifies an action for every possible user interaction with this page.
- * </p>
  * 
  * @see SwingPage
  * @see GameplayController
@@ -88,15 +86,13 @@ public class SwingGameplayPage extends SwingPage {
     /**
      * Main panel of the gameplay page.
      * 
-     * @throws NullPointerException if {@link winDim} is null.
      * @throws NullPointerException if {@link window} is null.
      * 
-     * @param winDim        the window's dimension.
      * @param toBlockWindow the main application window.
      */
     public SwingGameplayPage(final SwingWindow toBlockWindow) {
         Objects.requireNonNull(toBlockWindow);
-        this.toBlockWindow = Objects.requireNonNull(toBlockWindow);
+        this.toBlockWindow = toBlockWindow;
         super.setLayout(new BorderLayout());
 
         final JPanel pathCards = new JPanel();
@@ -116,54 +112,55 @@ public class SwingGameplayPage extends SwingPage {
 
     /**
      * Panel which contains the informations of the game's current turn and player
-     * and the button
-     * for drawing a card.
+     * and the button for drawing a card.
      * 
      * @throws NullPointerException if {@link boxBorder} is null.
      * 
      * @param boxBorder the border used for the JPanels.
      * 
-     * @return the panel itself.
+     * @return  the panel itself.
      */
     private JPanel gameInfo(final Border boxBorder) {
+        Objects.requireNonNull(boxBorder);
         final JPanel gameInfo = new JPanel();
         gameInfo.setLayout(new BoxLayout(gameInfo, BoxLayout.Y_AXIS));
 
+        //Round info panel.
         final JPanel roundTurnInfo = new JPanel();
         roundTurnInfo.setLayout(new BoxLayout(roundTurnInfo, BoxLayout.Y_AXIS));
-        roundTurnInfo.setBorder(Objects.requireNonNull(boxBorder));
+        roundTurnInfo.setBorder(boxBorder);
         gameInfo.add(roundTurnInfo);
 
+        //Round info panel elements.
         this.roundNumber.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(this.roundNumber);
-
         this.turnNumber.setAlignmentX(LEFT_ALIGNMENT);
         roundTurnInfo.add(this.turnNumber);
 
+        //Player info panel.
         final JPanel playerInfo = new JPanel();
         playerInfo.setLayout(new BoxLayout(playerInfo, BoxLayout.Y_AXIS));
-        playerInfo.setBorder(Objects.requireNonNull(boxBorder));
+        playerInfo.setBorder(boxBorder);
         gameInfo.add(playerInfo);
 
+        //Player info panel elements.
         this.playerName.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(this.playerName);
-
         this.sackGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(this.sackGems);
-
         this.chestGems.setAlignmentX(LEFT_ALIGNMENT);
         playerInfo.add(this.chestGems);
-
         playerInfo.add(this.drawBtn);
 
+        //Game conditions panel.
         final JPanel gameConditions = new JPanel();
         gameConditions.setLayout(new BoxLayout(gameConditions, BoxLayout.Y_AXIS));
-        gameConditions.setBorder(Objects.requireNonNull(boxBorder));
+        gameConditions.setBorder(boxBorder);
         gameInfo.add(gameConditions);
 
+        //Game conditions panel elements.
         this.endConditionDescription.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(this.endConditionDescription);
-
         this.gemModifierDescription.setAlignmentX(LEFT_ALIGNMENT);
         gameConditions.add(this.gemModifierDescription);
 
@@ -174,12 +171,13 @@ public class SwingGameplayPage extends SwingPage {
      * Panel which contains the game board.
      * Every time a card is drawn it is added in the game board.
      * 
-     * @return the panel itself.
+     * @return  the panel itself.
      */
     private JPanel gameBoard() {
         final JPanel gameBoard = new JPanel();
         gameBoard.setLayout(new BoxLayout(gameBoard, BoxLayout.Y_AXIS));
 
+        //Cards container.
         this.cardsContainer = new JPanel();
         this.cardsContainer.setLayout(new GridBagLayout());
         this.gbc = new GridBagConstraints();
@@ -213,9 +211,10 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @param boxBorder the border used for the JPanels.
      * 
-     * @return the panel itself.
+     * @return  the panel itself.
      */
     private JPanel players(final Border boxBorder) {
+        Objects.requireNonNull(boxBorder);
         final JPanel playersList = new JPanel();
         playersList.setLayout(new BoxLayout(playersList, BoxLayout.Y_AXIS));
 
@@ -223,18 +222,20 @@ public class SwingGameplayPage extends SwingPage {
         lblListActivePlayers.setAlignmentX(LEFT_ALIGNMENT);
         playersList.add(lblListActivePlayers);
 
+        //List of active players.
         this.activePlayers = new DefaultListModel<>();
         final JList<String> activePlayerNamesList = new JList<>(this.activePlayers);
-        activePlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
+        activePlayerNamesList.setBorder(boxBorder);
         playersList.add(activePlayerNamesList);
 
         final JLabel lblListExitedPlayers = new JLabel("Exited players:");
         lblListExitedPlayers.setAlignmentX(LEFT_ALIGNMENT);
         playersList.add(lblListExitedPlayers);
 
+        //List of exited players.
         this.exitedPlayers = new DefaultListModel<>();
         final JList<String> exitedPlayerNamesList = new JList<>(this.exitedPlayers);
-        exitedPlayerNamesList.setBorder(Objects.requireNonNull(boxBorder));
+        exitedPlayerNamesList.setBorder(boxBorder);
         playersList.add(exitedPlayerNamesList);
 
         return playersList;
@@ -242,11 +243,11 @@ public class SwingGameplayPage extends SwingPage {
 
     /**
      * Method for removing the cards from the game board.
-     * It initializes the game page's lables for the next round.
      */
     public void cleanGameboard() {
         final Component[] components = this.cardsContainer.getComponents();
         for (final Component comp : components) {
+            //Removes each JLabel inside cards container.
             if (comp instanceof JLabel) {
                 this.cardsContainer.remove(comp);
             }
@@ -260,12 +261,13 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
      * 
-     * @param gameplayCtrl the gameplay controller.
+     * @param gameplayCtrl  the gameplay controller.
      */
     private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
+        Objects.requireNonNull(gameplayCtrl);
         final int cardSize = this.cardsContainer.getWidth() / CARDS_PER_ROW - CARDS_GAP * 2;
         final JLabel labelLogo;
-        final Optional<Image> img = Objects.requireNonNull(gameplayCtrl).getDrawnCardImage();
+        final Optional<Image> img = gameplayCtrl.getDrawnCardImage();
 
         if (img.isPresent()) {
             final Image scaledImage = img.get().getScaledInstance(cardSize, cardSize, Image.SCALE_SMOOTH);
@@ -277,9 +279,10 @@ public class SwingGameplayPage extends SwingPage {
 
         labelLogo.setSize(new Dimension(cardSize, cardSize));
 
-        this.gbc.gridx = (Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() - 1) % CARDS_PER_ROW; // column
-                                                                                                           // (max 5)
-        this.gbc.gridy = (Objects.requireNonNull(gameplayCtrl).getDrawnCardsNumber() - 1) / CARDS_PER_ROW; // row
+        //X position in the grid of the card.
+        this.gbc.gridx = (gameplayCtrl.getDrawnCardsNumber() - 1) % CARDS_PER_ROW;
+        //Y position in the grid of the card.
+        this.gbc.gridy = (gameplayCtrl.getDrawnCardsNumber() - 1) / CARDS_PER_ROW;
         this.gbc.weightx = 0;
         this.gbc.weighty = 0;
 
@@ -291,11 +294,12 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @throws NullPointerException if {@link players} is null.
      * 
-     * @param players list of the names of the active players to add.
+     * @param players   list of the names of the active players to add.
      */
     private void addActivePlayers(final List<String> players) {
+        Objects.requireNonNull(players);
         this.activePlayers.clear();
-        for (final String activePlayer : Objects.requireNonNull(players)) {
+        for (final String activePlayer : players) {
             this.activePlayers.addElement(activePlayer);
         }
     }
@@ -305,17 +309,18 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @throws NullPointerException if {@link players} is null.
      * 
-     * @param players list of the names of the exited players to add.
+     * @param players   list of the names of the exited players to add.
      */
     private void addExitedPlayers(final List<String> players) {
+        Objects.requireNonNull(players);
         this.exitedPlayers.clear();
-        for (final String exitedPlayer : Objects.requireNonNull(players)) {
+        for (final String exitedPlayer : players) {
             this.exitedPlayers.addElement(exitedPlayer);
         }
     }
 
     /**
-     * Method for making the CPUs take choices without pressing the draw button,
+     * Method for making the CPUs take choices without pressing the draw button
      * if there are any.
      * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
@@ -323,7 +328,9 @@ public class SwingGameplayPage extends SwingPage {
      * @param gameplayCtrl the gameplay controller.
      */
     private void cpuAutoplay(final GameplayControllerImpl gameplayCtrl) {
-        if (Objects.requireNonNull(gameplayCtrl).isCurrentPlayerACpu()) {
+        Objects.requireNonNull(gameplayCtrl);
+        if (gameplayCtrl.isCurrentPlayerACpu()) {
+            //Timer for delaying the CPU's draw.
             final Timer timer = new Timer(WAIT_TIME_MILLIS, ev -> this.drawBtn.doClick());
             timer.setRepeats(false);
             timer.start();
@@ -363,14 +370,21 @@ public class SwingGameplayPage extends SwingPage {
                 .setText(HtmlUtils.wrapTextHTML("GEM MODIFIER: " + ctrl.getGemModifierDescrition() + ".",
                         MAX_LINE_LENGTH));
         this.refresh();
-        // resets action listeners
+        //Resets action listeners.
         for (final ActionListener al : this.drawBtn.getActionListeners()) {
             this.drawBtn.removeActionListener(al);
         }
         this.drawBtn.addActionListener(e -> {
+            //Execution of the draw phase.
             ctrl.executeDrawPhase();
+
+            //Addition of the card image in the cards container.
             this.addCardToPath(ctrl);
+
+            //Execution of the decision phase.
             ctrl.executeDecisionPhase(this.toBlockWindow);
+
+            //Check if the game is over.
             if (!ctrl.canGameContinue()) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -379,15 +393,23 @@ public class SwingGameplayPage extends SwingPage {
                 ctrl.goToLeaderboard();
                 return;
             }
+
+            //Check if the round is over.
             if (!ctrl.canRoundContinue()) {
                 JOptionPane.showMessageDialog(
                         this,
                         "The round is over!");
                 this.cleanGameboard();
             }
+
+            //Advance to the next turn.
             ctrl.advance();
+
+            //CPU autoclick.
             this.cpuAutoplay(ctrl);
         });
+
+        //CPU autoclick in case a CPU is the first player in a game.
         this.cpuAutoplay(ctrl);
     }
 }
