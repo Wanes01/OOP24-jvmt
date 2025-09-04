@@ -6,15 +6,12 @@ import model.player.api.Player;
 import model.player.api.PlayerChoice;
 
 /**
- * Represents a generic player during a round.
- * <p>
- * This class implements {@link Player},
- * it provides various informations regarding a player during
- * a round, the number of gems inside their sack and their choice
- * at the end of the turn.
- * This class also provides methods for modifying and reset
+ * The implementation of the {@link Player} interface.
+ * It provides various informations regarding a player during
+ * a round, such as the number of gems inside their sack and
+ * their choice at the end of the turn.
+ * This class also provides methods for modifying and resetting
  * a player's informations.
- * </p>
  * 
  * @see Player
  * @see PlayerCpu
@@ -35,10 +32,11 @@ public class PlayerInRound implements Player {
      * 
      * @throws NullPointerException if {@link name} is null.
      * 
-     * @param name a string representing the player's name
+     * @param name  a string representing the player's name
      */
     public PlayerInRound(final String name) {
-        this.name = Objects.requireNonNull(name);
+        Objects.requireNonNull(name);
+        this.name = name;
         this.chestGems = 0;
         this.sackGems = 0;
         this.choice = PlayerChoice.STAY;
@@ -61,28 +59,27 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * @return the player's informations
-     *         in a text string.
+     * @return  the player's informations in a text string.
      */
     @Override
     public String toString() {
         return "PlayerInRound{"
-                + "name ='" + getName()
-                + ", chestGems =" + getChestGems()
-                + ", sackGems =" + getSackGems()
-                + ", choice =" + getChoice()
-                + '}';
+            + "name ='" + getName()
+            + ", chestGems =" + getChestGems()
+            + ", sackGems =" + getSackGems()
+            + ", choice =" + getChoice()
+            + '}';
     }
 
     /**
-     * @return the player's choice at the end of the turn.
+     * @return  the player's choice.
      */
     public PlayerChoice getChoice() {
         return this.choice;
     }
 
     /**
-     * @return the quantity of gems inside the player's sack.
+     * @return  the quantity of gems inside the player's sack.
      */
     public int getSackGems() {
         return this.sackGems;
@@ -91,15 +88,14 @@ public class PlayerInRound implements Player {
     /**
      * Adds a certain amount of gems to the player's sack.
      * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to add to the sack is negative.
+     * @throws IllegalArgumentException if the amount of gems to add to the sack is negative.
      * 
-     * @param gems the number of gems to add to the player's sack.
+     * @param gems  the number of gems to add to the player's sack.
      */
     public void addSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                    "The amount of gems can't be negative.");
+                "The amount of gems can't be negative.");
         }
         this.sackGems += gems;
     }
@@ -108,16 +104,14 @@ public class PlayerInRound implements Player {
      * Substracts a certain amount of gems from the player's sack.
      * The sack's amount of gems can't be negative.
      * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to substract from the sack is negative.
+     * @throws IllegalArgumentException if the amount of gems to substract from the sack is negative.
      * 
-     * @param gems the number of gems to substract from the player's
-     *             sack.
+     * @param gems  the number of gems to substract from the player's sack.
      */
     public void subSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                    "The amount of gems can't be negative.");
+                "The amount of gems can't be negative.");
         }
         if (this.sackGems < gems) {
             this.sackGems = 0;
@@ -134,8 +128,7 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Adds the amount of gems inside the player's sack to their
-     * chest.
+     * Adds the amount of gems inside the player's sack to their chest.
      */
     public void addSackToChest() {
         this.chestGems += this.sackGems;
@@ -146,16 +139,14 @@ public class PlayerInRound implements Player {
      * Substracts a certain amount of gems from the player's chest.
      * The chest's amount of gems can't be negative.
      * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to substract from the chest is negative.
+     * @throws IllegalArgumentException if the amount of gems to substract from the chest is negative.
      * 
-     * @param gems the number of gems to substract from the player's
-     *             chest.
+     * @param gems  the number of gems to substract from the player's chest.
      */
     public void subChestGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
-                    "The amount of gems can't be negative.");
+                "The amount of gems can't be negative.");
         }
         if (this.chestGems < gems) {
             this.chestGems = 0;
@@ -169,37 +160,35 @@ public class PlayerInRound implements Player {
      * 
      * @throws NullPointerException if {@link choice} is null.
      * 
-     * @param choice the choice that'll be overwitten as
-     *               the player's choice.
+     * @param choice    the choice that'll be overwitten as the player's choice.
      */
     public void choose(final PlayerChoice choice) {
-        this.choice = Objects.requireNonNull(choice);
+        Objects.requireNonNull(choice);
+        this.choice = choice;
     }
 
     /**
      * Updates the player's choice as EXIT.
      * 
-     * @throws IllegalStateException if the player's
-     *                               choice is already EXIT.
+     * @throws IllegalStateException if the player's choice is already EXIT.
      */
     public void exit() {
         if (this.choice == PlayerChoice.EXIT) {
             throw new IllegalStateException(
-                    "The player is already out of the cave.");
+                "The player is already out of the cave.");
         }
         this.choice = PlayerChoice.EXIT;
     }
 
     /**
-     * Resets to true the player's choice.
+     * Resets to STAY the player's choice.
      */
     public void resetChoice() {
         this.choice = PlayerChoice.STAY;
     }
 
     /**
-     * Resets the player's sack gems to zero and
-     * their choice.
+     * Resets the player's sack gems to zero and their choice.
      */
     public void resetRoundPlayer() {
         resetSack();

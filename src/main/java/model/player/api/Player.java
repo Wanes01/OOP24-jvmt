@@ -12,12 +12,12 @@ package model.player.api;
 public interface Player {
 
     /**
-     * @return the name of a player.
+     * @return  the name of a player.
      */
     String getName();
 
     /**
-     * @return the gems inside a player's chest.
+     * @return  the gems inside a player's chest.
      */
     int getChestGems();
 }

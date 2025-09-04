@@ -8,9 +8,7 @@ import model.round.api.RoundState;
 
 /**
  * Represents a CPU player during a round.
- * <p>
  * This class extends {@link PlayerInRound}.
- * </p>
  * 
  * @see PlayerInRound
  * @see LogicCpu
@@ -27,12 +25,13 @@ public class PlayerCpu extends PlayerInRound {
      * @throws NullPointerException if {@link name} is null.
      * @throws NullPointerException if {@link settings} is null.
      * 
-     * @param name a string representing the CPU player's name.
-     * @param settings the game settings.
+     * @param name      a string representing the CPU player's name.
+     * @param settings  the game settings.
      */
     public PlayerCpu(final String name, final GameSettings settings) {
         super(Objects.requireNonNull(name));
-        this.logic = new LogicCpuImpl(Objects.requireNonNull(settings));
+        Objects.requireNonNull(settings);
+        this.logic = new LogicCpuImpl(settings);
     }
 
     /**
@@ -43,13 +42,14 @@ public class PlayerCpu extends PlayerInRound {
      * @throws NullPointerException if {@link name} is null.
      * @throws NullPointerException if {@link settings} is null.
      * 
-     * @param name a string representing the CPU player's name.
-     * @param settings the game settings.
-     * @param seed seed for the Random object.
+     * @param name      a string representing the CPU player's name.
+     * @param settings  the game settings.
+     * @param seed      seed for the Random object.
      */
     public PlayerCpu(final String name, final GameSettings settings, final int seed) {
         super(Objects.requireNonNull(name));
-        this.logic = new LogicCpuImpl(Objects.requireNonNull(settings), seed);
+        Objects.requireNonNull(settings);
+        this.logic = new LogicCpuImpl(settings, seed);
     }
 
     /**
@@ -60,6 +60,7 @@ public class PlayerCpu extends PlayerInRound {
      * @param state the current game state.
      */
     public void chooseCpu(final RoundState state) {
-        choose(logic.cpuChoice(Objects.requireNonNull(state)));
+        Objects.requireNonNull(state);
+        choose(logic.cpuChoice(state));
     }
 }
