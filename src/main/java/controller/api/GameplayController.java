@@ -42,7 +42,7 @@ public interface GameplayController {
     int getCurrentRoundNumber();
 
     /**
-     * @return the number of current redeemable relics.
+     * @return the number of the current redeemable relics.
      */
     int getRedeemableRelicsNumber();
 
@@ -62,12 +62,12 @@ public interface GameplayController {
     String getEndConditionDescription();
 
     /**
-     * @return the list of names of the current active players.
+     * @return the list of the names of the current active players.
      */
     List<String> getActivePlayersNames();
 
     /**
-     * @return the list of names of the current exited players.
+     * @return the list of the names of the current exited players.
      */
     List<String> getExitedPlayersNames();
 
@@ -102,16 +102,17 @@ public interface GameplayController {
 
     /**
      * Method for checking if the game can continue.
-     * It checks if another turn or another round exist.
+     * It checks if another turn or another round exists.
      * 
      * @return true if the game can continue or false if not.
      */
     boolean canGameContinue();
 
     /**
-     * Method for checking if the rounds can continue.
+     * Method for checking if the round can continue.
+     * It checks if another turn exists.
      * 
-     * @return true if the rounds can continue or false if not.
+     * @return true if the round can continue or false if not.
      */
     boolean canRoundContinue();
 
@@ -122,10 +123,6 @@ public interface GameplayController {
 
     /**
      * Method that redirects to the Leaderboard page.
-     * Executes the turn's decision phase.
-     * 
-     * @throws NullPointerException if {@link reset} is null.
-     * 
      */
     void goToLeaderboard();
 }
