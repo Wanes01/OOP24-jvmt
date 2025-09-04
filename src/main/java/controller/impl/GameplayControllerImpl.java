@@ -238,7 +238,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
             Objects.requireNonNull(player);
             if (player instanceof final PlayerCpu playerCpu) {
                 //If the player is a CPU, his choice is automatically made.
-                playerCpu.choose(state);
+                playerCpu.chooseCpu(state);
             } else {
                 //If the player is not a CPU, a choice window will appear for him to make his choice.
                 final Modal<PlayerChoice> choiceModal = new SwingPlayerChoiceModal(
