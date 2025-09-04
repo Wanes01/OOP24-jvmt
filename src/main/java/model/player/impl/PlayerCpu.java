@@ -13,6 +13,7 @@ import model.round.api.RoundState;
  * </p>
  * 
  * @see PlayerInRound
+ * @see LogicCpu
  * 
  * @author Filippo Gaggi
  */
