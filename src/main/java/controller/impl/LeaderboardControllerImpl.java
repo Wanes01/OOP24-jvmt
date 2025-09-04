@@ -47,9 +47,9 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
     @Override
     public List<Pair<String, Integer>> getSortedPlayerScores() {
         return this.leaderboard.getPlayersSortedByScore()
-                .stream()
-                .map(p -> new Pair<>(p.getName(), p.getChestGems()))
-                .toList();
+            .stream()
+            .map(p -> new Pair<>(p.getName(), p.getChestGems()))
+            .toList();
     }
 
     /**
