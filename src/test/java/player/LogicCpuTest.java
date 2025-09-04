@@ -1,5 +1,6 @@
 package player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,12 +15,19 @@ import model.card.impl.DeckFactoryImpl;
 import model.card.impl.RelicCard;
 import model.card.impl.TrapCard;
 import model.card.impl.TreasureCard;
+import model.game.api.GameSettings;
+import model.game.impl.GameSettingsImpl;
 import model.player.api.CpuDifficulty;
+import model.player.api.LogicCpu;
 import model.player.api.PlayerChoice;
 import model.player.impl.LogicCpuImpl;
 import model.player.impl.PlayerInRound;
 import model.round.api.RoundState;
+import model.round.api.roundeffect.endcondition.EndCondition;
+import model.round.api.roundeffect.gemmodifier.GemModifier;
 import model.round.impl.RoundStateImpl;
+import model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
+import model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
 import utils.CommonUtils;
 
 
@@ -41,17 +49,25 @@ class LogicCpuTest {
     private static final int TREASURE_VALUE_3 = 5;
     private static final int TREASURE_VALUE_4 = 4;
     private static final int TREASURE_VALUE_5 = 3;
+    private static final int N_CPU = 3;
+    private static final int N_ROUND = 5;
     private static final String TREASURE_NAME = "Treasure card";
     private static final String TRAP_NAME = "Trap card";
     private static final String RELIC_NAME = "Relic card";
     private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
-    private LogicCpuImpl logicCpu;
+    private final List<String> playerNames = new ArrayList<>();
+    private EndCondition endCondition;
+    private GemModifier gemModifier;
+    private LogicCpu logicCpu;
     private Deck deck;
     private RoundState roundState;
+    private GameSettings settings;
 
     @BeforeEach
     void setUp() {
         this.deck = new DeckFactoryImpl().standardDeck();
+        this.endCondition = new EndConditionFactoryImpl().standard();
+        this.gemModifier = new  GemModifierFactoryImpl().standard();
         this.roundState = new RoundStateImpl(this.players, this.deck);
     }
 
@@ -69,7 +85,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceEasyGems() {
-        final CpuDifficulty difficulty = CpuDifficulty.EASY;
         final int seed = HIGH_RAND_SEED; // to make the borderline very high.
         this.roundState.setPathGems(PATH_GEMS_2);
         final Card treasure1 = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_1);
@@ -78,7 +93,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(treasure1);
         this.roundState.addCardToPath(treasure2);
         this.roundState.addCardToPath(treasure3);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.EASY,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -89,7 +114,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceEasyRelics() {
-        final CpuDifficulty difficulty = CpuDifficulty.EASY;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(0);
         final Card relic = new RelicCard(RELIC_NAME);
@@ -98,7 +122,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(relic);
         this.roundState.addCardToPath(relic);
         this.roundState.addCardToPath(relic);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.EASY,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -109,7 +143,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceEasyTraps() {
-        final CpuDifficulty difficulty = CpuDifficulty.EASY;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(0);
         final Card trap1 = new TrapCard(TRAP_NAME, TypeTrapCard.SPIDER);
@@ -120,7 +153,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(trap2);
         this.roundState.addCardToPath(trap3);
         this.roundState.addCardToPath(trap4);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.EASY,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -132,14 +175,23 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceEasyPlayers() {
-        final CpuDifficulty difficulty = CpuDifficulty.EASY;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(PATH_GEMS_3);
         this.players.get(0).choose(PlayerChoice.EXIT);
         this.players.get(1).choose(PlayerChoice.EXIT);
         final Card treasure = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_1);
         this.roundState.addCardToPath(treasure);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.EASY,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -155,7 +207,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceNormalGems() {
-        final CpuDifficulty difficulty = CpuDifficulty.NORMAL;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(PATH_GEMS_2);
         final Card treasure1 = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_1);
@@ -164,7 +215,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(treasure1);
         this.roundState.addCardToPath(treasure2);
         this.roundState.addCardToPath(treasure3);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.NORMAL,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -174,7 +235,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceNormalRelics() {
-        final CpuDifficulty difficulty = CpuDifficulty.NORMAL;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(0);
         final Card relic = new RelicCard(RELIC_NAME);
@@ -182,7 +242,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(relic);
         this.roundState.addCardToPath(relic);
         this.roundState.addCardToPath(relic);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.NORMAL,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -192,7 +262,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceNormalTraps() {
-        final CpuDifficulty difficulty = CpuDifficulty.NORMAL;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(0);
         final Card trap1 = new TrapCard(TRAP_NAME, TypeTrapCard.SPIDER);
@@ -203,7 +272,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(trap2);
         this.roundState.addCardToPath(trap3);
         this.roundState.addCardToPath(trap4);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.NORMAL,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -214,7 +293,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceNormalPlayers() {
-        final CpuDifficulty difficulty = CpuDifficulty.NORMAL;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(PATH_GEMS_3);
         this.players.get(0).choose(PlayerChoice.EXIT);
@@ -223,7 +301,17 @@ class LogicCpuTest {
         final Card treasure2 = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_3);
         this.roundState.addCardToPath(treasure1);
         this.roundState.addCardToPath(treasure2);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.NORMAL,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -233,7 +321,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceNormalGeneral() {
-        final CpuDifficulty difficulty = CpuDifficulty.NORMAL;
         final int seed = HIGH_RAND_SEED; // to make the borderline very high.
         this.roundState.setPathGems(PATH_GEMS_1);
         this.players.get(0).choose(PlayerChoice.EXIT);
@@ -250,7 +337,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(trap2);
         this.roundState.addCardToPath(relic);
         this.roundState.addCardToPath(relic);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.NORMAL,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -269,7 +366,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceHardPlayers() {
-        final CpuDifficulty difficulty = CpuDifficulty.HARD;
         final int seed = LOW_RAND_SEED; // to make the borderline very low.
         this.roundState.setPathGems(PATH_GEMS_1);
         final Card treasure1 = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_2);
@@ -280,7 +376,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(treasure2);
         this.roundState.addCardToPath(treasure3);
         this.roundState.addCardToPath(treasure4);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.HARD,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.STAY, choice);
     }
@@ -292,7 +398,6 @@ class LogicCpuTest {
     */
     @Test
     void cpuChoiceHardTraps() {
-        final CpuDifficulty difficulty = CpuDifficulty.HARD;
         final int seed = HIGH_RAND_SEED; // to make the borderline very high.
         this.roundState.setPathGems(0);
         final Card treasure = new TreasureCard(TREASURE_NAME, TREASURE_VALUE_1);
@@ -308,7 +413,17 @@ class LogicCpuTest {
         this.roundState.addCardToPath(relic1);
         this.roundState.addCardToPath(relic1);
         this.roundState.addCardToPath(relic2);
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty, seed);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.HARD,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings, seed);
         final PlayerChoice choice = logicCpu.cpuChoice(this.roundState);
         assertEquals(PlayerChoice.EXIT, choice);
     }
@@ -324,8 +439,17 @@ class LogicCpuTest {
         this.players.get(2).choose(PlayerChoice.EXIT);
         this.players.get(3).choose(PlayerChoice.EXIT);
         this.players.get(4).choose(PlayerChoice.EXIT);
-        final CpuDifficulty difficulty = CpuDifficulty.EASY;
-        this.logicCpu = new LogicCpuImpl(this.deck, difficulty);
+        for (final PlayerInRound player : this.players) {
+            this.playerNames.add(player.getName());
+        }
+        this.settings = new GameSettingsImpl(this.playerNames,
+            N_CPU,
+            this.deck,
+            this.endCondition,
+            this.gemModifier,
+            CpuDifficulty.HARD,
+            N_ROUND);
+        this.logicCpu = new LogicCpuImpl(this.settings);
         assertThrows(IllegalArgumentException.class, () -> logicCpu.cpuChoice(this.roundState));
     }
 }

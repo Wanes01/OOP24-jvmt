@@ -1,11 +1,11 @@
 package view.page.utility;
 
-import javax.swing.JButton;
-
 import java.awt.Graphics;
 import java.awt.Image;
 
-public class ImageLabel extends JButton {
+import javax.swing.JLabel;
+
+public class ImageLabel extends JLabel {
 
     private final Image image;
 

@@ -6,11 +6,13 @@ import java.util.Optional;
 
 import controller.api.MainController;
 import controller.api.PageController;
-import controller.impl.HomeControllerImpl;
-import controller.impl.SettingsControllerImpl;
 import controller.impl.GameplayControllerImpl;
+import controller.impl.HomeControllerImpl;
 import controller.impl.LeaderboardControllerImpl;
+import controller.impl.SettingsControllerImpl;
+import model.game.api.Game;
 import model.game.api.GameSettings;
+import model.game.impl.GameImpl;
 import view.navigator.api.PageId;
 import view.navigator.api.PageNavigator;
 import view.navigator.impl.PageNavigatorImpl;
@@ -21,8 +23,6 @@ import view.page.impl.LeaderboardPage;
 import view.page.impl.SettingsPage;
 import view.window.api.Window;
 import view.window.impl.SwingWindow;
-import model.game.api.Game;
-import model.game.impl.GameImpl;
 
 /**
  * Concrete implementation of {@link MainController}.
@@ -89,7 +89,7 @@ public class MainControllerImpl implements MainController {
         return Map.of(
                 PageId.MENU, new HomePage(this.window.getDimension()),
                 PageId.SETTINGS, new SettingsPage(this.window.getDimension()),
-                PageId.ROUND, new GameplayPage(this.window.getDimension()),
+                PageId.ROUND, new GameplayPage(this.window.getDimension(), (SwingWindow) this.window),
                 PageId.LEADERBOARD, new LeaderboardPage(this.window.getDimension()));
     }
 
@@ -139,17 +139,18 @@ public class MainControllerImpl implements MainController {
         final PageController gameplayController = new GameplayControllerImpl(
                 gameplay,
                 navigator,
-                this.game.get());
-        final PageController leaderboardController = new LeaderboardControllerImpl(
-                leaderboard,
-                navigator,
-                this.game.get());
+                this.game.get(),
+                () -> {
+                    final PageController leaderboardController = new LeaderboardControllerImpl(
+                            leaderboard,
+                            navigator,
+                            this.game.get());
+                    leaderboard.setController(leaderboardController);
+                    controllers.put(PageId.LEADERBOARD, leaderboardController);
+                });
 
         controllers.put(PageId.ROUND, gameplayController);
-        controllers.put(PageId.LEADERBOARD, leaderboardController);
-
         gameplay.setController(gameplayController);
-        leaderboard.setController(leaderboardController);
     }
 
     /**

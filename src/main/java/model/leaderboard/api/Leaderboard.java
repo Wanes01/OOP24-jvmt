@@ -24,5 +24,4 @@ public interface Leaderboard {
      * their final score.
      */
     List<PlayerInRound> getPlayersSortedByScore();
-
 }

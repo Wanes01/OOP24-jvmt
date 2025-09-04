@@ -2,8 +2,8 @@ package model.round.api;
 
 import java.util.Iterator;
 
-import model.round.api.turn.Turn;
 import model.common.api.Describable;
+import model.round.api.turn.Turn;
 
 /**
  * Represents a single round within a game.
@@ -25,7 +25,7 @@ import model.common.api.Describable;
  * 
  * @author Emir Wanes Aouioua
  */
-public interface Round extends Iterable<Turn>, Describable {
+public interface Round extends Iterator<Turn>, Describable {
 
     /**
      * Returns an iterator of {@link Turn}s to be played in this round.
@@ -42,8 +42,10 @@ public interface Round extends Iterable<Turn>, Describable {
      *                               been completed (i.e., no more turns can be
      *                               played in this round).
      */
-    @Override
-    Iterator<Turn> iterator();
+    /*
+     * @Override
+     * Iterator<Turn> iterator();
+     */
 
     /**
      * {@inheritDoc}
@@ -79,4 +81,6 @@ public interface Round extends Iterable<Turn>, Describable {
      * @throws IllegalStateException if the round has not ended yet.
      */
     void endRound();
+
+    int getTurnNumber();
 }

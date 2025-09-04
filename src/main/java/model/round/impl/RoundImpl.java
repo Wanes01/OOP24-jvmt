@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import model.round.api.roundeffect.RoundEffect;
-import model.round.api.turn.Turn;
 import model.card.api.Deck;
 import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.RoundState;
+import model.round.api.roundeffect.RoundEffect;
+import model.round.api.turn.Turn;
 import model.round.impl.turn.TurnImpl;
 import utils.CommonUtils;
 
@@ -50,7 +50,7 @@ public class RoundImpl implements Round {
 
     private final RoundState state;
     private final RoundEffect effect;
-    private boolean iteratorUsed;
+    private int currentTurn = 0;
 
     /**
      * Creates a RoundImpl object, starting a new round.
@@ -127,38 +127,24 @@ public class RoundImpl implements Round {
                 || this.effect.isEndConditionMet(state);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @throws IllegalStateException if this method gets called more than once, i.e.
-     *                               if this object it's used to iterate over a
-     *                               {@code Round} multiple times. (To play a new
-     *                               round a new instance of {@code RoundImpl} must
-     *                               be created)
-     */
     @Override
-    public Iterator<Turn> iterator() {
-        if (this.iteratorUsed) {
-            throw new IllegalStateException("To play a new round a new RoundImpl object must be created.");
+    public boolean hasNext() {
+        return !this.isRoundOver();
+    }
+
+    @Override
+    public Turn next() {
+        if (!this.hasNext()) {
+            throw new NoSuchElementException("The round has ended. No more turns can be played.");
         }
-        this.iteratorUsed = true;
+        this.currentTurn++;
+        final PlayerInRound player = state.getRoundPlayersManager().next();
+        return new TurnImpl(player, state, effect);
+    }
 
-        return new Iterator<>() {
-
-            @Override
-            public boolean hasNext() {
-                return !isRoundOver();
-            }
-
-            @Override
-            public Turn next() {
-                if (!this.hasNext()) {
-                    throw new NoSuchElementException("The round has ended. No more turns can be played.");
-                }
-                final PlayerInRound player = state.getRoundPlayersManager().next();
-                return new TurnImpl(player, state, effect);
-            }
-        };
+    @Override
+    public int getTurnNumber() {
+        return this.currentTurn;
     }
 
 }
