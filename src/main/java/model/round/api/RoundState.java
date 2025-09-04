@@ -45,6 +45,13 @@ public interface RoundState {
     List<RelicCard> getDrawnRelics();
 
     /**
+     * Returns the list of drawn relics cards that have not been redeemed yet.
+     * 
+     * @return the list of redeemable cards in this round.
+     */
+    List<RelicCard> getReedamableRelics();
+
+    /**
      * Returns the list of all trap cards drawn from the deck used during this
      * round, in their order of appearance.
      * 

@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import model.player.api.PlayerChoice;
+import view.common.ImageButton;
 import view.modal.api.Modal;
 import view.window.impl.SwingWindow;
 
@@ -142,8 +142,7 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
         JButton button;
         try {
             final Image image = ImageIO.read(url);
-            final ImageIcon icon = new ImageIcon(image);
-            button = this.createChoiceButtonImage(icon, choice);
+            button = this.createChoiceButtonImage(image, choice);
         } catch (final IOException e) {
             button = new JButton("Image not found");
         }
@@ -162,15 +161,15 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
      * Sets an handler over the JButton that sets the result of this modal
      * as {@code choice} and disposes it.
      * 
-     * @param icon   the image to display on the button.
+     * @param image  the image to display on the button.
      * @param choice the player's choice bound to the button.
      * @return a {@link JButton} with the given image and that is able to set the
      *         choice and dispose this modal.
      */
     private JButton createChoiceButtonImage(
-            final ImageIcon icon,
+            final Image image,
             final PlayerChoice choice) {
-        final JButton button = new JButton(icon);
+        final JButton button = new ImageButton(image);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);

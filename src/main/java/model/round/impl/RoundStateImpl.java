@@ -127,6 +127,16 @@ public class RoundStateImpl implements RoundState {
      * {@inheritDoc}
      */
     @Override
+    public List<RelicCard> getReedamableRelics() {
+        return this.getDrawnRelics().stream()
+                .filter(r -> !r.isRedeemed())
+                .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int getPathGems() {
         return this.pathGems;
     }
