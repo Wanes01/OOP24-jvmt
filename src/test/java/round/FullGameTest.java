@@ -49,6 +49,7 @@ class FullGameTest {
             final RoundPlayersManager pm = state.getRoundPlayersManager();
             while (round.hasNext()) {
                 final Turn turn = round.next();
+                turn.executeDrawPhase();
                 final Set<PlayerInRound> exiting = this.makeRandomPlayersLeave(pm);
                 turn.endTurn(exiting);
             }
