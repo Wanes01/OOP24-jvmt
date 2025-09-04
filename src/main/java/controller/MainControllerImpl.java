@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
@@ -140,17 +139,18 @@ public class MainControllerImpl implements MainController {
         final PageController gameplayController = new GameplayControllerImpl(
                 gameplay,
                 navigator,
-                this.game.get());
-        final PageController leaderboardController = new LeaderboardControllerImpl(
-                leaderboard,
-                navigator,
-                this.game.get());
+                this.game.get(),
+                () -> {
+                    final PageController leaderboardController = new LeaderboardControllerImpl(
+                            leaderboard,
+                            navigator,
+                            this.game.get());
+                    leaderboard.setController(leaderboardController);
+                    controllers.put(PageId.LEADERBOARD, leaderboardController);
+                });
 
         controllers.put(PageId.ROUND, gameplayController);
-        controllers.put(PageId.LEADERBOARD, leaderboardController);
-
         gameplay.setController(gameplayController);
-        leaderboard.setController(leaderboardController);
     }
 
     /**
