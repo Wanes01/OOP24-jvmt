@@ -21,7 +21,8 @@ java {
     }
 }
 
-repositories { // Where to search for dependencies
+// Where to search for dependencies
+repositories {
     mavenCentral()
 }
 
@@ -35,33 +36,18 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jUnitVersion")
 
+    // MigLayout layout for Swing
     implementation("com.miglayout:miglayout-swing:11.3")
 }
 
-/* application {
-    // Define the main class for the application.
-} */
+application {
+    mainClass.set("Javamant")
+}
 
 tasks.test {
     useJUnitPlatform()
 }
 
-
-/* java/ direct files exclusion */
-tasks.withType<Checkstyle> {
-    exclude("*.java");
-    exclude("**/controller/mock/**");
-}
-
-tasks.withType<Pmd> {
-    exclude("*.java");
-    exclude("**/controller/mock/**");
-}
-
-tasks.javadoc {
-    exclude("*.java");
-    exclude("**/controller/mock/**");
-}
 
 
 
