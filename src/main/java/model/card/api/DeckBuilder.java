@@ -84,7 +84,7 @@ public interface DeckBuilder {
      * 
      * @throws IllegalArgumentException if numRelic is <= 0
      */
-    DeckBuilder addMultipleRelicCard(int numRelic);
+    DeckBuilder addMultipleRelic(int numRelic);
 
     /**
      * Shuffle the cards in the deck.

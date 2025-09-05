@@ -54,7 +54,7 @@ public final class DeckFactoryImpl implements DeckFactory {
         }
 
         // adds relic cards to the deck.
-        deckBuilder.addMultipleRelicCard(numberRelicStandardDeck);
+        deckBuilder.addMultipleRelic(numberRelicStandardDeck);
 
         // shuffle the cards in the deck.
         deckBuilder.shuffle();
