@@ -32,7 +32,7 @@ public class CardWithGem extends Card {
     }
 
     /**
-     * @return the gem value the card.
+     * @return the gem value of the card.
      */
     public int getGemValue() {
         return this.gemValue;
