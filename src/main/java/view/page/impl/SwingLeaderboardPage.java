@@ -131,7 +131,7 @@ public class SwingLeaderboardPage extends SwingPage {
     @Override
     protected void setHandlers() {
         final LeaderboardController ctrl = this.getController(LeaderboardControllerImpl.class);
-    
+
         //Setting the winner player's name in the winner lable.
         this.lblWinner.setText("WINNER: " + ctrl.getWinner());
 
