@@ -325,7 +325,7 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @throws NullPointerException if {@link gameplayCtrl} is null.
      * 
-     * @param gameplayCtrl the gameplay controller.
+     * @param gameplayCtrl  the gameplay controller.
      */
     private void cpuAutoplay(final GameplayControllerImpl gameplayCtrl) {
         Objects.requireNonNull(gameplayCtrl);
