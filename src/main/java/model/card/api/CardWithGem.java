@@ -8,16 +8,13 @@ package model.card.api;
  * 
  * @author Andrea La Tosa
  */
-
 public class CardWithGem extends Card {
 
-    /**
-     * The number of gems associated with this card.
-     */
+    //The number of gems associated with this card
     private final int gemValue;
 
     /**
-     * Builds a new card using the name, type, and path of the image.
+     * Builds a new card using the name, type, path of the image and gemValue.
      * 
      * @see TypeCard
      * 

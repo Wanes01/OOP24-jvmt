@@ -25,7 +25,6 @@ public class Card {
      * @param type the type of the card
      * @param imagePath the path used to associate the card with the image
      * 
-     * @throws IllegalArgumentException if the path provided does not point to a valid image file
      * @throws NullPointerException if the name or type of the card is null or
      * if the image URL does not point to a valid path
      */ 
