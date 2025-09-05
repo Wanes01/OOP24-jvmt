@@ -23,7 +23,11 @@ public interface DeckFactory {
     /**
      * Unimplemented method 'specialDeck'.
      * 
-     * @return UnsupportedOperationException
+     * @return should return Deck, but since it has not yet been implemented,
+     * it returns UnsupportedOperationException
+     * 
+     * @throws UnsupportedOperationException
      */
     Deck specialDeck();
+
 }
