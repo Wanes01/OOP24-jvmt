@@ -9,7 +9,7 @@ import jvmt.view.page.api.Page;
  * Represents a generic application window, indipendent of the
  * GUI library used.
  * <p>
- * An {@code Window} serves as the main container of the application's
+ * A {@code Window} serves as the main container of the application's
  * {@link Page} instances. It provides common operations such as display,
  * dismiss (i.e. hide window), refreshing content and so on.
  * </p>
@@ -35,7 +35,7 @@ public interface Window {
     void dismiss();
 
     /**
-     * Refreshes/updates the current content of the view.
+     * Refreshes/updates the current content of this window.
      */
     void refresh();
 

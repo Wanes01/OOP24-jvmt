@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.MissingResourceException;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -20,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import jvmt.model.player.api.PlayerChoice;
+import jvmt.utils.CommonUtils;
 import jvmt.view.modal.api.Modal;
 import jvmt.view.window.impl.SwingWindow;
 import jvmt.view.page.utility.ImageButton;
@@ -31,8 +31,7 @@ import jvmt.view.page.utility.ImageButton;
  * This class extends {@link JDialog} and implements {@link Modal} to provide
  * a blocking GUI over a {@link SwingWindow} that requires the player to make
  * a choice before restoring the window interagibility. The available choices
- * are
- * defined in {@link PlayerChoice}.
+ * are defined in {@link PlayerChoice}.
  * </p>
  * <p>
  * The dialog displays two images representing the player's options:
@@ -62,7 +61,11 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
     private static final URL EXIT_URL = SwingPlayerChoiceModal.class.getResource(IMAGES_PATH + "Exit.png");
     private static final URL STAY_URL = SwingPlayerChoiceModal.class.getResource(IMAGES_PATH + "Stay.png");
     // size ratio between this modal and the main window
-    private static final double SIZE_FACTOR = 0.75;
+    private static final double WINDOW_SIZE_FACTOR = 0.58;
+    // size ratio between this modal's width and height
+    private static final double MODAL_WIDTH_HEIGHT_RATION = 0.8;
+    private static final int MARGIN = 30;
+    private static final int GAP = 10;
 
     private transient Optional<PlayerChoice> result = Optional.empty();
 
@@ -80,9 +83,7 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
             final SwingWindow parent,
             final String playerName) {
         super(parent, TITLE, true);
-
-        Objects.requireNonNull(parent);
-        Objects.requireNonNull(playerName);
+        CommonUtils.requireNonNulls(parent, playerName);
 
         if (EXIT_URL == null || STAY_URL == null) {
             throw new MissingResourceException(
@@ -91,25 +92,23 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
                     IMAGES_PATH);
         }
 
-        super.setSize(
-                (int) (SIZE_FACTOR * parent.getWidth()),
-                (int) (SIZE_FACTOR * parent.getHeight()));
+        final int width = (int) (WINDOW_SIZE_FACTOR * parent.getWidth());
+        final int height = (int) (MODAL_WIDTH_HEIGHT_RATION * width);
+        super.setSize(width, height);
         super.setLocationRelativeTo(parent);
         super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        super.setResizable(false);
 
         // main panel: uses border layout and sets an empty margin
-        final JPanel main = new JPanel(new BorderLayout(10, 10));
-        final int margin = 30;
+        final JPanel main = new JPanel(new BorderLayout(GAP, GAP));
         main.setBorder(BorderFactory.createEmptyBorder(
-                margin, margin, margin, margin));
+                MARGIN, MARGIN, MARGIN, MARGIN));
 
         // player's data
         final JLabel playerTitle = new JLabel("Player choosing: " + playerName, SwingConstants.CENTER);
         main.add(playerTitle, BorderLayout.NORTH);
 
         // central panel with the two cards
-        final JPanel cardsPanel = new JPanel(new GridLayout(1, 2, 40, 0));
+        final JPanel cardsPanel = new JPanel(new GridLayout(1, 2, MARGIN + GAP, 0));
         final JPanel continueCard = this.createCard(STAY_URL, "Continue the round.", PlayerChoice.STAY);
         final JPanel exitCard = this.createCard(EXIT_URL, "Leave the round.", PlayerChoice.EXIT);
         cardsPanel.add(continueCard);
@@ -120,9 +119,10 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
     }
 
     /**
-     * Creates a JPanel that contains the interactive card.
-     * If the card image can't be retriven then an error message
-     * will appear.
+     * Creates a JPanel that contains the interactive cards
+     * to make a player make a choice.
+     * If the card image can't be retriven then an alt text
+     * will replace it.
      * 
      * @param url         a url representing the image path from the rosource
      *                    folder.
@@ -138,17 +138,19 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        // card button with image
-        JButton button;
+        Optional<Image> image;
         try {
-            final Image image = ImageIO.read(url);
-            button = this.createChoiceButtonImage(image, choice);
+            image = Optional.of(ImageIO.read(url));
         } catch (final IOException e) {
-            button = new JButton("Image not found");
+            image = Optional.empty();
         }
 
-        panel.add(button, BorderLayout.CENTER);
+        final JButton button = this.createChoiceButton(
+                image,
+                "Image not found. Click here to select: " + choice,
+                choice);
 
+        panel.add(button, BorderLayout.CENTER);
         final JLabel cardDescription = new JLabel("<html><div style='text-align:center;'>"
                 + description + "</div></html>", SwingConstants.CENTER);
         panel.add(cardDescription, BorderLayout.SOUTH);
@@ -157,25 +159,30 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
     }
 
     /**
-     * Creates a JButton, removes the default style and puts an ImageIcon into it.
+     * Creates a JButton, with the specified image into into, or the
+     * {@code altText} if the image is not available.
      * Sets an handler over the JButton that sets the result of this modal
      * as {@code choice} and disposes it.
      * 
-     * @param image  the image to display on the button.
-     * @param choice the player's choice bound to the button.
-     * @return a {@link JButton} with the given image and that is able to set the
-     *         choice and dispose this modal.
+     * @param image   an {@link Optional} with the image to display on the button.
+     * @param altText the text to show id {@code image} is empty.
+     * @param choice  the player's choice bound to the button.
+     * @return a {@link JButton} with the given image (or altText) that is able to
+     *         set the choice and dispose this modal.
      */
-    private JButton createChoiceButtonImage(
-            final Image image,
+    private JButton createChoiceButton(
+            final Optional<Image> image,
+            final String altText,
             final PlayerChoice choice) {
-        final JButton button = new ImageButton(image);
+        final JButton button = image.isPresent()
+                ? new ImageButton(image.get())
+                : new JButton(altText);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        button.addActionListener(ev -> {
+        button.addActionListener(e -> {
             this.result = Optional.of(choice);
             /*
              * Closes this modal and restores the
@@ -184,7 +191,6 @@ public class SwingPlayerChoiceModal extends JDialog implements Modal<PlayerChoic
             this.dispose();
         });
         return button;
-
     }
 
     /**

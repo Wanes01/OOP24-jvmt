@@ -42,8 +42,8 @@ public class PageNavigatorImpl implements PageNavigator {
      * Creates a new {@code PageNavigatorImpl} that operates on the specified
      * {@code window}.
      * 
-     * @param window the {@link Window} where pages will be displayed. This object
-     *               is stored directly: changes to it will affect the navigator.
+     * @param window the {@link Window} where pages will be displayed.
+     * 
      * @throws NullPointerException if {@code window} is {@code null}.
      */
     public PageNavigatorImpl(final Window window) {
@@ -55,9 +55,12 @@ public class PageNavigatorImpl implements PageNavigator {
      * {@inheritDoc}
      * 
      * @throws IllegalArgumentException if no page is linked to the specified id.
+     * 
+     * @throws NullPointerException     if {@code id} is {@code null}.
      */
     @Override
     public void navigateTo(final PageId id) {
+        Objects.requireNonNull(id);
         if (!this.isIdRegistered(id)) {
             throw new IllegalArgumentException("No page is bound to " + id.toString() + " id");
         }

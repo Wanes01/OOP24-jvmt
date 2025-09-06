@@ -36,7 +36,8 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
      */
     public static final List<EndCondition> END_CONDITIONS = List.of(
             FACTORY_END_COND.standard(),
-            FACTORY_END_COND.firstTrapEnds());
+            FACTORY_END_COND.firstTrapEnds(),
+            FACTORY_END_COND.threeRelicsDrawn());
 
     /**
      * The list of possible gem modifiers.

@@ -63,7 +63,6 @@ public class SwingWindow extends JFrame implements Window {
         final int height = (int) (WINDOW_SCREEN_RATIO * screen.height);
         super.setSize(width, height);
         super.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        super.setResizable(false);
 
         initSwingDpiConfiguration();
     }
@@ -174,12 +173,37 @@ public class SwingWindow extends JFrame implements Window {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Dimension getDimension() {
+        return super.getSize();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTitle(final String title) {
+        Objects.requireNonNull(title);
+        super.setTitle(title);
+    }
+
+    /**
      * This method sets the default font, making it proportional on any screen. This
      * method applies the default font to all graphical components that support it
      * and calculates the font size based on the actual DPI of the user's display.
      * The body of this method is executed only once when the first SwingWindow is
      * created, in order to ensure that the default font is applied to all
      * swing-based components.
+     * 
+     * <p>
+     * The idea of using the UIManager to set the default font
+     * to all UI components and the relative modified code, comes from
+     * <a href=
+     * "https://stackoverflow.com/questions/7434845/setting-the-default-font-of-swing-program">
+     * StackOverflow</a>
+     * </p>
      */
     private static void initSwingDpiConfiguration() {
         if (swingDpiConfigured) {
@@ -209,22 +233,5 @@ public class SwingWindow extends JFrame implements Window {
             }
         }
         swingDpiConfigured = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Dimension getDimension() {
-        return super.getSize();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setTitle(final String title) {
-        Objects.requireNonNull(title);
-        super.setTitle(title);
     }
 }
