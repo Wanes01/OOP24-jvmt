@@ -1,6 +1,7 @@
 package model.card.api;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Represents the game deck,
@@ -17,11 +18,15 @@ public interface Deck extends Iterator<Card> {
 
     /**
      * @return the next card to be drawn without removing it from the deck.
+     * 
+     * @throws NoSuchElementException if a card is requested, but the deck has no cards.
      */
     Card peekCard();
 
     /**
      * @return the next card that must be drawn by removing it from the deck.
+     * 
+     * @throws NoSuchElementException if a card is requested but the deck has no cards.
      */
     @Override
     Card next();

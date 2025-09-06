@@ -14,6 +14,9 @@ import model.card.api.TypeTrapCard;
  */
 public final class DeckFactoryImpl implements DeckFactory {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck standardDeck() {
         // In this map, the key represent the gems of the card to be created 

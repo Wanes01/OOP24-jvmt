@@ -17,8 +17,6 @@ public interface DeckBuilder {
      * with methods for using it and related statistics.
      * 
      * @return a Deck implementation
-     * 
-     * @author Andrea La Tosa
      */
     Deck build();
 
@@ -31,7 +29,7 @@ public interface DeckBuilder {
      * 
      * @throws NullPointerException if {@code typeTrap} is null
      */
-    DeckBuilder addTrap(TypeTrapCard type);
+    DeckBuilder addTrap(TypeTrapCard typeTrap);
     /**
      * Adds the number of trap cards to the deck, 
      * all of the same type, according to the input provided.
@@ -42,7 +40,7 @@ public interface DeckBuilder {
      * @return DeckBuilder to follow the builder pattern
      * 
      * @throws NullPointerException if {@code typeTrap} is null
-     * @throws IllegalArgumentException if numtrap is <= 0
+     * @throws IllegalArgumentException if {@code numtrap} is <= 0
      */
     DeckBuilder addMultipleTrap(TypeTrapCard typeTrap, int numTrap);
 
@@ -53,7 +51,7 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if gemValue is <= 0
+     * @throws IllegalArgumentException if {@code gemValue} is <= 0
      */
     DeckBuilder addTreasure(int gemValue);
     /**
@@ -65,7 +63,7 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if gemValue or numTreasure are <= 0
+     * @throws IllegalArgumentException if {@code gemValue} or {@code numTreasure} are <= 0
      */
     DeckBuilder addMultipleTreasure(int gemValue, int numTreasure);
 
@@ -82,7 +80,7 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if numRelic is <= 0
+     * @throws IllegalArgumentException if {@code numRelic} is <= 0
      */
     DeckBuilder addMultipleRelic(int numRelic);
 
