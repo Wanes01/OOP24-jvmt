@@ -14,8 +14,9 @@ import jvmt.view.page.api.Page;
  * to handle page interaction.
  * </p>
  * 
- * @see PageController
  * @see Game
+ * @see PageController
+ * @see Page
  * 
  * @author Emir Wanes Aouioua
  */

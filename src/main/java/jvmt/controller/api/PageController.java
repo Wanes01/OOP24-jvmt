@@ -41,9 +41,9 @@ public class PageController {
     }
 
     /**
-     * Returns the navigator used to to to other pages.
+     * Returns the navigator used to navigate to other pages.
      * 
-     * @return the navigator to switch page.
+     * @return the navigator used to switch page.
      */
     protected PageNavigator getPageNavigator() {
         return this.navigator;
