@@ -79,6 +79,65 @@ public class RoundImpl implements Round {
     }
 
     /**
+     * Return whether the current round is over or not (i.e. another
+     * turn can be played).
+     * The round is over if there are no active players, if there are no
+     * cards to draw or if the extra end condition of the round is met.
+     * 
+     * @return true if another turn can be played, false otherwise.
+     */
+    @Override
+    public boolean hasNext() {
+        return this.state.getRoundPlayersManager().hasNext()
+                && this.state.getDeck().hasNext()
+                && !this.effect.isEndConditionMet(state);
+    }
+
+    /**
+     * Returns the next {@link Turn} to be played.
+     * 
+     * @throws NoSuchElementException if the round is over and no more turns can be
+     *                                played.
+     */
+    @Override
+    public Turn next() {
+        if (!this.hasNext()) {
+            throw new NoSuchElementException("The round has ended. No more turns can be played.");
+        }
+        this.currentTurn++;
+        final PlayerInRound player = state.getRoundPlayersManager().next();
+        return new TurnImpl(player, state, effect);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @throws IllegalStateException if this method is called but the round has not
+     *                               ended yet.
+     */
+    @Override
+    public void endRound() {
+        if (this.hasNext()) {
+            throw new IllegalStateException("Gems can be transfered from the sack to the chest only on round end.");
+        }
+
+        /*
+         * Only players who are not active when the round ends can put their gems in the
+         * chest
+         */
+        final List<PlayerInRound> players = this.state.getRoundPlayersManager().getExitedPlayers();
+        players.forEach(PlayerInRound::addSackToChest);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getTurnNumber() {
+        return this.currentTurn;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -93,58 +152,4 @@ public class RoundImpl implements Round {
     public RoundState getState() {
         return this.state;
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @throws IllegalStateException if this method is called but the round has not
-     *                               ended yet.
-     */
-    @Override
-    public void endRound() {
-        if (!this.isRoundOver()) {
-            throw new IllegalStateException("Gems can be transfered from the sack to the chest only on round end.");
-        }
-
-        /*
-         * Only players who are not active when the round ends can put their gems in the
-         * chest
-         */
-        final List<PlayerInRound> players = this.state.getRoundPlayersManager().getExitedPlayers();
-        players.forEach(PlayerInRound::addSackToChest);
-    }
-
-    /**
-     * Return whether the current round is over or not.
-     * The round is over if there are no active players, if there are no
-     * cards to draw or if the extra end condition of the round is met.
-     * 
-     * @return true if the round is over, false otherwise.
-     */
-    private boolean isRoundOver() {
-        return !this.state.getRoundPlayersManager().hasNext()
-                || !this.state.getDeck().hasNext()
-                || this.effect.isEndConditionMet(state);
-    }
-
-    @Override
-    public boolean hasNext() {
-        return !this.isRoundOver();
-    }
-
-    @Override
-    public Turn next() {
-        if (!this.hasNext()) {
-            throw new NoSuchElementException("The round has ended. No more turns can be played.");
-        }
-        this.currentTurn++;
-        final PlayerInRound player = state.getRoundPlayersManager().next();
-        return new TurnImpl(player, state, effect);
-    }
-
-    @Override
-    public int getTurnNumber() {
-        return this.currentTurn;
-    }
-
 }

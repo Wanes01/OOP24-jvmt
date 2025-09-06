@@ -10,9 +10,21 @@ package jvmt.view.navigator.api;
  * @author Emir Wanes Aouioua
  */
 public enum PageId {
+    /**
+     * Id and title associated with the MENU page.
+     */
     MENU("Welcome to Javamant!"),
+    /**
+     * Id and title associated with the SETTINGS page.
+     */
     SETTINGS("Game settings"),
+    /**
+     * Id and title associated with the GAMEPLAY page.
+     */
     GAMEPLAY("Cave exploration"),
+    /**
+     * Id and title associated with the LEADERBOARD page.
+     */
     LEADERBOARD("Final results");
 
     private final String pageTitle;

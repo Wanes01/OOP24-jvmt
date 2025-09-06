@@ -82,5 +82,10 @@ public interface Round extends Iterator<Turn>, Describable {
      */
     void endRound();
 
+    /**
+     * Returns the number of the current turn in this round.
+     * 
+     * @return the number of the turn currently being played.
+     */
     int getTurnNumber();
 }

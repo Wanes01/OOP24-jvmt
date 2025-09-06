@@ -24,7 +24,7 @@ public final class Javamant {
      * 
      * @param args command line arguments. Not used in this application.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final MainController ctrl = new MainControllerImpl();
         ctrl.startApp();
     }
