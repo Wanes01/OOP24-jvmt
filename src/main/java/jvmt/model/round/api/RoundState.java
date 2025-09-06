@@ -15,7 +15,7 @@ import jvmt.model.card.impl.TreasureCard;
  * This interface provides access to various data related to the round,
  * including the deck used, the cards drawn so far, the remaining gems in the
  * path and the status of the players involved. It is used by the round logic,
- * the individual turns and the graphical user interface to retrieve
+ * the individual turns and the controllers to retrieve
  * information about the current progression of the round.
  * </p>
  * 
@@ -49,7 +49,7 @@ public interface RoundState {
      * 
      * @return the list of redeemable cards in this round.
      */
-    List<RelicCard> getReedamableRelics();
+    List<RelicCard> getRedeemableRelics();
 
     /**
      * Returns the list of all trap cards drawn from the deck used during this

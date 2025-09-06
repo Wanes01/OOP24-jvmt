@@ -12,9 +12,9 @@ import jvmt.model.round.api.RoundState;
 /**
  * Concrete implementation of {@link RoundEffect}.
  * <p>
- * This implementation uses {@link EndCondition} to define the condition under
- * which a round ends and {@link GemModifier} to apply an alteration to the
- * number of base gems earned by players.
+ * This implementation uses {@link EndCondition} to define the condition
+ * under which a round ends and {@link GemModifier} to apply an alteration to
+ * the number of base gems earned by players.
  * </p>
  * 
  * @see RoundEffect
@@ -30,13 +30,15 @@ public class RoundEffectImpl implements RoundEffect {
 
     /**
      * Constructor for the round effect. This implementation delegates control of
-     * the end condition of the round and the calculation of modified gems to the
-     * {@code EndCondition} and {@code GemModifier} objects.
+     * the end condition of the round and the calculation of modified gems to
+     * the {@code EndCondition} and {@code GemModifier} objects.
      * 
-     * @param endCondition the end condition used to determine whether the round has
-     *                     come to an end.
+     * @param endCondition the end condition used to determine whether the
+     *                     round has come to an end.
      * @param gemModifier  the gem modifier used to compute the number of gems
      *                     earned by players.
+     * @throws NullPointerException if {@code endCondition} or {@code gemModifier}
+     *                              is null.
      */
     public RoundEffectImpl(
             final EndCondition endCondition,
@@ -47,25 +49,14 @@ public class RoundEffectImpl implements RoundEffect {
     }
 
     /**
-     * Returns the text description of the effects applied by this RoundEffect. The
-     * resulting description is the union of the {@code EndCondition} and
-     * {@code GemModifier} descriptions with which the object was created.
-     * 
-     * @return the description of the rules this round effect object applys.
-     */
-    @Override
-    public String getDescription() {
-        return this.endCondition.getDescription() + "\n"
-                + this.gemModifier.getDescription();
-    }
-
-    /**
      * {@inheritDoc}
      * 
      * <p>
      * Note: this method delegates the decision to the {@code EndCondition} with
      * which this object is created.
      * </p>
+     * 
+     * @throws NullPointerException if {@code state} is null.
      */
     @Override
     public boolean isEndConditionMet(final RoundState state) {
@@ -81,6 +72,8 @@ public class RoundEffectImpl implements RoundEffect {
      * Note: this method delegates the gems transformation to the
      * {@code GemModifier} with which this object is created.
      * </p>
+     * 
+     * @throws NullPointerException if {@code state} is null.
      */
     @Override
     public int applyGemModifier(final RoundState state, final int gems) {
@@ -89,4 +82,16 @@ public class RoundEffectImpl implements RoundEffect {
                 .apply(state, gems);
     }
 
+    /**
+     * Returns the text description of the effects applied by this RoundEffect. The
+     * resulting description is the union of the {@code EndCondition} and
+     * {@code GemModifier} descriptions with which the object was created.
+     * 
+     * @return the description of the rules custom rules of this round effect.
+     */
+    @Override
+    public String getDescription() {
+        return this.endCondition.getDescription() + "\n"
+                + this.gemModifier.getDescription();
+    }
 }

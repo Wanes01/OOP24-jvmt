@@ -3,7 +3,9 @@ package jvmt.model.round.impl.roundeffect.endcondition;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
+import jvmt.model.round.api.RoundState;
 import jvmt.model.round.api.roundeffect.endcondition.EndCondition;
 import jvmt.model.round.api.roundeffect.endcondition.EndConditionFactory;
 import jvmt.model.card.impl.TrapCard;
@@ -26,11 +28,42 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
     }
 
     /**
+     * Returns an {@link EndCondition} that concatenates the specified predicate
+     * and description with the default round end conditions:
+     * <ol>
+     * <li>
+     * End of the round when all players have exited.
+     * </li>
+     * <li>
+     * End of the round when all cards are finished.
+     * </li>
+     * </ol>
+     * 
+     * @param extraCondition the extra end condition, modeled as a
+     *                       {@code Predicate<RoundState>}, to decide whether a
+     *                       round has ended.
+     * @param description    the textual description of how the extra condition is
+     *                       met.
+     * @return nn {@code EndCondition} that determines that the round is over if
+     *         there are no more cards to draw, if there are no more active players,
+     *         or if the extra end condition is met.
+     */
+    private EndCondition genericEndCondition(
+            final Predicate<RoundState> extraCondition,
+            final String description) {
+        return new EndConditionImpl(
+                state -> !state.getRoundPlayersManager().hasNext()
+                        || !state.getDeck().hasNext()
+                        || extraCondition.test(state),
+                "The round ends when the deck is over, if all players leave, or if " + description);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public EndCondition firstTrapEnds() {
-        return new EndConditionImpl(
+        return genericEndCondition(
                 state -> !state.getDrawnTraps().isEmpty(),
                 "a trap card is drawn");
     }
@@ -40,7 +73,7 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
      */
     @Override
     public EndCondition standard() {
-        return new EndConditionImpl(
+        return genericEndCondition(
                 state -> computeTrapsOccurrences(state.getDrawnTraps())
                         .values()
                         .stream()
@@ -62,5 +95,15 @@ public class EndConditionFactoryImpl implements EndConditionFactory {
             occurrences.put(trap, occurrences.getOrDefault(trap, 0) + 1);
         }
         return occurrences;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public EndCondition threeRelicsDrawn() {
+        return genericEndCondition(
+                state -> state.getDrawnRelics().size() >= 3,
+                "three relics are drawn");
     }
 }

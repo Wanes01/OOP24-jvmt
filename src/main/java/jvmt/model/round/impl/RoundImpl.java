@@ -1,6 +1,5 @@
 package jvmt.model.round.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,22 +15,21 @@ import jvmt.utils.CommonUtils;
 
 /**
  * Implementation of the {@link Round} interface that represents a single round
- * of a game. A round consists of a sequence of {@link Turn}s for the players,
- * and ends based on a condition defined by a {@link RoundEffect}.
+ * of a game. A round consists of a sequence of {@link Turn}s for the players.
  * <p>
  * At the beginning of the round all players are reset using
  * {@link PlayerInRound#resetRoundPlayer()} and the round state is initialized
  * with the given {@link Deck} and list of players.
  * </p>
  * <p>
- * This class is also iterable, providing an {@link Iterator} over {@link Turn}s
- * until the round is end condition is reached or there are no more players
- * that can play.
+ * This class is an {@code Iterator} over {@link Turn}s.
+ * New turns can be obtained via {@link #next()} until the round's end condition
+ * is reached (specified by {@link #hasNext()})
  * </p>
  * <p>
- * When the round ends, the {@code endRound()} method can be called to transfer
- * gems
- * from the players' sacks to their chests.
+ * <strong>Note:</strong>
+ * When the round ends, the {@code endRound()} method should be called to
+ * transfer gems from the players' sacks to their chests.
  * </p>
  * 
  * @see Round
@@ -55,17 +53,20 @@ public class RoundImpl implements Round {
     /**
      * Creates a RoundImpl object, starting a new round.
      * <p>
-     * Upon creation of a RoundImpl the status of all players is reset and the
-     * shared round state is created.
+     * Upon creation of a RoundImpl the sack and choice of all players are reset and
+     * the shared round state is created.
      * </p>
      * 
      * @see PlayerInRound#resetRoundPlayer()
      * @see RoundEffect
      * 
-     * @param players the players who will play in this round
-     * @param deck    the deck that will be used during this round
+     * @param players the players who will play in this round.
+     * @param deck    the deck that will be used during this round.
      * @param effect  the effect that is applied to this round that will determine
-     *                its modifier for gems and end condition
+     *                its modifier for gems and end condition.
+     * 
+     * @throws NullPointerException if {@code players}, {@code deck} or
+     *                              {@code effect} is null.
      */
     public RoundImpl(
             final List<PlayerInRound> players,
@@ -79,22 +80,15 @@ public class RoundImpl implements Round {
     }
 
     /**
-     * Return whether the current round is over or not (i.e. another
-     * turn can be played).
-     * The round is over if there are no active players, if there are no
-     * cards to draw or if the extra end condition of the round is met.
-     * 
-     * @return true if another turn can be played, false otherwise.
+     * {@inheritDoc}
      */
     @Override
     public boolean hasNext() {
-        return this.state.getRoundPlayersManager().hasNext()
-                && this.state.getDeck().hasNext()
-                && !this.effect.isEndConditionMet(state);
+        return !this.effect.isEndConditionMet(this.state);
     }
 
     /**
-     * Returns the next {@link Turn} to be played.
+     * {@inheritDoc}
      * 
      * @throws NoSuchElementException if the round is over and no more turns can be
      *                                played.
@@ -112,8 +106,7 @@ public class RoundImpl implements Round {
     /**
      * {@inheritDoc}
      * 
-     * @throws IllegalStateException if this method is called but the round has not
-     *                               ended yet.
+     * @throws IllegalStateException if the round has not ended yet.
      */
     @Override
     public void endRound() {

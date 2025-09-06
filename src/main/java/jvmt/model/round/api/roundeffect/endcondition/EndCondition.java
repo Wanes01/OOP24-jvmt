@@ -8,8 +8,8 @@ import jvmt.model.round.api.RoundState;
 
 /**
  * Models the variable end condition of the round. A round can continue as long
- * as there are still players, cards to draw, and this condition related to the
- * round effect is met. The additional condition to be verified is modeled
+ * as there are still players, cards to draw, and if other rules allows it.
+ * The end condition to be verified is modeled
  * through a {@link Predicate} that checks the status of the round through the
  * {@link RoundState} object associated with it.
  * 
@@ -20,11 +20,11 @@ import jvmt.model.round.api.RoundState;
  */
 public interface EndCondition extends Describable {
     /**
-     * Returns the predicate that determines whether the round should end
-     * based on the current {@link RoundState}.
+     * Returns the predicate that determines whether this
+     * {@code EndCondition} is met based on the current {@link RoundState}.
      * 
-     * @return a predicate that evaluates to {@code true} when the condition for
-     *         ending the round is satisfied.
+     * @return a predicate that evaluates to {@code true} when the condition
+     *         to end the round is satisfied.
      */
     Predicate<RoundState> getEndCondition();
 }

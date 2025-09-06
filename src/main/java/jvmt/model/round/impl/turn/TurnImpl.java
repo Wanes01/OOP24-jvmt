@@ -10,6 +10,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jvmt.model.round.api.roundeffect.RoundEffect;
 import jvmt.model.round.api.turn.Turn;
 import jvmt.utils.CommonUtils;
+import jvmt.model.round.api.Round;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
 import jvmt.model.card.api.Card;
@@ -66,6 +67,9 @@ public class TurnImpl implements Turn {
      * @param player
      * @param roundState
      * @param roundEffect
+     * 
+     * @throws NullPointerException if {@code player}, {@code roundState} or
+     *                              {@code roundEffect} is null.
      */
     public TurnImpl(
             final PlayerInRound player,
@@ -79,22 +83,9 @@ public class TurnImpl implements Turn {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public PlayerInRound getCurrentPlayer() {
-        return this.player;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<Card> getDrawnCard() {
-        return this.drawnCard;
-    }
-
-    /**
-     * {@inheritDoc}
+     * 
+     * @throws IllegalStateException if a card has already been drawn during this
+     *                               turn.
      */
     @Override
     public void executeDrawPhase() {
@@ -147,6 +138,13 @@ public class TurnImpl implements Turn {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IllegalStateException    if the {@link #executeDrawPhase()}
+     *                                  has not yet been executed.
+     * @throws IllegalArgumentException if at least one player in
+     *                                  {@code playersExitingThisTurn} is still
+     *                                  active in the round.
+     * @throws NullPointerException     if {@code playersExitingThisTurn} is null.
      */
     @Override
     public void endTurn(final Set<PlayerInRound> playersExitingThisTurn) {
@@ -177,15 +175,14 @@ public class TurnImpl implements Turn {
     }
 
     /**
-     * Assigns the total value of relics in gems not yet collected during the game
+     * Assigns the total value of relics in gems not yet redeemed during the game
      * to the specified player.
      * 
      * @param player the player whom will receives the relics.
      */
     private void giveAvailableRelicsToPlayer(final PlayerInRound player) {
-        final List<RelicCard> relics = this.roundState.getDrawnRelics();
+        final List<RelicCard> relics = this.roundState.getRedeemableRelics();
         relics.stream()
-                .filter(r -> !r.isRedeemed())
                 .forEach(r -> {
                     player.addSackGems(r.getGemValue());
                     r.redeemCard();
@@ -205,6 +202,22 @@ public class TurnImpl implements Turn {
             }
         }
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PlayerInRound getCurrentPlayer() {
+        return this.player;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<Card> getDrawnCard() {
+        return this.drawnCard;
     }
 
 }

@@ -15,17 +15,28 @@ import jvmt.model.round.api.roundeffect.RoundEffect;
 public interface EndConditionFactory {
 
     /**
-     * The standard end condition for a round: the round ends if two identical trap
-     * cards are drawn.
+     * The standard end condition for a round:
+     * the round ends when the deck is over, if all players leave, or if two
+     * identical trap cards are drawn.
      * 
      * @return a {@link EndCondition} following the standard round end condition.
      */
     EndCondition standard();
 
     /**
-     * Returns an end condition that ends the round if a trap card is drawn.
+     * Returns an end condition that ends the round if the deck
+     * is over, if all players leave, or if a trap card is drawn.
      * 
      * @return a {@link EndCondition} where the first drawn traps ends the round.
      */
     EndCondition firstTrapEnds();
+
+    /**
+     * Returns an end condition that ends the round if the deck is over, if
+     * all players leave, or if three relics gets drawn.
+     * 
+     * @return a {@link EndCondition} where drawing three relics makes the round
+     *         end.
+     */
+    EndCondition threeRelicsDrawn();
 }

@@ -126,7 +126,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      */
     @Override
     public int getRedeemableRelicsNumber() {
-        return this.currentRound.getState().getReedamableRelics().size();
+        return this.currentRound.getState().getRedeemableRelics().size();
     }
 
     /**

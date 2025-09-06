@@ -23,8 +23,7 @@ import jvmt.model.round.api.RoundState;
  * Note: Although round effects can be implemented directly from this interface,
  * it is recommended to use the appropriate factories for
  * {@link EndCondition}
- * and
- * {@link GemModifier} that abstractly and
+ * and {@link GemModifier} that abstractly and
  * separately model these concepts.
  * </p>
  * 
@@ -40,16 +39,16 @@ public interface RoundEffect extends Describable {
      * Returns if the round's end condition is met, based on the status of the
      * round.
      * 
-     * @param state the state of the round, used to determine if the round should
-     *              end.
-     * @return true if the round's end condition is satisfied, false otherwise.
+     * @param state the state of the round, used to determine if the round's
+     *              end condition is met.
+     * @return true if the round's {@code EndCondition} is satisfied, false
+     *         otherwise.
      */
     boolean isEndConditionMet(RoundState state);
 
     /**
-     * Returns a quantity of gems after applying a modifier (which can also be the
-     * mathematical identity) based on a base number of gems and the status of the
-     * round.
+     * Returns a quantity of gems after applying a modifier based on a base number
+     * of gems and the status of the round.
      * 
      * @param state the state of the round, used to determine the new gem amount.
      * @param gems  the base gems to be modified.

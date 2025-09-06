@@ -35,7 +35,7 @@ public interface Turn {
     /**
      * Returns the player whose turn it is to draw a card.
      *
-     * @return the player who is currently responsible for drawing a card
+     * @return the player who is currently responsible for drawing a card.
      */
 
     PlayerInRound getCurrentPlayer();
@@ -44,7 +44,7 @@ public interface Turn {
      * Returns the card drawn during this turn, if any.
      *
      * @return an {@link Optional} containing the drawn card, or an empty Optional
-     *         if no card has been drawn yet
+     *         if no card have been drawn yet.
      */
     Optional<Card> getDrawnCard();
 
@@ -54,7 +54,7 @@ public interface Turn {
      * if a treasure card is drawn, gems are distributed among the active players.
      *
      * @throws IllegalStateException if a card has already been drawn during this
-     *                               turn
+     *                               turn.
      */
     void executeDrawPhase();
 
@@ -64,8 +64,8 @@ public interface Turn {
      * decided to exit and assigns relics in case only one player exits.
      * 
      * <p>
-     * Note: This method must be called after executing
-     * {@link #executeDrawPhase()} and after
+     * Note: This method must be called after calling
+     * {@link #executeDrawPhase()} and after the
      * interaction with the users to collect their decisions on whether or not to
      * exit the round.
      * </p>
@@ -76,8 +76,7 @@ public interface Turn {
      *                                  has not yet been executed.
      * @throws IllegalArgumentException if at least one player in
      *                                  {@code playersExitingThisTurn} is still
-     *                                  active in
-     *                                  the round
+     *                                  active in the round.
      */
     void endTurn(Set<PlayerInRound> playersExitingThisTurn);
 }

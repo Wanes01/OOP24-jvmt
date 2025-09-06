@@ -36,7 +36,7 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
 
     /**
      * Returns a list of players who have exited the current round (players
-     * who chose to stop exploring). The list respects the original turn
+     * who have chosen to stop exploring). The list respects the original turn
      * order.
      * 
      * @return the list of exited players in their turn order.

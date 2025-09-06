@@ -15,8 +15,9 @@ import jvmt.utils.CommonUtils;
  * simple data holder.
  * </p>
  * 
- * @param condition   the predicate defining when the round should end.
- * @param description a human readable explanation of the effect end condition.
+ * @param condition   the predicate defining when the end condition is
+ *                    met.
+ * @param description a human readable explanation of this {@code condition}.
  * 
  * @see RoundState
  * @see Describable
@@ -26,8 +27,6 @@ import jvmt.utils.CommonUtils;
 public record EndConditionImpl(
         Predicate<RoundState> condition,
         String description) implements EndCondition {
-
-    private static final String BASE_END_CONDITION = "The round ends when the deck is over, if all players leave, or if ";
 
     /**
      * Constucts the {@code EndConditionImpl}.
@@ -44,7 +43,7 @@ public record EndConditionImpl(
      */
     @Override
     public String getDescription() {
-        return BASE_END_CONDITION + description();
+        return this.description();
     }
 
     /**
@@ -52,7 +51,7 @@ public record EndConditionImpl(
      */
     @Override
     public Predicate<RoundState> getEndCondition() {
-        return condition();
+        return this.condition();
     }
 
     /**

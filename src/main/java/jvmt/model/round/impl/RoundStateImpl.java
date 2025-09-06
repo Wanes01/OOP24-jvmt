@@ -53,6 +53,8 @@ public class RoundStateImpl implements RoundState {
      *                </p>
      * 
      * @param deck    the deck that will be used in this round.
+     * 
+     * @throws NullPointerException if {@code players} or {@code deck} is null.
      */
     public RoundStateImpl(final List<PlayerInRound> players, final Deck deck) {
         CommonUtils.requireNonNulls(players, deck);
@@ -71,16 +73,6 @@ public class RoundStateImpl implements RoundState {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<RelicCard> getDrawnRelics() {
-        return this.getDrawnFiltered(
-                c -> c instanceof RelicCard,
-                c -> (RelicCard) c);
-    }
-
-    /**
      * Returns a list of cards from {@code drawnCards} that match a given
      * filter and are transformed using the provided mapping function.
      * 
@@ -95,12 +87,20 @@ public class RoundStateImpl implements RoundState {
     private <T extends Card> List<T> getDrawnFiltered(
             final Predicate<Card> filter,
             final Function<Card, T> mapper) {
-        CommonUtils.requireNonNulls(filter, mapper);
-
         return this.drawnCards.stream()
                 .filter(filter)
                 .map(mapper)
                 .toList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<RelicCard> getDrawnRelics() {
+        return this.getDrawnFiltered(
+                c -> c instanceof RelicCard,
+                c -> (RelicCard) c);
     }
 
     /**
@@ -127,7 +127,7 @@ public class RoundStateImpl implements RoundState {
      * {@inheritDoc}
      */
     @Override
-    public List<RelicCard> getReedamableRelics() {
+    public List<RelicCard> getRedeemableRelics() {
         return this.getDrawnRelics().stream()
                 .filter(r -> !r.isRedeemed())
                 .toList();
@@ -159,6 +159,8 @@ public class RoundStateImpl implements RoundState {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if {@code card} is null.
      */
     @Override
     public void addCardToPath(final Card card) {

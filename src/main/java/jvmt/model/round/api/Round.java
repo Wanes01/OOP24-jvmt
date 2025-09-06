@@ -1,6 +1,7 @@
 package jvmt.model.round.api;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import jvmt.model.common.api.Describable;
 import jvmt.model.round.api.turn.Turn;
@@ -12,10 +13,7 @@ import jvmt.model.round.api.turn.Turn;
  * defines how players progress, gain gems and when the round ends.
  * </p>
  * <p>
- * A round is an {@link Iterable}, and provides and iterator over
- * the turns to be played. The iteration is intended to be performed
- * only once: multiple iterations are not supported and will result
- * in an {@link IllegalStateException}
+ * A round is an {@link Iterator} over the turns to be played.
  * </p>
  * 
  * @see Turn
@@ -28,31 +26,29 @@ import jvmt.model.round.api.turn.Turn;
 public interface Round extends Iterator<Turn>, Describable {
 
     /**
-     * Returns an iterator of {@link Turn}s to be played in this round.
-     * <p>
-     * This iterator allows consuming the turns in order. The round is
-     * designed to be iterated only once. Calling this method more than
-     * once will result in an {@link IllegalStateException}
-     * </p>
+     * Return whether the current round is over or not (i.e. another
+     * turn can be played).
      * 
-     * @return an iterator over the turns to played in this round.
+     * @return true if another turn can be played, false otherwise.
+     */
+    @Override
+    public boolean hasNext();
+
+    /**
+     * Returns the next {@link Turn} to be played.
      * 
-     * @throws IllegalStateException if this method is called after an iterator has
-     *                               already been created or after the iteration has
-     *                               been completed (i.e., no more turns can be
-     *                               played in this round).
+     * @throws NoSuchElementException if the round is over and no more turns can be
+     *                                played.
      */
-    /*
-     * @Override
-     * Iterator<Turn> iterator();
-     */
+    @Override
+    public Turn next();
 
     /**
      * {@inheritDoc}
      * 
      * Returns a description about the current round rules. To be more specific:
      * <ul>
-     * <li>When the round ends.</li>
+     * <li>What makes the round ends.</li>
      * <li>How the gems gained are modified.</li>
      * </ul>
      * 

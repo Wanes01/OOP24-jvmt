@@ -32,6 +32,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      *                the round.
      * @throws IllegalArgumentException if the list of players contains a player
      *                                  that is not active.
+     * @throws NullPointerException     if {@code players} is null.
      */
     public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
         Objects.requireNonNull(players);
