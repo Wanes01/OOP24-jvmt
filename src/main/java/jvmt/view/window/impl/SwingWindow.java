@@ -223,7 +223,7 @@ public class SwingWindow extends JFrame implements Window {
      * {@inheritDoc}
      */
     @Override
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         Objects.requireNonNull(title);
         super.setTitle(title);
     }

@@ -24,7 +24,7 @@ public enum PageId {
      * @param title the title to be shown when navigating to the page associated
      *              with this {@code PageId}
      */
-    private PageId(final String title) {
+    PageId(final String title) {
         this.pageTitle = title;
     }
 

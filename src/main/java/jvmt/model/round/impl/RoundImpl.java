@@ -50,7 +50,7 @@ public class RoundImpl implements Round {
 
     private final RoundState state;
     private final RoundEffect effect;
-    private int currentTurn = 0;
+    private int currentTurn;
 
     /**
      * Creates a RoundImpl object, starting a new round.
