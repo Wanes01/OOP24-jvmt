@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 
+import jvmt.utils.CommonUtils;
+
 /**
  * Represents a {@link JLabel} that contains an adaptable {@link Image}: the
  * image associated with this {@code ImageLabel} is automatically resized to
@@ -21,7 +23,7 @@ public class ImageLabel extends JLabel {
 
     private static final long serialVersionUID = 1L;
 
-    private final Image image;
+    private final transient Image image;
 
     /**
      * Creates a new {@code ImageLabel}.
@@ -29,7 +31,7 @@ public class ImageLabel extends JLabel {
      * @param image the image that must adapt to this label.
      */
     public ImageLabel(final Image image) {
-        this.image = image;
+        this.image = CommonUtils.makeImageCopyAsBufferedImage(image);
     }
 
     /**

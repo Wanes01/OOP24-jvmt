@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jvmt.model.player.impl.PlayerInRound;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Utility class containing common helper methods for
@@ -102,4 +105,29 @@ public final class CommonUtils {
             Objects.requireNonNull(obj);
         }
     }
+
+    /**
+     * Copies an {@link Image} into a {@link BufferedImage}.
+     * 
+     * @param img the {@code Image} to copy.
+     * @return a new {@code BufferedImage} resembling {@code img}.
+     * 
+     * @throws NullPointerException if {@code img} is null.
+     */
+    public static BufferedImage makeImageCopyAsBufferedImage(final Image img) {
+        Objects.requireNonNull(img);
+        final int width = img.getWidth(null);
+        final int height = img.getHeight(null);
+        final int type = (img instanceof BufferedImage)
+                ? ((BufferedImage) img).getType()
+                : BufferedImage.TYPE_INT_ARGB;
+
+        final BufferedImage copy = new BufferedImage(width, height, type);
+        final Graphics2D g2d = copy.createGraphics();
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+
+        return copy;
+    }
+
 }

@@ -2,6 +2,8 @@ package jvmt.view.page.utility;
 
 import javax.swing.JButton;
 
+import jvmt.utils.CommonUtils;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -21,7 +23,7 @@ public class ImageButton extends JButton {
 
     private static final long serialVersionUID = 1L;
 
-    private final Image image;
+    private final transient Image image;
 
     /**
      * Creates a new {@code ImageButton}.
@@ -29,7 +31,7 @@ public class ImageButton extends JButton {
      * @param image the image that must adapt to this button.
      */
     public ImageButton(final Image image) {
-        this.image = image;
+        this.image = CommonUtils.makeImageCopyAsBufferedImage(image);
     }
 
     /**
