@@ -41,7 +41,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("Javamant")
+    mainClass.set("jvmt.Javamant")
 }
 
 tasks.test {
