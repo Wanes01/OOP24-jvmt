@@ -44,9 +44,9 @@ public interface Player {
     /**
      * Adds a certain amount of gems to the player's sack.
      * 
-     * @throws IllegalArgumentException if the amount of gems to add to the sack is negative.
-     * 
      * @param gems  the number of gems to add to the player's sack.
+     * 
+     * @throws IllegalArgumentException if the amount of gems to add to the sack is negative.
      */
     void addSackGems(final int gems);
 
@@ -54,9 +54,9 @@ public interface Player {
      * Substracts a certain amount of gems from the player's sack.
      * The sack's amount of gems can't be negative.
      * 
-     * @throws IllegalArgumentException if the amount of gems to substract from the sack is negative.
-     * 
      * @param gems  the number of gems to substract from the player's sack.
+     * 
+     * @throws IllegalArgumentException if the amount of gems to substract from the sack is negative.
      */
     void subSackGems(final int gems);
 
@@ -74,18 +74,18 @@ public interface Player {
      * Substracts a certain amount of gems from the player's chest.
      * The chest's amount of gems can't be negative.
      * 
-     * @throws IllegalArgumentException if the amount of gems to substract from the chest is negative.
-     * 
      * @param gems  the number of gems to substract from the player's chest.
+     * 
+     * @throws IllegalArgumentException if the amount of gems to substract from the chest is negative.
      */
     void subChestGems(final int gems);
 
     /**
      * Updates the player's choice.
      * 
-     * @throws NullPointerException if {@link choice} is null.
-     * 
      * @param choice    the choice that'll be overwitten as the player's choice.
+     * 
+     * @throws NullPointerException if @param choice is null.
      */
     void choose(final PlayerChoice choice);
 
