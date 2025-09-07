@@ -26,7 +26,7 @@ public interface DeckFactory {
      * @return should return Deck, but since it has not yet been implemented,
      * it returns UnsupportedOperationException
      * 
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException because it has not yet been implemented
      */
     Deck specialDeck();
 

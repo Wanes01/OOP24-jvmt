@@ -67,7 +67,6 @@ public final class DeckFactoryImpl implements DeckFactory {
 
     @Override
     public Deck specialDeck() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'specialDeck'");
     }
 
