@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 
@@ -315,7 +318,7 @@ public class SwingGameplayPage extends SwingPage {
      */
     private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
         Objects.requireNonNull(gameplayCtrl);
-        final int cardSize = this.cardsContainer.getWidth() / CARDS_PER_ROW;
+        final int cardSize = (this.cardsContainer.getWidth() - 1) / CARDS_PER_ROW;
         final JLabel labelLogo;
         final Optional<Image> img = gameplayCtrl.getDrawnCardImage();
 
@@ -461,5 +464,29 @@ public class SwingGameplayPage extends SwingPage {
 
         // CPU autoclick in case a CPU is the first player in a game.
         this.cpuAutoplay(ctrl);
+
+        // Resize handler for the cards container
+        this.cardsContainer.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(final ComponentEvent e) {
+                SwingUtilities.invokeLater(SwingGameplayPage.this::resizeCards);
+            }
+        });
+    }
+
+    /**
+     * Resizes the cards in the card container when the container gets resized.
+     */
+    private void resizeCards() {
+        final int cardSize = (this.cardsContainer.getWidth() - 1) / CARDS_PER_ROW;
+        for (final Component comp : this.cardsContainer.getComponents()) {
+            if (comp instanceof JLabel) {
+                comp.setPreferredSize(new Dimension(cardSize, cardSize));
+                comp.setSize(new Dimension(cardSize, cardSize));
+            }
+        }
+
+        this.cardsContainer.revalidate();
+        this.cardsContainer.repaint();
     }
 }
