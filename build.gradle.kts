@@ -48,6 +48,18 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks {
+    jar {
+        enabled = false
+    }
 
+    // Sets shadowJar as build default jar packer
+    build {
+        dependsOn(shadowJar)
+    }
+}
 
-
+// exports only the shadowJar jar version
+artifacts {
+    archives(tasks.shadowJar)
+}
