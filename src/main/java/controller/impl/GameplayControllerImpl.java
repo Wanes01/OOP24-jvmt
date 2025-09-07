@@ -14,9 +14,9 @@ import controller.api.GameAwarePageController;
 import controller.api.GameplayController;
 import model.card.api.Card;
 import model.game.api.Game;
+import model.player.api.Player;
 import model.player.api.PlayerChoice;
 import model.player.impl.PlayerCpu;
-import model.player.impl.PlayerInRound;
 import model.round.api.Round;
 import model.round.api.RoundPlayersManager;
 import model.round.api.RoundState;
@@ -164,7 +164,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
             .getRoundPlayersManager()
             .getActivePlayers()
             .stream()
-            .map(PlayerInRound::getName)
+            .map(Player::getName)
             .toList();
     }
 
@@ -177,7 +177,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
             .getRoundPlayersManager()
             .getExitedPlayers()
             .stream()
-            .map(PlayerInRound::getName)
+            .map(Player::getName)
             .toList();
     }
 
@@ -232,9 +232,9 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
         }
         final RoundState state = this.currentRound.getState();
         final RoundPlayersManager pManager = state.getRoundPlayersManager();
-        final List<PlayerInRound> activePlayers = pManager.getActivePlayers();
-        final Set<PlayerInRound> exitingThisTurn = new HashSet<>();
-        for (final PlayerInRound player : activePlayers) {
+        final List<Player> activePlayers = pManager.getActivePlayers();
+        final Set<Player> exitingThisTurn = new HashSet<>();
+        for (final Player player : activePlayers) {
             Objects.requireNonNull(player);
             if (player instanceof final PlayerCpu playerCpu) {
                 //If the player is a CPU, his choice is automatically made.

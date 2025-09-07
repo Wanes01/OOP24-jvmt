@@ -5,7 +5,7 @@ import java.util.List;
 import model.card.api.Deck;
 import model.game.impl.GameSettingsImpl;
 import model.player.api.CpuDifficulty;
-import model.player.impl.PlayerInRound;
+import model.player.api.Player;
 import model.round.api.roundeffect.RoundEffect;
 import model.round.api.roundeffect.endcondition.EndCondition;
 import model.round.api.roundeffect.gemmodifier.GemModifier;
@@ -89,5 +89,5 @@ public interface GameSettings {
      * 
      * @return  the list of all players.
      */
-    List<PlayerInRound> getPlayers();
+    List<Player> getPlayers();
 }

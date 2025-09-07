@@ -8,6 +8,7 @@ import java.util.Objects;
 import model.card.api.Deck;
 import model.game.api.GameSettings;
 import model.player.api.CpuDifficulty;
+import model.player.api.Player;
 import model.player.impl.PlayerCpu;
 import model.player.impl.PlayerInRound;
 import model.round.api.roundeffect.RoundEffect;
@@ -89,9 +90,9 @@ public class GameSettingsImpl implements GameSettings {
      */
     private final List<String> listNamePlayers;
     /**
-     * List of PlayerInRound that contain the players.
+     * List of Player that contain the players.
      */
-    private final List<PlayerInRound> players;
+    private final List<Player> players;
 
     /**
      * Constructor of the method, creates the list of players of the game after
@@ -296,10 +297,10 @@ public class GameSettingsImpl implements GameSettings {
      * 
      * @return  the list of real players.
      */
-    private List<PlayerInRound> createRealPlayers() {
-        final List<PlayerInRound> listRealPlayers = new ArrayList<>();
+    private List<Player> createRealPlayers() {
+        final List<Player> listRealPlayers = new ArrayList<>();
         for (final String name : this.listNamePlayers) {
-            final PlayerInRound realPlayer = new PlayerInRound(name);
+            final Player realPlayer = new PlayerInRound(name);
             listRealPlayers.add(realPlayer);
         }
         return listRealPlayers;
@@ -310,10 +311,10 @@ public class GameSettingsImpl implements GameSettings {
      * 
      * @return  the list of CPU players.
      */
-    private List<PlayerInRound> createCpuPlayers() {
-        final List<PlayerInRound> listCpuPlayers = new ArrayList<>();
+    private List<Player> createCpuPlayers() {
+        final List<Player> listCpuPlayers = new ArrayList<>();
         for (int i = 0; i < this.numberOfCpu; i++) {
-            final PlayerCpu playerCpu = new PlayerCpu("CPU-" + i, this);
+            final Player playerCpu = new PlayerCpu("CPU-" + i, this);
             listCpuPlayers.add(playerCpu);
         }
         return listCpuPlayers;
@@ -325,8 +326,8 @@ public class GameSettingsImpl implements GameSettings {
      * 
      * @return  the shuffled list of all players.
      */
-    private List<PlayerInRound> createPlayers() {
-        final List<PlayerInRound> listAllPlayers = new ArrayList<>();
+    private List<Player> createPlayers() {
+        final List<Player> listAllPlayers = new ArrayList<>();
         listAllPlayers.addAll(createRealPlayers());
         listAllPlayers.addAll(createCpuPlayers());
         Collections.shuffle(listAllPlayers);
@@ -337,7 +338,7 @@ public class GameSettingsImpl implements GameSettings {
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getPlayers() {
+    public List<Player> getPlayers() {
         return new ArrayList<>(this.players);
     }
 }
