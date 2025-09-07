@@ -16,9 +16,8 @@ import model.round.api.roundeffect.gemmodifier.GemModifier;
 public interface SettingsController {
 
     /**
-     * If the settings are valid, it applies them using the consumer 
-     * {@code settingsSetter} and returns {@code true}.
-     * Otherwise, it logs errors in the settings and returns {@code false}.
+     * If the settings are valid returns {@code true},
+     * otherwise, it logs errors in the settings and returns {@code false}.
      * 
      * @param listPlayersName the list composed of the players' names
      * @param numCpu the number of CPUs to use in the game
