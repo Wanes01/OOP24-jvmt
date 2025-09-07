@@ -63,4 +63,20 @@ public class PlayerCpu extends PlayerInRound {
         Objects.requireNonNull(state);
         choose(logic.cpuChoice(state));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        return super.equals(obj);
+    }
 }
