@@ -63,28 +63,36 @@ public class JSpinnerWithLabel {
     }
 
     /**
-     * @return the panel containing the label and spinner.
+     * Returns the panel containing the label and spinner.
+     * 
+     * @return the panel.
      */
     public JPanel getPanel() {
         return this.panel;
     }
 
     /**
-     * @return the label added to the panel.
+     * Returns the label added to the panel.
+     * 
+     * @return the label.
      */
     public JLabel getLabel() {
         return this.lbl;
     }
 
     /**
-     * @return the spinner added to the panel.
+     * Returns the spinner added to the panel.
+     * 
+     * @return the spinner.
      */
     public JSpinner getSpinner() {
         return this.spn;
     }
 
     /**
-     * @return the current value of the spinner
+     * Returns the current value of the spinner.
+     * 
+     * @return the current value of the spinner.
      */
     public int getSpinnerValue() {
         return (Integer) this.spn.getValue();

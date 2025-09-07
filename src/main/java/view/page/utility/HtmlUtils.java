@@ -23,7 +23,7 @@ public final class HtmlUtils {
      * @return the wrapped string
      * 
      * @throws NullPointerException if str is null
-     * @throws IllegalArgumentException if maxLineLength is <= 0
+     * @throws IllegalArgumentException if maxLineLength is less or equal to zero
      */
     public static String wrapTextHTML(final String str, final int maxLineLength) {
         Objects.requireNonNull(str);
