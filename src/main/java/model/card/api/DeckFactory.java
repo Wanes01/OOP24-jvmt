@@ -16,17 +16,15 @@ public interface DeckFactory {
      * <li> 15 treasure cards</li>
      * </ul>
      * 
-     * @return a new instance of DeckImpl
+     * @return a standard deck
      */
     Deck standardDeck();
 
     /**
-     * Unimplemented method 'specialDeck'.
+     * Create the special configuration of the deck.
+     * This configuration uses special card.
      * 
-     * @return should return Deck, but since it has not yet been implemented,
-     * it returns UnsupportedOperationException
-     * 
-     * @throws UnsupportedOperationException because it has not yet been implemented
+     * @return a special deck
      */
     Deck specialDeck();
 
