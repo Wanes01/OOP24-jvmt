@@ -19,9 +19,9 @@ public interface LogicCpu {
      * It'll return a PlayerChoice.EXIT if the score of the CPU is bigger
      * than the borderline and PlayerChoice.STAY if not.
      * 
-     * @throws NullPointerException if {@link state} is null.
-     * 
      * @param state the round state.
+     * 
+     * @throws NullPointerException if @param state is null.
      * 
      * @return  a PlayerChoice that represents the CPU choice.
      */
