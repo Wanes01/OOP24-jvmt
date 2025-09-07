@@ -8,9 +8,10 @@ import model.player.impl.PlayerInRound;
  * 
  * @see PlayerInRound
  * 
- * @param STAY  choice that represents if a player is staying.
- * @param EXIT  choice that represents if a player is exited.
- * 
  * @author Filippo Gaggi
  */
-public enum PlayerChoice { STAY, EXIT }
+public enum PlayerChoice {
+    /** choice that represents if a player is staying. */
+    STAY,
+    /** choice that represents if a player is exited. */
+    EXIT }

@@ -5,10 +5,12 @@ package model.player.api;
  * 
  * @see LogicCpu
  * 
- * @param EASY      Easy difficulty.
- * @param NORMAL    Normal difficulty.
- * @param HARD      Hard difficulty.
- * 
  * @author Filippo Gaggi
  */
-public enum CpuDifficulty { EASY, NORMAL, HARD }
+public enum CpuDifficulty {
+    /** Represents the easy difficulty. */
+    EASY,
+    /** Represents the normal difficulty. */
+    NORMAL,
+    /** Represents the hard difficulty. */
+    HARD }

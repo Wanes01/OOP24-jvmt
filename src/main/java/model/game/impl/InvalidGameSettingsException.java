@@ -15,6 +15,9 @@ public class InvalidGameSettingsException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * List of strings that contain the various errors.
+     */
     private final List<String> errors;
 
     /**
