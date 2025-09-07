@@ -48,7 +48,7 @@ public interface Player {
      * 
      * @throws IllegalArgumentException if the amount of gems to add to the sack is negative.
      */
-    void addSackGems(final int gems);
+    void addSackGems(int gems);
 
     /**
      * Substracts a certain amount of gems from the player's sack.
@@ -58,7 +58,7 @@ public interface Player {
      * 
      * @throws IllegalArgumentException if the amount of gems to substract from the sack is negative.
      */
-    void subSackGems(final int gems);
+    void subSackGems(int gems);
 
     /**
      * Resets to zero the amount of gems inside the player's sack.
@@ -78,7 +78,7 @@ public interface Player {
      * 
      * @throws IllegalArgumentException if the amount of gems to substract from the chest is negative.
      */
-    void subChestGems(final int gems);
+    void subChestGems(int gems);
 
     /**
      * Updates the player's choice.
@@ -87,7 +87,7 @@ public interface Player {
      * 
      * @throws NullPointerException if @param choice is null.
      */
-    void choose(final PlayerChoice choice);
+    void choose(PlayerChoice choice);
 
     /**
      * Updates the player's choice as EXIT.
