@@ -14,6 +14,9 @@ import model.card.api.TypeTrapCard;
  */
 public final class DeckFactoryImpl implements DeckFactory {
 
+    /** Default constructor. */
+    public DeckFactoryImpl() { }    
+
     /**
      * {@inheritDoc}
      */
@@ -65,6 +68,9 @@ public final class DeckFactoryImpl implements DeckFactory {
         return deckBuilder.build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck specialDeck() {
         throw new UnsupportedOperationException("Unimplemented method 'specialDeck'");

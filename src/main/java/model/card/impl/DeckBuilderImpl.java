@@ -21,6 +21,9 @@ public class DeckBuilderImpl implements DeckBuilder {
     //This variable prevents changes from being made after the build() call
     private boolean isBuilt;
 
+    /** Default constructor. */
+    public DeckBuilderImpl() { }
+
     /**
      * {@inheritDoc}
      */
