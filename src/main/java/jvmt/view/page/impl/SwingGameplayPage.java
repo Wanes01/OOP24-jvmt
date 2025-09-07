@@ -373,24 +373,6 @@ public class SwingGameplayPage extends SwingPage {
     }
 
     /**
-     * Method for making the CPUs take choices without pressing the draw button
-     * if there are any.
-     * 
-     * @param gameplayCtrl the gameplay controller.
-     * 
-     * @throws NullPointerException if @param gameplayCtrl is null.
-     */
-    private void cpuAutoplay(final GameplayControllerImpl gameplayCtrl) {
-        Objects.requireNonNull(gameplayCtrl);
-        if (gameplayCtrl.isCurrentPlayerACpu()) {
-            // Timer for delaying the CPU's draw.
-            final Timer timer = new Timer(WAIT_TIME_MILLIS, ev -> this.drawBtn.doClick());
-            timer.setRepeats(false);
-            timer.start();
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -427,6 +409,7 @@ public class SwingGameplayPage extends SwingPage {
         for (final ActionListener al : this.drawBtn.getActionListeners()) {
             this.drawBtn.removeActionListener(al);
         }
+        this.drawBtn.setEnabled(true);
         this.drawBtn.addActionListener(e -> {
             // Execution of the draw phase.
             ctrl.executeDrawPhase();
@@ -472,6 +455,30 @@ public class SwingGameplayPage extends SwingPage {
                 SwingUtilities.invokeLater(SwingGameplayPage.this::resizeCards);
             }
         });
+    }
+
+    /**
+     * Method for making the CPUs take choices without pressing the draw button
+     * if there are any.
+     * 
+     * @param gameplayCtrl the gameplay controller.
+     * 
+     * @throws NullPointerException if @param gameplayCtrl is null.
+     */
+    private void cpuAutoplay(final GameplayControllerImpl gameplayCtrl) {
+        Objects.requireNonNull(gameplayCtrl);
+        if (gameplayCtrl.isCurrentPlayerACpu()) {
+            final ActionListener al = this.drawBtn.getActionListeners()[0];
+            // Timer for delaying the CPU's draw.
+            this.drawBtn.setEnabled(false);
+            final Timer timer = new Timer(WAIT_TIME_MILLIS, ev -> {
+                al.actionPerformed(ev);
+            });
+            timer.setRepeats(false);
+            timer.start();
+        } else {
+            this.drawBtn.setEnabled(true);
+        }
     }
 
     /**
