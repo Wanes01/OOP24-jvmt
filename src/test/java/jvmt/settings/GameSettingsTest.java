@@ -13,7 +13,7 @@ import jvmt.model.card.impl.DeckFactoryImpl;
 import jvmt.model.game.impl.GameSettingsImpl;
 import jvmt.model.game.impl.InvalidGameSettingsException;
 import jvmt.model.player.api.CpuDifficulty;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.roundeffect.endcondition.EndCondition;
 import jvmt.model.round.api.roundeffect.gemmodifier.GemModifier;
 import jvmt.model.round.impl.roundeffect.endcondition.EndConditionFactoryImpl;
@@ -55,7 +55,7 @@ class GameSettingsTest {
                 this.gemModifier,
                 this.cpuDifficulty,
                 numberOfRounds);
-        final List<PlayerInRound> allPlayers = settings.getPlayers();
+        final List<Player> allPlayers = settings.getPlayers();
 
         assertEquals(3, allPlayers.size());
     }

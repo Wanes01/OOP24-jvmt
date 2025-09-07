@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jvmt.model.card.api.Deck;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.Round;
 import jvmt.model.round.api.RoundState;
 import jvmt.model.round.api.roundeffect.RoundEffect;
@@ -18,7 +18,7 @@ import jvmt.utils.CommonUtils;
  * of a game. A round consists of a sequence of {@link Turn}s for the players.
  * <p>
  * At the beginning of the round all players are reset using
- * {@link PlayerInRound#resetRoundPlayer()} and the round state is initialized
+ * {@link Player#resetRoundPlayer()} and the round state is initialized
  * with the given {@link Deck} and list of players.
  * </p>
  * <p>
@@ -36,7 +36,7 @@ import jvmt.utils.CommonUtils;
  * @see RoundState
  * @see RoundEffect
  * @see Turn
- * @see PlayerInRound
+ * @see Player
  * @see Deck
  * 
  * @author Emir Wanes Aouioua
@@ -57,7 +57,7 @@ public class RoundImpl implements Round {
      * the shared round state is created.
      * </p>
      * 
-     * @see PlayerInRound#resetRoundPlayer()
+     * @see Player#resetRoundPlayer()
      * @see RoundEffect
      * 
      * @param players the players who will play in this round.
@@ -69,12 +69,12 @@ public class RoundImpl implements Round {
      *                              {@code effect} is null.
      */
     public RoundImpl(
-            final List<PlayerInRound> players,
+            final List<Player> players,
             final Deck deck,
             final RoundEffect effect) {
         CommonUtils.requireNonNulls(players, deck, effect);
 
-        players.forEach(PlayerInRound::resetRoundPlayer);
+        players.forEach(Player::resetRoundPlayer);
         this.state = new RoundStateImpl(players, deck);
         this.effect = effect;
     }
@@ -99,7 +99,7 @@ public class RoundImpl implements Round {
             throw new NoSuchElementException("The round has ended. No more turns can be played.");
         }
         this.currentTurn++;
-        final PlayerInRound player = state.getRoundPlayersManager().next();
+        final Player player = state.getRoundPlayersManager().next();
         return new TurnImpl(player, state, effect);
     }
 
@@ -118,8 +118,8 @@ public class RoundImpl implements Round {
          * Only players who are not active when the round ends can put their gems in the
          * chest
          */
-        final List<PlayerInRound> players = this.state.getRoundPlayersManager().getExitedPlayers();
-        players.forEach(PlayerInRound::addSackToChest);
+        final List<Player> players = this.state.getRoundPlayersManager().getExitedPlayers();
+        players.forEach(Player::addSackToChest);
     }
 
     /**

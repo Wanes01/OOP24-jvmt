@@ -18,7 +18,7 @@ import jvmt.model.card.api.Deck;
 import jvmt.model.card.impl.RelicCard;
 import jvmt.model.card.impl.TreasureCard;
 import jvmt.model.player.api.PlayerChoice;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 
 /**
  * Concrete implementation of a {@link Turn} in a round of the game.
@@ -44,7 +44,7 @@ import jvmt.model.player.impl.PlayerInRound;
  * @see Turn
  * @see RoundState
  * @see RoundEffect
- * @see PlayerInRound
+ * @see Player
  * @see Round
  * 
  * @author Emir Wanes Aouioua
@@ -54,7 +54,7 @@ import jvmt.model.player.impl.PlayerInRound;
         "EI_EXPOSE_REP2" }, justification = "Internal mutable objects are part of the game logic and shared by design")
 public class TurnImpl implements Turn {
 
-    private final PlayerInRound player;
+    private final Player player;
     private final RoundState roundState;
     private final RoundEffect roundEffect;
     private Optional<Card> drawnCard = Optional.empty();
@@ -70,7 +70,7 @@ public class TurnImpl implements Turn {
      *                              {@code roundEffect} is null.
      */
     public TurnImpl(
-            final PlayerInRound player,
+            final Player player,
             final RoundState roundState,
             final RoundEffect roundEffect) {
         CommonUtils.requireNonNulls(player, roundState, roundEffect);
@@ -102,7 +102,7 @@ public class TurnImpl implements Turn {
          */
 
         final RoundPlayersManager pm = this.roundState.getRoundPlayersManager();
-        final List<PlayerInRound> actives = pm.getActivePlayers();
+        final List<Player> actives = pm.getActivePlayers();
         if (card instanceof TreasureCard && !actives.isEmpty()) {
             final TreasureCard treasure = (TreasureCard) card;
             this.divideGemsAmongPlayers(treasure.getGemValue(), actives);
@@ -125,7 +125,7 @@ public class TurnImpl implements Turn {
      *                will be placed in the path
      * @param players the players to whom to divide the gems
      */
-    private void divideGemsAmongPlayers(final int gems, final List<PlayerInRound> players) {
+    private void divideGemsAmongPlayers(final int gems, final List<Player> players) {
         final int reward = this.roundEffect.applyGemModifier(
                 roundState, gems / players.size());
         final int pathGems = gems % players.size();
@@ -145,7 +145,7 @@ public class TurnImpl implements Turn {
      * @throws NullPointerException     if {@code playersExitingThisTurn} is null.
      */
     @Override
-    public void endTurn(final Set<PlayerInRound> playersExitingThisTurn) {
+    public void endTurn(final Set<Player> playersExitingThisTurn) {
         Objects.requireNonNull(playersExitingThisTurn);
 
         if (isAnyActive(playersExitingThisTurn)) {
@@ -160,7 +160,7 @@ public class TurnImpl implements Turn {
 
         // Only one player exited. He is given all the available relics.
         if (playersExitingThisTurn.size() == 1) {
-            final PlayerInRound exiting = playersExitingThisTurn.stream()
+            final Player exiting = playersExitingThisTurn.stream()
                     .findFirst()
                     .get();
             this.giveAvailableRelicsToPlayer(exiting);
@@ -178,7 +178,7 @@ public class TurnImpl implements Turn {
      * 
      * @param player the player whom will receives the relics.
      */
-    private void giveAvailableRelicsToPlayer(final PlayerInRound player) {
+    private void giveAvailableRelicsToPlayer(final Player player) {
         final List<RelicCard> relics = this.roundState.getRedeemableRelics();
         relics.stream()
                 .forEach(r -> {
@@ -193,8 +193,8 @@ public class TurnImpl implements Turn {
      * @param players the players whose status will be checked.
      * @return true if any player is still active in the round, false otherwise.
      */
-    private boolean isAnyActive(final Set<PlayerInRound> players) {
-        for (final PlayerInRound player : players) {
+    private boolean isAnyActive(final Set<Player> players) {
+        for (final Player player : players) {
             if (player.getChoice() == PlayerChoice.STAY) {
                 return true;
             }
@@ -206,7 +206,7 @@ public class TurnImpl implements Turn {
      * {@inheritDoc}
      */
     @Override
-    public PlayerInRound getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return this.player;
     }
 

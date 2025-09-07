@@ -16,7 +16,7 @@ import jvmt.model.card.api.Card;
 import jvmt.model.card.api.CardWithGem;
 import jvmt.model.card.api.Deck;
 import jvmt.model.card.impl.DeckFactoryImpl;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
 import jvmt.model.round.impl.RoundStateImpl;
@@ -39,7 +39,7 @@ class GemModifierFactoryImplTest {
     void setUp() {
         final int numberOfPlayers = 3;
         final Deck deck = new DeckFactoryImpl().standardDeck();
-        final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
+        final List<Player> players = CommonUtils.generatePlayerList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
 
@@ -86,7 +86,7 @@ class GemModifierFactoryImplTest {
 
             // makes all players leave the round
             while (pm.hasNext()) {
-                final PlayerInRound player = pm.next();
+                final Player player = pm.next();
                 player.exit();
             }
 

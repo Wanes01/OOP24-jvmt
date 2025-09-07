@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import jvmt.model.leaderboard.api.Leaderboard;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 
 /**
  * Implementation of the Leaderboard interface.
@@ -18,7 +18,7 @@ import jvmt.model.player.impl.PlayerInRound;
  */
 public class LeaderboardImpl implements Leaderboard {
 
-    private final List<PlayerInRound> listPlayers;
+    private final List<Player> listPlayers;
 
     /**
      * Constructor of the class.
@@ -27,7 +27,7 @@ public class LeaderboardImpl implements Leaderboard {
      * 
      * @param listPlayers list of the players that played the game.
      */
-    public LeaderboardImpl(final List<PlayerInRound> listPlayers) {
+    public LeaderboardImpl(final List<Player> listPlayers) {
         this.listPlayers = new ArrayList<>(Objects.requireNonNull(listPlayers));
     }
 
@@ -35,8 +35,8 @@ public class LeaderboardImpl implements Leaderboard {
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getPlayersSortedByScore() {
-        this.listPlayers.sort(Comparator.comparing(PlayerInRound::getChestGems).reversed());
+    public List<Player> getPlayersSortedByScore() {
+        this.listPlayers.sort(Comparator.comparing(Player::getChestGems).reversed());
         return Collections.unmodifiableList(this.listPlayers);
     }
 }

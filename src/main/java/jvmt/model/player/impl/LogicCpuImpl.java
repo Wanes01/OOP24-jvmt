@@ -157,7 +157,7 @@ public class LogicCpuImpl implements LogicCpu {
          */
         private double calculateNormRelics(final RoundState state) {
                 Objects.requireNonNull(state);
-                return state.getReedamableRelics().size() * 2.0 / this.settings.getDeck().totRelicCardsInDeck();
+                return state.getRedeemableRelics().size() * 2.0 / this.settings.getDeck().totRelicCardsInDeck();
         }
 
         /**

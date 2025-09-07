@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import jvmt.model.card.api.Card;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.Round;
 
 /**
@@ -24,7 +24,7 @@ import jvmt.model.round.api.Round;
  * </p>
  * 
  * @see Round
- * @see PlayerInRound
+ * @see Player
  * @see Card
  * @see Optional
  * 
@@ -38,7 +38,7 @@ public interface Turn {
      * @return the player who is currently responsible for drawing a card.
      */
 
-    PlayerInRound getCurrentPlayer();
+    Player getCurrentPlayer();
 
     /**
      * Returns the card drawn during this turn, if any.
@@ -78,5 +78,5 @@ public interface Turn {
      *                                  {@code playersExitingThisTurn} is still
      *                                  active in the round.
      */
-    void endTurn(Set<PlayerInRound> playersExitingThisTurn);
+    void endTurn(Set<Player> playersExitingThisTurn);
 }

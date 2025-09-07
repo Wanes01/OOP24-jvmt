@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 import jvmt.model.card.api.Card;
 import jvmt.model.card.api.Deck;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.card.impl.RelicCard;
 import jvmt.model.card.impl.TrapCard;
 import jvmt.model.card.impl.TreasureCard;
@@ -56,7 +56,7 @@ public class RoundStateImpl implements RoundState {
      * 
      * @throws NullPointerException if {@code players} or {@code deck} is null.
      */
-    public RoundStateImpl(final List<PlayerInRound> players, final Deck deck) {
+    public RoundStateImpl(final List<Player> players, final Deck deck) {
         CommonUtils.requireNonNulls(players, deck);
 
         this.playersManager = new RoundPlayersManagerImpl(players);

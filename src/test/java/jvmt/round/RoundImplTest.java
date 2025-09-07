@@ -23,8 +23,8 @@ import jvmt.model.card.api.Card;
 import jvmt.model.card.api.Deck;
 import jvmt.model.card.impl.DeckFactoryImpl;
 import jvmt.model.card.impl.TrapCard;
+import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.round.api.Round;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
@@ -48,7 +48,7 @@ import jvmt.utils.CommonUtils;
 class RoundImplTest {
 
     private static final int PLAYERS_COUNT = 3;
-    private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(PLAYERS_COUNT);
+    private final List<Player> players = CommonUtils.generatePlayerList(PLAYERS_COUNT);
     private final RoundEffect effect = new RoundEffectImpl(
             new EndConditionFactoryImpl().standard(),
             new GemModifierFactoryImpl().standard());
@@ -106,7 +106,7 @@ class RoundImplTest {
 
         while (pm.hasNext()) {
             assertTrue(this.round.hasNext());
-            final PlayerInRound player = pm.next();
+            final Player player = pm.next();
             player.exit();
         }
 
@@ -155,7 +155,7 @@ class RoundImplTest {
      * @param turn the turn to be played.
      */
     private void playTurnAndMakePlayerExit(final Turn turn) {
-        final PlayerInRound turnPlayer = turn.getCurrentPlayer();
+        final Player turnPlayer = turn.getCurrentPlayer();
         turn.executeDrawPhase();
         turnPlayer.exit();
         turn.endTurn(Set.of(turnPlayer));
@@ -181,7 +181,7 @@ class RoundImplTest {
 
     @Test
     void testRoundEndMovesGemsToChest() {
-        final Map<PlayerInRound, Integer> playerSacks = new HashMap<>();
+        final Map<Player, Integer> playerSacks = new HashMap<>();
 
         // plays a full round
         while (this.round.hasNext()) {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import jvmt.model.leaderboard.api.Leaderboard;
 import jvmt.model.leaderboard.impl.LeaderboardImpl;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.utils.CommonUtils;
 
 /**
@@ -24,7 +24,7 @@ class LeaderboardTest {
     private static final int P2_GEMS = 3;
     private static final int P3_GEMS = 5;
     private static final int P4_GEMS = 7;
-    private final List<PlayerInRound> unsortedList = new ArrayList<>(
+    private final List<Player> unsortedList = new ArrayList<>(
             CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS));
 
     // -- Testing method for sorting the players list --
@@ -41,7 +41,7 @@ class LeaderboardTest {
         unsortedList.get(4).addSackGems(P4_GEMS);
         unsortedList.get(4).addSackToChest();
         final Leaderboard leaderboard = new LeaderboardImpl(this.unsortedList);
-        final List<PlayerInRound> sortedList = new ArrayList<>(leaderboard.getPlayersSortedByScore());
+        final List<Player> sortedList = new ArrayList<>(leaderboard.getPlayersSortedByScore());
         assertEquals(P1_GEMS, sortedList.get(0).getChestGems());
         assertEquals(P4_GEMS, sortedList.get(1).getChestGems());
         assertEquals(P0_GEMS, sortedList.get(2).getChestGems());

@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 // imports for javadoc
 import java.util.NoSuchElementException;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 
 /**
  * Manages the players partecipating in a round, keeping track of their state
@@ -12,18 +12,18 @@ import jvmt.model.player.impl.PlayerInRound;
  * players that have left.
  * 
  * This interface extends {@link Iterator}, providing the ability to iterate
- * over the {@link PlayerInRound} instances that are still active during
+ * over the {@link Player} instances that are still active during
  * the current round. The {@code next()} method returns the next player who
  * has not exited the round yet.
  * 
  * When no active players remain, {@code next()} throws a
  * {@link NoSuchElementException}
  * 
- * @see PlayerInRound
+ * @see Player
  * @see Iterator
  * @author Emir Wanes Aouioua
  */
-public interface RoundPlayersManager extends Iterator<PlayerInRound> {
+public interface RoundPlayersManager extends Iterator<Player> {
 
     /**
      * Returns a list of players who are still active in the current round (players
@@ -32,7 +32,7 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
      * 
      * @return the list of active players in their turn order.
      */
-    List<PlayerInRound> getActivePlayers();
+    List<Player> getActivePlayers();
 
     /**
      * Returns a list of players who have exited the current round (players
@@ -41,7 +41,7 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
      * 
      * @return the list of exited players in their turn order.
      */
-    List<PlayerInRound> getExitedPlayers();
+    List<Player> getExitedPlayers();
 
     /**
      * {@inheritDoc}
@@ -62,5 +62,5 @@ public interface RoundPlayersManager extends Iterator<PlayerInRound> {
      * @throws NoSuchElementException if there are no active players left
      */
     @Override
-    PlayerInRound next();
+    Player next();
 }

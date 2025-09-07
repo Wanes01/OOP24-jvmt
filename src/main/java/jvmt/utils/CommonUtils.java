@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import jvmt.model.player.api.Player;
 import jvmt.model.player.impl.PlayerInRound;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -77,6 +78,19 @@ public final class CommonUtils {
             players.add(new PlayerInRound("P-" + p));
         }
         return players;
+    }
+
+    /**
+     * Generates a list containing {@code count} {@link Player}s.
+     * 
+     * @param count the number of players to be generated.
+     * @return a list of {@code count} {@code Player}s.
+     */
+    public static List<Player> generatePlayerList(final int count) {
+        return CommonUtils.generatePlayerInRoundList(count)
+                .stream()
+                .map(p -> (Player) p)
+                .toList();
     }
 
     /**

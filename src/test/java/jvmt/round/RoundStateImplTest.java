@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import jvmt.model.card.api.Card;
 import jvmt.model.card.api.Deck;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.card.impl.DeckFactoryImpl;
 import jvmt.model.card.impl.RelicCard;
 import jvmt.model.card.impl.TrapCard;
 import jvmt.model.card.impl.TreasureCard;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.RoundState;
 import jvmt.model.round.impl.RoundStateImpl;
 import jvmt.utils.CommonUtils;
@@ -35,7 +35,7 @@ class RoundStateImplTest {
     void setUp() {
         final int numberOfPlayers = 6;
         final Deck deck = new DeckFactoryImpl().standardDeck();
-        final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
+        final List<Player> players = CommonUtils.generatePlayerList(numberOfPlayers);
         this.state = new RoundStateImpl(players, deck);
     }
 

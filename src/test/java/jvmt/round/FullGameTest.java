@@ -12,8 +12,8 @@ import jvmt.model.round.api.roundeffect.RoundEffect;
 import jvmt.model.round.api.turn.Turn;
 import jvmt.model.card.api.Deck;
 import jvmt.model.card.impl.DeckFactoryImpl;
+import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.round.api.Round;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
@@ -35,7 +35,7 @@ class FullGameTest {
     private static final int EXIT_CHANCES = 10;
     private static final int NUMBER_OF_ROUNDS = 10;
     private static final int NUMBER_OF_PLAYERS = 8;
-    private final List<PlayerInRound> players = CommonUtils.generatePlayerInRoundList(NUMBER_OF_PLAYERS);
+    private final List<Player> players = CommonUtils.generatePlayerList(NUMBER_OF_PLAYERS);
     private final RoundEffect effect = new RoundEffectImpl(
             new EndConditionFactoryImpl().standard(),
             new GemModifierFactoryImpl().standard());
@@ -50,23 +50,23 @@ class FullGameTest {
             while (round.hasNext()) {
                 final Turn turn = round.next();
                 turn.executeDrawPhase();
-                final Set<PlayerInRound> exiting = this.makeRandomPlayersLeave(pm);
+                final Set<Player> exiting = this.makeRandomPlayersLeave(pm);
                 turn.endTurn(exiting);
             }
             round.endRound();
         }
 
-        for (final PlayerInRound player : this.players) {
+        for (final Player player : this.players) {
             if (player.getSackGems() > 0) {
                 assertEquals(PlayerChoice.STAY, player.getChoice());
             }
         }
     }
 
-    private Set<PlayerInRound> makeRandomPlayersLeave(final RoundPlayersManager pm) {
-        final Set<PlayerInRound> leaving = new HashSet<>();
-        final List<PlayerInRound> actives = pm.getActivePlayers();
-        for (final PlayerInRound player : actives) {
+    private Set<Player> makeRandomPlayersLeave(final RoundPlayersManager pm) {
+        final Set<Player> leaving = new HashSet<>();
+        final List<Player> actives = pm.getActivePlayers();
+        for (final Player player : actives) {
             if (CommonUtils.chanceOneIn(EXIT_CHANCES)) {
                 player.exit();
                 leaving.add(player);

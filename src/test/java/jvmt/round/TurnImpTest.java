@@ -20,10 +20,11 @@ import jvmt.model.round.api.roundeffect.RoundEffect;
 import jvmt.model.round.api.turn.Turn;
 import jvmt.model.card.api.Card;
 import jvmt.model.card.api.Deck;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.card.impl.DeckFactoryImpl;
 import jvmt.model.card.impl.RelicCard;
 import jvmt.model.card.impl.TreasureCard;
+import jvmt.model.player.api.Player;
+import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
 import jvmt.model.round.impl.RoundStateImpl;
@@ -47,15 +48,15 @@ import jvmt.utils.CommonUtils;
 class TurnImpTest {
 
     private static final int PLAYER_COUNT = 5;
-    private final PlayerInRound turnPlayer = new PlayerInRound("PLAYER");
+    private final Player turnPlayer = new PlayerInRound("PLAYER");
     private RoundEffect effect;
     private RoundState state;
     private Turn turn;
 
     @BeforeEach
     void setUp() {
-        final List<PlayerInRound> players = new ArrayList<>(List.of(this.turnPlayer));
-        players.addAll(CommonUtils.generatePlayerInRoundList(PLAYER_COUNT - 1));
+        final List<Player> players = new ArrayList<>(List.of(this.turnPlayer));
+        players.addAll(CommonUtils.generatePlayerList(PLAYER_COUNT - 1));
 
         // the standard deck ensures the precence of trasure and relic cards.
         final Deck deck = new DeckFactoryImpl().standardDeck();
@@ -176,7 +177,7 @@ class TurnImpTest {
         this.makePlayersExit(PLAYER_COUNT - 1);
 
         assertEquals(1, pm.getActivePlayers().size());
-        final Set<PlayerInRound> players = new HashSet<>(pm.getExitedPlayers());
+        final Set<Player> players = new HashSet<>(pm.getExitedPlayers());
         players.add(pm.getActivePlayers().getFirst());
 
         // one active player is in the players set. This behavior is not allowed.
@@ -210,7 +211,7 @@ class TurnImpTest {
          * round this turn
          */
         assertFalse(relic.isRedeemed());
-        for (final PlayerInRound exited : pm.getExitedPlayers()) {
+        for (final Player exited : pm.getExitedPlayers()) {
             assertEquals(0, exited.getSackGems());
         }
 
@@ -247,7 +248,7 @@ class TurnImpTest {
         this.makePlayersExit(PLAYER_COUNT / 2);
         this.turn.executeDrawPhase();
 
-        final List<PlayerInRound> exiting = this.state.getRoundPlayersManager()
+        final List<Player> exiting = this.state.getRoundPlayersManager()
                 .getExitedPlayers();
         /*
          * the first card drawn may be a trasure card, which could cause the sack's gems

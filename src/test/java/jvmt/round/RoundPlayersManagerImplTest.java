@@ -11,8 +11,8 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.impl.RoundPlayersManagerImpl;
 import jvmt.utils.CommonUtils;
@@ -26,12 +26,12 @@ import jvmt.utils.CommonUtils;
 class RoundPlayersManagerImplTest {
 
     private RoundPlayersManager manager;
-    private List<PlayerInRound> players;
+    private List<Player> players;
 
     @BeforeEach
     void setUp() {
         final int numberOfPlayers = 6;
-        this.players = CommonUtils.generatePlayerInRoundList(numberOfPlayers);
+        this.players = CommonUtils.generatePlayerList(numberOfPlayers);
 
         manager = new RoundPlayersManagerImpl(players);
     }
@@ -45,8 +45,8 @@ class RoundPlayersManagerImplTest {
     @Test
     void testPlayersRotation() {
         // no player is exiting
-        for (final PlayerInRound expected : this.players) {
-            final PlayerInRound actual = manager.next();
+        for (final Player expected : this.players) {
+            final Player actual = manager.next();
             assertEquals(expected, actual);
         }
         // no player has exited so it restarts from the first one
@@ -58,7 +58,7 @@ class RoundPlayersManagerImplTest {
     void testGetActivePlayers() {
         makeEvenPlayersLeave();
 
-        final List<PlayerInRound> oddPlayers = this.players.stream()
+        final List<Player> oddPlayers = this.players.stream()
                 .filter(p -> p.getChoice() == PlayerChoice.STAY)
                 .toList();
 
@@ -78,7 +78,7 @@ class RoundPlayersManagerImplTest {
     void testGetExitedPlayers() {
         makeEvenPlayersLeave();
 
-        final List<PlayerInRound> evenPlayers = this.players.stream()
+        final List<Player> evenPlayers = this.players.stream()
                 .filter(p -> p.getChoice() == PlayerChoice.EXIT)
                 .toList();
 
@@ -90,7 +90,7 @@ class RoundPlayersManagerImplTest {
         makeEvenPlayersLeave();
 
         for (int p = 1; p < this.players.size(); p += 2) {
-            final PlayerInRound nextActive = manager.next();
+            final Player nextActive = manager.next();
             assertEquals(this.players.get(p), nextActive);
         }
         assertTrue(manager.hasNext());
@@ -100,7 +100,7 @@ class RoundPlayersManagerImplTest {
     @Test
     void testNoMorePlayersException() {
         while (manager.hasNext()) {
-            final PlayerInRound player = manager.next();
+            final Player player = manager.next();
             player.exit();
         }
 

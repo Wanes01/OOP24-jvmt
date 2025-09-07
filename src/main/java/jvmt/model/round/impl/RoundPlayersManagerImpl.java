@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import jvmt.model.player.api.PlayerChoice;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 import jvmt.model.round.api.RoundPlayersManager;
 
 /**
@@ -17,12 +17,12 @@ import jvmt.model.round.api.RoundPlayersManager;
  * those found to be exited are skipped.
  * </p>
  * 
- * @see PlayerInRound
+ * @see Player
  * @author Emir Wanes Aouioua
  */
 public final class RoundPlayersManagerImpl implements RoundPlayersManager {
 
-    private final List<PlayerInRound> players; // all players partecipating in the round
+    private final List<Player> players; // all players partecipating in the round
     private int current;
 
     /**
@@ -34,7 +34,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      *                                  that is not active.
      * @throws NullPointerException     if {@code players} is null.
      */
-    public RoundPlayersManagerImpl(final List<PlayerInRound> players) {
+    public RoundPlayersManagerImpl(final List<Player> players) {
         Objects.requireNonNull(players);
 
         this.players = new ArrayList<>(players);
@@ -56,11 +56,11 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      * {@inheritDoc}
      */
     @Override
-    public PlayerInRound next() {
+    public Player next() {
         // tries to find the first active player from this.current
         int checked = 0;
         while (checked < players.size()) {
-            final PlayerInRound candidate = players.get(this.current);
+            final Player candidate = players.get(this.current);
             this.current = (this.current + 1) % players.size();
             checked++;
 
@@ -76,7 +76,7 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getActivePlayers() {
+    public List<Player> getActivePlayers() {
         return this.players.stream()
                 .filter(p -> p.getChoice() == PlayerChoice.STAY)
                 .toList();
@@ -86,8 +86,8 @@ public final class RoundPlayersManagerImpl implements RoundPlayersManager {
      * {@inheritDoc}
      */
     @Override
-    public List<PlayerInRound> getExitedPlayers() {
-        final List<PlayerInRound> exiting = new ArrayList<>(this.players);
+    public List<Player> getExitedPlayers() {
+        final List<Player> exiting = new ArrayList<>(this.players);
         exiting.removeAll(this.getActivePlayers());
         return exiting;
     }

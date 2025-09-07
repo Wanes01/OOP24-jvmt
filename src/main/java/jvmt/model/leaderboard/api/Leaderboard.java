@@ -3,7 +3,7 @@ package jvmt.model.leaderboard.api;
 import java.util.List;
 
 import jvmt.model.leaderboard.impl.LeaderboardImpl;
-import jvmt.model.player.impl.PlayerInRound;
+import jvmt.model.player.api.Player;
 
 /**
  * Rapresents the leaderboard at the end of the game.
@@ -22,5 +22,5 @@ public interface Leaderboard {
      * @return the list of the players ordered by
      *         their final score.
      */
-    List<PlayerInRound> getPlayersSortedByScore();
+    List<Player> getPlayersSortedByScore();
 }
