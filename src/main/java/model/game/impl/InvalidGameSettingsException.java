@@ -30,6 +30,8 @@ public class InvalidGameSettingsException extends RuntimeException {
     }
 
     /**
+     * Getter for the list of error messages.
+     * 
      * @return the list of error messages.
      */
     public List<String> getErrors() {
