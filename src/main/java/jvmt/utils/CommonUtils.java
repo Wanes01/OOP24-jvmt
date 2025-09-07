@@ -87,11 +87,7 @@ public final class CommonUtils {
      * @return a list of {@code count} {@code Player}s.
      */
     public static List<Player> generatePlayerList(final int count) {
-        final List<Player> list = new ArrayList<>();
-        for (final Player player : generatePlayerInRoundList(count)) {
-            list.add(player);
-        }
-        return list;
+        return new ArrayList<Player>(generatePlayerInRoundList(count));
     }
 
     /**
