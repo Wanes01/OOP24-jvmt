@@ -32,7 +32,6 @@ import jvmt.model.player.impl.PlayerInRound;
  * modifiers to the number of gems added to player's sacks when they receive
  * gems during the turn.
  * </p>
- * <p>
  * This class has a strict usage that may lead to the following exceptions:
  * <ul>
  * <li>{@link IllegalStateException} if a player attempts to draw more than one
@@ -41,7 +40,6 @@ import jvmt.model.player.impl.PlayerInRound;
  * <li>{@link IllegalArgumentException} if any players passed to
  * {@link #endTurn(Set)} have not left the round.</li>
  * </ul>
- * </p>
  * 
  * @see Turn
  * @see RoundState
