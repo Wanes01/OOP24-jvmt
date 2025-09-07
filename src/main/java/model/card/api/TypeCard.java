@@ -5,4 +5,16 @@ package model.card.api;
  * 
  * @author Andrea La Tosa
  */
-public enum TypeCard { TREASURE, TRAP, RELIC, SPECIAL }
+public enum TypeCard {
+    /** Represents a treasure card type. */
+    TREASURE,
+
+    /** Represents a trap card type. */
+    TRAP,
+
+    /** Represents a relic card type. */
+    RELIC,
+
+    /** Represents a special card type. */
+    SPECIAL
+}
