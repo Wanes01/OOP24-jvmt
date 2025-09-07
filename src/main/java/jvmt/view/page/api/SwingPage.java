@@ -33,7 +33,14 @@ import jvmt.view.window.impl.SwingWindow;
 public abstract class SwingPage extends JPanel implements Page {
 
     private static final long serialVersionUID = 1L;
+    // the controller that will handle the interaction with this page.
     private PageController controller;
+
+    /**
+     * This class must be extended.
+     */
+    protected SwingPage() {
+    }
 
     /**
      * {@inheritDoc}

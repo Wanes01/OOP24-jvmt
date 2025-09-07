@@ -1,5 +1,6 @@
 package jvmt.view.page.api;
 
+import jvmt.view.window.api.Window;
 import jvmt.controller.api.PageController;
 
 /**

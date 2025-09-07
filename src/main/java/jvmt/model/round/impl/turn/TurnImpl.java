@@ -39,7 +39,7 @@ import jvmt.model.player.impl.PlayerInRound;
  * card in a turn or if {@link #endTurn(Set)} is called without drawing a card
  * first.</li>
  * <li>{@link IllegalArgumentException} if any players passed to
- * {@link #endTurn()} have not left the round.
+ * {@link #endTurn(Set)} have not left the round.</li>
  * </ul>
  * </p>
  * 
@@ -64,9 +64,9 @@ public class TurnImpl implements Turn {
     /**
      * Constructs a new {@code TurnImpl}.
      * 
-     * @param player
-     * @param roundState
-     * @param roundEffect
+     * @param player      the player that will play this turn.
+     * @param roundState  the state of the round.
+     * @param roundEffect the effect that has to be applied on the round.
      * 
      * @throws NullPointerException if {@code player}, {@code roundState} or
      *                              {@code roundEffect} is null.

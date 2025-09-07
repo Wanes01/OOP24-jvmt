@@ -21,7 +21,7 @@ public interface GemModifierFactory {
      * 
      * <p>
      * Example:
-     * Given a {@link model.round.api.RoundState} and 5 base gems, the modifier
+     * Given a {@link RoundState} and 5 base gems, the modifier
      * returns 5
      * gems.
      * </p>
