@@ -38,11 +38,15 @@ public final class TreasureCard extends CardWithGem {
     }
 
     /**
-     * Creates a new Treasure card.
+     * Creates a new TreasureCard.
      * The image path is automatically derived from the number of gems.
      * 
      * @param name the name of the card
      * @param gemValue the gem value of the card
+     *
+     * @throws NullPointerException if null is passed to the {@code name} parameter
+     * @throws IllegalArgumentException if the value of the gems is not present 
+     * in the set of acceptable gem values
      */
     public TreasureCard(final String name, final int gemValue) {
         super(name, TypeCard.TREASURE, validateGemValueAndGetPath(gemValue), gemValue);
@@ -54,10 +58,10 @@ public final class TreasureCard extends CardWithGem {
      * 
      * @param gemValue the value of the gems to be associated with the card
      * 
+     * @return the path of the image of the card
+     * 
      * @throws IllegalArgumentException if the value of the gems is not present 
      * in the set of acceptable gem values.
-     * 
-     * @return the path of the image of the card
      */
     private static String validateGemValueAndGetPath(final int gemValue) {
         if (!POSSIBLE_GEM_VALUES.contains(gemValue)) {
@@ -68,7 +72,8 @@ public final class TreasureCard extends CardWithGem {
 
     /**
      * Compare this item with the specified item to verify that they are the same.
-     * Two TreasureCards are considered the same if they have the same gem value and type.
+     * Two TreasureCard are considered the same if they have the same
+     * gem value ({@code getGemValue()}) and type ({@code getType()}).
      * 
      * @param obj the object to compare with this one
      * 
@@ -100,7 +105,7 @@ public final class TreasureCard extends CardWithGem {
     }
 
     /**
-     * @return Returns a string representation of the Treasure including:
+     * @return a string representation of the Treasure including:
      * the name, type, gem value of the card and the path to the card image.
      */
     @Override

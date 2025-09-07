@@ -14,7 +14,7 @@ import model.card.api.TypeCard;
  */
 public final class RelicCard extends CardWithGem {
 
-    //Is a list of possible gem values that can be associated with the relic card.
+    // Is a list of possible gem values that can be associated with the relic card.
     private static final List<Integer> POSSIBLE_RELIC_GEM = List.of(5, 7, 8, 10, 12);
     // Is the path for the image of the relic cards.
     private static final String IMAGE_RELIC_PATH = "relic/Relic.png";
@@ -33,10 +33,12 @@ public final class RelicCard extends CardWithGem {
      * 
      * @param name the name of the card
      * 
+     * @throws NullPointerException if {@code name} is null
+     * 
      * @see TypeCard
      */
     public RelicCard(final String name) {
-        // The vaue of gems gets randomly chosen from the values inside the list
+        // The value of gems gets randomly chosen from the values inside the list
         super(
             name,
             TypeCard.RELIC,
@@ -45,8 +47,9 @@ public final class RelicCard extends CardWithGem {
     }
 
     /**
-     * @return the status of the relic card.
-     * True if it has already been redeemed by a player, false otherwise.
+     * Indicates whether this relic card has already been redeemed by a player.
+     * 
+     * @return {@code true} if it has already been redeemed by a player, {@code false} otherwise.
      */
     public boolean isRedeemed() {
         return this.redeemed;
@@ -61,7 +64,7 @@ public final class RelicCard extends CardWithGem {
 
     /**
      * Compare this item with the specified item to verify that they are the same.
-     * Two RelicCards are considered the same if they have the same type.
+     * Two RelicCard are considered the same if they have the same type.
      * 
      * @param obj the object to compare with this one
      * 
@@ -91,8 +94,7 @@ public final class RelicCard extends CardWithGem {
     }
 
     /**
-     * 
-     * @return Returns a string representation of the relic card including:
+     * @return a string representation of the relic card including:
      * the name, type, gem value of the card and the path to the card image.
      */
     @Override

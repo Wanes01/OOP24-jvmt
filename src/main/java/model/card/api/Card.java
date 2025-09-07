@@ -38,6 +38,8 @@ public class Card {
     }
 
     /**
+     * Returns the name of the card.
+     * 
      * @return the name of the card.
      */
     public String getName() {
@@ -45,6 +47,8 @@ public class Card {
     }
 
     /**
+     * Return the type of the card.
+     * 
      * @return the type of the card.
      * 
      * @see TypeCard
@@ -54,14 +58,18 @@ public class Card {
     }
 
     /**
-     * @return the URL of the image resource associated with the card.
+     * Returns the URL of the image resource associated with the card.
+     * 
+     * @return the image URL.
      */
     public URL getImagePath() {
         return this.imageUrl;
     }
 
     /**
-     * @return a string representation of the card including: the name, type, and path of the card image
+     * Returns a string representation of the card including: the name, type and path of the card image.
+     * 
+     * @return a string representation of the card
      */
     @Override
     public String toString() {
