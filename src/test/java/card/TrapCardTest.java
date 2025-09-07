@@ -37,8 +37,8 @@ class TrapCardTest {
             Card.class.getResource(imagePathBoulder));
     }
 
-    @Test
     // Check each trap card to see if the corresponding image is present.
+    @Test
     void correctPathTrapCard() {
         final String sourceImagePath = "/imageCard/trap/";
         final List<String> trapCardImage = List.of(
