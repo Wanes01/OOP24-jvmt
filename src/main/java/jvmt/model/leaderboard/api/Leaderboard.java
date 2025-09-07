@@ -7,10 +7,8 @@ import jvmt.model.player.impl.PlayerInRound;
 
 /**
  * Rapresents the leaderboard at the end of the game.
- * <p>
  * This interface provides methods for ordering the
  * list of players by their final score.
- * </p>
  * 
  * @see LeaderboardImpl
  * 

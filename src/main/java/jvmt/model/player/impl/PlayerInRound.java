@@ -6,15 +6,12 @@ import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
 
 /**
- * Represents a generic player during a round.
- * <p>
- * This class implements {@link Player},
- * it provides various informations regarding a player during
- * a round, the number of gems inside their sack and their choice
- * at the end of the turn.
- * This class also provides methods for modifying and reset
+ * The implementation of the {@link Player} interface.
+ * It provides various informations regarding a player during
+ * a round, such as the number of gems inside their sack and
+ * their choice at the end of the turn.
+ * This class also provides methods for modifying and resetting
  * a player's informations.
- * </p>
  * 
  * @see Player
  * @see PlayerCpu
@@ -38,7 +35,8 @@ public class PlayerInRound implements Player {
      * @param name a string representing the player's name
      */
     public PlayerInRound(final String name) {
-        this.name = Objects.requireNonNull(name);
+        Objects.requireNonNull(name);
+        this.name = name;
         this.chestGems = 0;
         this.sackGems = 0;
         this.choice = PlayerChoice.STAY;
@@ -61,8 +59,15 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * @return the player's informations
-     *         in a text string.
+     * {@inheritDoc}
+     */
+    @Override
+    public int getSackGems() {
+        return this.sackGems;
+    }
+
+    /**
+     * @return the player's informations in a text string.
      */
     @Override
     public String toString() {
@@ -75,27 +80,17 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * @return the player's choice at the end of the turn.
+     * {@inheritDoc}
      */
+    @Override
     public PlayerChoice getChoice() {
         return this.choice;
     }
 
     /**
-     * @return the quantity of gems inside the player's sack.
+     * {@inheritDoc}
      */
-    public int getSackGems() {
-        return this.sackGems;
-    }
-
-    /**
-     * Adds a certain amount of gems to the player's sack.
-     * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to add to the sack is negative.
-     * 
-     * @param gems the number of gems to add to the player's sack.
-     */
+    @Override
     public void addSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
@@ -105,15 +100,9 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Substracts a certain amount of gems from the player's sack.
-     * The sack's amount of gems can't be negative.
-     * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to substract from the sack is negative.
-     * 
-     * @param gems the number of gems to substract from the player's
-     *             sack.
+     * {@inheritDoc}
      */
+    @Override
     public void subSackGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
@@ -127,31 +116,26 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Resets to zero the amount of gems inside the player's sack.
+     * {@inheritDoc}
      */
+    @Override
     public void resetSack() {
         this.sackGems = 0;
     }
 
     /**
-     * Adds the amount of gems inside the player's sack to their
-     * chest.
+     * {@inheritDoc}
      */
+    @Override
     public void addSackToChest() {
         this.chestGems += this.sackGems;
         resetSack();
     }
 
     /**
-     * Substracts a certain amount of gems from the player's chest.
-     * The chest's amount of gems can't be negative.
-     * 
-     * @throws IllegalArgumentException if the amount of gems
-     *                                  to substract from the chest is negative.
-     * 
-     * @param gems the number of gems to substract from the player's
-     *             chest.
+     * {@inheritDoc}
      */
+    @Override
     public void subChestGems(final int gems) {
         if (gems < 0) {
             throw new IllegalArgumentException(
@@ -165,23 +149,18 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Updates the player's choice.
-     * 
-     * @throws NullPointerException if {@link choice} is null.
-     * 
-     * @param choice the choice that'll be overwitten as
-     *               the player's choice.
+     * {@inheritDoc}
      */
+    @Override
     public void choose(final PlayerChoice choice) {
-        this.choice = Objects.requireNonNull(choice);
+        Objects.requireNonNull(choice);
+        this.choice = choice;
     }
 
     /**
-     * Updates the player's choice as EXIT.
-     * 
-     * @throws IllegalStateException if the player's
-     *                               choice is already EXIT.
+     * {@inheritDoc}
      */
+    @Override
     public void exit() {
         if (this.choice == PlayerChoice.EXIT) {
             throw new IllegalStateException(
@@ -191,16 +170,17 @@ public class PlayerInRound implements Player {
     }
 
     /**
-     * Resets to true the player's choice.
+     * {@inheritDoc}
      */
+    @Override
     public void resetChoice() {
         this.choice = PlayerChoice.STAY;
     }
 
     /**
-     * Resets the player's sack gems to zero and
-     * their choice.
+     * {@inheritDoc}
      */
+    @Override
     public void resetRoundPlayer() {
         resetSack();
         resetChoice();

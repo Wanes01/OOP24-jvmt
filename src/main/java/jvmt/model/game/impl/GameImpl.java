@@ -8,8 +8,6 @@ import jvmt.model.game.api.Game;
 import jvmt.model.game.api.GameSettings;
 import jvmt.model.leaderboard.api.Leaderboard;
 import jvmt.model.leaderboard.impl.LeaderboardImpl;
-import jvmt.model.player.api.LogicCpu;
-import jvmt.model.player.impl.LogicCpuImpl;
 import jvmt.model.round.api.Round;
 import jvmt.model.round.impl.RoundImpl;
 import jvmt.model.round.impl.roundeffect.RoundEffectImpl;
@@ -25,19 +23,18 @@ import jvmt.model.round.impl.roundeffect.RoundEffectImpl;
 public class GameImpl implements Game {
 
     private final GameSettings settings;
-    private final LogicCpu logicCpu;
     private int currentRound;
 
     /**
      * Constructor of the method.
      * 
-     * @throws NullPointerException if {@link settings} is null.
-     * 
      * @param settings the game's settings.
+     * 
+     * @throws NullPointerException if @param settings is null.
      */
     public GameImpl(final GameSettings settings) {
-        this.settings = Objects.requireNonNull(settings);
-        this.logicCpu = new LogicCpuImpl(Objects.requireNonNull(settings));
+        Objects.requireNonNull(settings);
+        this.settings = settings;
     }
 
     /**
@@ -50,6 +47,8 @@ public class GameImpl implements Game {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if there are no more rounds.
      */
     @Override
     public Round next() {
@@ -67,6 +66,8 @@ public class GameImpl implements Game {
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if there are still rounds to do.
      */
     @Override
     public Leaderboard getLeaderboard() {
@@ -82,14 +83,6 @@ public class GameImpl implements Game {
     @Override
     public int getCurrentRoundNumber() {
         return this.currentRound;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public LogicCpu getLogicCpu() {
-        return this.logicCpu;
     }
 
     /**

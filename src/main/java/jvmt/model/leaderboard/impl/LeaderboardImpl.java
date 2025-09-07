@@ -21,7 +21,7 @@ public class LeaderboardImpl implements Leaderboard {
     private final List<PlayerInRound> listPlayers;
 
     /**
-     * Saves the list of players that played in a game.
+     * Constructor of the class.
      * 
      * @throws NullPointerException if {@link listPlayers} is null.
      * 

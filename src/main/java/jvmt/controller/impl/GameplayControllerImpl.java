@@ -14,9 +14,9 @@ import jvmt.controller.api.GameAwarePageController;
 import jvmt.controller.api.GameplayController;
 import jvmt.model.card.api.Card;
 import jvmt.model.game.api.Game;
+import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
 import jvmt.model.player.impl.PlayerCpu;
-import jvmt.model.player.impl.PlayerInRound;
 import jvmt.model.round.api.Round;
 import jvmt.model.round.api.RoundPlayersManager;
 import jvmt.model.round.api.RoundState;
@@ -53,31 +53,28 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      * @param page              the page that this controller handles.
      * @param navigator         the navigator used to go to other pages.
      * @param game              the round iterator of the game.
-     * @param leaderboardSetter the runnable for starting the leaderboard when the
-     *                          game ends.
+     * @param leaderboardSetter the operation for creating the leaderboard
+     *                          controller
+     *                          after the game ends.
      */
     public GameplayControllerImpl(final Page page,
             final PageNavigator navigator,
             final Game game,
             final Runnable leaderboardSetter) {
-
         super(
                 Objects.requireNonNull(page),
                 Objects.requireNonNull(navigator),
                 Objects.requireNonNull(game));
-
         this.leaderboardSetter = Objects.requireNonNull(leaderboardSetter);
 
         if (!game.hasNext()) {
             throw new IllegalStateException("You can't start the game with 0 rounds!");
         }
-
         this.currentRound = game.next();
 
         if (!this.currentRound.hasNext()) {
             throw new IllegalStateException("You can't play the game with 0 turns!");
         }
-
         this.currentTurn = this.currentRound.next();
     }
 
@@ -168,7 +165,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
                 .getRoundPlayersManager()
                 .getActivePlayers()
                 .stream()
-                .map(p -> p.getName())
+                .map(Player::getName)
                 .toList();
     }
 
@@ -181,7 +178,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
                 .getRoundPlayersManager()
                 .getExitedPlayers()
                 .stream()
-                .map(p -> p.getName())
+                .map(Player::getName)
                 .toList();
     }
 
@@ -230,24 +227,30 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      */
     @Override
     public void executeDecisionPhase(final Window toBlockWindow) {
-        if (!this.canRoundContinue()) {
+        Objects.requireNonNull(toBlockWindow);
+        if (!this.canRoundContinue()) { // If the round is over the decision phase won't be executed.
             return;
         }
         final RoundState state = this.currentRound.getState();
         final RoundPlayersManager pManager = state.getRoundPlayersManager();
-        final List<PlayerInRound> activePlayers = pManager.getActivePlayers();
-        final Set<PlayerInRound> exitingThisTurn = new HashSet<>();
-        for (final PlayerInRound player : activePlayers) {
+        final List<Player> activePlayers = pManager.getActivePlayers();
+        final Set<Player> exitingThisTurn = new HashSet<>();
+        for (final Player player : activePlayers) {
+            Objects.requireNonNull(player);
             if (player instanceof final PlayerCpu playerCpu) {
-                playerCpu.choose(state);
+                // If the player is a CPU, his choice is automatically made.
+                playerCpu.chooseCpu(state);
             } else {
+                // If the player is not a CPU, a choice window will appear for him to make his
+                // choice.
                 final Modal<PlayerChoice> choiceModal = new SwingPlayerChoiceModal(
-                        (SwingWindow) Objects.requireNonNull(toBlockWindow),
+                        (SwingWindow) toBlockWindow,
                         player.getName());
                 choiceModal.waitUserInput();
                 player.choose(choiceModal.getUserInput());
             }
             if (player.getChoice() == PlayerChoice.EXIT) {
+                // Adding the players that chose EXIT in a list.
                 exitingThisTurn.add(player);
             }
         }
@@ -276,10 +279,13 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      */
     @Override
     public void advance() {
+        // If the round can't continue and there are more rounds to play, a new round is
+        // created.
         if (!this.currentRound.hasNext() && this.getGame().hasNext()) {
             this.currentRound.endRound();
             this.currentRound = this.getGame().next();
         }
+        // If the round can continue a new turn is created.
         if (this.currentRound.hasNext()) {
             this.currentTurn = this.currentRound.next();
         }

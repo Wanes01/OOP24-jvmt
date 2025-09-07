@@ -17,66 +17,92 @@ import jvmt.view.window.api.Window;
 public interface GameplayController {
 
     /**
+     * Getter for the current player's name.
+     * 
      * @return the current player's name.
      */
     String getCurrentPlayerName();
 
     /**
+     * Getter for the current player's chest gems.
+     * 
      * @return the current player's chest gems.
      */
     int getCurrentPlayerChestGems();
 
     /**
+     * Getter for the current player's sack gems.
+     * 
      * @return the current player's sack gems.
      */
     int getCurrentPlayerSackGems();
 
     /**
+     * Getter for the current turn number.
+     * 
      * @return the current turn number.
      */
     int getCurrentTurnNumber();
 
     /**
+     * Getter for the current round number.
+     * 
      * @return the current round number.
      */
     int getCurrentRoundNumber();
 
     /**
-     * @return the number of current redeemable relics.
+     * Getter for the current redeemable relics.
+     * 
+     * @return the number of the current redeemable relics.
      */
     int getRedeemableRelicsNumber();
 
     /**
+     * Getter for the current path gems.
+     * 
      * @return the current path gems.
      */
     int getPathGems();
 
     /**
+     * Getter for the game's gem modifier description.
+     * 
      * @return the game's gem modifier description.
      */
     String getGemModifierDescrition();
 
     /**
+     * Getter for the game's end condition description.
+     * 
      * @return the game's end condition description.
      */
     String getEndConditionDescription();
 
     /**
-     * @return the list of names of the current active players.
+     * Getter for the list of the names of the current active players.
+     * 
+     * @return the list of the names of the current active players.
      */
     List<String> getActivePlayersNames();
 
     /**
-     * @return the list of names of the current exited players.
+     * Getter for the list of the names of the current exited players.
+     * 
+     * @return the list of the names of the current exited players.
      */
     List<String> getExitedPlayersNames();
 
     /**
+     * Getter for the number of drawn cards.
+     * 
      * @return the number of drawn cards.
      */
     int getDrawnCardsNumber();
 
     /**
+     * Getter for the image of the drawn cards.
+     * 
      * @return the image of the drawn card.
      */
     Optional<Image> getDrawnCardImage();
@@ -87,6 +113,8 @@ public interface GameplayController {
     void executeDrawPhase();
 
     /**
+     * Checks if the current player is a CPU.
+     * 
      * @return true if the current player is a CPU and false if not.
      */
     boolean isCurrentPlayerACpu();
@@ -94,24 +122,26 @@ public interface GameplayController {
     /**
      * Executes the turn's decision phase.
      * 
-     * @throws NullPointerException if {@link window} is null.
-     * 
      * @param toBlockWindow the main application window.
+     * 
+     * @throws NullPointerException if @param toBlockWindow is null.
+     * @throws NullPointerException if an active player is null.
      */
     void executeDecisionPhase(Window toBlockWindow);
 
     /**
      * Method for checking if the game can continue.
-     * It checks if another turn or another round exist.
+     * It checks if another turn or another round exists.
      * 
      * @return true if the game can continue or false if not.
      */
     boolean canGameContinue();
 
     /**
-     * Method for checking if the rounds can continue.
+     * Method for checking if the round can continue.
+     * It checks if another turn exists.
      * 
-     * @return true if the rounds can continue or false if not.
+     * @return true if the round can continue or false if not.
      */
     boolean canRoundContinue();
 
@@ -122,10 +152,6 @@ public interface GameplayController {
 
     /**
      * Method that redirects to the Leaderboard page.
-     * Executes the turn's decision phase.
-     * 
-     * @throws NullPointerException if {@link reset} is null.
-     * 
      */
     void goToLeaderboard();
 }

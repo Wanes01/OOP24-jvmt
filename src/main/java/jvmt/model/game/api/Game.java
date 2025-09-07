@@ -4,14 +4,14 @@ import java.util.Iterator;
 
 import jvmt.model.game.impl.GameImpl;
 import jvmt.model.leaderboard.api.Leaderboard;
-import jvmt.model.player.api.LogicCpu;
 import jvmt.model.round.api.Round;
 
 /**
- * Iterator that manages the game's rounds
- * and has all of the game's informations.
+ * Iterator of {@link Round} elements that saves the
+ * informations regarding a game.
  * 
  * @see GameImpl
+ * @see Round
  * @see Iterator
  * 
  * @author Filippo Gaggi
@@ -19,21 +19,22 @@ import jvmt.model.round.api.Round;
 public interface Game extends Iterator<Round> {
 
     /**
+     * Getter for the game's leaderboard.
+     * 
      * @return the end game's leaderboard.
      */
     Leaderboard getLeaderboard();
 
     /**
+     * Getter for the current round number.
+     * 
      * @return the current round number.
      */
     int getCurrentRoundNumber();
 
     /**
-     * @return the game's CPU logic.
-     */
-    LogicCpu getLogicCpu();
-
-    /**
+     * Getter for the game's settings.
+     * 
      * @return the game's settings.
      */
     GameSettings getSettings();

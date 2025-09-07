@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import jvmt.model.player.api.Player;
 import jvmt.model.player.api.PlayerChoice;
 import jvmt.model.player.impl.PlayerInRound;
 
@@ -19,7 +20,7 @@ class PlayerInRoundTest {
 
     private static final String PLAYER_NAME = "TestReal";
     private static final String PLAYER_DIFF_NAME = "TestDiffReal";
-    private PlayerInRound test;
+    private Player test;
 
     @BeforeEach
     void setUp() {

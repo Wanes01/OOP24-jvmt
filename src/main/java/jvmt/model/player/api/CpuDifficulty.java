@@ -8,5 +8,10 @@ package jvmt.model.player.api;
  * @author Filippo Gaggi
  */
 public enum CpuDifficulty {
-    EASY, NORMAL, HARD
+    /** Represents the easy difficulty. */
+    EASY,
+    /** Represents the normal difficulty. */
+    NORMAL,
+    /** Represents the hard difficulty. */
+    HARD
 }
