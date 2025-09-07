@@ -25,11 +25,8 @@ public class Card {
      * @param type      the type of the card
      * @param imagePath the path used to associate the card with the image
      * 
-     * @throws IllegalArgumentException if the path provided does not point to a
-     *                                  valid image file
-     * @throws NullPointerException     if the name or type of the card is null or
-     *                                  if the image URL does not point to a valid
-     *                                  path
+     * @throws NullPointerException if the name or type of the card is null or
+     *                              if the image URL does not point to a valid path
      */
     protected Card(final String name, final TypeCard type, final String imagePath) {
         this.name = Objects.requireNonNull(name, "The name cannot be null.");
@@ -41,6 +38,8 @@ public class Card {
     }
 
     /**
+     * Returns the name of the card.
+     * 
      * @return the name of the card.
      */
     public String getName() {
@@ -48,6 +47,8 @@ public class Card {
     }
 
     /**
+     * Return the type of the card.
+     * 
      * @return the type of the card.
      * 
      * @see TypeCard
@@ -57,15 +58,25 @@ public class Card {
     }
 
     /**
-     * @return the URL of the image resource associated with the card.
+     * Returns the URL of the image resource associated with the card.
+     * 
+     * @return the image URL.
      */
     public URL getImagePath() {
         return this.imageUrl;
     }
 
     /**
+     * <<<<<<< HEAD
+     * 
      * @return a string representation of the card including: the name, type, and
      *         path of the card image
+     *         =======
+     *         Returns a string representation of the card including: the name, type
+     *         and path of the card image.
+     * 
+     * @return a string representation of the card
+     *         >>>>>>> controller-settings
      */
     @Override
     public String toString() {

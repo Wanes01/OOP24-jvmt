@@ -28,8 +28,8 @@ class TreasureCardTest {
     // Verification of getter methods for treasure cards.
     @Test
     void correctGetterTreasureCard() {
-        final TreasureCard treasureCard = new TreasureCard("5 gems", 5);
         final int expectedGems = 5;
+        final TreasureCard treasureCard = new TreasureCard("5 gems", expectedGems);
 
         assertEquals("5 gems", treasureCard.getName());
         assertEquals(TypeCard.TREASURE, treasureCard.getType());

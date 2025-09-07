@@ -6,5 +6,15 @@ package jvmt.model.card.api;
  * @author Andrea La Tosa
  */
 public enum TypeCard {
-    TREASURE, TRAP, RELIC, SPECIAL
+    /** Represents a treasure card type. */
+    TREASURE,
+
+    /** Represents a trap card type. */
+    TRAP,
+
+    /** Represents a relic card type. */
+    RELIC,
+
+    /** Represents a special card type. */
+    SPECIAL
 }

@@ -27,7 +27,14 @@ public class SwingHomePage extends SwingPage {
 
     private static final URL LOGO_IMAGE_PATH = SwingHomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
 
+    /** The button that provides access to the game configuration settings.
+        <p>
+        When clicked, it navigates the user to the game configuration page,
+        which must be completed correctly before starting a new game session.
+        </p>  */
     private final JButton btnStartGame;
+
+    /** The label that displays the logo image, if loaded successfully. */
     private ImageLabel labelLogo;
 
     /**
@@ -68,6 +75,7 @@ public class SwingHomePage extends SwingPage {
      * Attempts to load an image from the specified URL.
      * 
      * @param urlImage the URL of the image to load
+     * 
      * @return an Optional containing the loaded Image,
      *         or an empty Optional if the image could not be loaded
      */

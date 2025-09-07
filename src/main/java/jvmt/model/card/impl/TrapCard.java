@@ -32,13 +32,14 @@ public final class TrapCard extends Card {
     private final TypeTrapCard typeTrap;
 
     /**
-     * Creates a new Trap card.
+     * Creates a new TrapCard.
      * The image path is automatically derived from the trap type.
      * 
      * @param name     the name of the card
      * @param typeTrap the type of trap card to create
      * 
-     * @throws NullPointerException if null is passed to the typeTrap parameter
+     * @throws NullPointerException if null is passed to the {@code typeTrap} or
+     *                              {@code name} parameter
      */
     public TrapCard(final String name, final TypeTrapCard typeTrap) {
         super(
@@ -49,7 +50,9 @@ public final class TrapCard extends Card {
     }
 
     /**
-     * @return the type of trap associated with this card
+     * Returns the type of trap associated with this card.
+     * 
+     * @return the trap type of this card
      */
     public TypeTrapCard getTypeTrap() {
         return this.typeTrap;
@@ -57,8 +60,8 @@ public final class TrapCard extends Card {
 
     /**
      * Compare this item with the specified item to verify that they are the same.
-     * Two TrapeCards are considered the same if they have the type value and type
-     * trap card.
+     * Two TrapCard are considered equal if they have the same:
+     * type value ({@code getType()}) and type trap card ({@code getTypeTrap()}).
      * 
      * @param obj the object to compare with this one
      * 
@@ -90,7 +93,7 @@ public final class TrapCard extends Card {
     }
 
     /**
-     * @return Returns a representation of the trap card including:
+     * @return a representation of the trap card including:
      *         the name, card type, trap type, and path to the card image.
      */
     @Override

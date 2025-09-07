@@ -14,6 +14,12 @@ import jvmt.model.card.api.TypeTrapCard;
  */
 public final class DeckFactoryImpl implements DeckFactory {
 
+    /** Default constructor. */
+    public DeckFactoryImpl() { }    
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck standardDeck() {
         // In this map, the key represent the gems of the card to be created
@@ -53,7 +59,7 @@ public final class DeckFactoryImpl implements DeckFactory {
         }
 
         // adds relic cards to the deck.
-        deckBuilder.addMultipleRelicCard(numberRelicStandardDeck);
+        deckBuilder.addMultipleRelic(numberRelicStandardDeck);
 
         // shuffle the cards in the deck.
         deckBuilder.shuffle();
@@ -61,9 +67,11 @@ public final class DeckFactoryImpl implements DeckFactory {
         return deckBuilder.build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Deck specialDeck() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'specialDeck'");
     }
 

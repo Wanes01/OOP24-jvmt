@@ -15,41 +15,40 @@ import jvmt.model.round.api.roundeffect.gemmodifier.GemModifier;
  */
 public interface SettingsController {
 
-    /**
-     * If the settings are valid, it applies them using the consumer
-     * {@code settingsSetter} and returns {@code true}.
-     * Otherwise, it logs errors in the settings and returns {@code false}.
-     * 
-     * @param listPlayersName the list composed of the players' names
-     * @param numCpu          the number of CPUs to use in the game
-     * @param deck            the type of deck to use during the game
-     * @param endCondition    the end condition of the rounds
-     * @param gemModifier     the gem modifier applied to the game
-     * @param cpuDifficulty   the difficulty level of all CPUs in the game
-     * @param nRound          the number of rounds in the game
-     * 
-     * @return the result of the settings check
-     */
-    boolean areGameSettingOK(
-            List<String> listPlayersName,
-            int numCpu,
-            Deck deck,
-            EndCondition endCondition,
-            GemModifier gemModifier,
-            CpuDifficulty cpuDifficulty,
-            int nRound);
+     /**
+      * If the settings are valid returns {@code true},
+      * otherwise, it logs errors in the settings and returns {@code false}.
+      * 
+      * @param listPlayersName the list composed of the players' names
+      * @param numCpu          the number of CPUs to use in the game
+      * @param deck            the type of deck to use during the game
+      * @param endCondition    the end condition of the rounds
+      * @param gemModifier     the gem modifier applied to the game
+      * @param cpuDifficulty   the difficulty level of all CPUs in the game
+      * @param nRound          the number of rounds in the game
+      * 
+      * @return the result of the settings check
+      */
+     boolean areGameSettingOK(
+               List<String> listPlayersName,
+               int numCpu,
+               Deck deck,
+               EndCondition endCondition,
+               GemModifier gemModifier,
+               CpuDifficulty cpuDifficulty,
+               int nRound);
 
-    /**
-     * If errors are encountered while entering settings to configure the game,
-     * this method can be used to obtain a list of those errors.
-     * 
-     * @return the list of errors in the settings, if any
-     */
-    Optional<List<String>> getErrors();
+     /**
+      * If errors are encountered while entering settings to configure the game,
+      * this method can be used to obtain a list of those errors.
+      * 
+      * @return the list of errors in the settings, if any
+      */
+     Optional<List<String>> getErrors();
 
-    /**
-     * Navigates to the gameplay view.
-     */
-    void goToGamePlayPage();
+     /**
+      * Navigates to the gameplay view.
+      */
+     void goToGamePlayPage();
 
 }

@@ -17,7 +17,7 @@ public enum TypeDeck {
 
     /**
      * Creates and returns a new {@link Deck} based on this deck type.
-     * This method delegates the creation of a deck to {@link DeckFactory}.
+     * This method delegates the creation of the deck to {@link DeckFactory}.
      * 
      * @return a new {@code Deck} instance corresponding to the selected type
      */

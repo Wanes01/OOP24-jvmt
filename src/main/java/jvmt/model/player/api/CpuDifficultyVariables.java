@@ -19,11 +19,11 @@ import jvmt.model.player.impl.LogicCpuImpl;
  * @author Filippo Gaggi
  */
 public record CpuDifficultyVariables(
-                double weightGems,
-                double weightTraps,
-                double weightCards,
-                double weightRelics,
-                double weightPlayers,
-                double minBl,
-                double maxBl) {
+        double weightGems,
+        double weightTraps,
+        double weightCards,
+        double weightRelics,
+        double weightPlayers,
+        double minBl,
+        double maxBl) {
 }

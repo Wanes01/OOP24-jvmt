@@ -19,21 +19,19 @@ public interface DeckBuilder {
      * with methods for using it and related statistics.
      * 
      * @return a Deck implementation
-     * 
-     * @author Andrea La Tosa
      */
     Deck build();
 
     /**
      * Adds a single trap to the deck of the specified type.
      * 
-     * @param type the type of trap to add to the deck
+     * @param typeTrap the type of trap to add to the deck
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
      * @throws NullPointerException if {@code typeTrap} is null
      */
-    DeckBuilder addTrap(TypeTrapCard type);
+    DeckBuilder addTrap(TypeTrapCard typeTrap);
 
     /**
      * Adds the number of trap cards to the deck,
@@ -45,7 +43,7 @@ public interface DeckBuilder {
      * @return DeckBuilder to follow the builder pattern
      * 
      * @throws NullPointerException     if {@code typeTrap} is null
-     * @throws IllegalArgumentException if numtrap is <= 0
+     * @throws IllegalArgumentException if {@code numTrap} is less or equal to zero
      */
     DeckBuilder addMultipleTrap(TypeTrapCard typeTrap, int numTrap);
 
@@ -58,7 +56,9 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if gemValue is <= 0
+     * @throws IllegalArgumentException if {@code gemValue} is less or equal to zero
+     *                                  or the value of {@code gemValue} is not
+     *                                  acceptable
      */
     DeckBuilder addTreasure(int gemValue);
 
@@ -72,7 +72,11 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if gemValue or numTreasure are <= 0
+     * @throws IllegalArgumentException if {@code gemValue} or {@code numTreasure}
+     *                                  is less or equal to zero
+     *                                  or the value of {@code gemValue} is not
+     *                                  acceptable
+     * 
      */
     DeckBuilder addMultipleTreasure(int gemValue, int numTreasure);
 
@@ -90,9 +94,9 @@ public interface DeckBuilder {
      * 
      * @return DeckBuilder to follow the builder pattern
      * 
-     * @throws IllegalArgumentException if numRelic is <= 0
+     * @throws IllegalArgumentException if {@code numRelic} is less or equal to zero
      */
-    DeckBuilder addMultipleRelicCard(int numRelic);
+    DeckBuilder addMultipleRelic(int numRelic);
 
     /**
      * Shuffle the cards in the deck.

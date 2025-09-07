@@ -18,14 +18,16 @@ public interface DeckFactory {
      * <li>15 treasure cards</li>
      * </ul>
      * 
-     * @return a new instance of DeckImpl
+     * @return a standard deck
      */
     Deck standardDeck();
 
     /**
-     * Unimplemented method 'specialDeck'.
+     * Create the special configuration of the deck.
+     * This configuration uses special card.
      * 
-     * @return a new instance of DeckImpl
+     * @return a special deck
      */
     Deck specialDeck();
+
 }

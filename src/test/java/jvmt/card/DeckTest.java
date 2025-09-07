@@ -82,10 +82,10 @@ class DeckTest {
     // and that the card has been removed from the deck.
     @Test
     void nextCardNotNull() {
-        final int deckSize = deck.numberOfRemainingCards();
+        final int actualDeckSize = deck.numberOfRemainingCards();
         final Card nextCard = deck.next();
         assertNotNull(nextCard, "The card drawn must not be null.");
-        assertEquals(deck.numberOfRemainingCards(), deckSize - 1);
+        assertEquals(deck.numberOfRemainingCards(), actualDeckSize - 1);
     }
 
     // Check if the exception NoSuchElementException is thrown

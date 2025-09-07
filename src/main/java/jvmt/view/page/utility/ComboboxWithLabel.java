@@ -33,7 +33,9 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
 
     private static final int MAX_CHARACTERS = 40;
 
+    /** The panel containing the descriptive label and the combobox. */
     private final JPanel panel;
+    /** The label describing the contents of the combobox. */
     private final JLabel lbl;
 
     /**
@@ -94,27 +96,35 @@ public final class ComboboxWithLabel<T> extends JComboBox<T> {
     }
 
     /**
-     * @return the panel containing the label and combobox.
+     * Returns the panel containing the label and combobox.
+     * 
+     * @return the panel.
      */
     public JPanel getPanel() {
         return this.panel;
     }
 
     /**
-     * @return the combobox added to panel.
+     * Returns the combobox added to panel.
+     * 
+     * @return the combobox.
      */
     public JComboBox<T> getComboBox() {
         return this;
     }
 
     /**
-     * @return the label added to the panel.
+     * Returns the label added to the panel.
+     * 
+     * @return the label.
      */
     public JLabel getLabel() {
         return this.lbl;
     }
 
     /**
+     * Returns the selected item in the combobox.
+     * 
      * @return the selected item in the combobox.
      */
     @Override

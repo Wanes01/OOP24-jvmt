@@ -34,11 +34,11 @@ public final class DeckImpl implements Deck {
      * 
      * @param deck the deck to use
      * 
-     * @throws NullPointerException if null is passed to the deck parameter
+     * @throws NullPointerException if null is passed to the {@code deck} parameter
      */
     public DeckImpl(final List<Card> deck) {
         this.deck = new ArrayList<>(
-                Objects.requireNonNull(deck, "Deck must not be null"));
+                Objects.requireNonNull(deck, "deck must not be null"));
         this.initialDeckSize = deck.size();
         totTrapTypes = EnumSet.noneOf(TypeTrapCard.class);
         calculateStatistics();
@@ -88,10 +88,10 @@ public final class DeckImpl implements Deck {
     }
 
     /**
+     * @return the next card that must be drawn by removing it from the deck.
+     * 
      * @throws NoSuchElementException if a card is requested but the deck has no
      *                                cards.
-     * 
-     * @return the next card that must be drawn by removing it from the deck.
      */
     @Override
     public Card next() {

@@ -21,6 +21,9 @@ public class DeckBuilderImpl implements DeckBuilder {
     // This variable prevents changes from being made after the build() call
     private boolean isBuilt;
 
+    /** Default constructor. */
+    public DeckBuilderImpl() { }
+
     /**
      * {@inheritDoc}
      */
@@ -117,7 +120,7 @@ public class DeckBuilderImpl implements DeckBuilder {
      * {@inheritDoc}
      */
     @Override
-    public DeckBuilder addMultipleRelicCard(final int numRelic) {
+    public DeckBuilder addMultipleRelic(final int numRelic) {
         checkNotBuilt();
 
         if (numRelic <= 0) {
