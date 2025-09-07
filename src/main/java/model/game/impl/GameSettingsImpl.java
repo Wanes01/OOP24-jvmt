@@ -76,7 +76,6 @@ public class GameSettingsImpl implements GameSettings {
      */
     private static final int MAX_PLAYERS_NAME_CHR = 12;
 
-    private final List<String> listNamePlayers;
     private final int numberOfCpu;
     private final int numberRealPlayers;
     private final int totalNumberOfPlayers;
@@ -85,19 +84,18 @@ public class GameSettingsImpl implements GameSettings {
     private final GemModifier gemModifier;
     private final CpuDifficulty cpuDifficulty;
     private final int nRounds;
+    /**
+     * List of strings that contain the players' names.
+     */
+    private final List<String> listNamePlayers;
+    /**
+     * List of PlayerInRound that contain the players.
+     */
     private final List<PlayerInRound> players;
 
     /**
      * Constructor of the method, creates the list of players of the game after
      * making sure the game settings are acceptable.
-     * 
-     * @throws NullPointerException if {@link listNamePlayers} is null.
-     * @throws NullPointerException if {@link deck} is null.
-     * @throws NullPointerException if {@link endCondition} is null.
-     * @throws NullPointerException if {@link gemModifier} is null.
-     * @throws NullPointerException if {@link cpuDifficulty} is null.
-     * @throws InvalidGameSettingsException if {@link error} isn't empty
-     *         (the settings aren't acceptable).
      * 
      * @param listNamePlayers   the list of the players' names.
      * @param numberOfCpu       the number of CPU players.
@@ -106,6 +104,14 @@ public class GameSettingsImpl implements GameSettings {
      * @param gemModifier       the chosen gem modifier.
      * @param cpuDifficulty     the chosen difficulty of the CPUs.
      * @param nRound            the chosen number of rounds.
+     * 
+     * @throws NullPointerException if @param listNamePlayers is null.
+     * @throws NullPointerException if @param deck is null.
+     * @throws NullPointerException if @param endCondition is null.
+     * @throws NullPointerException if @param gemModifier is null.
+     * @throws NullPointerException if @param cpuDifficulty is null.
+     * @throws InvalidGameSettingsException if the list of errors isn't empty
+     *                                      (the settings aren't acceptable).
      */
     public GameSettingsImpl(final List<String> listNamePlayers,
         final int numberOfCpu,
@@ -242,6 +248,8 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
+     * Method for checking if the longest player name doesn't exceed MAX_PLAYERS_NAME_CHR.
+     * 
      * @return  true if the longest player name doesn't exceed MAX_PLAYERS_NAME_CHR,
      *          false if not.
      */
@@ -254,6 +262,8 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
+     * Method for checking if the number of rounds doesn't exceed MAX_ROUNDS.
+     * 
      * @return  true if the number of rounds doesn't exceed MAX_ROUNDS,
      *          false if not.
      */
@@ -262,6 +272,8 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
+     * Method for checking if the number of players doesn't exceed MAX_PLAYERS.
+     * 
      * @return  true if the number of players doesn't exceed MAX_PLAYERS,
      *          false if not.
      */
@@ -270,6 +282,8 @@ public class GameSettingsImpl implements GameSettings {
     }
 
     /**
+     * Method for checking if the number of players isn't inferior to MIN_PLAYERS.
+     * 
      * @return  true if the number of players isn't inferior to MIN_PLAYERS,
      *          false if not.
      */
