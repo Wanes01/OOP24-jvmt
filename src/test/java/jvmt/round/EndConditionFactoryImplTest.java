@@ -45,33 +45,6 @@ class EndConditionFactoryImplTest {
         this.state = new RoundStateImpl(players, deck);
     }
 
-    /**
-     * Draws cards from this round's deck until {@code toComply}
-     * condition is satisfied. Each card gets added to the round state
-     * and it is asserted that {@code endCondition} is not yet satisfied
-     * before {@code toComply} is met.
-     * Once {@code toComply} returns true, it is asserted that {@code endCondition}
-     * is satisfied.
-     * 
-     * @param endCondition the end condition to test.
-     * @param toComply     a predicate that defines when to stop drawing from the
-     *                     deck.
-     */
-    private void drawTillComplies(
-            EndCondition endCondition,
-            Predicate<Card> toComply) {
-        final Deck deck = this.state.getDeck();
-        while (deck.hasNext()) {
-            final Card card = deck.next();
-            this.state.addCardToPath(card);
-            if (toComply.test(card)) {
-                break;
-            }
-            assertFalse(endCondition.getEndCondition().test(this.state));
-        }
-        assertTrue(endCondition.getEndCondition().test(this.state));
-    }
-
     @Test
     void testStandardEndCondition() {
         final EndCondition standard = this.factory.standard();
@@ -112,5 +85,32 @@ class EndConditionFactoryImplTest {
 
         assertEquals(target, relics.get());
         assertEquals(target, this.state.getDrawnRelics().size());
+    }
+
+    /**
+     * Draws cards from this round's deck until {@code toComply}
+     * condition is satisfied. Each card gets added to the round state
+     * and it is asserted that {@code endCondition} is not yet satisfied
+     * before {@code toComply} is met.
+     * Once {@code toComply} returns true, it is asserted that {@code endCondition}
+     * is satisfied.
+     * 
+     * @param endCondition the end condition to test.
+     * @param toComply     a predicate that defines when to stop drawing from the
+     *                     deck.
+     */
+    private void drawTillComplies(
+            final EndCondition endCondition,
+            final Predicate<Card> toComply) {
+        final Deck deck = this.state.getDeck();
+        while (deck.hasNext()) {
+            final Card card = deck.next();
+            this.state.addCardToPath(card);
+            if (toComply.test(card)) {
+                break;
+            }
+            assertFalse(endCondition.getEndCondition().test(this.state));
+        }
+        assertTrue(endCondition.getEndCondition().test(this.state));
     }
 }

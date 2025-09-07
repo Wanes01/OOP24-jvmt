@@ -32,7 +32,7 @@ public interface Round extends Iterator<Turn>, Describable {
      * @return true if another turn can be played, false otherwise.
      */
     @Override
-    public boolean hasNext();
+    boolean hasNext();
 
     /**
      * Returns the next {@link Turn} to be played.
@@ -41,7 +41,7 @@ public interface Round extends Iterator<Turn>, Describable {
      *                                played.
      */
     @Override
-    public Turn next();
+    Turn next();
 
     /**
      * {@inheritDoc}

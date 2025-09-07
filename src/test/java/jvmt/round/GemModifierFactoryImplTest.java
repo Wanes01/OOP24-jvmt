@@ -43,39 +43,6 @@ class GemModifierFactoryImplTest {
         this.state = new RoundStateImpl(players, deck);
     }
 
-    /**
-     * General method for testing gem modifiers. Draws all cards from the deck. If a
-     * drawn card has an associated gem value, applys the {@code expected} function
-     * to compute the expected gem value returned by the modifier. Possible
-     * operations to be performed on cards without gems can be specified in the
-     * consumer {@code action}.
-     *
-     * @param expected a function that maps an integer to an integer
-     *                 ({@link UnaryOperator}), namely the
-     *                 function to compute the expected gems returned by the
-     *                 {@code modifier}
-     * @param action   a {@link Consumer} to specify an action to do if the drawn
-     *                 card doesn't have gems.
-     * @param modifier the modier to be applied to gem cards.
-     */
-    private void forEachGemCardCheckExpected(
-            final UnaryOperator<Integer> expected,
-            final Consumer<Card> action,
-            final GemModifier modifier) {
-        final Deck deck = this.state.getDeck();
-        while (deck.hasNext()) {
-            final Card card = deck.next();
-            if (card instanceof CardWithGem) {
-                final CardWithGem gemCard = (CardWithGem) card;
-                final int expectedGems = expected.apply(gemCard.getGemValue());
-                final int actualGems = modifier.getGemModifier().apply(state, gemCard.getGemValue());
-                assertEquals(expectedGems, actualGems);
-            } else {
-                action.accept(card);
-            }
-        }
-    }
-
     @Test
     void testStandardGemModifier() {
         final GemModifier standard = factory.standard();
@@ -127,6 +94,39 @@ class GemModifierFactoryImplTest {
                     gems -> gems + (pm.getExitedPlayers().size() * bonus),
                     card -> {
                     }, leftReward);
+        }
+    }
+
+    /**
+     * General method for testing gem modifiers. Draws all cards from the deck. If a
+     * drawn card has an associated gem value, applys the {@code expected} function
+     * to compute the expected gem value returned by the modifier. Possible
+     * operations to be performed on cards without gems can be specified in the
+     * consumer {@code action}.
+     *
+     * @param expected a function that maps an integer to an integer
+     *                 ({@link UnaryOperator}), namely the
+     *                 function to compute the expected gems returned by the
+     *                 {@code modifier}
+     * @param action   a {@link Consumer} to specify an action to do if the drawn
+     *                 card doesn't have gems.
+     * @param modifier the modier to be applied to gem cards.
+     */
+    private void forEachGemCardCheckExpected(
+            final UnaryOperator<Integer> expected,
+            final Consumer<Card> action,
+            final GemModifier modifier) {
+        final Deck deck = this.state.getDeck();
+        while (deck.hasNext()) {
+            final Card card = deck.next();
+            if (card instanceof CardWithGem) {
+                final CardWithGem gemCard = (CardWithGem) card;
+                final int expectedGems = expected.apply(gemCard.getGemValue());
+                final int actualGems = modifier.getGemModifier().apply(state, gemCard.getGemValue());
+                assertEquals(expectedGems, actualGems);
+            } else {
+                action.accept(card);
+            }
         }
     }
 }
