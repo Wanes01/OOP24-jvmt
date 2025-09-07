@@ -8,8 +8,6 @@ import model.game.api.Game;
 import model.game.api.GameSettings;
 import model.leaderboard.api.Leaderboard;
 import model.leaderboard.impl.LeaderboardImpl;
-import model.player.api.LogicCpu;
-import model.player.impl.LogicCpuImpl;
 import model.round.api.Round;
 import model.round.impl.RoundImpl;
 import model.round.impl.roundeffect.RoundEffectImpl;
@@ -25,20 +23,18 @@ import model.round.impl.roundeffect.RoundEffectImpl;
 public class GameImpl implements Game {
 
     private final GameSettings settings;
-    private final LogicCpu logicCpu;
     private int currentRound;
 
     /**
      * Constructor of the method.
      * 
-     * @throws NullPointerException if {@link settings} is null.
-     * 
      * @param settings  the game's settings.
+     * 
+     * @throws NullPointerException if @param settings is null.
      */
     public GameImpl(final GameSettings settings) {
         Objects.requireNonNull(settings);
         this.settings = settings;
-        this.logicCpu = new LogicCpuImpl(settings);
     }
 
     /**
@@ -87,14 +83,6 @@ public class GameImpl implements Game {
     @Override
     public int getCurrentRoundNumber() {
         return this.currentRound;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public LogicCpu getLogicCpu() {
-        return this.logicCpu;
     }
 
     /**

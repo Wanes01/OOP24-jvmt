@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import model.game.impl.GameImpl;
 import model.leaderboard.api.Leaderboard;
-import model.player.api.LogicCpu;
 import model.round.api.Round;
 
 /**
@@ -20,21 +19,22 @@ import model.round.api.Round;
 public interface Game extends Iterator<Round> {
 
     /**
+     * Getter for the game's leaderboard.
+     * 
      * @return  the end game's leaderboard.
      */
     Leaderboard getLeaderboard();
 
     /**
+     * Getter for the current round number.
+     * 
      * @return  the current round number.
      */
     int getCurrentRoundNumber();
 
     /**
-     * @return  the game's CPU logic.
-     */
-    LogicCpu getLogicCpu();
-
-    /**
+     * Getter for the game's settings.
+     * 
      * @return  the game's settings.
      */
     GameSettings getSettings();
