@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
@@ -57,38 +56,87 @@ public class SwingGameplayPage extends SwingPage {
     private static final int WAIT_TIME_MILLIS = 1000;
 
     private static final long serialVersionUID = 1L;
-    private static final int CARDS_GAP = 2;
     private static final int CARDS_PER_ROW = 5;
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
     private static final int MAX_LINE_LENGTH = 14;
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 
+    /**
+     * JLablel containing the round number.
+     */
     private final JLabel roundNumber = new JLabel();
+    /**
+     * JLablel containing the turn number.
+     */
     private final JLabel turnNumber = new JLabel();
+    /**
+     * JLablel containing the number of cards in the path.
+     */
     private final JLabel pathCardsNumber = new JLabel();
+    /**
+     * JLablel containing the number of redeemable relics in the path.
+     */
     private final JLabel redeemableRelics = new JLabel();
+    /**
+     * JLablel containing the number of gems in the path.
+     */
     private final JLabel pathGems = new JLabel();
+    /**
+     * JLablel containing the current player's name.
+     */
     private final JLabel playerName = new JLabel();
+    /**
+     * JLablel containing the current player's sack gems.
+     */
     private final JLabel sackGems = new JLabel();
+    /**
+     * JLablel containing the current player's chest gems.
+     */
     private final JLabel chestGems = new JLabel();
+    /**
+     * JLablel containing the game's end condition description.
+     */
     private final JLabel endConditionDescription = new JLabel();
+    /**
+     * JLablel containing the game's gem modifier description.
+     */
     private final JLabel gemModifierDescription = new JLabel();
-    private DefaultListModel<String> activePlayers;
-    private DefaultListModel<String> exitedPlayers;
-
+    /**
+     * JButton for drawing a card.
+     */
     private final JButton drawBtn = new JButton("DRAW");
-    private final SwingWindow toBlockWindow;
+    /**
+     * JPanel that contains the path info.
+     */
     private final JPanel pathInfo = new JPanel();
+    /**
+     * JPanel that contains the cards images.
+     */
     private JPanel cardsContainer = new JPanel();
+    /**
+     * List of PlayerInRound that contain the active players.
+     */
+    private DefaultListModel<String> activePlayers;
+    /**
+     * List of PlayerInRound that contain the exited players.
+     */
+    private DefaultListModel<String> exitedPlayers;
+    /**
+     * SwingWindow that represents the main application window.
+     */
+    private final SwingWindow toBlockWindow;
+    /**
+     * The GridBagContraints that contains the grid's informations.
+     */
     private GridBagConstraints gbc;
 
     /**
      * Main panel of the gameplay page.
      * 
-     * @throws NullPointerException if {@link window} is null.
-     * 
      * @param toBlockWindow the main application window.
+     * 
+     * @throws NullPointerException if @param toBlockWindow is null.
      */
     public SwingGameplayPage(final SwingWindow toBlockWindow) {
         Objects.requireNonNull(toBlockWindow);
@@ -114,9 +162,9 @@ public class SwingGameplayPage extends SwingPage {
      * Panel which contains the informations of the game's current turn and player
      * and the button for drawing a card.
      * 
-     * @throws NullPointerException if {@link boxBorder} is null.
-     * 
      * @param boxBorder the border used for the JPanels.
+     * 
+     * @throws NullPointerException if @param boxBorder is null.
      * 
      * @return  the panel itself.
      */
@@ -183,7 +231,6 @@ public class SwingGameplayPage extends SwingPage {
         this.gbc = new GridBagConstraints();
 
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(CARDS_GAP, CARDS_GAP, CARDS_GAP, CARDS_GAP);
         gbc.gridx = CARDS_PER_ROW;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
@@ -207,9 +254,9 @@ public class SwingGameplayPage extends SwingPage {
     /**
      * Panel which contains the list of active and exited players.
      * 
-     * @throws NullPointerException if {@link boxBorder} is null.
-     * 
      * @param boxBorder the border used for the JPanels.
+     * 
+     * @throws NullPointerException if @param boxBorder is null.
      * 
      * @return  the panel itself.
      */
@@ -259,13 +306,13 @@ public class SwingGameplayPage extends SwingPage {
     /**
      * Method that adds the image of the drawn card in the cards container.
      * 
-     * @throws NullPointerException if {@link gameplayCtrl} is null.
-     * 
      * @param gameplayCtrl  the gameplay controller.
+     * 
+     * @throws NullPointerException if @param gameplayCtrl is null.
      */
     private void addCardToPath(final GameplayControllerImpl gameplayCtrl) {
         Objects.requireNonNull(gameplayCtrl);
-        final int cardSize = this.cardsContainer.getWidth() / CARDS_PER_ROW - CARDS_GAP * 2;
+        final int cardSize = this.cardsContainer.getWidth() / CARDS_PER_ROW;
         final JLabel labelLogo;
         final Optional<Image> img = gameplayCtrl.getDrawnCardImage();
 
@@ -292,9 +339,9 @@ public class SwingGameplayPage extends SwingPage {
     /**
      * Method that populates the active players list in the GUI.
      * 
-     * @throws NullPointerException if {@link players} is null.
-     * 
      * @param players   list of the names of the active players to add.
+     * 
+     * @throws NullPointerException if @param players is null.
      */
     private void addActivePlayers(final List<String> players) {
         Objects.requireNonNull(players);
@@ -307,9 +354,9 @@ public class SwingGameplayPage extends SwingPage {
     /**
      * Method that populates the exited players list in the GUI.
      * 
-     * @throws NullPointerException if {@link players} is null.
-     * 
      * @param players   list of the names of the exited players to add.
+     * 
+     * @throws NullPointerException if @param players is null.
      */
     private void addExitedPlayers(final List<String> players) {
         Objects.requireNonNull(players);
@@ -323,9 +370,9 @@ public class SwingGameplayPage extends SwingPage {
      * Method for making the CPUs take choices without pressing the draw button
      * if there are any.
      * 
-     * @throws NullPointerException if {@link gameplayCtrl} is null.
-     * 
      * @param gameplayCtrl  the gameplay controller.
+     * 
+     * @throws NullPointerException if @param gameplayCtrl is null.
      */
     private void cpuAutoplay(final GameplayControllerImpl gameplayCtrl) {
         Objects.requireNonNull(gameplayCtrl);
