@@ -39,8 +39,17 @@ public class SwingLeaderboardPage extends SwingPage {
     private static final int CELL_HEIGHT_MARGIN = 3;
     private static final Dimension SCROLLABLE_DIM = new Dimension(400, 200);
     private static final Border BOX_BORDER = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
+    /**
+     * JLablel containing the name of the winner.
+     */
     private final JLabel lblWinner;
+    /**
+     * JButton for redirecting to the home page.
+     */
     private final JButton btnHome;
+    /**
+     * JTable model that contains the leaderboard.
+     */
     private DefaultTableModel leaderboardInfo;
 
     /**
@@ -112,9 +121,9 @@ public class SwingLeaderboardPage extends SwingPage {
     /**
      * Method that fills the leaderboard.
      * 
-     * @throws NullPointerException if {@link scores} is null.
-     * 
      * @param scores    the list of pair of players and their scores.
+     * 
+     * @throws NullPointerException if @param scores is null.
      */
     private void fillLeaderboard(final List<Pair<String, Integer>> scores) {
         Objects.requireNonNull(scores);
