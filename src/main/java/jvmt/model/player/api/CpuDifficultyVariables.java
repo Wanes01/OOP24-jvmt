@@ -3,11 +3,7 @@ package jvmt.model.player.api;
 import jvmt.model.player.impl.LogicCpuImpl;
 
 /**
- * <<<<<<< HEAD
- * Record containing the CPU's difficulties
- * =======
  * Record containing the CPU's difficulty
- * >>>>>>> controller-gameplay
  * variables used for calculating the score.
  * 
  * @see LogicCpuImpl
@@ -23,11 +19,11 @@ import jvmt.model.player.impl.LogicCpuImpl;
  * @author Filippo Gaggi
  */
 public record CpuDifficultyVariables(
-                double weightGems,
-                double weightTraps,
-                double weightCards,
-                double weightRelics,
-                double weightPlayers,
-                double minBl,
-                double maxBl) {
+        double weightGems,
+        double weightTraps,
+        double weightCards,
+        double weightRelics,
+        double weightPlayers,
+        double minBl,
+        double maxBl) {
 }

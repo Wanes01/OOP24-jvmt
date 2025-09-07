@@ -22,7 +22,9 @@ public class DeckBuilderImpl implements DeckBuilder {
     private boolean isBuilt;
 
     /** Default constructor. */
-    public DeckBuilderImpl() { }
+    public DeckBuilderImpl() {
+        // this constructor is empty on purpose.
+    }
 
     /**
      * {@inheritDoc}

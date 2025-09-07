@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jvmt.controller.api.GameplayController;
 import jvmt.controller.impl.GameplayControllerImpl;
 import jvmt.view.page.api.SwingPage;
@@ -138,6 +139,8 @@ public class SwingGameplayPage extends SwingPage {
      * 
      * @throws NullPointerException if @param toBlockWindow is null.
      */
+    @SuppressFBWarnings(value = { "EI_EXPOSE_REP",
+            "EI_EXPOSE_REP2" }, justification = "The mutable window is part of the view design")
     public SwingGameplayPage(final SwingWindow toBlockWindow) {
         Objects.requireNonNull(toBlockWindow);
         this.toBlockWindow = toBlockWindow;

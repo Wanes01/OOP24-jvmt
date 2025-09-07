@@ -15,7 +15,9 @@ import jvmt.model.card.api.TypeTrapCard;
 public final class DeckFactoryImpl implements DeckFactory {
 
     /** Default constructor. */
-    public DeckFactoryImpl() { }    
+    public DeckFactoryImpl() {
+        // this constructor is empty on purpose.
+    }
 
     /**
      * {@inheritDoc}

@@ -87,10 +87,11 @@ public final class CommonUtils {
      * @return a list of {@code count} {@code Player}s.
      */
     public static List<Player> generatePlayerList(final int count) {
-        return CommonUtils.generatePlayerInRoundList(count)
-                .stream()
-                .map(p -> (Player) p)
-                .toList();
+        final List<Player> list = new ArrayList<>();
+        for (final Player player : generatePlayerInRoundList(count)) {
+            list.add(player);
+        }
+        return list;
     }
 
     /**

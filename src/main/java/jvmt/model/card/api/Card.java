@@ -67,16 +67,10 @@ public class Card {
     }
 
     /**
-     * <<<<<<< HEAD
-     * 
-     * @return a string representation of the card including: the name, type, and
-     *         path of the card image
-     *         =======
-     *         Returns a string representation of the card including: the name, type
-     *         and path of the card image.
+     * Returns a string representation of the card including: the name, type and
+     * path of the card image.
      * 
      * @return a string representation of the card
-     *         >>>>>>> controller-settings
      */
     @Override
     public String toString() {

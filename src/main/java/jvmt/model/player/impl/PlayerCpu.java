@@ -2,6 +2,7 @@ package jvmt.model.player.impl;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jvmt.model.game.api.GameSettings;
 import jvmt.model.player.api.LogicCpu;
 import jvmt.model.round.api.RoundState;
@@ -15,6 +16,7 @@ import jvmt.model.round.api.RoundState;
  * 
  * @author Filippo Gaggi
  */
+@SuppressFBWarnings(value = "EQ_DOESNT_OVERRIDE_EQUALS", justification = "PlayerCpu uses equals inherited by PlayerInRound")
 public class PlayerCpu extends PlayerInRound {
 
     private final LogicCpu logic;
@@ -63,21 +65,5 @@ public class PlayerCpu extends PlayerInRound {
     public void chooseCpu(final RoundState state) {
         Objects.requireNonNull(state);
         choose(logic.cpuChoice(state));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(final Object obj) {
-        return super.equals(obj);
     }
 }
