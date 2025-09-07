@@ -51,13 +51,54 @@ public class SwingSettingsPage extends SwingPage {
         private static final int SPN_STEP_SIZE = 1;
         private static final String UNRELATED_SPACING_GROWX = "gaptop unrelated, growx";
 
+        /**
+         * The text area where the names of the various players are entered.
+         * The names of the various players must be separated by a line break.
+        */
         private JTextArea txtAreaName;
+
+        /**
+         * The button to start the game.
+         * The game can only be started if the settings on this page
+         * are configured correctly.
+         */
         private JButton btnPlay;
+
+        /**
+         * The spinner with the associated descriptive label that permits
+         * the selection of the number of CPUs to be used during the game.
+         */
         private transient JSpinnerWithLabel numCPU;
+
+        /**
+         * The combobox with the associated descriptive label that permits
+         * the selection of the type of deck to be used during the game.
+         */
         private ComboboxWithLabel<TypeDeck> deckType;
+
+        /**
+         * The combobox with the associated descriptive label that permits
+         * the selection of the type of EndCondition to use during the game.
+         */
         private ComboboxWithLabel<EndCondition> endCond;
+
+        /**
+         * The combobox with the associated descriptive label that permits
+         * the selection of the type of GemModifier to apply during the game.
+         */
         private ComboboxWithLabel<GemModifier> gemMod;
+
+        /**
+         * The combobox with the associated descriptive label that permits
+         * the selection of the difficulty level of the various CPUs used
+         * during the game.
+         */
         private ComboboxWithLabel<CpuDifficulty> difficulty;
+
+        /**
+         * The spinner with the associated descriptive label that permits
+         * the selection of the number of rounds in the game.
+         */
         private transient JSpinnerWithLabel numRound;
 
         /**
