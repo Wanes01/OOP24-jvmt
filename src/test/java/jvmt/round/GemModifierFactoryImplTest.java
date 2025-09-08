@@ -122,7 +122,7 @@ class GemModifierFactoryImplTest {
             if (card instanceof CardWithGem) {
                 final CardWithGem gemCard = (CardWithGem) card;
                 final int expectedGems = expected.apply(gemCard.getGemValue());
-                final int actualGems = modifier.getGemModifier().apply(state, gemCard.getGemValue());
+                final int actualGems = modifier.applyGemModifier(state, gemCard.getGemValue());
                 assertEquals(expectedGems, actualGems);
             } else {
                 action.accept(card);

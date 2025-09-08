@@ -1,5 +1,6 @@
 package jvmt.model.round.impl.roundeffect.endcondition;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import jvmt.model.common.api.Describable;
@@ -9,11 +10,6 @@ import jvmt.utils.CommonUtils;
 
 /**
  * Simple implementation of {@link EndCondition}.
- * 
- * <p>
- * This class is implemented as a {@code record} because it represents a
- * simple data holder.
- * </p>
  * 
  * @param condition   the predicate defining when the end condition is
  *                    met.
@@ -42,16 +38,17 @@ public record EndConditionImpl(
      * {@inheritDoc}
      */
     @Override
-    public String getDescription() {
-        return this.description();
+    public boolean isEndConditionMet(final RoundState state) {
+        Objects.requireNonNull(state);
+        return this.condition.test(state);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Predicate<RoundState> getEndCondition() {
-        return this.condition();
+    public String getDescription() {
+        return this.description();
     }
 
     /**

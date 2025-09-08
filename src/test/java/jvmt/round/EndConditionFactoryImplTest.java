@@ -109,8 +109,8 @@ class EndConditionFactoryImplTest {
             if (toComply.test(card)) {
                 break;
             }
-            assertFalse(endCondition.getEndCondition().test(this.state));
+            assertFalse(endCondition.isEndConditionMet(this.state));
         }
-        assertTrue(endCondition.getEndCondition().test(this.state));
+        assertTrue(endCondition.isEndConditionMet(this.state));
     }
 }

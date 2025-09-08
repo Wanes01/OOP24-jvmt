@@ -1,5 +1,6 @@
 package jvmt.model.round.impl.roundeffect.gemmodifier;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import jvmt.model.common.api.Describable;
@@ -9,11 +10,6 @@ import jvmt.utils.CommonUtils;
 
 /**
  * Simple implementation of {@link GemModifier}.
- * 
- * <p>
- * This class is implemented as a {@code record} because it represents a
- * simple data holder.
- * </p>
  * 
  * @param modifier    the function that alters the amount of gems based on the
  *                    current game state.
@@ -41,18 +37,21 @@ public record GemModifierImpl(
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws NullPointerException if {@code state} is null.
      */
     @Override
-    public String getDescription() {
-        return description();
+    public int applyGemModifier(final RoundState state, final int gems) {
+        Objects.requireNonNull(state);
+        return this.modifier().apply(state, gems);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public BiFunction<RoundState, Integer, Integer> getGemModifier() {
-        return modifier();
+    public String getDescription() {
+        return description();
     }
 
     /**

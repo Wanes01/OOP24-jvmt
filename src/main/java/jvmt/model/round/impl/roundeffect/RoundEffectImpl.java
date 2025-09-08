@@ -61,8 +61,7 @@ public class RoundEffectImpl implements RoundEffect {
     @Override
     public boolean isEndConditionMet(final RoundState state) {
         Objects.requireNonNull(state);
-        return this.endCondition.getEndCondition()
-                .test(state);
+        return this.endCondition.isEndConditionMet(state);
     }
 
     /**
@@ -78,8 +77,7 @@ public class RoundEffectImpl implements RoundEffect {
     @Override
     public int applyGemModifier(final RoundState state, final int gems) {
         Objects.requireNonNull(state);
-        return this.gemModifier.getGemModifier()
-                .apply(state, gems);
+        return this.gemModifier.applyGemModifier(state, gems);
     }
 
     /**
