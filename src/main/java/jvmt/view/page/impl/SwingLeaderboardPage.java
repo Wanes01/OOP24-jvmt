@@ -1,6 +1,7 @@
 package jvmt.view.page.impl;
 
 import java.awt.Color;
+import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -33,7 +34,6 @@ import jvmt.view.page.utility.Pair;
  * @author Filippo Gaggi
  */
 public class SwingLeaderboardPage extends SwingPage {
-    private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE_WINNER = 30;
     private static final int FONT_SIZE_HOME_BUTTON = 30;
     private static final int CELL_HEIGHT_MARGIN = 3;
@@ -82,7 +82,7 @@ public class SwingLeaderboardPage extends SwingPage {
         this.btnHome.setAlignmentX(CENTER_ALIGNMENT);
         leaderboardUi.add(this.btnHome);
 
-        super.add(leaderboardUi);
+        super.getPanel().add(leaderboardUi);
     }
 
     /**

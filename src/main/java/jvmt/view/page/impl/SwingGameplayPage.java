@@ -3,6 +3,7 @@ package jvmt.view.page.impl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import static java.awt.Component.LEFT_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -59,7 +60,6 @@ public class SwingGameplayPage extends SwingPage {
 
     private static final int WAIT_TIME_MILLIS = 1000;
 
-    private static final long serialVersionUID = 1L;
     private static final int CARDS_PER_ROW = 5;
     private static final int SCROLL_PIXELS = 30;
     private static final int MAX_CARDS = 35;
@@ -147,18 +147,18 @@ public class SwingGameplayPage extends SwingPage {
     public SwingGameplayPage(final SwingWindow toBlockWindow) {
         Objects.requireNonNull(toBlockWindow);
         this.toBlockWindow = toBlockWindow;
-        super.setLayout(new BorderLayout());
+        super.getPanel().setLayout(new BorderLayout());
 
         final JPanel pathCards = new JPanel();
-        super.add(pathCards, BorderLayout.NORTH);
+        super.getPanel().add(pathCards, BorderLayout.NORTH);
         pathCards.add(this.pathCardsNumber);
 
-        super.add(gameInfo(BOX_BORDER), BorderLayout.WEST);
-        super.add(gameBoard(), BorderLayout.CENTER);
-        super.add(players(BOX_BORDER), BorderLayout.EAST);
+        super.getPanel().add(gameInfo(BOX_BORDER), BorderLayout.WEST);
+        super.getPanel().add(gameBoard(), BorderLayout.CENTER);
+        super.getPanel().add(players(BOX_BORDER), BorderLayout.EAST);
 
         this.pathInfo.setBorder(BOX_BORDER);
-        super.add(this.pathInfo, BorderLayout.SOUTH);
+        super.getPanel().add(this.pathInfo, BorderLayout.SOUTH);
 
         this.pathInfo.add(this.pathGems);
         this.pathInfo.add(this.redeemableRelics);
@@ -447,7 +447,7 @@ public class SwingGameplayPage extends SwingPage {
             // Check if the game is over.
             if (!ctrl.canGameContinue()) {
                 JOptionPane.showMessageDialog(
-                        this,
+                        this.getPanel(),
                         "The game is over!");
                 this.cleanGameboard();
                 ctrl.goToLeaderboard();
@@ -457,7 +457,7 @@ public class SwingGameplayPage extends SwingPage {
             // Check if the round is over.
             if (!ctrl.canRoundContinue()) {
                 JOptionPane.showMessageDialog(
-                        this,
+                        this.getPanel(),
                         "The round is over!");
                 this.cleanGameboard();
             }
