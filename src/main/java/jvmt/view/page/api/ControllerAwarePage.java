@@ -24,6 +24,10 @@ import jvmt.controller.api.PageController;
  * This design choice was made to avoid propagating the use of generics to
  * pages.
  * </p>
+ * 
+ * @see Page
+ * 
+ * @author Emir Wanes Aouioua
  */
 public abstract class ControllerAwarePage implements Page {
     /**
