@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
@@ -149,14 +150,16 @@ public class SwingWindow extends JFrame implements Window {
             throw new IllegalArgumentException("This class supports SwingPage only as Page implementation.");
         }
         final SwingPage swingPage = (SwingPage) page;
-        swingPage.setBorder(
+        this.currentPage = Optional.of(swingPage);
+
+        final JPanel panel = swingPage.getPanel();
+        panel.setBorder(
                 new EmptyBorder(
                         WINDOW_MARGIN,
                         WINDOW_MARGIN,
                         WINDOW_MARGIN,
                         WINDOW_MARGIN));
-        this.currentPage = Optional.of(swingPage);
-        this.setContentPane(swingPage);
+        this.setContentPane(panel);
         this.refresh();
     }
 
