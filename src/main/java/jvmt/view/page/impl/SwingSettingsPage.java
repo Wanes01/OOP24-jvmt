@@ -46,8 +46,6 @@ import jvmt.view.page.utility.JSpinnerWithLabel;
 
 public class SwingSettingsPage extends SwingPage {
 
-        private static final long serialVersionUID = 1L;
-
         private static final int SPN_STEP_SIZE = 1;
         private static final String UNRELATED_SPACING_GROWX = "gaptop unrelated, growx";
 
@@ -106,13 +104,13 @@ public class SwingSettingsPage extends SwingPage {
          */
         public SwingSettingsPage() {
 
-                super.setLayout(new MigLayout(
+                super.getPanel().setLayout(new MigLayout(
                                 "fill, insets dialog",
                                 "[grow, fill]paragraph[grow, fill]paragraph[grow, fill]"));
 
-                super.add(settingsCol1());
-                super.add(settingsCol2());
-                super.add(settingsCol3());
+                super.getPanel().add(settingsCol1());
+                super.getPanel().add(settingsCol2());
+                super.getPanel().add(settingsCol3());
         }
 
         /**
@@ -273,7 +271,7 @@ public class SwingSettingsPage extends SwingPage {
                                 settingCtrl.goToGamePlayPage();
                         } else {
                                 JOptionPane.showMessageDialog(
-                                                null,
+                                                this.getPanel(),
                                                 showErrorMessage(settingCtrl.getErrors().get()),
                                                 "Settings errors",
                                                 JOptionPane.WARNING_MESSAGE);

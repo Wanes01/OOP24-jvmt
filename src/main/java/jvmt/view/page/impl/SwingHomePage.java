@@ -23,8 +23,6 @@ import jvmt.view.page.utility.ImageLabel;
  */
 public class SwingHomePage extends SwingPage {
 
-    private static final long serialVersionUID = 1L;
-
     private static final URL LOGO_IMAGE_PATH = SwingHomePage.class.getResource("/imageCard/logo/Diamant_Logo.png");
 
     /** The button that provides access to the game configuration settings.
@@ -42,7 +40,7 @@ public class SwingHomePage extends SwingPage {
      */
     public SwingHomePage() {
 
-        super.setLayout(new MigLayout(
+        super.getPanel().setLayout(new MigLayout(
                 "fill, wrap 1, insets 0",
                 "[center]",
                 "push[]paragraph[]push"));
@@ -50,11 +48,11 @@ public class SwingHomePage extends SwingPage {
         // load the application logo image if possible
         loadImage(LOGO_IMAGE_PATH).ifPresent(image -> {
             this.labelLogo = new ImageLabel(image);
-            this.add(labelLogo, "w 50%, h 50%, align center");
+            super.getPanel().add(labelLogo, "w 50%, h 50%, align center");
         });
 
         btnStartGame = new JButton("START GAME");
-        super.add(btnStartGame, "w 25%, h 10%, align center, gaptop unrel");
+        super.getPanel().add(btnStartGame, "w 25%, h 10%, align center, gaptop unrel");
     }
 
     /**
