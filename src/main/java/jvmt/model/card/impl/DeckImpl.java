@@ -21,7 +21,7 @@ public final class DeckImpl implements Deck {
 
     private final List<Card> deck;
 
-    // Deck statistics
+    //Deck statistics
     private int totRelic;
     private int totTreasure;
     private int totTrap;
@@ -38,7 +38,7 @@ public final class DeckImpl implements Deck {
      */
     public DeckImpl(final List<Card> deck) {
         this.deck = new ArrayList<>(
-                Objects.requireNonNull(deck, "deck must not be null"));
+            Objects.requireNonNull(deck, "deck must not be null"));
         this.initialDeckSize = deck.size();
         totTrapTypes = EnumSet.noneOf(TypeTrapCard.class);
         calculateStatistics();
@@ -48,22 +48,22 @@ public final class DeckImpl implements Deck {
     private void calculateStatistics() {
         for (final Card card : deck) {
             switch (card.getType()) {
-                case TREASURE:
+                case TREASURE -> {
                     this.totTreasure++;
-                    break;
-                case TRAP:
+                }
+                case TRAP -> {
                     // Used to eliminate the warning of an unsafe cast
                     assert card instanceof TrapCard : "Expected TrapCard instance for TRAP type";
 
                     this.totTrapTypes.add(((TrapCard) card).getTypeTrap());
                     this.totTrap++;
-                    break;
-                case RELIC:
+                }
+                case RELIC -> {
                     this.totRelic++;
-                    break;
-                case SPECIAL:
+                }
+                case SPECIAL -> {
                     this.totSpecial++;
-                    break;
+                }
             }
         }
     }
@@ -87,11 +87,10 @@ public final class DeckImpl implements Deck {
         return this.deck.get(this.deck.size() - 1);
     }
 
-    /**
+    /** 
      * @return the next card that must be drawn by removing it from the deck.
      * 
-     * @throws NoSuchElementException if a card is requested but the deck has no
-     *                                cards.
+     * @throws NoSuchElementException if a card is requested but the deck has no cards.
      */
     @Override
     public Card next() {
