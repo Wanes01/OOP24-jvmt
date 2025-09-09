@@ -35,12 +35,4 @@ public interface Page {
      * Refreshes/updates the content of this page.
      */
     void refresh();
-
-    /**
-     * Sets the controller that will be responsible for handling
-     * user interaction.
-     * 
-     * @param controller a {@link PageController} for this page.
-     */
-    void setController(PageController controller);
 }

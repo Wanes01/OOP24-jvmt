@@ -16,6 +16,7 @@ import jvmt.model.game.impl.GameImpl;
 import jvmt.view.navigator.api.PageId;
 import jvmt.view.navigator.api.PageNavigator;
 import jvmt.view.navigator.impl.PageNavigatorImpl;
+import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.page.api.Page;
 import jvmt.view.page.impl.SwingGameplayPage;
 import jvmt.view.page.impl.SwingHomePage;
@@ -106,8 +107,8 @@ public class MainControllerImpl implements MainController {
      * correspondig pages.
      */
     private void createStartupControllers() {
-        final Page home = this.pages.get(PageId.MENU);
-        final Page settings = this.pages.get(PageId.SETTINGS);
+        final ControllerAwarePage home = (ControllerAwarePage) this.pages.get(PageId.MENU);
+        final ControllerAwarePage settings = (ControllerAwarePage) this.pages.get(PageId.SETTINGS);
         final PageController homeController = new HomeControllerImpl(home, navigator);
         final PageController settingsController = new SettingsControllerImpl(
                 settings,
@@ -133,8 +134,8 @@ public class MainControllerImpl implements MainController {
     private void finishControllersSetup(final GameSettings settings) {
         this.game = Optional.of(new GameImpl(settings));
 
-        final Page gameplay = (SwingGameplayPage) pages.get(PageId.GAMEPLAY);
-        final Page leaderboard = (SwingLeaderboardPage) pages.get(PageId.LEADERBOARD);
+        final ControllerAwarePage gameplay = (ControllerAwarePage) pages.get(PageId.GAMEPLAY);
+        final ControllerAwarePage leaderboard = (ControllerAwarePage) pages.get(PageId.LEADERBOARD);
 
         final PageController gameplayController = new GameplayControllerImpl(
                 gameplay,

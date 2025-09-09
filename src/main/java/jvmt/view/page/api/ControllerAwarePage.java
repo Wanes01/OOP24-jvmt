@@ -1,5 +1,6 @@
 package jvmt.view.page.api;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import jvmt.controller.api.PageController;
@@ -43,18 +44,16 @@ public abstract class ControllerAwarePage implements Page {
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * Initilizes event binding as soon as the controller is set.
-     * </p>
+     * Sets the {@link PageController} for this page and initilizes event binding.
      * <p>
      * <strong>Note:</strong>
      * the specific controller for a concrete page can
      * be retrieved using {@link #getController(ControllerClass)}.
      * </p>
+     * 
+     * @param controller the {@code PageController} that have to manage event
+     *                   handling on this page.
      */
-    @Override
     public void setController(final PageController controller) {
         this.controller = Optional.of(controller);
         this.setHandlers();
@@ -84,15 +83,15 @@ public abstract class ControllerAwarePage implements Page {
      * @return the controller casted to the specified type.
      * @throws IllegalArgumentException if the controller class is not an extension
      *                                  of {@link PageController}.
-     * @throws IllegalStateException    if the controller has not been set yet.
+     * @throws NoSuchElementException   if the controller has not been set yet.
      */
     protected <T extends PageController> T getController(final Class<T> controllerClass) {
         if (this.controller.isEmpty()) {
-            throw new IllegalStateException("A controller has not been set yet.");
+            throw new NoSuchElementException("A controller has not been set yet.");
         }
-        if (controllerClass.isInstance(this.controller.get())) {
-            return controllerClass.cast(this.controller.get());
+        if (!controllerClass.isInstance(this.controller.get())) {
+            throw new IllegalArgumentException("The controller must extend PageController");
         }
-        throw new IllegalArgumentException("The controller must extend PageController");
+        return controllerClass.cast(this.controller.get());
     }
 }
