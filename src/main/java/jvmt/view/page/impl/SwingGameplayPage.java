@@ -444,6 +444,15 @@ public class SwingGameplayPage extends SwingPage {
             // Execution of the decision phase.
             ctrl.executeDecisionPhase(this.toBlockWindow);
 
+            // Check if the round is over.
+            if (!ctrl.canRoundContinue()) {
+                ctrl.endRound();
+                JOptionPane.showMessageDialog(
+                        this.getPanel(),
+                        "The round is over!");
+                this.cleanGameboard();
+            }
+
             // Check if the game is over.
             if (!ctrl.canGameContinue()) {
                 JOptionPane.showMessageDialog(
@@ -452,14 +461,6 @@ public class SwingGameplayPage extends SwingPage {
                 this.cleanGameboard();
                 ctrl.goToLeaderboard();
                 return;
-            }
-
-            // Check if the round is over.
-            if (!ctrl.canRoundContinue()) {
-                JOptionPane.showMessageDialog(
-                        this.getPanel(),
-                        "The round is over!");
-                this.cleanGameboard();
             }
 
             // Advance to the next turn.

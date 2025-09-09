@@ -282,7 +282,6 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
         // If the round can't continue and there are more rounds to play, a new round is
         // created.
         if (!this.currentRound.hasNext() && this.getGame().hasNext()) {
-            this.currentRound.endRound();
             this.currentRound = this.getGame().next();
         }
         // If the round can continue a new turn is created.
@@ -290,6 +289,14 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
             this.currentTurn = this.currentRound.next();
         }
         this.getPage().refresh();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void endRound() {
+        this.currentRound.endRound();
     }
 
     /**

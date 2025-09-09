@@ -151,6 +151,11 @@ public interface GameplayController {
     void advance();
 
     /**
+     * Method for ending the current round.
+     */
+    void endRound();
+
+    /**
      * Method that redirects to the Leaderboard page.
      */
     void goToLeaderboard();
