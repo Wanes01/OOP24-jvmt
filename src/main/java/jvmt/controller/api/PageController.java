@@ -1,22 +1,25 @@
 package jvmt.controller.api;
 
 import jvmt.view.navigator.api.PageNavigator;
+import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.page.api.Page;
 
 /**
  * Base class for page controllers.
  * <p>
- * A {@code PageController} is associated with a specific {@link Page}. This
+ * A {@code PageController} is associated with a specific
+ * {@link ControllerAwarePage}. This
  * class is designed to be extented by concrete controllers for
  * invididual pages.
  * </p>
  * 
  * @see Page
+ * @see ControllerAwarePage
  * 
  * @author Emir Wanes Aouioua
  */
 public class PageController {
-    private final Page page;
+    private final ControllerAwarePage page;
     private final PageNavigator navigator;
 
     /**
@@ -26,7 +29,7 @@ public class PageController {
      * @param page      the page that this controller handles.
      * @param navigator the navigator used to go to other pages.
      */
-    protected PageController(final Page page, final PageNavigator navigator) {
+    protected PageController(final ControllerAwarePage page, final PageNavigator navigator) {
         this.page = page;
         this.navigator = navigator;
     }
@@ -36,7 +39,7 @@ public class PageController {
      * 
      * @return the page handled by this controller.
      */
-    protected Page getPage() {
+    protected ControllerAwarePage getPage() {
         return this.page;
     }
 

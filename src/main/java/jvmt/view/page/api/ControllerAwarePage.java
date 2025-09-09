@@ -7,7 +7,7 @@ import jvmt.controller.api.PageController;
 
 /**
  * Abstract base class for {@link Page}s that are associated with
- * a {@link PageController}.
+ * a {@link PageController}: pages that are not static and need interaction.
  * <p>
  * This class provides a way to bind a controller to a page
  * and to retrieve it in a type-safe way, without propagating the use

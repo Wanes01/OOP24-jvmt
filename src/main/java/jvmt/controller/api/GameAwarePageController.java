@@ -2,6 +2,7 @@ package jvmt.controller.api;
 
 import jvmt.model.game.api.Game;
 import jvmt.view.navigator.api.PageNavigator;
+import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.page.api.Page;
 
 /**
@@ -34,7 +35,7 @@ public class GameAwarePageController extends PageController {
      *                  information.
      */
     protected GameAwarePageController(
-            final Page page,
+            final ControllerAwarePage page,
             final PageNavigator navigator,
             final Game game) {
         super(page, navigator);
