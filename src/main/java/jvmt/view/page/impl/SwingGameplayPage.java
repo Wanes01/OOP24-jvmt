@@ -449,7 +449,9 @@ public class SwingGameplayPage extends SwingPage {
                 ctrl.endRound();
                 JOptionPane.showMessageDialog(
                         this.getPanel(),
-                        "The round is over!");
+                        "The round is over!",
+                        "Round end info",
+                        JOptionPane.INFORMATION_MESSAGE);
                 this.cleanGameboard();
             }
 
@@ -457,7 +459,9 @@ public class SwingGameplayPage extends SwingPage {
             if (!ctrl.canGameContinue()) {
                 JOptionPane.showMessageDialog(
                         this.getPanel(),
-                        "The game is over!");
+                        "The game is over!",
+                        "Game end info",
+                        JOptionPane.INFORMATION_MESSAGE);
                 this.cleanGameboard();
                 ctrl.goToLeaderboard();
                 return;
