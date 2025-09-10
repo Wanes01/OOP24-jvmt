@@ -17,9 +17,9 @@ import jvmt.model.round.impl.roundeffect.gemmodifier.GemModifierFactoryImpl;
 import jvmt.model.game.api.GameSettings;
 import jvmt.model.game.impl.GameSettingsImpl;
 import jvmt.model.game.impl.InvalidGameSettingsException;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
-import jvmt.view.page.api.Page;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
+import jvmt.view.page.api.ControllerAwarePage;
 
 /**
  * The implementation of the SettingController interface.
@@ -61,7 +61,7 @@ public class SettingsControllerImpl extends PageController implements SettingsCo
      * @param settingsSetter used to configure game settings
      */
     public SettingsControllerImpl(
-            final Page page,
+            final ControllerAwarePage page,
             final PageNavigator nav,
             final Consumer<GameSettings> settingsSetter) {
         super(page, nav);

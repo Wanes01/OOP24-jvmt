@@ -41,7 +41,7 @@ class TreasureCardTest {
     // requested,
     // an exception is thrown.
     @Test
-    void correctPathTreasureCard() {
+    void correctPathTreasureCardAndGemValue() {
         final String sourceImagePath = "/imageCard/treasure/";
         final Set<Integer> possibleGemValue = Set.of(1, 2, 3, 4, 5, 7, 9, 11, 13, 14, 15, 17);
         for (final int gemValue : possibleGemValue) {

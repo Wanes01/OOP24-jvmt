@@ -2,9 +2,9 @@ package jvmt.controller.impl;
 
 import jvmt.controller.api.HomeController;
 import jvmt.controller.api.PageController;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
-import jvmt.view.page.api.Page;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
+import jvmt.view.page.api.ControllerAwarePage;
 
 /**
  * The implementation of the HomeController interface.
@@ -19,7 +19,7 @@ public class HomeControllerImpl extends PageController implements HomeController
      * @param page the page that this controller handles
      * @param nav  the navigation controller to move between the various views
      */
-    public HomeControllerImpl(final Page page, final PageNavigator nav) {
+    public HomeControllerImpl(final ControllerAwarePage page, final PageNavigator nav) {
         super(page, nav);
     }
 
