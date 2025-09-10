@@ -1,4 +1,4 @@
-package jvmt.view.navigator.impl;
+package jvmt.controller.navigator.impl;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
 import jvmt.view.page.api.Page;
 import jvmt.view.window.api.Window;
 

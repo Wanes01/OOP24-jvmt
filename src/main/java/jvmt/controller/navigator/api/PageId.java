@@ -1,4 +1,4 @@
-package jvmt.view.navigator.api;
+package jvmt.controller.navigator.api;
 
 /**
  * The IDs associated with a particular page in the navigator.

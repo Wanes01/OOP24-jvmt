@@ -1,6 +1,6 @@
 package jvmt.controller.api;
 
-import jvmt.view.navigator.api.PageNavigator;
+import jvmt.controller.navigator.api.PageNavigator;
 import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.page.api.Page;
 

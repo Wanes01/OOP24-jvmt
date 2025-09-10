@@ -1,4 +1,4 @@
-package jvmt.view.navigator.api;
+package jvmt.controller.navigator.api;
 
 import java.util.Optional;
 
