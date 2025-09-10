@@ -5,11 +5,11 @@ import java.util.Objects;
 
 import jvmt.controller.api.GameAwarePageController;
 import jvmt.controller.api.LeaderboardController;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
 import jvmt.model.game.api.Game;
 import jvmt.model.leaderboard.api.Leaderboard;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
-import jvmt.view.page.api.Page;
+import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.page.utility.Pair;
 
 /**
@@ -34,7 +34,7 @@ public class LeaderboardControllerImpl extends GameAwarePageController implement
      * @param navigator the navigator used to go to other pages.
      * @param game      the round iterator of the game.
      */
-    public LeaderboardControllerImpl(final Page page, final PageNavigator navigator, final Game game) {
+    public LeaderboardControllerImpl(final ControllerAwarePage page, final PageNavigator navigator, final Game game) {
         super(Objects.requireNonNull(page),
                 Objects.requireNonNull(navigator),
                 Objects.requireNonNull(game));

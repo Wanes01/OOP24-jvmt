@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 
 import jvmt.controller.api.GameAwarePageController;
 import jvmt.controller.api.GameplayController;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
 import jvmt.model.card.api.Card;
 import jvmt.model.game.api.Game;
 import jvmt.model.player.api.Player;
@@ -23,9 +25,7 @@ import jvmt.model.round.api.RoundState;
 import jvmt.model.round.api.turn.Turn;
 import jvmt.view.modal.api.Modal;
 import jvmt.view.modal.impl.SwingPlayerChoiceModal;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
-import jvmt.view.page.api.Page;
+import jvmt.view.page.api.ControllerAwarePage;
 import jvmt.view.window.api.Window;
 import jvmt.view.window.impl.SwingWindow;
 
@@ -57,7 +57,7 @@ public class GameplayControllerImpl extends GameAwarePageController implements G
      *                          controller
      *                          after the game ends.
      */
-    public GameplayControllerImpl(final Page page,
+    public GameplayControllerImpl(final ControllerAwarePage page,
             final PageNavigator navigator,
             final Game game,
             final Runnable leaderboardSetter) {
