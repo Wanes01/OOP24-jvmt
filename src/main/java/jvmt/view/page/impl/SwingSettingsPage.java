@@ -186,7 +186,8 @@ public class SwingSettingsPage extends SwingPage {
                 final int spnMinValue = 1;
                 final int spnMaxValue = GameSettingsImpl.MAX_ROUNDS;
 
-                settingsCol2 = new JPanel(new MigLayout(
+                settingsCol2 = new JPanel(
+                        new MigLayout(
                                 "fillx, wrap 1, insets 0",
                                 "[grow, fill]"));
 
@@ -280,22 +281,6 @@ public class SwingSettingsPage extends SwingPage {
         }
 
         /**
-         * Filters the string passed in as input to obtain a list of valid player names.
-         * To do this, it removes spaces before and after the name and ignores empty
-         * strings.
-         * 
-         * @param txtPlayerName the string of player names to filter
-         * 
-         * @return a list consisting of the names of filtered players
-         */
-        private List<String> filterNamePlayer(final String txtPlayerName) {
-                return Arrays.stream(txtPlayerName.split("\n"))
-                                .map(String::trim)
-                                .filter(s -> !s.isEmpty())
-                                .collect(Collectors.toList());
-        }
-
-        /**
          * Creates a list of errors related to incorrect settings
          * and prepares the display for the user.
          * 
@@ -314,5 +299,21 @@ public class SwingSettingsPage extends SwingPage {
                 }
 
                 return sb.toString();
+        }
+
+        /**
+         * Filters the string passed in as input to obtain a list of valid player names.
+         * To do this, it removes spaces before and after the name and ignores empty
+         * strings.
+         * 
+         * @param txtPlayerName the string of player names to filter
+         * 
+         * @return a list consisting of the names of filtered players
+         */
+        private List<String> filterNamePlayer(final String txtPlayerName) {
+                return Arrays.stream(txtPlayerName.split("\n"))
+                                .map(String::trim)
+                                .filter(s -> !s.isEmpty())
+                                .collect(Collectors.toList());
         }
 }
