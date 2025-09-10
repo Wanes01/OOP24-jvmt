@@ -15,9 +15,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import jvmt.view.window.api.Window;
-import jvmt.view.navigator.api.PageId;
-import jvmt.view.navigator.api.PageNavigator;
-import jvmt.view.navigator.impl.PageNavigatorImpl;
+import jvmt.controller.navigator.api.PageId;
+import jvmt.controller.navigator.api.PageNavigator;
+import jvmt.controller.navigator.impl.PageNavigatorImpl;
 import jvmt.view.page.api.Page;
 import jvmt.view.page.api.SwingPage;
 import jvmt.view.window.impl.SwingWindow;
