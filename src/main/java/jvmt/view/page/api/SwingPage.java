@@ -70,4 +70,35 @@ public abstract class SwingPage extends ControllerAwarePage {
     public JPanel getPanel() {
         return this.panel;
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Two pages are equals if they
+     * have the same internal rapresentation as JPanels.
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof SwingPage)) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        final SwingPage other = (SwingPage) obj;
+        return this.panel.equals(other.getPanel());
+    }
+
+    /**
+     * The hashCode of a {@code SwingPage}
+     * is determined by the hashCode of the
+     * JPanel it uses.
+     */
+    @Override
+    public int hashCode() {
+        return this.getPanel().hashCode();
+    }
 }
