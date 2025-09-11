@@ -18,6 +18,11 @@ import jvmt.model.card.impl.TreasureCard;
  * the individual turns and the controllers to retrieve
  * information about the current progression of the round.
  * </p>
+ * <p>
+ * While {@link Round} specifies how a round should behave,
+ * {@code RoundState} captures the current information known about the
+ * round, like drawn cards, remaining gems, and player status.
+ * </p>
  * 
  * @see Round
  * @see RoundPlayersManager

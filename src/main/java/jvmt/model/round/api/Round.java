@@ -15,6 +15,11 @@ import jvmt.model.round.api.turn.Turn;
  * <p>
  * A round is an {@link Iterator} over the turns to be played.
  * </p>
+ * <p>
+ * While {@code Round} specifies how a round should behave,
+ * {@link RoundState} captures the current information known about the
+ * round, like drawn cards, remaining gems, and player status.
+ * </p>
  * 
  * @see Turn
  * @see RoundState
