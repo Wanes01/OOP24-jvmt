@@ -204,7 +204,7 @@ public class SwingWindow extends JFrame implements Window {
      * The idea of using the UIManager to set the default font
      * to all UI components and the relative modified code, comes from
      * <a href=
-     * "https://stackoverflow.com/questions/7434845/setting-the-default-font-of-swing-program">
+     * "https://stackoverflow.com/questions/1102216/can-i-set-the-dpi-resolution-of-my-java-swing-application-without-changing-the-s?utm_source=chatgpt.com">
      * StackOverflow</a>
      * </p>
      */
