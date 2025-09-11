@@ -18,7 +18,7 @@ import jvmt.model.round.api.turn.Turn;
  * 
  * @see Turn
  * @see RoundState
- * @see Iterable
+ * @see Iterator
  * @see Describable
  * 
  * @author Emir Wanes Aouioua
