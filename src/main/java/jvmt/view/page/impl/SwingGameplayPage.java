@@ -236,16 +236,9 @@ public class SwingGameplayPage extends SwingPage {
         this.cardsContainer.setLayout(new GridBagLayout());
         this.gbc = new GridBagConstraints();
 
-        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridx = CARDS_PER_ROW;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-        this.cardsContainer.add(Box.createGlue(), gbc);
-
-        gbc.gridx = 0;
         gbc.gridy = MAX_CARDS / CARDS_PER_ROW;
-        gbc.weightx = 0.0;
+        gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         this.cardsContainer.add(Box.createGlue(), gbc);
 
